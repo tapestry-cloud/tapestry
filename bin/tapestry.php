@@ -18,8 +18,13 @@ if (isset($include)) {
     require_once __DIR__ . '/../vendor/autoload.php';
 } elseif (file_exists(__DIR__ . '/../../../autoload.php')) {
     require_once __DIR__ . '/../../../autoload.php';
-} else{
+} else {
     echo "Please run composer install." . PHP_EOL;
     exit(1);
 }
 
+$tapestry = new \Tapestry\Tapestry();
+$tapestry->register(\Tapestry\Providers\CommandServiceProvider::class);
+/** @var \Symfony\Component\Console\Application $cli */
+$cli = $tapestry[\Tapestry\Console\Application::class];
+$cli->run();
