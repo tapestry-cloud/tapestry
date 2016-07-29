@@ -2,7 +2,8 @@
 
 class DefaultKernel
 {
-
-    // ...
-
+    public function boot()
+    {
+        // ...
+    }
 }
