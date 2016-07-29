@@ -1,0 +1,46 @@
+{
+  "name": "carbontwelve/tapestry",
+  "description": "Static site generator with PHPPlates",
+  "keywords": [
+    "plates",
+    "static",
+    "site",
+    "generator"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Simon Dann",
+      "email": "simon.dann@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Tapestry\\": "src"
+    },
+    "files": [
+      "src/helpers.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tapestry\\Tests\\": "tests"
+    }
+  },
+  "require": {
+    "php": ">=5.4.0",
+    "symfony/console": "^3.0",
+    "symfony/filesystem": "^3.0",
+    "symfony/finder" : "^3.0",
+    "symfony/yaml": "^3.0",
+    "league/container": "^2.0",
+    "league/plates": "^3.1",
+    "league/event": "^2.1",
+    "nesbot/carbon": "^1.21",
+    "bluebaytravel/phrontmatter": "^1.1",
+    "cebe/markdown": "^1.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "5.1.*"
+  }
+}
