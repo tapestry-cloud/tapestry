@@ -28,6 +28,7 @@ class CommandServiceProvider extends AbstractServiceProvider
         $this->getContainer()->add(InitCommand::class)
             ->withArguments([
                 \Symfony\Component\Filesystem\Filesystem::class,
+                \Symfony\Component\Finder\Finder::class,
                 $this->getContainer()->get('currentWorkingDirectory')
             ]);
 
