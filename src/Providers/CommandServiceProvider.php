@@ -12,7 +12,8 @@ class CommandServiceProvider extends AbstractServiceProvider
      * @var array
      */
     protected $provides = [
-        Application::class
+        Application::class,
+        InitCommand::class
     ];
 
     /**
