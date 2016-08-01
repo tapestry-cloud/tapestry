@@ -1,4 +1,4 @@
-<?php namespace Tapestry;
+<?php namespace Tapestry\Entities;
 
 class Configuration
 {

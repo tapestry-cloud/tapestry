@@ -1,6 +1,6 @@
 <?php namespace Tapestry\Modules\Scripts;
 
-use Tapestry\Project;
+use Tapestry\Entities\Project;
 use Tapestry\Step;
 
 class LoadContentTypes implements Step

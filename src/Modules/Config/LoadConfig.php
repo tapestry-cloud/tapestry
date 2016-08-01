@@ -1,6 +1,6 @@
 <?php namespace Tapestry\Modules\Config;
 
-use Tapestry\Project;
+use Tapestry\Entities\Project;
 use Tapestry\Step;
 
 class LoadConfig implements Step

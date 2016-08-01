@@ -1,5 +1,7 @@
 <?php namespace Tapestry;
 
+use Tapestry\Entities\Project;
+
 interface Step
 {
     /**

@@ -1,6 +1,6 @@
 <?php namespace Tapestry\Modules\Content;
 
-use Tapestry\Project;
+use Tapestry\Entities\Project;
 use Tapestry\Step;
 
 class Clear implements Step
