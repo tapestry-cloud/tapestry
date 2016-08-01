@@ -1,6 +1,8 @@
 <?php namespace Tapestry\Entities;
 
-class Configuration
+use Tapestry\ArrayContainer;
+
+class Configuration extends ArrayContainer
 {
     // ...
 }
