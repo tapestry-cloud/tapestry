@@ -90,7 +90,6 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
         $this->getContainer()->addServiceProvider($serviceProvider);
     }
 
-
     /**
      * @return Tapestry
      */

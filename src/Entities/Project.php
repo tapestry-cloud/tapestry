@@ -1,6 +1,11 @@
 <?php namespace Tapestry\Entities;
 
-class Project
+use Tapestry\ArrayContainer;
+
+class Project extends ArrayContainer
 {
-    // ...
+    public function __construct($currentWorkingDirectory, $environment)
+    {
+        parent::__construct([]);
+    }
 }

@@ -2,6 +2,7 @@
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use Tapestry\Console\Application;
+use Tapestry\Console\Commands\BuildCommand;
 use Tapestry\Console\Commands\InitCommand;
 use Tapestry\Tapestry;
 
@@ -25,7 +26,6 @@ class CommandServiceProvider extends AbstractServiceProvider
      */
     public function register()
     {
-
         $this->getContainer()->add(InitCommand::class)
             ->withArguments([
                 \Symfony\Component\Filesystem\Filesystem::class,
@@ -33,11 +33,18 @@ class CommandServiceProvider extends AbstractServiceProvider
                 $this->getContainer()->get('currentWorkingDirectory')
             ]);
 
+        $this->getContainer()->add(BuildCommand::class)
+            ->withArguments([
+                $this->getContainer()->get('currentWorkingDirectory'),
+                $this->getContainer()->get('environment')
+            ]);
+
         $this->getContainer()->add(Application::class)
             ->withArguments([
                 Tapestry::class,
                 [
-                    $this->getContainer()->get(InitCommand::class)
+                    $this->getContainer()->get(InitCommand::class),
+                    $this->getContainer()->get(BuildCommand::class)
                 ]
             ]);
     }
