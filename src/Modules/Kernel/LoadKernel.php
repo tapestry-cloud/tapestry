@@ -1,6 +1,6 @@
 <?php namespace Tapestry\Modules\Kernel;
 
-use Tapestry\Project;
+use Tapestry\Entities\Project;
 use Tapestry\Step;
 
 class LoadKernel implements Step

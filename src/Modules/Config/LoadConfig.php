@@ -13,6 +13,15 @@ class LoadConfig implements Step
      */
     public function __invoke(Project $project)
     {
-        // TODO: Implement __invoke() method.
+        $configPath = $project->get('cwd') . DIRECTORY_SEPARATOR . 'config.php';
+
+        if (! file_exists($configPath)){
+            $project->getOutput()->writeln('[!] The config file could not be opened at ['.$configPath.']');
+            return false;
+        }
+
+        $project->getOutput()->writeln('Loading Config From ['. $configPath .']');
+
+        return true;
     }
 }
