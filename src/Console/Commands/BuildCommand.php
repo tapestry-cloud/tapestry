@@ -48,6 +48,17 @@ class BuildCommand extends Command
 
     protected function fire()
     {
+        if (!file_exists($this->currentWorkingDirectory)) {
+            $this->output->writeln('<error>[!]</error> The site directory ['. $this->currentWorkingDirectory .'] does not exist. Doing nothing and exiting.');
+            exit(1);
+        }
+
+        // Lets use full paths.
+        if (! $this->currentWorkingDirectory = realpath($this->currentWorkingDirectory)) {
+            $this->output->writeln('<error>[!]</error> Sorry there has been an error identifying the site directory. Doing nothing and exiting.');
+            exit(1);
+        }
+
         $project = new Project($this->steps, $this->currentWorkingDirectory, $this->environment);
         $project->setOutput($this->output);
         $project->compile();
