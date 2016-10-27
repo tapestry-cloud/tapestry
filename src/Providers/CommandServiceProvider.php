@@ -35,6 +35,7 @@ class CommandServiceProvider extends AbstractServiceProvider
 
         $this->getContainer()->add(BuildCommand::class)
             ->withArguments([
+                Tapestry::class,
                 $this->getContainer()->get('Compile.Steps'),
                 $this->getContainer()->get('currentWorkingDirectory'),
                 $this->getContainer()->get('environment')

@@ -2,6 +2,7 @@
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Tapestry\ArrayContainer;
+use Tapestry\Tapestry;
 
 class Project extends ArrayContainer
 {
@@ -12,6 +13,22 @@ class Project extends ArrayContainer
             'cwd' => $currentWorkingDirectory,
             'env' => $environment
         ]);
+    }
+
+    /**
+     * @return Tapestry
+     */
+    public function getTapestry()
+    {
+        return $this->get('tapestry');
+    }
+
+    /**
+     * @param Tapestry $tapestry
+     */
+    public function setTapestry(Tapestry $tapestry)
+    {
+        $this->set('tapestry', $tapestry);
     }
 
     /**
