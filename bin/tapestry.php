@@ -5,7 +5,7 @@ if (!defined('TAPESTRY_START')) {
 }
 
 if (version_compare(phpversion(), '5.4', '<')) {
-    die('You must use PHP >= 5.4 in order to use Couscous. Please upgrade your PHP version.');
+    die('You must use PHP >= 5.4 in order to use Tapestry. Please upgrade your PHP version.');
 }
 if (!ini_get('date.timezone')) {
     date_default_timezone_set('UTC');
