@@ -1,9 +1,5 @@
 <?php namespace Tapestry\Console\Commands;
 
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
 use Tapestry\Entities\Project;
 use Tapestry\Tapestry;
 
