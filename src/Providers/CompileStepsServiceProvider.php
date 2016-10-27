@@ -32,17 +32,17 @@ class CompileStepsServiceProvider extends AbstractServiceProvider
     public function register()
     {
         $steps = [
-            $this->getContainer()->get(LoadConfig::class),
-            $this->getContainer()->get(LoadKernel::class),
-            $this->getContainer()->get(Before::class),
-            $this->getContainer()->get(LoadContentTypes::class),
-            $this->getContainer()->get(LoadMetaTypes::class),
-            $this->getContainer()->get(LoadSourceFiles::class),
-            $this->getContainer()->get(ParseFrontMatter::class),
-            $this->getContainer()->get(ParseContentTypes::class),
-            $this->getContainer()->get(Clear::class),
-            $this->getContainer()->get(Write::class),
-            $this->getContainer()->get(After::class),
+            LoadConfig::class,
+            LoadKernel::class,
+            Before::class,
+            LoadContentTypes::class,
+            LoadMetaTypes::class,
+            LoadSourceFiles::class,
+            ParseFrontMatter::class,
+            ParseContentTypes::class,
+            Clear::class,
+            Write::class,
+            After::class
         ];
 
         $this->getContainer()->add('Compile.Steps', $steps);

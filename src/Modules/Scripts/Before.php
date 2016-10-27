@@ -11,6 +11,10 @@ class Before implements Step
      */
     private $tapestry;
 
+    /**
+     * Before constructor.
+     * @param Tapestry $tapestry
+     */
     public function __construct(Tapestry $tapestry)
     {
         $this->tapestry = $tapestry;
