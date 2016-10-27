@@ -6,6 +6,7 @@ use League\Container\ContainerInterface;
 use League\Container\ReflectionContainer;
 use League\Container\Container;
 use League\Container\ServiceProvider\ServiceProviderInterface;
+use League\Event\Emitter;
 use Symfony\Component\Console\Input\ArgvInput;
 
 class Tapestry implements ContainerAwareInterface, ArrayAccess
@@ -49,6 +50,7 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
 
         $this['environment'] = $siteEnvironment;
         $this['currentWorkingDirectory'] = $siteDirectory;
+        $this['events'] = new Emitter();
     }
 
     /**
@@ -104,6 +106,14 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
     public static function setInstance(Tapestry $tapestry)
     {
         static::$instance = $tapestry;
+    }
+
+    /**
+     * @return Emitter
+     */
+    public function getEventEmitter()
+    {
+        return $this['events'];
     }
 
     /**

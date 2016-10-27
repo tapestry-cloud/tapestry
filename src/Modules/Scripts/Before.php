@@ -1,5 +1,6 @@
 <?php namespace Tapestry\Modules\Scripts;
 
+use League\Event\Event;
 use Tapestry\Entities\Project;
 use Tapestry\Step;
 use Tapestry\Tapestry;
@@ -28,6 +29,8 @@ class Before implements Step
      */
     public function __invoke(Project $project)
     {
-        // TODO: Implement __invoke() method.
+        $this->tapestry->getEventEmitter()->addListener('scripts.before', function(Event $event){
+
+        });
     }
 }
