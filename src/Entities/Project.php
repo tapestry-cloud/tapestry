@@ -50,6 +50,9 @@ class Project extends ArrayContainer
     public function compile()
     {
         foreach($this['steps'] as $step) {
+
+            $step = $this->getTapestry()->getContainer()->get($step);
+
             $this->getOutput()->writeln('Executing step ['. class_basename($step) .']');
             if (! $step($this)){
                 exit(1);
