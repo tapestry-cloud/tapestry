@@ -5,6 +5,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Tapestry\Entities\Project;
+use Tapestry\Tapestry;
 
 class BuildCommand extends Command
 {
@@ -22,19 +23,25 @@ class BuildCommand extends Command
      * @var string
      */
     private $environment;
+    /**
+     * @var Tapestry
+     */
+    private $tapestry;
 
     /**
      * InitCommand constructor.
+     * @param Tapestry $tapestry
      * @param array $steps
      * @param string $currentWorkingDirectory
      * @param $environment
      */
-    public function __construct(array $steps, $currentWorkingDirectory, $environment)
+    public function __construct(Tapestry $tapestry, array $steps, $currentWorkingDirectory, $environment)
     {
         parent::__construct();
         $this->currentWorkingDirectory = $currentWorkingDirectory;
         $this->steps = $steps;
         $this->environment = $environment;
+        $this->tapestry = $tapestry;
     }
 
     /**
@@ -60,6 +67,7 @@ class BuildCommand extends Command
         }
 
         $project = new Project($this->steps, $this->currentWorkingDirectory, $this->environment);
+        $project->setTapestry($this->tapestry);
         $project->setOutput($this->output);
         $project->compile();
     }
