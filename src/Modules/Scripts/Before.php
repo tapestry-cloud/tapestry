@@ -2,9 +2,20 @@
 
 use Tapestry\Entities\Project;
 use Tapestry\Step;
+use Tapestry\Tapestry;
 
 class Before implements Step
 {
+    /**
+     * @var Tapestry
+     */
+    private $tapestry;
+
+    public function __construct(Tapestry $tapestry)
+    {
+        $this->tapestry = $tapestry;
+    }
+
     /**
      * Process the Project at current.
      *
