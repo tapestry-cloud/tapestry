@@ -1,12 +1,14 @@
 <?php namespace Tapestry\Modules\Config;
 
+use Tapestry\Entities\Configuration;
 use Tapestry\Entities\Project;
 use Tapestry\Step;
 
 class LoadConfig implements Step
 {
     /**
-     * Process the Project at current.
+     * If configuration exists, load it from the site and merge it with the default configuration for Tapestry The
+     * defaults set must exist for Tapestry to function correctly.
      *
      * @param Project $project
      * @return mixed
@@ -20,8 +22,11 @@ class LoadConfig implements Step
             return false;
         }
 
-        $project->getOutput()->writeln('Loading Config From ['. $configPath .']');
+        $configuration = new Configuration(include(__DIR__ . DIRECTORY_SEPARATOR . 'DefaultConfig.php'));
+        $configuration->merge(include($configPath));
+        $project->set('config', $configuration);
 
+        $project->getOutput()->writeln('Loaded Config From ['. $configPath .']');
         return true;
     }
 }
