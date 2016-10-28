@@ -2,9 +2,24 @@
 
 use Tapestry\Entities\Project;
 use Tapestry\Step;
+use Tapestry\Tapestry;
 
 class After implements Step
 {
+    /**
+     * @var Tapestry
+     */
+    private $tapestry;
+
+    /**
+     * Before constructor.
+     * @param Tapestry $tapestry
+     */
+    public function __construct(Tapestry $tapestry)
+    {
+        $this->tapestry = $tapestry;
+    }
+
     /**
      * Process the Project at current.
      *
@@ -13,6 +28,7 @@ class After implements Step
      */
     public function __invoke(Project $project)
     {
-        // TODO: Implement __invoke() method.
+        $this->tapestry->getEventEmitter()->emit('scripts.after');
+        return true;
     }
 }

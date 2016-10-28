@@ -29,8 +29,7 @@ class Before implements Step
      */
     public function __invoke(Project $project)
     {
-        $this->tapestry->getEventEmitter()->addListener('scripts.before', function(Event $event){
-
-        });
+        $this->tapestry->getEventEmitter()->emit('scripts.before');
+        return true;
     }
 }
