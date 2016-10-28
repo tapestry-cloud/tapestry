@@ -49,6 +49,8 @@ class Project extends ArrayContainer
 
     public function compile()
     {
+        // Target Directory is $currentWorkingDirectory . $environment . '_dist'
+
         foreach($this['steps'] as $step) {
 
             $step = $this->getTapestry()->getContainer()->get($step);
