@@ -33,9 +33,13 @@ class LoadKernel implements Step
         // Should we warn the user if the kernel.php exists but their configuration is malformed?
         if (file_exists($kernelPath)){
             include $kernelPath;
-            $this->tapestry->getContainer()->share(KernelInterface::class, $configuration->get('kernel', DefaultKernel::class));
+            $this->tapestry->getContainer()->share(KernelInterface::class, $configuration->get('kernel', DefaultKernel::class))->withArgument(
+                $this->tapestry->getContainer()->get(Tapestry::class)
+            );
         }else{
-            $this->tapestry->getContainer()->share(KernelInterface::class, DefaultKernel::class);
+            $this->tapestry->getContainer()->share(KernelInterface::class, DefaultKernel::class)->withArgument(
+                $this->tapestry->getContainer()->get(Tapestry::class)
+            );
         }
 
         /** @var KernelInterface $kernel */
