@@ -14,7 +14,7 @@ class LoadKernel implements Step
 
     public function __construct(Tapestry $tapestry)
     {
-        $this->tapestry = $tapestry->getInstance();
+        $this->tapestry = $tapestry;
     }
 
     /**
