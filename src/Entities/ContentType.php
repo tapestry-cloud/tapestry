@@ -3,31 +3,37 @@
 class ContentType
 {
     /**
+     * The developer friendly name of this content type
      * @var string
      */
     private $name;
 
     /**
+     * Is this content type allowed to collect from its $path
      * @var bool
      */
     private $enabled = false;
 
     /**
+     * The path which this content type collects from
      * @var string
      */
     private $path = '';
 
     /**
+     * The template path relative to the source path
      * @var string
      */
     private $template = '';
 
     /**
-     * @var
+     * The permalink template for this content type. e.g. /%slug%.html
+     * @var string
      */
     private $permalink;
 
     /**
+     * Which taxonomies used to classify this content types collection
      * @var array
      */
     private $taxonomies = [];
