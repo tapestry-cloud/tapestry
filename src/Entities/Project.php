@@ -56,7 +56,7 @@ class Project extends ArrayContainer
             $step = $this->getTapestry()->getContainer()->get($step);
 
             $this->getOutput()->writeln('Executing step ['. class_basename($step) .']');
-            if (! $step($this)){
+            if (! $step->__invoke($this)){
                 exit(1);
             }
         }
