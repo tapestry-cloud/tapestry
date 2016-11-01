@@ -34,7 +34,11 @@ class ArrayContainer implements \ArrayAccess
      */
     public function set($key, $value)
     {
-        $this->items[$key] = $value;
+        if ($this->isNestedKey($key)) {
+            $this->setNestedValueByKey($key, $value);
+        }else{
+            $this->items[$key] = $value;
+        }
         $this->nestedKeyCache = [];
     }
 
@@ -144,6 +148,16 @@ class ArrayContainer implements \ArrayAccess
         return str_contains($key, '.');
     }
 
+    private function setNestedValueByKey($key, $value) {
+        $items = &$this->items;
+        foreach (explode('.', $key) as $keyPart) {
+            $items = &$items[$keyPart];
+        }
+
+        return $items = $value;
+
+    }
+
     /**
      * @param string $key
      * @return string|null
@@ -155,7 +169,6 @@ class ArrayContainer implements \ArrayAccess
 
         $value = $this->items;
         foreach (explode('.', $key) as $keyPart) {
-
             if (! isset($value[$keyPart])) {
                 return null;
             }
