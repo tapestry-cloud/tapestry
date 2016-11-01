@@ -55,12 +55,15 @@ class ContentType
 
         $this->path = (isset($settings['path']) ? $settings['path'] : ('_' . $this->name));
         $this->template = (isset($settings['template']) ? $settings['template'] : $this->name);
-        $this->permalink = (isset($settings['permalink']) ? $settings['permalink'] : ($this->name . '/%slug%.html'));
+        $this->permalink = (isset($settings['permalink']) ? $settings['permalink'] : ($this->name . '/{slug}.{ext}'));
         $this->enabled = (isset($settings['enabled']) ? boolval($settings['enabled']) : false);
 
         if (isset($settings['taxonomies'])) {
             foreach ($settings['taxonomies'] as $taxonomy) {
-                $this->taxonomies[$taxonomy] = new Collection();
+                $this->taxonomies[$taxonomy] = new Taxonomy($taxonomy, [
+                    'template'  => $this->template . '/list-'.$taxonomy.'.phtml',
+                    'permalink' => $this->name . '/' . $taxonomy . '/{?page}'
+                ]);
             }
         }
 
