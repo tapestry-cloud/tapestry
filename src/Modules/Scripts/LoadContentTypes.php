@@ -29,7 +29,5 @@ class LoadContentTypes implements Step
 
         // @todo should taxonomies be loaded before this as content types rely upon them... or are they defined here?
         dd($contentTypes);
-
-
     }
 }
