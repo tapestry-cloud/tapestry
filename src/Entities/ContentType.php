@@ -39,6 +39,12 @@ class ContentType
     private $taxonomies = [];
 
     /**
+     * Collection of Entities\File that this ContentType has collected
+     * @var Collection
+     */
+    private $items;
+
+    /**
      * ContentType constructor.
      * @param string $name
      * @param array $settings
@@ -57,6 +63,8 @@ class ContentType
                 $this->taxonomies[$taxonomy] = new Collection();
             }
         }
+
+        $this->items = new Collection();
     }
 
     // ...
