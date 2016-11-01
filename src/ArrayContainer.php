@@ -1,5 +1,7 @@
 <?php namespace Tapestry;
 
+use Closure;
+
 class ArrayContainer implements \ArrayAccess
 {
     /**
@@ -100,6 +102,11 @@ class ArrayContainer implements \ArrayAccess
     public function all()
     {
         return $this->items;
+    }
+
+    public function count()
+    {
+        return count($this->items);
     }
 
     /**
@@ -206,5 +213,38 @@ class ArrayContainer implements \ArrayAccess
     public function offsetUnset($offset)
     {
         $this->remove($offset);
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return array_map(function ($value) {
+            return $value instanceof ArrayContainer ? $value->toArray() : $value;
+        }, $this->items);
+    }
+
+    /**
+     * Output the container as an array
+     *
+     * @param int $options
+     * @return string
+     */
+    public function toJson($options = 0)
+    {
+        return json_encode($this->toArray(), $options);
+    }
+
+    /**
+     * Sort through each item within the container by callback
+     *
+     * @param Closure $callback
+     * @return $this
+     */
+    public function sort(Closure $callback)
+    {
+        uasort($this->items, $callback);
+        return $this;
     }
 }
