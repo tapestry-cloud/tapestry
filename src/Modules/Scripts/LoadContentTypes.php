@@ -24,11 +24,7 @@ class LoadContentTypes implements Step
 
         foreach ($contentTypes as $name => $settings)
         {
-
             $project->set('content_types.'. $name, new ContentType($name, $settings));
-
         }
-
-        dd($project->get('content_types'));
     }
 }
