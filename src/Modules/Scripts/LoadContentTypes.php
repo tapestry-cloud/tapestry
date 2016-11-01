@@ -24,10 +24,11 @@ class LoadContentTypes implements Step
 
         foreach ($contentTypes as $name => $settings)
         {
-            $n = new ContentType($name, $settings);
+
+            $project->set('content_types.'. $name, new ContentType($name, $settings));
+
         }
 
-        // @todo should taxonomies be loaded before this as content types rely upon them... or are they defined here?
-        dd($contentTypes);
+        dd($project->get('content_types'));
     }
 }

@@ -54,11 +54,9 @@ class ContentType
 
         if (isset($settings['taxonomies'])) {
             foreach ($settings['taxonomies'] as $taxonomy) {
-                $this->taxonomies[$taxonomy] = []; // @todo needs a Collection class here for search/filter/order/pagination/etc?
+                $this->taxonomies[$taxonomy] = new Collection();
             }
         }
-
-        dd($this);
     }
 
     // ...
