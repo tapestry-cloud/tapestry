@@ -27,6 +27,6 @@ class LoadContentTypes implements Step
             $project->set('content_types.'. $name, new ContentType($name, $settings));
         }
 
-        dd($project->get('content_types.blog'));
+        return true;
     }
 }
