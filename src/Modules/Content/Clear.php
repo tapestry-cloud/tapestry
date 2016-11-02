@@ -26,7 +26,7 @@ class Clear implements Step
      *
      * @param Project $project
      * @param OutputInterface $output
-     * @return mixed
+     * @return boolean
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
