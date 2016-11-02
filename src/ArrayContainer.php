@@ -149,13 +149,21 @@ class ArrayContainer implements \ArrayAccess
     }
 
     private function setNestedValueByKey($key, $value) {
+        // Check to see if this is targeting an instance of ArrayContainer and pass the nested value on
+        $keyParts = explode('.', $key);
+        if($this->get($keyParts[0]) instanceof ArrayContainer && $arrayContainer = $this->get($keyParts[0])){
+            array_shift($keyParts);
+            /** @var ArrayContainer $arrayContainer */
+            $arrayContainer->set(implode('.', $keyParts), $value);
+            return true;
+        } unset($keyParts);
+
         $items = &$this->items;
         foreach (explode('.', $key) as $keyPart) {
             $items = &$items[$keyPart];
         }
 
         return $items = $value;
-
     }
 
     /**
@@ -167,16 +175,24 @@ class ArrayContainer implements \ArrayAccess
             return $this->nestedKeyCache[$key];
         }
 
-        $value = $this->items;
-        foreach (explode('.', $key) as $keyPart) {
-            if (! isset($value[$keyPart])) {
-                return null;
-            }
+        // Check to see if this is targeting an instance of ArrayContainer and grab it from the nested container
+        $keyParts = explode('.', $key);
+        if($this->get($keyParts[0]) instanceof ArrayContainer && $arrayContainer = $this->get($keyParts[0])){
+            array_shift($keyParts);
+            /** @var ArrayContainer $arrayContainer */
+            $value = $arrayContainer->get(implode('.', $keyParts));
+        } else {
+            $value = $this->items;
+            foreach (explode('.', $key) as $keyPart) {
+                if (! isset($value[$keyPart])) {
+                    return null;
+                }
 
-            if ( ! is_array($value[$keyPart]) && ! array_key_exists($keyPart, $value) ) {
-                return null;
+                if ( ! is_array($value[$keyPart]) && ! array_key_exists($keyPart, $value) ) {
+                    return null;
+                }
+                $value = $value[$keyPart];
             }
-            $value = $value[$keyPart];
         }
 
         $this->nestedKeyCache[$key] = $value;
