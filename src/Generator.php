@@ -27,7 +27,8 @@ class Generator
 
     public function generate(Project $project, OutputInterface $output)
     {
-        $output->writeln('Generating site from xxx to xxx');
+        $output->writeln('Generating site from <comment>'. $project->sourceDirectory .'</comment> to <comment>' . $project->destinationDirectory . '</comment>');
+
         foreach($this->steps as $step) {
             /** @var Step $step */
             $step = $this->tapestry->getContainer()->get($step);
