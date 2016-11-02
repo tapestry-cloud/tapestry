@@ -35,6 +35,16 @@ class ArrayContainer implements ArrayAccess, Iterator
     }
 
     /**
+     * Push value onto the collection
+     *
+     * @param mixed $value
+     */
+    public function push($value) {
+        array_push($this->items, $value);
+        $this->nestedKeyCache = [];
+    }
+
+    /**
      * Add or amend an item in the container by $key
      *
      * @param string $key
