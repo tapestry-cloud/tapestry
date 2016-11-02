@@ -37,7 +37,6 @@
     "league/plates": "^3.1",
     "league/event": "^2.1",
     "nesbot/carbon": "^1.21",
-    "bluebaytravel/phrontmatter": "^1.1",
     "cebe/markdown": "^1.1"
   },
   "require-dev": {
