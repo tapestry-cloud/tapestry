@@ -1,7 +1,10 @@
 <?php namespace Tapestry\Modules\Content;
 
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Finder\Finder;
+use Tapestry\Entities\Collection;
 use Tapestry\Entities\Configuration;
+use Tapestry\Entities\File;
 use Tapestry\Entities\Project;
 use Tapestry\Step;
 use Tapestry\Tapestry;
@@ -17,6 +20,7 @@ class LoadSourceFiles implements Step
     /**
      * LoadSourceFiles constructor.
      * @param Tapestry $tapestry
+     * @param Configuration $configuration
      */
     public function __construct(Tapestry $tapestry, Configuration $configuration)
     {
@@ -28,7 +32,7 @@ class LoadSourceFiles implements Step
      *
      * @param Project $project
      * @param OutputInterface $output
-     * @return mixed
+     * @return boolean
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
@@ -39,9 +43,19 @@ class LoadSourceFiles implements Step
             return false;
         }
 
-        dd($project->get('content_types.blog'));
+        $finder = new Finder();
+        $finder->files()
+            ->followLinks()
+            ->in($project->sourceDirectory)
+            ->ignoreDotFiles(true);
 
+        // todo add exclusions
 
-        // TODO: Implement __invoke() method.
+        foreach($finder->files() as $file)
+        {
+            $project->addFile(new File($file));
+        }
+
+        return true;
     }
 }
