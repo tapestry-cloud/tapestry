@@ -1,64 +1,47 @@
 <?php namespace Tapestry\Entities;
 
-use Symfony\Component\Console\Output\OutputInterface;
 use Tapestry\ArrayContainer;
-use Tapestry\Tapestry;
 
 class Project extends ArrayContainer
 {
-    public function __construct(array $steps, $currentWorkingDirectory, $environment)
-    {
-        parent::__construct([
-            'steps' => $steps,
-            'cwd' => $currentWorkingDirectory,
-            'env' => $environment
-        ]);
-    }
+    /**
+     * @var string
+     */
+    public $sourceDirectory;
 
     /**
-     * @return Tapestry
+     * @var string
      */
-    public function getTapestry()
-    {
-        return $this->get('tapestry');
-    }
+    public $destinationDirectory;
 
     /**
-     * @param Tapestry $tapestry
+     * @var string
      */
-    public function setTapestry(Tapestry $tapestry)
-    {
-        $this->set('tapestry', $tapestry);
-    }
+    public $currentWorkingDirectory;
 
     /**
-     * @param OutputInterface $output
+     * @var string
      */
-    public function setOutput(OutputInterface $output)
-    {
-        $this->set('output', $output);
-    }
+    public $environment;
 
     /**
-     * @return OutputInterface
+     * Project constructor.
+     * @param $currentWorkingDirectory
+     * @param $environment
      */
-    public function getOutput()
+    public function __construct($currentWorkingDirectory, $environment)
     {
-        return $this->get('output');
-    }
+        $this->sourceDirectory = $currentWorkingDirectory . DIRECTORY_SEPARATOR . 'source';
+        $this->destinationDirectory = $currentWorkingDirectory . DIRECTORY_SEPARATOR . 'build_' . $environment;
 
-    public function compile()
-    {
-        // Target Directory is $currentWorkingDirectory . $environment . '_dist'
+        $this->currentWorkingDirectory = $currentWorkingDirectory;
+        $this->environment = $environment;
 
-        foreach($this['steps'] as $step) {
-
-            $step = $this->getTapestry()->getContainer()->get($step);
-
-            $this->getOutput()->writeln('Executing step ['. class_basename($step) .']');
-            if (! $step->__invoke($this)){
-                exit(1);
-            }
-        }
+        parent::__construct(
+            [
+                'files' => new Collection(),
+                'content_types' => new Collection()
+            ]
+        );
     }
 }
