@@ -28,8 +28,8 @@ class ParseContentTypes implements Step
             }
 
             $contentType->addFile($file);
-
             $output->writeln('[+] File ['. $file->getFileInfo()->getRelativePathname() .'] bucketed into content type ['. $contentType->getName() .']');
         }
+        return true;
     }
 }
