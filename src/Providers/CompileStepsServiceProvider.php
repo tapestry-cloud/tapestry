@@ -3,15 +3,14 @@
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use Tapestry\Modules\Config\LoadConfig;
 use Tapestry\Modules\Content\Clear;
-use Tapestry\Modules\Content\LoadMetaTypes;
 use Tapestry\Modules\Content\LoadSourceFiles;
-use Tapestry\Modules\Content\ParseContentTypes;
 use Tapestry\Modules\Content\ParseFrontMatter;
 use Tapestry\Modules\Content\Write;
+use Tapestry\Modules\ContentTypes\LoadContentTypes;
+use Tapestry\Modules\ContentTypes\ParseContentTypes;
 use Tapestry\Modules\Kernel\LoadKernel;
 use Tapestry\Modules\Scripts\After;
 use Tapestry\Modules\Scripts\Before;
-use Tapestry\Modules\Scripts\LoadContentTypes;
 
 class CompileStepsServiceProvider extends AbstractServiceProvider
 {

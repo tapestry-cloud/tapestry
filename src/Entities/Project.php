@@ -1,6 +1,7 @@
 <?php namespace Tapestry\Entities;
 
 use Tapestry\ArrayContainer;
+use Tapestry\Modules\ContentTypes\ContentTypeFactory;
 
 class Project extends ArrayContainer
 {
@@ -39,8 +40,7 @@ class Project extends ArrayContainer
 
         parent::__construct(
             [
-                'files' => new FlatCollection(),
-                'content_types' => new Collection()
+                'files' => new FlatCollection()
             ]
         );
     }

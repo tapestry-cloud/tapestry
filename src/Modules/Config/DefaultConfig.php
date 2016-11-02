@@ -23,7 +23,7 @@ return [
      */
     'content_types' => [
         'blog' => [
-            'path' => '_posts',
+            'path' => '_blog',
             'template' => 'blog',
             'permalink' => 'blog/%year%/%slug%.html',
             'enabled' => true,
