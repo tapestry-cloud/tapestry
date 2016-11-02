@@ -44,4 +44,20 @@ class Project extends ArrayContainer
             ]
         );
     }
+
+    public function addFile(File $file)
+    {
+        $this['files'][$file->getFileInfo()->getRelativePathname()] = $file;
+    }
+
+    public function removeFile(File $file)
+    {
+        unset($this['files'][$file->getFileInfo()->getRelativePathname()]);
+    }
+
+    public function replaceFile(File $oldFile, File $newFile)
+    {
+        $this->removeFile($oldFile);
+        $this->addFile($newFile);
+    }
 }
