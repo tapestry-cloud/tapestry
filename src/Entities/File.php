@@ -45,6 +45,11 @@ class File
         $this->setData($defaultData);
     }
 
+    public function getUid()
+    {
+        return sha1($this->getFileInfo()->getFilename() . '-' . $this->getFileInfo()->getRelativePath());
+    }
+
     public function getFileInfo()
     {
         return $this->fileInfo;
