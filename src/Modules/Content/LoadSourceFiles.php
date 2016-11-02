@@ -62,8 +62,6 @@ class LoadSourceFiles implements Step
             $file->setData($frontMatter->getData());
             $file->setContent($frontMatter->getContent());
 
-            $project->addFile($file);
-
             if (! $contentType = $contentTypes->find($file->getFileInfo()->getRelativePath())){
                 $contentType = $contentTypes->get('*');
             }else{
@@ -71,6 +69,8 @@ class LoadSourceFiles implements Step
             }
 
             $contentType->addFile($file);
+            $project->addFile($file);
+
             $output->writeln('[+] File ['. $file->getFileInfo()->getRelativePathname() .'] bucketed into content type ['. $contentType->getName() .']');
         }
 

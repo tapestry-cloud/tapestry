@@ -28,6 +28,14 @@ class File
     private $loaded = false;
 
     /**
+     * If a file has been set as deferred it means that it will be picked up by a ContentType generator such as the Blog
+     * generator. This is set by the LoadSourceFiles step when a file is considered a template belonging to a content type.
+     *
+     * @var bool
+     */
+    private $deferred = false;
+
+    /**
      * File constructor.
      * @param SplFileInfo $fileInfo
      */
@@ -97,6 +105,16 @@ class File
     public function isLoaded()
     {
         return $this->loaded;
+    }
+
+    public function setDeferred($value)
+    {
+        $this->deferred = boolval($value);
+    }
+
+    public function isDeferred()
+    {
+        return $this->deferred;
     }
 
     /**

@@ -61,7 +61,7 @@ class ContentType
         if (isset($settings['taxonomies'])) {
             foreach ($settings['taxonomies'] as $taxonomy) {
                 $this->taxonomies[$taxonomy] = new Taxonomy($taxonomy, [
-                    'template'  => $this->template . '/list-'.$taxonomy.'.phtml',
+                    'template' => $this->template . '/list-' . $taxonomy . '.phtml',
                     'permalink' => $this->name . '/' . $taxonomy . '/{?page}'
                 ]);
             }
@@ -70,24 +70,36 @@ class ContentType
         $this->items = new FlatCollection();
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
-    public function getPath() {
+    public function getPath()
+    {
         return $this->path;
     }
 
-    public function addFile(File $file) {
-        $this->items->set($file->getUid(), $file);
-        foreach($this->taxonomies as $taxonomy){
-            if ($classifications = $file->getData($taxonomy->getName())){
-                foreach($classifications as $classification){
+    public function getTemplate()
+    {
+        return $this->template;
+    }
+
+    public function addFile(File $file)
+    {
+        $this->items->push($file->getUid());
+
+        foreach ($this->taxonomies as $taxonomy) {
+            if ($classifications = $file->getData($taxonomy->getName())) {
+                foreach ($classifications as $classification) {
                     $taxonomy->addFile($file, $classification);
                 }
             }
         }
     }
 
-    // ...
+    public function hasFile(File $file)
+    {
+        return $this->items->has($file->getUid());
+    }
 }

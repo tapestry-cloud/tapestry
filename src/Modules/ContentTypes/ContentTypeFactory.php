@@ -93,5 +93,4 @@ class ContentTypeFactory
         }
         return $this->items[$this->lookupTable['*']];
     }
-
 }
