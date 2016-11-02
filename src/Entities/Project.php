@@ -47,12 +47,12 @@ class Project extends ArrayContainer
 
     public function addFile(File $file)
     {
-        $this['files'][$file->getFileInfo()->getRelativePathname()] = $file;
+        $this['files'][$file->getUid()] = $file;
     }
 
     public function removeFile(File $file)
     {
-        unset($this['files'][$file->getFileInfo()->getRelativePathname()]);
+        unset($this['files'][$file->getUid()]);
     }
 
     public function replaceFile(File $oldFile, File $newFile)

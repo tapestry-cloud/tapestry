@@ -45,9 +45,13 @@ class File
         $this->setData($defaultData);
     }
 
+    /**
+     * Get identifier for this file, the relative pathname is unique to each file so that should be good enough
+     * @return string
+     */
     public function getUid()
     {
-        return sha1($this->getFileInfo()->getFilename() . '-' . $this->getFileInfo()->getRelativePath());
+        return $this->getFileInfo()->getRelativePathname();
     }
 
     public function getFileInfo()
