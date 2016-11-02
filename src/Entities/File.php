@@ -51,24 +51,49 @@ class File
      */
     public function getUid()
     {
-        return $this->getFileInfo()->getRelativePathname();
+        return str_replace('.', '_', $this->getFileInfo()->getRelativePathname());
     }
 
+    /**
+     * Returns the SplFileInfo class that the Symfony Finder created
+     *
+     * @return SplFileInfo
+     */
     public function getFileInfo()
     {
         return $this->fileInfo;
     }
 
+    /**
+     * Returns the file content, this will be excluding any frontmatter
+     * @return string
+     * @throws \Exception
+     */
     public function getContent()
     {
+        if (!$this->isLoaded()) {
+            throw new \Exception('The file [' . $this->fileInfo->getRelativePathname() . '] has not been loaded.');
+        }
         return $this->content;
     }
 
-    public function setContent($content){
+    /**
+     * Set the files content, this should be excluding any frontmatter
+     *
+     * @param string $content
+     */
+    public function setContent($content)
+    {
         $this->content = $content;
         $this->loaded = true;
     }
 
+    /**
+     * A file can be considered loaded once its content property has been set, that way you know any frontmatter has
+     * also been injected into the File objects data property.
+     *
+     * @return bool
+     */
     public function isLoaded()
     {
         return $this->loaded;
@@ -96,12 +121,17 @@ class File
         if (is_null($key)) {
             return $this->data;
         }
-        if (! isset($this->data[$key])) {
+        if (!isset($this->data[$key])) {
             return $default;
         }
         return $this->data[$key];
     }
 
+    /**
+     * Get the content of the file that this object relates to.
+     *
+     * @return string
+     */
     public function getFileContent()
     {
         return file_get_contents($this->fileInfo->getPathname());
