@@ -16,6 +16,18 @@ class File
     private $data = [];
 
     /**
+     * File Content
+     * @var string
+     */
+    private $content = '';
+
+    /**
+     * Has the file content been loaded
+     * @var bool
+     */
+    private $loaded = false;
+
+    /**
      * File constructor.
      * @param SplFileInfo $fileInfo
      */
@@ -36,6 +48,21 @@ class File
     public function getFileInfo()
     {
         return $this->fileInfo;
+    }
+
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    public function setContent($content){
+        $this->content = $content;
+        $this->loaded = true;
+    }
+
+    public function isLoaded()
+    {
+        return $this->loaded;
     }
 
     /**
@@ -64,5 +91,10 @@ class File
             return $default;
         }
         return $this->data[$key];
+    }
+
+    public function getFileContent()
+    {
+        return file_get_contents($this->fileInfo->getPathname());
     }
 }
