@@ -15,6 +15,7 @@ class Write implements Step
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
+        $n =1;
         // TODO: Implement __invoke() method.
     }
 }
