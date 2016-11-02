@@ -55,6 +55,8 @@ class LoadSourceFiles implements Step
             $project->addFile(new File($file));
         }
 
+        $output->writeln('[+] Discovered ['. $project['files']->count() .'] project files');
+
         return true;
     }
 }

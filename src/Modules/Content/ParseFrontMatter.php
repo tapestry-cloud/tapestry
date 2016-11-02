@@ -8,11 +8,6 @@ use Tapestry\Step;
 class ParseFrontMatter implements Step
 {
     /**
-     * @var string
-     */
-    private $pattern = '/^\s*(?:---[\s]*[\r\n]+)(.*?)(?:---[\s]*[\r\n]+)(.*?)$/s';
-
-    /**
      * Process the Project at current.
      *
      * @param Project $project
@@ -24,6 +19,11 @@ class ParseFrontMatter implements Step
         /** @var File $file */
         foreach ($project['files'] as $file){
             $output->writeln('[+] Parsing FrontMatter for ['. $file->getFileInfo()->getRelativePathname() .']');
+            $frontMatter = new FrontMatter($file->getFileContent());
+            $file->setData($frontMatter->getData());
+            $file->setContent($frontMatter->getContent());
         }
+
+        return true;
     }
 }
