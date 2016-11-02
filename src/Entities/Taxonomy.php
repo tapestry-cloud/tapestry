@@ -41,5 +41,14 @@ class Taxonomy
         $this->items = new Collection();
     }
 
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function addFile(File $file, $classification){
+        $this->items->set($classification . '.' . $file->getUid(), true);
+    }
+
     // ...
 }

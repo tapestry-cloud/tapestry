@@ -34,7 +34,7 @@ class ContentType
 
     /**
      * Which taxonomies used to classify this content types collection
-     * @var array
+     * @var array|Taxonomy[]
      */
     private $taxonomies = [];
 
@@ -76,6 +76,17 @@ class ContentType
 
     public function getPath() {
         return $this->path;
+    }
+
+    public function addFile(File $file) {
+        $this->items->set($file->getUid(), $file);
+        foreach($this->taxonomies as $taxonomy){
+            if ($classifications = $file->getData($taxonomy->getName())){
+                foreach($classifications as $classification){
+                    $taxonomy->addFile($file, $classification);
+                }
+            }
+        }
     }
 
     // ...

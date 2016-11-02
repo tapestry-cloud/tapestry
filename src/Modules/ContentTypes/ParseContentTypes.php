@@ -1,7 +1,6 @@
 <?php namespace Tapestry\Modules\ContentTypes;
 
 use Symfony\Component\Console\Output\OutputInterface;
-use Tapestry\Entities\ContentType;
 use Tapestry\Entities\File;
 use Tapestry\Entities\Project;
 use Tapestry\Step;
@@ -27,6 +26,8 @@ class ParseContentTypes implements Step
             }else{
                 $contentType = $contentTypes->get($contentType);
             }
+
+            $contentType->addFile($file);
 
             $output->writeln('[+] File ['. $file->getFileInfo()->getRelativePathname() .'] bucketed into content type ['. $contentType->getName() .']');
         }
