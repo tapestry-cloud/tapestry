@@ -1,4 +1,4 @@
-<?php namespace Tapestry\Modules\Scripts;
+<?php namespace Tapestry\Modules\ContentTypes;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Tapestry\Entities\Configuration;
@@ -35,11 +35,20 @@ class LoadContentTypes implements Step
             $output->writeln('[!] Your project\'s content types are miss-configured. Doing nothing and exiting.]');
         }
 
+        $contentTypeFactory = new ContentTypeFactory([
+            new ContentType('DefaultFileCollection', [
+                'path' => '*',
+                'permalink' => '{slug}.{ext}',
+                'enabled' => true
+            ])
+        ]);
+
         foreach ($contentTypes as $name => $settings)
         {
-            $project->set('content_types.'. $name, new ContentType($name, $settings));
+            $contentTypeFactory->add(new ContentType($name, $settings));
         }
 
+        $project->set('content_types', $contentTypeFactory);
         return true;
     }
 }
