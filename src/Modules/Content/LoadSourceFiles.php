@@ -2,7 +2,6 @@
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
-use Tapestry\Entities\Collection;
 use Tapestry\Entities\Configuration;
 use Tapestry\Entities\File;
 use Tapestry\Entities\Project;
