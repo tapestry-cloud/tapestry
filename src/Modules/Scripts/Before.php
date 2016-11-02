@@ -1,6 +1,7 @@
 <?php namespace Tapestry\Modules\Scripts;
 
 use League\Event\Event;
+use Symfony\Component\Console\Output\OutputInterface;
 use Tapestry\Entities\Project;
 use Tapestry\Step;
 use Tapestry\Tapestry;
@@ -25,9 +26,10 @@ class Before implements Step
      * Process the Project at current.
      *
      * @param Project $project
-     * @return mixed
+     * @param OutputInterface $output
+     * @return boolean
      */
-    public function __invoke(Project $project)
+    public function __invoke(Project $project, OutputInterface $output)
     {
         $this->tapestry->getEventEmitter()->emit('scripts.before');
         return true;

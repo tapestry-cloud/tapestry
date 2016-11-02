@@ -1,6 +1,7 @@
 <?php namespace Tapestry\Console\Commands;
 
 use Tapestry\Entities\Project;
+use Tapestry\Generator;
 use Tapestry\Tapestry;
 
 class BuildCommand extends Command
@@ -62,9 +63,8 @@ class BuildCommand extends Command
             exit(1);
         }
 
-        $project = new Project($this->steps, $this->currentWorkingDirectory, $this->environment);
-        $project->setTapestry($this->tapestry);
-        $project->setOutput($this->output);
-        $project->compile();
+        $generator = new Generator($this->steps, $this->tapestry);
+        $project = new Project($this->currentWorkingDirectory, $this->environment);
+        $generator->generate($project, $this->output);
     }
 }
