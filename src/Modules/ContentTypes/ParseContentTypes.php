@@ -16,20 +16,8 @@ class ParseContentTypes implements Step
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
-        /** @var ContentTypeFactory $contentTypes */
-        $contentTypes = $project->get('content_types');
 
-        /** @var File $file */
-        foreach($project['files'] as $file) {
-            if (! $contentType = $contentTypes->find($file->getFileInfo()->getRelativePath())){
-                $contentType = $contentTypes->get('*');
-            }else{
-                $contentType = $contentTypes->get($contentType);
-            }
-
-            $contentType->addFile($file);
-            $output->writeln('[+] File ['. $file->getFileInfo()->getRelativePathname() .'] bucketed into content type ['. $contentType->getName() .']');
-        }
-        return true;
+        $n =1;
+        // ...
     }
 }

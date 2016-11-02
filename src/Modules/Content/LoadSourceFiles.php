@@ -5,6 +5,7 @@ use Symfony\Component\Finder\Finder;
 use Tapestry\Entities\Configuration;
 use Tapestry\Entities\File;
 use Tapestry\Entities\Project;
+use Tapestry\Modules\ContentTypes\ContentTypeFactory;
 use Tapestry\Step;
 use Tapestry\Tapestry;
 
@@ -42,6 +43,9 @@ class LoadSourceFiles implements Step
             return false;
         }
 
+        /** @var ContentTypeFactory $contentTypes */
+        $contentTypes = $project->get('content_types');
+
         $finder = new Finder();
         $finder->files()
             ->followLinks()
@@ -52,7 +56,22 @@ class LoadSourceFiles implements Step
 
         foreach($finder->files() as $file)
         {
-            $project->addFile(new File($file));
+            $file = new File($file);
+
+            $frontMatter = new FrontMatter($file->getFileContent());
+            $file->setData($frontMatter->getData());
+            $file->setContent($frontMatter->getContent());
+
+            $project->addFile($file);
+
+            if (! $contentType = $contentTypes->find($file->getFileInfo()->getRelativePath())){
+                $contentType = $contentTypes->get('*');
+            }else{
+                $contentType = $contentTypes->get($contentType);
+            }
+
+            $contentType->addFile($file);
+            $output->writeln('[+] File ['. $file->getFileInfo()->getRelativePathname() .'] bucketed into content type ['. $contentType->getName() .']');
         }
 
         $output->writeln('[+] Discovered ['. $project['files']->count() .'] project files');

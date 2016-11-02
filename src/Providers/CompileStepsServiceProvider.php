@@ -36,7 +36,6 @@ class CompileStepsServiceProvider extends AbstractServiceProvider
             Before::class,
             LoadContentTypes::class,
             LoadSourceFiles::class,
-            ParseFrontMatter::class,
             ParseContentTypes::class,
             Clear::class,
             Write::class,
