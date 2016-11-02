@@ -70,20 +70,6 @@ class ContentType
         $this->items = new FlatCollection();
     }
 
-    /**
-     * Returns boolean response depending if input File belongs to this content type
-     *
-     * @param File $file
-     * @return boolean
-     */
-    public function canContain(File $file) {
-
-
-        dd($this->path);
-        dd($file->getFileInfo()->getRelativePath());
-
-    }
-
     public function getName() {
         return $this->name;
     }
