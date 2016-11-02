@@ -1,5 +1,6 @@
 <?php namespace Tapestry\Modules\Kernel;
 
+use Symfony\Component\Console\Output\OutputInterface;
 use Tapestry\Entities\Configuration;
 use Tapestry\Entities\Project;
 use Tapestry\Step;
@@ -12,28 +13,32 @@ class LoadKernel implements Step
      */
     private $tapestry;
 
-    public function __construct(Tapestry $tapestry)
+    /**
+     * @var Configuration
+     */
+    private $configuration;
+
+    public function __construct(Tapestry $tapestry, Configuration $configuration)
     {
         $this->tapestry = $tapestry;
+        $this->configuration = $configuration;
     }
 
     /**
      * Process the Project at current.
      *
      * @param Project $project
-     * @return mixed
+     * @param OutputInterface $output
+     * @return boolean
      */
-    public function __invoke(Project $project)
+    public function __invoke(Project $project, OutputInterface $output)
     {
-        $kernelPath = $project->get('cwd') . DIRECTORY_SEPARATOR . 'kernel.php';
-
-        /** @var Configuration $configuration */
-        $configuration = $project->get('config');
+        $kernelPath = $project->currentWorkingDirectory . DIRECTORY_SEPARATOR . 'kernel.php';
 
         // Should we warn the user if the kernel.php exists but their configuration is malformed?
         if (file_exists($kernelPath)){
             include $kernelPath;
-            $this->tapestry->getContainer()->share(KernelInterface::class, $configuration->get('kernel', DefaultKernel::class))->withArgument(
+            $this->tapestry->getContainer()->share(KernelInterface::class, $this->configuration->get('kernel', DefaultKernel::class))->withArgument(
                 $this->tapestry->getContainer()->get(Tapestry::class)
             );
         }else{
