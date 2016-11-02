@@ -1,7 +1,6 @@
 <?php namespace Tapestry\Entities;
 
 use Tapestry\ArrayContainer;
-use Tapestry\Modules\ContentTypes\ContentTypeFactory;
 
 class Project extends ArrayContainer
 {

@@ -17,6 +17,11 @@ class ParseContentTypes implements Step
     public function __invoke(Project $project, OutputInterface $output)
     {
 
+        /** @var File $file */
+        foreach($project['files'] as $file) {
+
+        }
+
         $n =1;
         // ...
     }
