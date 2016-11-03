@@ -4,7 +4,6 @@ use Tapestry\Entities\ContentType;
 
 class ContentTypeFactory
 {
-
     /**
      * Registered item stack
      *
@@ -17,8 +16,14 @@ class ContentTypeFactory
      *
      * @var array
      */
-    private $lookupTable = [];
+    private $pathLookupTable = [];
 
+    /**
+     * Registered items name lookup table
+     *
+     * @var array
+     */
+    private $nameLookupTable = [];
 
     /**
      * ContentTypeFactory constructor.
@@ -41,11 +46,12 @@ class ContentTypeFactory
     public function add(ContentType $contentType, $overWrite = false)
     {
         if (!$overWrite && $this->has($contentType->getPath())) {
-            throw new \Exception('The collection [' . $this->lookupTable[$contentType->getPath()] . '] already collects for the path [' . $contentType->getPath() . ']');
+            throw new \Exception('The collection [' . $this->pathLookupTable[$contentType->getPath()] . '] already collects for the path [' . $contentType->getPath() . ']');
         }
         $uid = sha1(md5(get_class($contentType)) . '_' . sha1($contentType->getName() . '-' . $contentType->getPath()));
         $this->items[$uid] = $contentType;
-        $this->lookupTable[$contentType->getPath()] = $uid;
+        $this->pathLookupTable[$contentType->getPath()] = $uid;
+        $this->nameLookupTable[$contentType->getName()] = $uid;
     }
 
     /**
@@ -56,7 +62,7 @@ class ContentTypeFactory
      */
     public function has($path)
     {
-        return isset($this->lookupTable[$path]);
+        return isset($this->pathLookupTable[$path]);
     }
 
     /**
@@ -67,7 +73,7 @@ class ContentTypeFactory
      */
     public function find($path)
     {
-        foreach (array_keys($this->lookupTable) as $key) {
+        foreach (array_keys($this->pathLookupTable) as $key) {
             if (starts_with($path, $key)) {
                 return $key;
             }
@@ -88,9 +94,23 @@ class ContentTypeFactory
         if ($path !== '*' && !$this->has($path)) {
             throw new \Exception('There is no collection that collects for the path [' . $path . ']');
         }
-        if (isset($this->items[$this->lookupTable[$path]])) {
-            return $this->items[$this->lookupTable[$path]];
+        if (isset($this->items[$this->pathLookupTable[$path]])) {
+            return $this->items[$this->pathLookupTable[$path]];
         }
-        return $this->items[$this->lookupTable['*']];
+        return $this->items[$this->pathLookupTable['*']];
+    }
+
+    /**
+     * ArrayAccess method for use by ArrayContainer for dot notation key retrieval
+     *
+     * @param $key
+     * @return mixed|null|ContentType
+     */
+    public function arrayAccessByKey($key)
+    {
+        if (isset($this->items[$this->nameLookupTable[$key]])) {
+            return $this->items[$this->nameLookupTable[$key]];
+        }
+        return null;
     }
 }
