@@ -50,9 +50,10 @@ class LoadSourceFiles implements Step
         $finder->files()
             ->followLinks()
             ->in($project->sourceDirectory)
+            ->exclude(['_views','_templates'])
             ->ignoreDotFiles(true);
 
-        // todo add exclusions
+        // todo add configured exclusions
 
         foreach($finder->files() as $file)
         {

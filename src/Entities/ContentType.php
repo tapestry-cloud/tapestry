@@ -135,4 +135,23 @@ class ContentType
 
         return array_keys($this->items->all());
     }
+
+    /**
+     * Mutate project files that are contained within this ContentType
+     *
+     * @param Project $project
+     */
+    public function mutateProjectFiles(Project $project)
+    {
+        foreach ($this->getFileList() as $fileKey) {
+            /** @var File $file */
+            if (! $file = $project->get('files.' . $fileKey)) {
+                continue;
+            }
+
+            if ($this->permalink !== '*') {
+                $file->setPermalink(new Permalink($this->permalink));
+            }
+        }
+    }
 }

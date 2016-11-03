@@ -36,9 +36,9 @@ class LoadContentTypes implements Step
         }
 
         $contentTypeFactory = new ContentTypeFactory([
-            new ContentType('DefaultFileCollection', [
+            new ContentType('default', [
                 'path' => '*',
-                'permalink' => '{slug}.{ext}',
+                'permalink' => '*',
                 'enabled' => true
             ])
         ]);

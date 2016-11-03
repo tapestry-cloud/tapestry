@@ -36,8 +36,5 @@ class Write implements Step
             if ($file->isDeferred()){ continue; }
             $this->filesystem->dumpFile($project->destinationDirectory . DIRECTORY_SEPARATOR . $file->getFileInfo()->getRelativePathname(), $file->getContent());
         }
-
-        $n =1;
-        // TODO: Implement __invoke() method.
     }
 }

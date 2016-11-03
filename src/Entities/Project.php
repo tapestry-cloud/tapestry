@@ -54,6 +54,15 @@ class Project extends ArrayContainer
     }
 
     /**
+     * @param string $key
+     * @return ProjectFileInterface|File|FileGenerator
+     */
+    public function getFile($key)
+    {
+        return $this['files'][$key];
+    }
+
+    /**
      * @param ProjectFileInterface|File|FileGenerator $file
      */
     public function removeFile(ProjectFileInterface $file)

@@ -38,6 +38,11 @@ class File implements ProjectFileInterface
     private $deferred = false;
 
     /**
+     * @var Permalink
+     */
+    private $permalink;
+
+    /**
      * File constructor.
      * @param SplFileInfo $fileInfo
      */
@@ -47,6 +52,8 @@ class File implements ProjectFileInterface
         $defaultData = [
             'date' => DateTime::createFromFormat('U', $fileInfo->getMTime())
         ];
+
+        $this->permalink = new Permalink();
 
         preg_match('/^(\d{4}-\d{2}-\d{2})-(.*)/', $this->fileInfo->getBasename('.'.$this->fileInfo->getExtension()), $matches);
         if (count($matches) === 3) {
@@ -103,6 +110,15 @@ class File implements ProjectFileInterface
     {
         $this->content = $content;
         $this->loaded = true;
+    }
+
+    public function setPermalink(Permalink $permalink) {
+        $this->permalink = $permalink;
+    }
+
+    public function getPermalink()
+    {
+        return $this->permalink->getCompiled($this);
     }
 
     /**
