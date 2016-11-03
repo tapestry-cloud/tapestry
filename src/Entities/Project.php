@@ -1,6 +1,7 @@
 <?php namespace Tapestry\Entities;
 
 use Tapestry\ArrayContainer;
+use Tapestry\Entities\Generators\FileGenerator;
 
 class Project extends ArrayContainer
 {
@@ -44,17 +45,27 @@ class Project extends ArrayContainer
         );
     }
 
-    public function addFile(File $file)
+    /**
+     * @param ProjectFileInterface|File|FileGenerator $file
+     */
+    public function addFile(ProjectFileInterface $file)
     {
         $this['files'][$file->getUid()] = $file;
     }
 
-    public function removeFile(File $file)
+    /**
+     * @param ProjectFileInterface|File|FileGenerator $file
+     */
+    public function removeFile(ProjectFileInterface $file)
     {
         unset($this['files'][$file->getUid()]);
     }
 
-    public function replaceFile(File $oldFile, File $newFile)
+    /**
+     * @param ProjectFileInterface|File|FileGenerator $oldFile
+     * @param ProjectFileInterface|File|FileGenerator $newFile
+     */
+    public function replaceFile(ProjectFileInterface $oldFile, ProjectFileInterface $newFile)
     {
         $this->removeFile($oldFile);
         $this->addFile($newFile);

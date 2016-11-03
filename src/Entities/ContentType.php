@@ -103,6 +103,22 @@ class ContentType
         return $this->items->has($file->getUid());
     }
 
+    /**
+     * @param string $name
+     * @return Taxonomy
+     */
+    public function getTaxonomy($name)
+    {
+        return $this->taxonomies[$name];
+    }
+
+    /**
+     * Returns an ordered list of the file uid's that have been bucketed into this content type. The list is ordered by
+     * the files date.
+     *
+     * @param string $order
+     * @return array
+     */
     public function getFileList($order = 'desc')
     {
         // Order Files by date newer to older
@@ -117,6 +133,6 @@ class ContentType
             }
         });
 
-        return $this->items->all();
+        return array_keys($this->items->all());
     }
 }

@@ -3,7 +3,7 @@
 use DateTime;
 use Symfony\Component\Finder\SplFileInfo;
 
-class File
+class File implements ProjectFileInterface
 {
     /**
      * @var SplFileInfo
