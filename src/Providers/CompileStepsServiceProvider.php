@@ -3,6 +3,7 @@
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use Tapestry\Modules\Config\LoadConfig;
 use Tapestry\Modules\Content\Clear;
+use Tapestry\Modules\Content\Compile;
 use Tapestry\Modules\Content\LoadSourceFiles;
 use Tapestry\Modules\Content\ParseFrontMatter;
 use Tapestry\Modules\Content\Write;
@@ -38,6 +39,7 @@ class CompileStepsServiceProvider extends AbstractServiceProvider
             LoadSourceFiles::class,
             ParseContentTypes::class,
             Clear::class,
+            Compile::class,
             Write::class,
             After::class
         ];

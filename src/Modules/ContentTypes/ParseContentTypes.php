@@ -64,7 +64,12 @@ class ParseContentTypes implements Step
 
             $project->replaceFile($file, new FileGenerator($file));
         }
-        unset($file, $uses, $use);
+        unset($file, $uses, $use, $contentType);
+
+        /** @var ContentType $contentType */
+        foreach ($project['content_types']->all() as $contentType) {
+            $contentType->mutateProjectFiles($project);
+        }
 
         return true;
     }

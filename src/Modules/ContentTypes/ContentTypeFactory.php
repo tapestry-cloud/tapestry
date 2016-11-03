@@ -66,6 +66,15 @@ class ContentTypeFactory
     }
 
     /**
+     * Return all ContentTypes registered with this factory
+     * @return array
+     */
+    public function all()
+    {
+        return array_values($this->items);
+    }
+
+    /**
      * Returns the absolute path from an input, so that you may then get the ContentType that deals with it.
      *
      * @param string $path
