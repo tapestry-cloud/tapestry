@@ -44,9 +44,10 @@ class File
         $this->fileInfo = $fileInfo;
         $defaultData = [];
 
-        preg_match('/^(\d{4}-\d{2}-\d{2})-(.*)/', $this->fileInfo->getFilename(), $matches);
+        preg_match('/^(\d{4}-\d{2}-\d{2})-(.*)/', $this->fileInfo->getBasename('.'.$this->fileInfo->getExtension()), $matches);
         if (count($matches) === 3) {
             $defaultData['date'] = new \DateTime($matches[1]);
+            $defaultData['draft'] = false;
             $defaultData['slug'] = $matches[2];
             $defaultData['title'] = ucfirst(str_replace('-', ' ', $defaultData['slug']));
         }
