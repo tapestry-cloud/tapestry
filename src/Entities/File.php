@@ -5,6 +5,8 @@ use Symfony\Component\Finder\SplFileInfo;
 
 class File implements ProjectFileInterface
 {
+    private $uid = null;
+
     /**
      * @var SplFileInfo
      */
@@ -36,6 +38,12 @@ class File implements ProjectFileInterface
      * @var bool
      */
     private $deferred = false;
+
+    /**
+     * Is true if the file info has been overwritten.
+     * @var bool
+     */
+    private $overWritten = false;
 
     /**
      * @var Permalink
@@ -75,7 +83,10 @@ class File implements ProjectFileInterface
      */
     public function getUid()
     {
-        return str_replace('.', '_', $this->getFileInfo()->getRelativePathname());
+        if (is_null($this->uid)){
+            $this->uid = str_replace('.', '_', $this->getFileInfo()->getRelativePathname());
+        }
+        return $this->uid;
     }
 
     /**
@@ -89,6 +100,16 @@ class File implements ProjectFileInterface
     }
 
     /**
+     *
+     * @param SplFileInfo $fileInfo
+     */
+    public function setFileInfo(SplFileInfo $fileInfo)
+    {
+        $this->fileInfo = $fileInfo;
+        $this->overWritten = true;
+    }
+
+    /**
      * Returns the file content, this will be excluding any frontmatter
      * @return string
      * @throws \Exception
@@ -99,6 +120,15 @@ class File implements ProjectFileInterface
             throw new \Exception('The file [' . $this->fileInfo->getRelativePathname() . '] has not been loaded.');
         }
         return $this->content;
+    }
+
+    public function getRenderedContent()
+    {
+        if (!$this->isLoaded()) {
+            throw new \Exception('The file [' . $this->fileInfo->getRelativePathname() . '] has not been loaded.');
+        }
+
+        return 'todo, add rendered content code...';
     }
 
     /**

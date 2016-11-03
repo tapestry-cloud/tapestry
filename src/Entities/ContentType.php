@@ -1,5 +1,9 @@
 <?php namespace Tapestry\Entities;
 
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
+
 class ContentType
 {
     /**
@@ -151,6 +155,15 @@ class ContentType
 
             if ($this->permalink !== '*') {
                 $file->setPermalink(new Permalink($this->permalink));
+            }
+
+            // If we are not a default Content Type
+            $templatePath = $project->sourceDirectory . DIRECTORY_SEPARATOR . '_views' . DIRECTORY_SEPARATOR . $this->template . '.phtml';
+            if ($this->template !== 'default' && file_exists($templatePath)) {
+                $file->setData(['content' => $file->getRenderedContent()]);
+                $file->setFileInfo(new SplFileInfo($templatePath, '_views','_views' . DIRECTORY_SEPARATOR . $this->template . '.phtml'));
+                $file->setContent($file->getFileContent());
+                $file->setDeferred(false);
             }
         }
     }

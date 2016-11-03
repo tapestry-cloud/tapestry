@@ -10,6 +10,7 @@ use Tapestry\Modules\Content\Write;
 use Tapestry\Modules\ContentTypes\LoadContentTypes;
 use Tapestry\Modules\ContentTypes\ParseContentTypes;
 use Tapestry\Modules\Kernel\LoadKernel;
+use Tapestry\Modules\Renderers\IdentifyFileRenderer;
 use Tapestry\Modules\Scripts\After;
 use Tapestry\Modules\Scripts\Before;
 
@@ -37,6 +38,7 @@ class CompileStepsServiceProvider extends AbstractServiceProvider
             Before::class,
             LoadContentTypes::class,
             LoadSourceFiles::class,
+            IdentifyFileRenderer::class,
             ParseContentTypes::class,
             Clear::class,
             Compile::class,
