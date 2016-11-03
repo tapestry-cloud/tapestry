@@ -3,6 +3,7 @@
 use Symfony\Component\Console\Output\OutputInterface;
 use Tapestry\Entities\ContentType;
 use Tapestry\Entities\File;
+use Tapestry\Entities\Generators\FileGenerator;
 use Tapestry\Entities\Project;
 use Tapestry\Step;
 
@@ -17,14 +18,6 @@ class ParseContentTypes implements Step
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
-        // Iterate over each content type and process each file within the project file list. This means we only need to
-        // mutate the File object within the $project['files'] container.
-
-        /** @var ContentType $contentType */
-        //foreach ($project['content_types'] as $contentType) {
-        //
-        //}
-
         //
         // Loop over all project files, those that have a data source via the `use` method should have the relevant
         // content type data source passed to them. Those that have generators associated with them (such as those using
@@ -36,19 +29,41 @@ class ParseContentTypes implements Step
         //
 
         /** @var File $file */
-        foreach ($project['files'] as $file) {
+        foreach ($project['files']->all() as $file) {
             if (!$uses = $file->getData('use')) {
                 continue;
             }
 
             foreach ($uses as $use) {
-                /** @var ContentType $contentType */
-                if (! $contentType = $project['content_types.' . $use]) { continue; }
-                $file->setData([$use . '_items' => $contentType->getFileList()]);
-            }
-        } unset($file);
+                // Is this file using the content type items, or its taxonomy?
+                if (strpos($use, '_') !== false) {
+                    $useParts = explode('_', $use);
+                    $useContentType = array_shift($useParts);
+                    $useTaxonomy = implode('_', $useParts);
 
-        $n =1;
-        // ...
+                    /** @var ContentType $contentType */
+                    if (!$contentType = $project['content_types.' . $useContentType]) {
+                        continue;
+                    }
+                    $file->setData([$use . '_items' => $contentType->getTaxonomy($useTaxonomy)->getFileList()]);
+
+                    // If the file doesn't have a generator set then we need to define one
+                    if (!$fileGenerator = $file->getData('generator')) {
+                        $file->setData(['generator' => ['TaxonomyArchiveGenerator']]);
+                    }
+                } else {
+                    /** @var ContentType $contentType */
+                    if (!$contentType = $project['content_types.' . $use]) {
+                        continue;
+                    }
+                    $file->setData([$use . '_items' => $contentType->getFileList()]);
+                }
+            }
+
+            $project->replaceFile($file, new FileGenerator($file));
+        }
+        unset($file, $uses, $use);
+
+        return true;
     }
 }

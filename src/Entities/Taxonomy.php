@@ -55,5 +55,27 @@ class Taxonomy
         $this->items->set($classification . '.' . $file->getUid(), true);
     }
 
-    // ...
+    /**
+     * Returns an ordered list of the file uid's that have been bucketed into this taxonomy. The list is ordered by
+     * the files date.
+     *
+     * @param string $order
+     * @return array
+     */
+    public function getFileList($order = 'desc')
+    {
+        // Order Files by date newer to older
+        $this->items->sort(function($a, $b) use ($order){
+            if ($a == $b) {
+                return 0;
+            }
+            if ($order === 'asc'){
+                return ($a < $b) ? -1 : 1;
+            }else{
+                return ($a > $b) ? -1 : 1;
+            }
+        });
+
+        return $this->items->all();
+    }
 }
