@@ -87,7 +87,7 @@ class ContentType
 
     public function addFile(File $file)
     {
-        $this->items->push($file->getUid());
+        $this->items->set($file->getUid(), $file->getData('date')->getTimestamp());
 
         foreach ($this->taxonomies as $taxonomy) {
             if ($classifications = $file->getData($taxonomy->getName())) {
@@ -101,5 +101,22 @@ class ContentType
     public function hasFile(File $file)
     {
         return $this->items->has($file->getUid());
+    }
+
+    public function getFileList($order = 'desc')
+    {
+        // Order Files by date newer to older
+        $this->items->sort(function($a, $b) use ($order){
+            if ($a == $b) {
+                return 0;
+            }
+            if ($order === 'asc'){
+                return ($a < $b) ? -1 : 1;
+            }else{
+                return ($a > $b) ? -1 : 1;
+            }
+        });
+
+        return $this->items->all();
     }
 }

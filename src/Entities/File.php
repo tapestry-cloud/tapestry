@@ -1,5 +1,6 @@
 <?php namespace Tapestry\Entities;
 
+use DateTime;
 use Symfony\Component\Finder\SplFileInfo;
 
 class File
@@ -42,11 +43,13 @@ class File
     public function __construct(SplFileInfo $fileInfo)
     {
         $this->fileInfo = $fileInfo;
-        $defaultData = [];
+        $defaultData = [
+            'date' => DateTime::createFromFormat('U', $fileInfo->getMTime())
+        ];
 
         preg_match('/^(\d{4}-\d{2}-\d{2})-(.*)/', $this->fileInfo->getBasename('.'.$this->fileInfo->getExtension()), $matches);
         if (count($matches) === 3) {
-            $defaultData['date'] = new \DateTime($matches[1]);
+            $defaultData['date'] = new DateTime($matches[1]);
             $defaultData['draft'] = false;
             $defaultData['slug'] = $matches[2];
             $defaultData['title'] = ucfirst(str_replace('-', ' ', $defaultData['slug']));
