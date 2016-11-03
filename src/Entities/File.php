@@ -32,6 +32,7 @@ class File implements ProjectFileInterface
      * If a file has been set as deferred it means that it will be picked up by a ContentType generator such as the Blog
      * generator. This is set by the LoadSourceFiles step when a file is considered a template belonging to a content type.
      *
+     * @todo this functionality
      * @var bool
      */
     private $deferred = false;
@@ -55,6 +56,10 @@ class File implements ProjectFileInterface
             $defaultData['title'] = ucfirst(str_replace('-', ' ', $defaultData['slug']));
         }
         $this->setData($defaultData);
+
+        if (substr($this->fileInfo->getRelativePath(), 0, 1) === '_' || substr($this->fileInfo->getFilename(), 0, 1) === '_') {
+            $this->deferred = true;
+        }
     }
 
     /**
