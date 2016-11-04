@@ -34,6 +34,13 @@ return [
         ]
     ],
 
+    'content_renderers' => [
+        \Tapestry\Entities\Renderers\PlatesRenderer::class,
+        \Tapestry\Entities\Renderers\HTMLRenderer::class,
+        \Tapestry\Entities\Renderers\MarkdownRenderer::class,
+        \Tapestry\Entities\Renderers\DefaultRenderer::class
+    ],
+
     /**
      * Paths to ignore and not parse, any path matching those listed here will not be loaded.
      * Note: Must be valid regex.

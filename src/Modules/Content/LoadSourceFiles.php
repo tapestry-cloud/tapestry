@@ -59,6 +59,9 @@ class LoadSourceFiles implements Step
         {
             $file = new File($file);
 
+            // @todo Identify the files renderer
+
+            // @todo only load FrontMatter if the files renderer supports it
             $frontMatter = new FrontMatter($file->getFileContent());
             $file->setData($frontMatter->getData());
             $file->setContent($frontMatter->getContent());
