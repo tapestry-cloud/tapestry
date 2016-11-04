@@ -79,4 +79,23 @@ class Project extends ArrayContainer
         $this->removeFile($oldFile);
         $this->addFile($newFile);
     }
+
+    /**
+     * @param string $name
+     * @param File $file
+     * @return ProjectFileGeneratorInterface
+     */
+    public function getContentGenerator($name, File $file)
+    {
+        return $this->get('content_generators')->get($name, $file);
+    }
+
+    /**
+     * @param string $name
+     * @return ContentType
+     */
+    public function getContentType($name)
+    {
+        return $this->get('content_types.'. $name);
+    }
 }

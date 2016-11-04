@@ -1,14 +1,16 @@
 <?php namespace Tapestry\Entities\Generators;
 
 use Tapestry\Entities\File;
+use Tapestry\Entities\Project;
+use Tapestry\Entities\ProjectFileGeneratorInterface;
 use Tapestry\Entities\ProjectFileInterface;
 
-class FileGenerator implements ProjectFileInterface
+class FileGenerator implements ProjectFileInterface, ProjectFileGeneratorInterface
 {
     /**
      * @var File
      */
-    private $file;
+    protected $file;
 
     /**
      * FileGenerator constructor.
@@ -19,9 +21,18 @@ class FileGenerator implements ProjectFileInterface
         $this->file = $file;
     }
 
-    public function generate()
+    /**
+     * @param Project $project
+     * @return ProjectFileInterface|ProjectFileInterface[]
+     */
+    public function generate(Project $project)
     {
-        $n = 1;
+        if ($generators = $this->file->getData('generator')) {
+            $first = reset($generators);
+            return $project->getContentGenerator($first, $this->file)->generate($project);
+        }else{
+            return $this->file;
+        }
     }
 
     public function __call($name, $arguments)

@@ -41,6 +41,12 @@ return [
         \Tapestry\Entities\Renderers\DefaultRenderer::class
     ],
 
+    'content_generators' => [
+        \Tapestry\Entities\Generators\PaginationGenerator::class,
+        \Tapestry\Entities\Generators\TaxonomyArchiveGenerator::class,
+        \Tapestry\Entities\Generators\TaxonomyIndexGenerator::class
+    ],
+
     /**
      * Paths to ignore and not parse, any path matching those listed here will not be loaded.
      * Note: Must be valid regex.
