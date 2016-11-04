@@ -100,13 +100,15 @@ class ContentTypeFactory
      */
     public function get($path)
     {
-        if ($path !== '*' && !$this->has($path)) {
+        if (! $this->has($path) && ! $this->has('*')) {
             throw new \Exception('There is no collection that collects for the path [' . $path . ']');
         }
-        if (isset($this->items[$this->pathLookupTable[$path]])) {
-            return $this->items[$this->pathLookupTable[$path]];
+
+        if (! $this->has($path) && $this->has('*')){
+            return $this->items[$this->pathLookupTable['*']];
         }
-        return $this->items[$this->pathLookupTable['*']];
+
+        return $this->items[$this->pathLookupTable[$path]];
     }
 
     /**
