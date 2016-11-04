@@ -6,6 +6,7 @@ use Tapestry\Entities\Configuration;
 use Tapestry\Entities\File;
 use Tapestry\Entities\Project;
 use Tapestry\Modules\ContentTypes\ContentTypeFactory;
+use Tapestry\Modules\Renderers\ContentRendererFactory;
 use Tapestry\Step;
 use Tapestry\Tapestry;
 
@@ -46,6 +47,9 @@ class LoadSourceFiles implements Step
         /** @var ContentTypeFactory $contentTypes */
         $contentTypes = $project->get('content_types');
 
+        /** @var ContentRendererFactory $contentRenderers */
+        $contentRenderers = $project->get('content_renderers');
+
         $finder = new Finder();
         $finder->files()
             ->followLinks()
@@ -58,13 +62,13 @@ class LoadSourceFiles implements Step
         foreach($finder->files() as $file)
         {
             $file = new File($file);
+            $renderer = $contentRenderers->get($file->getFileInfo()->getExtension());
 
-            // @todo Identify the files renderer
-
-            // @todo only load FrontMatter if the files renderer supports it
-            $frontMatter = new FrontMatter($file->getFileContent());
-            $file->setData($frontMatter->getData());
-            $file->setContent($frontMatter->getContent());
+            if ($renderer->supportsFrontMatter()) {
+                $frontMatter = new FrontMatter($file->getFileContent());
+                $file->setData($frontMatter->getData());
+                $file->setContent($frontMatter->getContent());
+            }
 
             if (! $contentType = $contentTypes->find($file->getFileInfo()->getRelativePath())){
                 $contentType = $contentTypes->get('*');
