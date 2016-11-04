@@ -1,4 +1,4 @@
-<?php namespace Tapestry\Modules\Renderers;
+<?php namespace Tapestry\Entities\Renderers;
 
 use Tapestry\Entities\File;
 

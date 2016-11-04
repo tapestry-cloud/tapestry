@@ -1,13 +1,13 @@
-<?php namespace Tapestry\Modules\Renderers;
+<?php namespace Tapestry\Entities\Renderers;
 
 use Tapestry\Entities\File;
 
-class DefaultRenderer implements RendererInterface
+class HTMLRenderer implements RendererInterface
 {
     /**
      * @var array File extensions that this renderer supports
      */
-    private $extensions = ['*'];
+    private $extensions = ['htm', 'html'];
 
     /**
      * Returns an array of the extensions that this renderer will support.
@@ -38,7 +38,7 @@ class DefaultRenderer implements RendererInterface
      */
     public function render(File $file)
     {
-        return '';
+        return $file->getContent();
     }
 
     /**
@@ -58,6 +58,6 @@ class DefaultRenderer implements RendererInterface
      */
     public function supportsFrontMatter()
     {
-        return false;
+        return true;
     }
 }
