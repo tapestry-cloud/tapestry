@@ -31,6 +31,12 @@ class File implements ProjectFileInterface
     private $loaded = false;
 
     /**
+     * Has the file been passed through a Renderer?
+     * @var bool
+     */
+    private $rendered = false;
+
+    /**
      * If a file has been set as deferred it means that it will be picked up by a ContentType generator such as the Blog
      * generator. This is set by the LoadSourceFiles step when a file is considered a template belonging to a content type.
      *
@@ -87,6 +93,11 @@ class File implements ProjectFileInterface
             $this->uid = str_replace('.', '_', $this->getFileInfo()->getRelativePathname());
         }
         return $this->uid;
+    }
+
+    public function setUid($uid)
+    {
+        $this->uid = $uid;
     }
 
     /**
@@ -170,6 +181,26 @@ class File implements ProjectFileInterface
     public function isDeferred()
     {
         return $this->deferred;
+    }
+
+    /**
+     * Set by the Compile class when it passes this File through a Renderer
+     *
+     * @param $value
+     */
+    public function setRendered($value)
+    {
+        $this->rendered = boolval($value);
+    }
+
+    /**
+     * Has this File been passed through a Renderer?
+     *
+     * @return bool
+     */
+    public function isRendered()
+    {
+        return $this->rendered;
     }
 
     /**

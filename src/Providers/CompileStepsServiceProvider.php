@@ -8,6 +8,7 @@ use Tapestry\Modules\Content\LoadSourceFiles;
 use Tapestry\Modules\Content\Write;
 use Tapestry\Modules\ContentTypes\LoadContentTypes;
 use Tapestry\Modules\ContentTypes\ParseContentTypes;
+use Tapestry\Modules\Generators\LoadContentGenerators;
 use Tapestry\Modules\Kernel\LoadKernel;
 use Tapestry\Modules\Renderers\LoadContentRenderers;
 use Tapestry\Modules\Scripts\After;
@@ -35,11 +36,12 @@ class CompileStepsServiceProvider extends AbstractServiceProvider
             LoadConfig::class,
             LoadKernel::class,
             Before::class,
+            Clear::class,
             LoadContentTypes::class,
             LoadContentRenderers::class,
+            LoadContentGenerators::class,
             LoadSourceFiles::class,
             ParseContentTypes::class,
-            Clear::class,
             Compile::class,
             Write::class,
             After::class

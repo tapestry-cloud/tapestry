@@ -202,7 +202,6 @@ class ArrayContainer implements ArrayAccess, Iterator
         } else {
             $value = $this->items;
             foreach (explode('.', $key) as $keyPart) {
-
                 if ((! is_array($value) || ! $value instanceof ArrayContainer)) {
                     if (is_object($value) && method_exists($value, 'arrayAccessByKey')) {
                         if ($value = $value->arrayAccessByKey($keyPart)){

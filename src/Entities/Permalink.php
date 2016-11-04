@@ -23,7 +23,12 @@ class Permalink
 
     public function getCompiled(File $file)
     {
+
+        $output = $this->template;
+        $output = str_replace('{ext}', $file->getFileInfo()->getExtension(), $output);
+
+
         $n = 1;
-        return $this->template;
+        return $output;
     }
 }
