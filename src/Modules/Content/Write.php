@@ -35,7 +35,7 @@ class Write implements Step
         foreach ($project['files']->all() as $file) {
             if ($file->isDeferred()){ continue; }
             $output->writeln('[+] Writing File ['. $file->getUid() .'] to path ['. $file->getPermalink() .']');
-            $this->filesystem->dumpFile($project->destinationDirectory . DIRECTORY_SEPARATOR . $file->getFileInfo()->getRelativePathname(), $file->getContent());
+            $this->filesystem->dumpFile($project->destinationDirectory . DIRECTORY_SEPARATOR . $file->getPermalink(), $file->getContent());
         }
     }
 }

@@ -3,6 +3,7 @@
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
+use Tapestry\Modules\Renderers\ContentRendererFactory;
 
 class ContentType
 {
@@ -147,6 +148,10 @@ class ContentType
      */
     public function mutateProjectFiles(Project $project)
     {
+
+        /** @var ContentRendererFactory $contentRenderers */
+        $contentRenderers = $project->get('content_renderers');
+
         foreach ($this->getFileList() as $fileKey) {
             /** @var File $file */
             if (! $file = $project->get('files.' . $fileKey)) {
@@ -160,7 +165,8 @@ class ContentType
             // If we are not a default Content Type
             $templatePath = $project->sourceDirectory . DIRECTORY_SEPARATOR . '_views' . DIRECTORY_SEPARATOR . $this->template . '.phtml';
             if ($this->template !== 'default' && file_exists($templatePath)) {
-                $file->setData(['content' => $file->getRenderedContent()]);
+                $fileRenderer = $contentRenderers->get($file->getExt());
+                $file->setData(['content' => $fileRenderer->render($file)]);
                 $file->setFileInfo(new SplFileInfo($templatePath, '_views','_views' . DIRECTORY_SEPARATOR . $this->template . '.phtml'));
                 $file->setContent($file->getFileContent());
                 $file->setDeferred(false);
