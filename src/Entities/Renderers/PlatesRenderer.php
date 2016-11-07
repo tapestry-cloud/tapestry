@@ -84,4 +84,13 @@ class PlatesRenderer implements RendererInterface
     {
         return true;
     }
+
+    /**
+     * @param File $file
+     * @return void
+     */
+    public function mutateFile(File &$file)
+    {
+        // ...
+    }
 }

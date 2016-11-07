@@ -60,4 +60,13 @@ class DefaultRenderer implements RendererInterface
     {
         return false;
     }
+
+    /**
+     * @param File $file
+     * @return void
+     */
+    public function mutateFile(File &$file)
+    {
+        // ...
+    }
 }

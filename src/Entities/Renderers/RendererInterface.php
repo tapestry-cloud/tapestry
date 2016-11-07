@@ -49,4 +49,13 @@ interface RendererInterface
      * @return bool
      */
     public function supportsFrontMatter();
+
+    /**
+     * A Renderer can mutate an input file so that the Compile class pushes it through to another renderer, this is used
+     * by the HTMLRenderer to pass through a html file that has a template to the PlatesRenderer.
+     *
+     * @param File $file
+     * @return void
+     */
+    public function mutateFile(File &$file);
 }
