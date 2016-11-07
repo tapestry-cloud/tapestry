@@ -26,6 +26,7 @@ if (isset($include)) {
 $tapestry = new \Tapestry\Tapestry();
 $tapestry->register(\Tapestry\Providers\CompileStepsServiceProvider::class);
 $tapestry->register(\Tapestry\Providers\CommandServiceProvider::class);
+$tapestry->register(\Tapestry\Providers\PlatesServiceProvider::class);
 
 /** @var \Symfony\Component\Console\Application $cli */
 $cli = $tapestry[\Tapestry\Console\Application::class];

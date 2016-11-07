@@ -1,8 +1,8 @@
 <?php namespace Tapestry\Entities\Renderers;
 
-use League\Plates\Engine;
 use Tapestry\Entities\File;
 use Tapestry\Entities\Project;
+use Tapestry\Plates\Engine;
 
 class PlatesRenderer implements RendererInterface
 {
@@ -62,14 +62,7 @@ class PlatesRenderer implements RendererInterface
      */
     public function render(File $file)
     {
-        $this->parser->setDirectory($this->project->sourceDirectory);
-        $this->parser->setFileExtension('phtml');
-        return $this->parser->render(
-            $file->getFileInfo()->getRelativePath() .
-            DIRECTORY_SEPARATOR .
-            pathinfo($file->getFileInfo()->getFilename(), PATHINFO_FILENAME),
-            $file->getData()
-        );
+        return $this->parser->renderFile($file, $this->project->currentWorkingDirectory . DIRECTORY_SEPARATOR . '.tmp');
     }
 
     /**
