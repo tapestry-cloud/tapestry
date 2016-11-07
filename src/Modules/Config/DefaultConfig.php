@@ -25,7 +25,7 @@ return [
         'blog' => [
             'path' => '_blog',
             'template' => 'blog',
-            'permalink' => 'blog/%year%/%slug%.html',
+            'permalink' => 'blog/{year}/{slug}.html',
             'enabled' => true,
             'taxonomies' => [
                 'tags',

@@ -71,11 +71,18 @@ class Compile implements Step
         }
 
         foreach ($this->files as &$file) {
-            $fileRenderer = $contentRenderers->get($file->getFileInfo()->getExtension());
+            if ($file->isRendered()) { continue; }
+            $fileRenderer = $contentRenderers->get($file->getExt());
             $file->setContent($fileRenderer->render($file));
+
+            $file->setExt($fileRenderer->getDestinationExtension());
             $file->setRendered(true);
             $file->setDeferred(false);
         }unset($file);
+
+        // @todo loop through all $this->files until all their generators have been executed (leaving the generator array for each file empty)
+        // also with the above ensure that each File can no longer be put through a renderer, for a markdown renderer may produce a phtml file
+        // that then needs to be passed through the plates renderer (because it has a template and that's how I am making templates work because it's simple.)
 
         $project->set('files', new FlatCollection($this->files));
         return true;

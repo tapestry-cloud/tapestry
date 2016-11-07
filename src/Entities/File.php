@@ -13,6 +13,21 @@ class File implements ProjectFileInterface
     private $fileInfo;
 
     /**
+     * @var string
+     */
+    private $filename;
+
+    /**
+     * @var string
+     */
+    private $ext;
+
+    /**
+     * @var string
+     */
+    private $path;
+
+    /**
      * File data, usually found via frontmatter
      * @var array
      */
@@ -35,6 +50,13 @@ class File implements ProjectFileInterface
      * @var bool
      */
     private $rendered = false;
+
+    /**
+     * The file extension that the content renderer outputs to
+     *
+     * @var string
+     */
+    private $renderedExt;
 
     /**
      * If a file has been set as deferred it means that it will be picked up by a ContentType generator such as the Blog
@@ -63,6 +85,11 @@ class File implements ProjectFileInterface
     public function __construct(SplFileInfo $fileInfo)
     {
         $this->fileInfo = $fileInfo;
+
+        $this->filename = pathinfo($fileInfo->getBasename(), PATHINFO_FILENAME);
+        $this->ext = pathinfo($fileInfo->getBasename(), PATHINFO_EXTENSION);
+        $this->path = $fileInfo->getRelativePath();
+
         $defaultData = [
             'date' => DateTime::createFromFormat('U', $fileInfo->getMTime())
         ];
@@ -117,6 +144,9 @@ class File implements ProjectFileInterface
     public function setFileInfo(SplFileInfo $fileInfo)
     {
         $this->fileInfo = $fileInfo;
+        $this->filename = pathinfo($fileInfo->getBasename(), PATHINFO_FILENAME);
+        $this->ext = pathinfo($fileInfo->getBasename(), PATHINFO_EXTENSION);
+        $this->path = $fileInfo->getRelativePath();
         $this->overWritten = true;
     }
 
@@ -133,10 +163,16 @@ class File implements ProjectFileInterface
         return $this->content;
     }
 
+
+    // @todo is this necessary anymore?
     public function getRenderedContent()
     {
         if (!$this->isLoaded()) {
             throw new \Exception('The file [' . $this->fileInfo->getRelativePathname() . '] has not been loaded.');
+        }
+
+        if (!$this->isRendered()) {
+            throw new \Exception('The file [' . $this->fileInfo->getRelativePathname() . '] has not been rendered.');
         }
 
         return 'todo, add rendered content code...';
@@ -239,5 +275,61 @@ class File implements ProjectFileInterface
     public function getFileContent()
     {
         return file_get_contents($this->fileInfo->getPathname());
+    }
+
+    /**
+     * @return string
+     */
+    public function getRenderedExt()
+    {
+        return $this->renderedExt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFilename()
+    {
+        return $this->filename;
+    }
+
+    /**
+     * @param string $filename
+     */
+    public function setFilename($filename)
+    {
+        $this->filename = $filename;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExt()
+    {
+        return $this->ext;
+    }
+
+    /**
+     * @param string $ext
+     */
+    public function setExt($ext)
+    {
+        $this->ext = $ext;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
+     * @param string $path
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
     }
 }
