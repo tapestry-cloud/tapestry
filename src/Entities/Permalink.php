@@ -46,7 +46,6 @@ class Permalink
 
         $output = str_replace('{slug}', $file->getData('slug', strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $file->getData('title', $file->getFilename()))))), $output);
 
-        $n = 1;
         return $output;
     }
 }
