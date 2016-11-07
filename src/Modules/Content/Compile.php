@@ -49,6 +49,12 @@ class Compile implements Step
 
         // By this point the content type collections will be completed and it is safe to assume that we can now loop
         // over each content type and execute the generator on their items
+
+
+        //
+        // Iterate over the file list of all content types and add the files they contain to the local compiled file list
+        // also at this point run any generators that the file may be linked to.
+        //
         /** @var ContentType $contentType */
         foreach ($contentTypes->all() as $contentType) {
             $output->writeln('[+] Compiling content within ['. $contentType->getName() .']');
@@ -70,15 +76,31 @@ class Compile implements Step
             }
         }
 
-        foreach ($this->files as &$file) {
-            if ($file->isRendered()) { continue; }
-            $fileRenderer = $contentRenderers->get($file->getExt());
-            $file->setContent($fileRenderer->render($file));
+        if (! $this->allFilesGenerated()){
+            foreach ($this->files as &$file) {
 
-            $file->setExt($fileRenderer->getDestinationExtension());
-            $file->setRendered(true);
-            $file->setDeferred(false);
-        }unset($file);
+                if ($uses = $file->getData('generator')){
+                    if (count($uses)>0){
+                        $output->writeln('[!] File ['. $file->getUid() .'] has not completed generating');
+                    }
+                }
+            }unset($file);
+        }
+
+        while(! $this->allFilesRendered()) {
+            foreach ($this->files as &$file) {
+                if ($file->isRendered()) {
+                    continue;
+                }
+                $fileRenderer = $contentRenderers->get($file->getExt());
+                $file->setContent($fileRenderer->render($file));
+                $file->setExt($fileRenderer->getDestinationExtension());
+                $file->setRendered(true);
+                $file->setDeferred(false);
+                $fileRenderer->mutateFile($file);
+            }
+            unset($file);
+        }
 
         // @todo loop through all $this->files until all their generators have been executed (leaving the generator array for each file empty)
         // also with the above ensure that each File can no longer be put through a renderer, for a markdown renderer may produce a phtml file
@@ -100,5 +122,31 @@ class Compile implements Step
         }else{
             $this->files[$files->getUid()] = $files;
         }
+    }
+
+    /**
+     * Returns true once all the compiled files have been rendered.
+     *
+     * @return bool
+     */
+    private function allFilesRendered()
+    {
+        foreach ($this->files as $file){
+            if (!$file->isRendered()) { return false; }
+        }
+        return true;
+    }
+
+    private function allFilesGenerated()
+    {
+        foreach ($this->files as $file) {
+            if ($uses = $file->getData('generator')){
+                if (count($uses) > 0) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }

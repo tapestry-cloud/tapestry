@@ -1,0 +1,17 @@
+---
+layout: default
+title: Category Archive
+use:
+    - blog_categories
+generator:
+    - TaxonomyArchiveGenerator
+    - PaginationGenerator
+pagination:
+    provider: blog_categories
+    perPage: 10
+---
+
+<h2>$this->categoryName</h2>
+
+<?php var_dump($this); ?>
+

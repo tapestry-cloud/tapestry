@@ -13,6 +13,11 @@ class FileGenerator implements ProjectFileInterface, ProjectFileGeneratorInterfa
     protected $file;
 
     /**
+     * @var array
+     */
+    private $generatedFiles = [];
+
+    /**
      * FileGenerator constructor.
      * @param File $file
      */
@@ -28,8 +33,17 @@ class FileGenerator implements ProjectFileInterface, ProjectFileGeneratorInterfa
     public function generate(Project $project)
     {
         if ($generators = $this->file->getData('generator')) {
-            $first = reset($generators);
-            return $project->getContentGenerator($first, $this->file)->generate($project);
+            //$first = reset($generators);
+            //return $project->getContentGenerator($first, $this->file)->generate($project);
+
+            $file = $this->file;
+
+            while(count($generators) > 0) {
+                $generator = array_shift($generators);
+                $file = $project->getContentGenerator($generator, $file)->generate($project); //@todo finish this...
+            }
+            return $file;
+
         }else{
             return $this->file;
         }
@@ -41,4 +55,5 @@ class FileGenerator implements ProjectFileInterface, ProjectFileGeneratorInterfa
             return call_user_func_array([$this->file, $name], $arguments);
         }
     }
+
 }
