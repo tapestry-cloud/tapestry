@@ -1,5 +1,6 @@
 <?php namespace Tapestry\Entities\Renderers;
 
+use cebe\markdown\GithubMarkdown;
 use Tapestry\Entities\File;
 
 class MarkdownRenderer implements RendererInterface
@@ -8,6 +9,19 @@ class MarkdownRenderer implements RendererInterface
      * @var array File extensions that this renderer supports
      */
     private $extensions = ['md', 'markdown'];
+    /**
+     * @var GithubMarkdown
+     */
+    private $markdown;
+
+    /**
+     * MarkdownRenderer constructor.
+     * @param GithubMarkdown $markdown
+     */
+    public function __construct(GithubMarkdown $markdown)
+    {
+        $this->markdown = $markdown;
+    }
 
     /**
      * Returns an array of the extensions that this renderer will support.
@@ -38,7 +52,7 @@ class MarkdownRenderer implements RendererInterface
      */
     public function render(File $file)
     {
-        // ... todo
+        return $this->markdown->parse($file->getContent());
     }
 
     /**
