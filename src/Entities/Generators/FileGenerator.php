@@ -13,7 +13,7 @@ class FileGenerator implements ProjectFileInterface, ProjectFileGeneratorInterfa
     protected $file;
 
     /**
-     * @var array
+     * @var array|File[]
      */
     private $generatedFiles = [];
 
@@ -32,18 +32,22 @@ class FileGenerator implements ProjectFileInterface, ProjectFileGeneratorInterfa
      */
     public function generate(Project $project)
     {
+
         if ($generators = $this->file->getData('generator')) {
-            //$first = reset($generators);
-            //return $project->getContentGenerator($first, $this->file)->generate($project);
+            // Kick off the generation with the first generator. Because File generators can either mutate the current File
+            // or generate an array of File's we then continue the generation with a while loop until all generators have been
+            // run resulting in a flat array.
+            $first = reset($generators);
+            $this->mergeGenerated($project->getContentGenerator($first, $this->file)->generate($project));
 
-            $file = $this->file;
-
-            while(count($generators) > 0) {
-                $generator = array_shift($generators);
-                $file = $project->getContentGenerator($generator, $file)->generate($project); //@todo finish this...
+            while ($this->canGenerate()) {
+                foreach ($this->generatedFiles as $file){
+                    if (! $generators = $file->getData('generator')) { continue; }
+                    $first = reset($generators);
+                    $this->mergeGenerated($project->getContentGenerator($first, $file)->generate($project));
+                }
             }
-            return $file;
-
+            return $this->generatedFiles;
         }else{
             return $this->file;
         }
@@ -56,4 +60,30 @@ class FileGenerator implements ProjectFileInterface, ProjectFileGeneratorInterfa
         }
     }
 
+    /**
+     * Identify whether we can continue generating
+     * @return bool
+     */
+    private function canGenerate(){
+        foreach($this->generatedFiles as $file){
+            if ($uses = $file->getData('generator')) {
+                if (count($uses) > 0){ return true; }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Merge the generated files into our local generatedFiles list.
+     * @param File|File[] $generated
+     */
+    private function mergeGenerated($generated) {
+        if (! is_array($generated)){
+            $this->generatedFiles[$generated->getUid()] = $generated;
+        }else{
+            foreach ($generated as $file){
+                $this->mergeGenerated($file);
+            }
+        }
+    }
 }

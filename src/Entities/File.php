@@ -193,9 +193,14 @@ class File implements ProjectFileInterface
         $this->permalink = $permalink;
     }
 
-    public function getPermalink()
+    public function getCompiledPermalink()
     {
         return $this->permalink->getCompiled($this);
+    }
+
+    public function getPermalink()
+    {
+        return $this->permalink;
     }
 
     /**
