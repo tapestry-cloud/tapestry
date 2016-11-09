@@ -98,6 +98,7 @@ class File implements ProjectFileInterface
 
         preg_match('/^(\d{4}-\d{2}-\d{2})-(.*)/', $this->fileInfo->getBasename('.'.$this->fileInfo->getExtension()), $matches);
         if (count($matches) === 3) {
+            // @todo this is not being hit by blog posts... why?
             $defaultData['date'] = new DateTime($matches[1]);
             $defaultData['draft'] = false;
             $defaultData['slug'] = $matches[2];
