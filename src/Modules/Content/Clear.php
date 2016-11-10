@@ -38,6 +38,10 @@ class Clear implements Step
         }
         $this->filesystem->mkdir($tmpPath);
 
+        $output->writeln('[+] Clearing destination folder ['. $project->destinationDirectory .']');
+        if (file_exists($project->destinationDirectory)){
+            $this->filesystem->remove($project->destinationDirectory);
+        }
         return true;
     }
 }
