@@ -52,7 +52,7 @@ class Taxonomy
             $this->items->set($classification, []);
         }
 
-        $this->items->set($classification . '.' . $file->getUid(), true);
+        $this->items->set($classification . '.' . $file->getUid(), $file->getData('date')->getTimestamp());
     }
 
     /**
@@ -65,7 +65,7 @@ class Taxonomy
     public function getFileList($order = 'desc')
     {
         // Order Files by date newer to older
-        $this->items->sort(function($a, $b) use ($order){
+        $this->items->sortMultiDimension(function($a, $b) use ($order){
             if ($a == $b) {
                 return 0;
             }
