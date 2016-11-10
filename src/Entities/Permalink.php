@@ -26,7 +26,14 @@ class Permalink
         return $this->template;
     }
 
-    public function getCompiled(File $file)
+    /**
+     * Returns a compiled permalink path in string form
+     *
+     * @param File $file
+     * @param bool $pretty
+     * @return mixed|string
+     */
+    public function getCompiled(File $file, $pretty = true)
     {
         $output = $this->template;
         $output = str_replace('{ext}', $file->getExt(), $output);
@@ -52,6 +59,10 @@ class Permalink
 
         $output = str_replace('{slug}', $file->getData('slug', $this->sluggify($file->getData('title', $file->getFilename()))), $output);
 
+        if ($pretty === true) {
+            $output = $this->prettify($output);
+        }
+
         return $output;
     }
 
@@ -62,5 +73,24 @@ class Permalink
      */
     private function sluggify($text) {
         return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $text)));
+    }
+
+    /**
+     * Prettify the permalink. This will make /blog/categories.html into /blog/categories/index.html so that the url will
+     * become /blog/categories/ making it "pretty".
+     *
+     * @param string $text
+     * @return string
+     */
+    private function prettify($text) {
+        if (strpos($this->template, '{ext}') !== false || strpos($text, '.') !== false){
+            if (strpos($text, 'index') === false){
+                $parts = explode('.', $text);
+                $text = array_shift($parts);
+                $ext = array_shift($parts);
+                return $text . '/index.' . $ext;
+            }
+        }
+        return $text;
     }
 }
