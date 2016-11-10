@@ -47,9 +47,32 @@ class Compile implements Step
         /** @var ContentRendererFactory $contentRenderers */
         $contentRenderers = $project->get('content_renderers');
 
-        // By this point the content type collections will be completed and it is safe to assume that we can now loop
-        // over each content type and execute the generator on their items
+        //
+        // Where a file has a use statement, we now need to collect the associated use data and inject it
+        //
 
+        /** @var File $file */
+        foreach ($project['files'] as $file) {
+            if (! $uses = $file->getData('use')) { continue; }
+            foreach ($uses as $use){
+                if (! $items = $file->getData($use . '_items')) { continue; }
+
+                array_walk_recursive($items, function($item, $key){
+                    $n = 1;
+                });
+
+                // Is $items a flat array or a 2D array (we only support one or the other at the moment)
+                if (count($items) !== count($items, COUNT_RECURSIVE)) {
+                    // 2D
+                    $p = 1;
+                }else{
+                    // 1D
+                    $m =1;
+                }
+
+                $n = 1;
+            }
+        }
 
         //
         // Iterate over the file list of all content types and add the files they contain to the local compiled file list
