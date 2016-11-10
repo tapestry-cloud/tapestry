@@ -365,4 +365,18 @@ class ArrayContainer implements ArrayAccess, Iterator
         uasort($this->items, $callback);
         return $this;
     }
+
+    /**
+     * A 2D array sort, useful for when you need to sort a two dimensional array
+     *
+     * @param Closure $callback
+     * @return $this
+     */
+    public function sortMultiDimension(Closure $callback)
+    {
+        foreach ($this->items as &$sortable) {
+            uasort($sortable, $callback);
+        }unset($sortable);
+        return $this;
+    }
 }

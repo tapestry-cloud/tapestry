@@ -148,7 +148,6 @@ class ContentType
      */
     public function mutateProjectFiles(Project $project)
     {
-
         /** @var ContentRendererFactory $contentRenderers */
         $contentRenderers = $project->get('content_renderers');
 
