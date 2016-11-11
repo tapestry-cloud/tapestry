@@ -57,20 +57,13 @@ class Compile implements Step
             foreach ($uses as $use){
                 if (! $items = $file->getData($use . '_items')) { continue; }
 
-                array_walk_recursive($items, function($item, $key){
-                    $n = 1;
+                array_walk_recursive($items, function(&$file, $fileKey) use ($project){
+                    if (! $file = $project->get('files.' . $fileKey)) {
+                        $file = null;
+                    }
                 });
 
-                // Is $items a flat array or a 2D array (we only support one or the other at the moment)
-                if (count($items) !== count($items, COUNT_RECURSIVE)) {
-                    // 2D
-                    $p = 1;
-                }else{
-                    // 1D
-                    $m =1;
-                }
-
-                $n = 1;
+                $file->setData([$use . '_items' => $items]);
             }
         }
 
@@ -84,7 +77,7 @@ class Compile implements Step
 
             // Foreach ContentType look up their Files and run the particular Renderer on their $content before updating
             // the Project File.
-            foreach ($contentType->getFileList() as $fileKey) {
+            foreach (array_keys($contentType->getFileList()) as $fileKey) {
                 /** @var File $file */
                 if (! $file = $project->get('files.' . $fileKey)) {
                     continue;
