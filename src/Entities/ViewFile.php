@@ -51,4 +51,14 @@ class ViewFile
     public function getData($key, $default){
         return $this->getFile()->getData($key, $default);
     }
+
+    public function isPaginated()
+    {
+        // ...
+    }
+
+    public function hasPreviousNext()
+    {
+        // ...
+    }
 }
