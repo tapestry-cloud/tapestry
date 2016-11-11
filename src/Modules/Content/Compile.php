@@ -50,7 +50,6 @@ class Compile implements Step
         //
         // Where a file has a use statement, we now need to collect the associated use data and inject it
         //
-
         /** @var File $file */
         foreach ($project['files'] as $file) {
             if (! $uses = $file->getData('use')) { continue; }
