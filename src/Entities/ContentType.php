@@ -138,7 +138,7 @@ class ContentType
             }
         });
 
-        return array_keys($this->items->all());
+        return $this->items->all();
     }
 
     /**
