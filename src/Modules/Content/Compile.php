@@ -73,6 +73,7 @@ class Compile implements Step
         /** @var ContentType $contentType */
         foreach ($contentTypes->all() as $contentType) {
             $output->writeln('[+] Compiling content within ['. $contentType->getName() .']');
+            $project->set('compiled', $this->files);
 
             // Foreach ContentType look up their Files and run the particular Renderer on their $content before updating
             // the Project File.
@@ -88,12 +89,12 @@ class Compile implements Step
                 }else{
                     $this->add($file);
                 }
+                $project->set('compiled', $this->files);
             }
         }
 
         if (! $this->allFilesGenerated()){
             foreach ($this->files as &$file) {
-
                 if ($uses = $file->getData('generator')){
                     if (count($uses)>0){
                         $output->writeln('[!] File ['. $file->getUid() .'] has not completed generating');

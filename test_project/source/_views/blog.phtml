@@ -1,6 +1,6 @@
 ---
 generator:
-    - BlogPageGenerator
+    - CollectionItemGenerator
 ---
 <?php $this->layout('_templates\default', ['title' => $title]) ?>
 
@@ -10,3 +10,5 @@ generator:
     </header>
     <div><?= $content ?></div>
 </article>
+
+<pre><?php var_dump($previous_next); ?></pre>
