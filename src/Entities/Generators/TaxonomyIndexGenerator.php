@@ -4,7 +4,6 @@ use Tapestry\Entities\Project;
 
 class TaxonomyIndexGenerator extends FileGenerator
 {
-
     public function generate(Project $project)
     {
         if (! $uses = $this->file->getData('use')){

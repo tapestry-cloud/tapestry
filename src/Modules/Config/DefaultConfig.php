@@ -44,7 +44,8 @@ return [
     'content_generators' => [
         \Tapestry\Entities\Generators\PaginationGenerator::class,
         \Tapestry\Entities\Generators\TaxonomyArchiveGenerator::class,
-        \Tapestry\Entities\Generators\TaxonomyIndexGenerator::class
+        \Tapestry\Entities\Generators\TaxonomyIndexGenerator::class,
+        Tapestry\Entities\Generators\CollectionItemGenerator::class,
     ],
 
     /**

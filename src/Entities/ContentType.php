@@ -47,9 +47,17 @@ class ContentType
 
     /**
      * Collection of Entities\File that this ContentType has collected
-     * @var Collection
+     * @var FlatCollection
      */
     private $items;
+
+
+    /**
+     * Cached output of getFileList. This is because two items with the same timestamp will end up randomly
+     * swapping places with each other between calls to getFileList as happens with CollectionItemGenerator.
+     * @var null|array
+     */
+    private $itemsOrderCache = null;
 
     /**
      * ContentType constructor.
@@ -94,6 +102,7 @@ class ContentType
 
     public function addFile(File $file)
     {
+        $this->itemsOrderCache = null;
         $this->items->set($file->getUid(), $file->getData('date')->getTimestamp());
 
         foreach ($this->taxonomies as $taxonomy) {
@@ -128,6 +137,9 @@ class ContentType
      */
     public function getFileList($order = 'desc')
     {
+        if (! is_null($this->itemsOrderCache)) {
+            return $this->itemsOrderCache;
+        }
         // Order Files by date newer to older
         $this->items->sort(function($a, $b) use ($order){
             if ($a == $b) {
@@ -140,7 +152,8 @@ class ContentType
             }
         });
 
-        return $this->items->all();
+        $this->itemsOrderCache = $this->items->all();
+        return $this->itemsOrderCache;
     }
 
     /**
@@ -158,6 +171,8 @@ class ContentType
             if (! $file = $project->get('files.' . $fileKey)) {
                 continue;
             }
+
+            $file->setData(['content_type' => $this->name]);
 
             if ($this->permalink !== '*') {
                 $file->setPermalink(new Permalink($this->permalink));
