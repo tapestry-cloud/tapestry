@@ -68,7 +68,7 @@ class ArrayContainer implements ArrayAccess, Iterator
     public function remove($key)
     {
         unset($this->items[$key]);
-        $this->nestedKeyCache = [];
+        unset($this->nestedKeyCache[$key]);
     }
 
     /**
@@ -167,6 +167,10 @@ class ArrayContainer implements ArrayAccess, Iterator
     }
 
     private function setNestedValueByKey($key, $value) {
+
+        // Bust Cache
+        unset($this->nestedKeyCache[$key]);
+
         // Check to see if this is targeting an instance of ArrayContainer and pass the nested value on
         $keyParts = explode('.', $key);
         if($this->get($keyParts[0]) instanceof ArrayContainer && $arrayContainer = $this->get($keyParts[0])){

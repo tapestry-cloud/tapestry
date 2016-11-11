@@ -3,6 +3,8 @@
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
+use Tapestry\Entities\Generators\FileGenerator;
+use Tapestry\Modules\Content\FrontMatter;
 use Tapestry\Modules\Renderers\ContentRendererFactory;
 
 class ContentType
@@ -151,7 +153,7 @@ class ContentType
         /** @var ContentRendererFactory $contentRenderers */
         $contentRenderers = $project->get('content_renderers');
 
-        foreach ($this->getFileList() as $fileKey) {
+        foreach (array_keys($this->getFileList()) as $fileKey) {
             /** @var File $file */
             if (! $file = $project->get('files.' . $fileKey)) {
                 continue;
@@ -167,8 +169,19 @@ class ContentType
                 $fileRenderer = $contentRenderers->get($file->getExt());
                 $file->setData(['content' => $fileRenderer->render($file)]);
                 $file->setFileInfo(new SplFileInfo($templatePath, '_views','_views' . DIRECTORY_SEPARATOR . $this->template . '.phtml'));
-                $file->setContent($file->getFileContent());
+
+                if ($fileRenderer->supportsFrontMatter()) {
+                    $frontMatter = new FrontMatter($file->getFileContent());
+                    $file->setData(array_merge_recursive($file->getData(), $frontMatter->getData()));
+                    $file->setContent($frontMatter->getContent());
+                }else{
+                    $file->setContent($file->getFileContent());
+                }
                 $file->setDeferred(false);
+
+                if ($generator = $file->getData('generator')){
+                    $project->replaceFile($file, new FileGenerator($file));
+                }
             }
         }
     }

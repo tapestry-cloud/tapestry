@@ -32,7 +32,6 @@ class FileGenerator implements ProjectFileInterface, ProjectFileGeneratorInterfa
      */
     public function generate(Project $project)
     {
-
         if ($generators = $this->file->getData('generator')) {
             // Kick off the generation with the first generator. Because File generators can either mutate the current File
             // or generate an array of File's we then continue the generation with a while loop until all generators have been

@@ -50,7 +50,7 @@ class Project extends ArrayContainer
      */
     public function addFile(ProjectFileInterface $file)
     {
-        $this['files'][$file->getUid()] = $file;
+        $this->set('files.' . $file->getUid(), $file);
     }
 
     /**
@@ -59,7 +59,7 @@ class Project extends ArrayContainer
      */
     public function getFile($key)
     {
-        return $this['files'][$key];
+        return $this->get('files.' . $key);
     }
 
     /**
@@ -67,7 +67,7 @@ class Project extends ArrayContainer
      */
     public function removeFile(ProjectFileInterface $file)
     {
-        unset($this['files'][$file->getUid()]);
+        $this->remove('files.'. $file->getUid());
     }
 
     /**
