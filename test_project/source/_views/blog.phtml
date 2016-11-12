@@ -2,7 +2,16 @@
 generator:
     - CollectionItemGenerator
 ---
-<?php $this->layout('_templates\default', ['title' => $title]) ?>
+<?php
+
+/**
+ * @var stdClass $previous_next
+ * @var string $title
+ * @var string $content
+ */
+
+$this->layout('_templates\default', ['title' => $title]);
+?>
 
 <article>
     <header>
@@ -12,3 +21,11 @@ generator:
 </article>
 
 <pre><?php var_dump($previous_next); ?></pre>
+
+<?php if (! is_null($previous_next->previous)){ ?>
+    <a href="<?= $previous_next->previous->getPermalink() ?>">Previous</a>
+<?php } ?>
+
+<?php if (! is_null($previous_next->next)){ ?>
+    <a href="<?= $previous_next->next->getPermalink() ?>">Next</a>
+<?php } ?>
