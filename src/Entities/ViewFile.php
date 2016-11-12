@@ -53,6 +53,11 @@ class ViewFile
         return $this->getFile()->getData($key, $default);
     }
 
+    public function getPermalink()
+    {
+        return $this->getFile()->getCompiledPermalink();
+    }
+
     public function isPaginated()
     {
         if (!$pagination = $this->getData('pagination')) {
