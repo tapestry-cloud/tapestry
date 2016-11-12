@@ -59,6 +59,10 @@ class Permalink
 
         $output = str_replace('{slug}', $file->getData('slug', $this->sluggify($file->getData('title', $file->getFilename()))), $output);
 
+        if (substr($output, 0, 1) !== '/'){
+            $output = '/' . $output;
+        }
+
         if ($pretty === true && $file->getData('pretty_permalinks', true)) {
             return $this->prettify($output);
         }
