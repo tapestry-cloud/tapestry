@@ -7,6 +7,7 @@ use Tapestry\Entities\File;
 use Tapestry\Entities\FlatCollection;
 use Tapestry\Entities\Generators\FileGenerator;
 use Tapestry\Entities\Project;
+use Tapestry\Entities\ViewFile;
 use Tapestry\Modules\ContentTypes\ContentTypeFactory;
 use Tapestry\Modules\Renderers\ContentRendererFactory;
 use Tapestry\Step;
@@ -48,25 +49,6 @@ class Compile implements Step
         $contentRenderers = $project->get('content_renderers');
 
         //
-        // Where a file has a use statement, we now need to collect the associated use data and inject it
-        //
-        /** @var File $file */
-        foreach ($project['files'] as $file) {
-            if (! $uses = $file->getData('use')) { continue; }
-            foreach ($uses as $use){
-                if (! $items = $file->getData($use . '_items')) { continue; }
-
-                array_walk_recursive($items, function(&$file, $fileKey) use ($project){
-                    if (! $file = $project->get('files.' . $fileKey)) {
-                        $file = null;
-                    }
-                });
-
-                $file->setData([$use . '_items' => $items]);
-            }
-        }
-
-        //
         // Iterate over the file list of all content types and add the files they contain to the local compiled file list
         // also at this point run any generators that the file may be linked to.
         //
@@ -90,6 +72,28 @@ class Compile implements Step
                     $this->add($file);
                 }
                 $project->set('compiled', $this->files);
+            }
+        }
+
+        //
+        // Where a file has a use statement, we now need to collect the associated use data and inject it
+        //
+        /** @var File $file */
+        foreach ($project['compiled'] as $file) {
+            if (! $uses = $file->getData('use')) { continue; }
+            foreach ($uses as $use){
+                if (! $items = $file->getData($use . '_items')) { continue; }
+
+                array_walk_recursive($items, function(&$file, $fileKey) use ($project){
+                    /** @var File $compiledFile */
+                    if (! $compiledFile = $project->get('compiled.' . $fileKey)) {
+                        $file = null;
+                    }else{
+                        $file = new ViewFile($project, $compiledFile->getUid());
+                    }
+                });
+
+                $file->setData([$use . '_items' => $items]);
             }
         }
 
@@ -120,7 +124,7 @@ class Compile implements Step
             unset($file);
         }
 
-        $project->set('files', new FlatCollection($this->files));
+        $project->set('compiled', new FlatCollection($this->files));
         return true;
     }
 

@@ -76,7 +76,6 @@ class Taxonomy
             }
         });
 
-        //@todo this and content type need to return similar things... at the moment the uid is the key here and value on content type.
         return $this->items->all();
     }
 }
