@@ -1,5 +1,5 @@
 ---
-template: default
+layout: default
 title: My Website
 use:
     - blog
@@ -8,4 +8,16 @@ use:
 <h1>Tapestry Scaffold</h1>
 <div>Congratulations you have successfully scaffolded your first tapestry site.</div>
 
-<pre><?php var_dump($blog_items); ?></pre>
+<ul>
+<?php
+    /**
+     * @var \Tapestry\Entities\ViewFile[] $blog_items
+     * @var \Tapestry\Entities\ViewFile $item
+     */
+    foreach($blog_items as $item) {
+?>
+    <li><a href="<?= $item->getPermalink() ?>"><?= $item->getData('title') ?></a></li>
+<?php
+    }
+?>
+</ul>

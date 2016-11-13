@@ -7,4 +7,29 @@ use:
 
 <h2>Blog Archive</h2>
 
-<?php var_dump($blog_items); ?>
+<ul>
+    <?php
+
+    $year = 0;
+
+    /**
+     * @var \Tapestry\Entities\ViewFile[] $blog_items
+     * @var \Tapestry\Entities\ViewFile $item
+     */
+    foreach($blog_items as $item) {
+
+        $itemYear = $item->getData('date')->format('Y');
+
+        if ($itemYear != $year){
+            $year = $itemYear;
+        ?>
+        <li><strong><?= $year ?></strong></li>
+        <?php
+        }
+
+        ?>
+        <li><a href="<?= $item->getPermalink() ?>"><?= $item->getData('title') ?></a></li>
+        <?php
+    }
+    ?>
+</ul>

@@ -7,4 +7,10 @@ use:
 
 <h2>Categories</h2>
 
-<?php var_dump($blog_categories_items); ?>
+<ul>
+<?php foreach(array_keys($blog_categories_items) as $item){
+    ?><li><a href="<?= '/blog/categories/' . $item ?>"><?= $item ?></a></li><?php
+}?>
+</ul>
+
+<pre><?php var_dump($blog_categories_items); ?></pre>

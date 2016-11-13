@@ -1,8 +1,10 @@
 <?php namespace Tapestry\Entities\Generators;
 
+use Tapestry\Entities\File;
 use Tapestry\Entities\Pagination;
 use Tapestry\Entities\Permalink;
 use Tapestry\Entities\Project;
+use Tapestry\Entities\ViewFile;
 
 class PaginationGenerator extends FileGenerator
 {
@@ -46,7 +48,7 @@ class PaginationGenerator extends FileGenerator
         foreach (array_chunk($paginationItems, $configuration['perPage'], true) as $pageItems) {
             $pageFile = clone($newFile);
             $currentPage++;
-            $pageFile->setData(['pagination' => new Pagination($pageItems, $totalPages, ($currentPage))]);
+            $pageFile->setData(['pagination' => new Pagination($project, $pageItems, $totalPages, ($currentPage))]);
 
             if ($currentPage > 1) {
                 $pageFile->setUid($pageFile->getUid() . '_page_' . $currentPage);

@@ -1,5 +1,4 @@
 ---
-layout: default
 title: Category Archive
 use:
     - blog_categories
@@ -10,8 +9,19 @@ pagination:
     provider: blog_categories
     perPage: 3
 ---
+<?php $this->layout('_templates\default', ['title' => $title . ' &mdash; Page ' . $pagination->currentPage . ' of ' . $pagination->totalPages]); ?>
 
-<h2>$this->categoryName</h2>
+<h2><?= $taxonomyName ?></h2>
 
-<?php var_dump($pagination); ?>
+<ul>
+    <?php
+    /**
+     * @var \Tapestry\Entities\ViewFile $item
+     */
+    foreach($pagination->getItems() as $item) { ?>
+        <li><a href="<?= $item->getPermalink() ?>"><?= $item->getData('title'); ?></a></li>
+    <?php } ?>
+</ul>
+
+<pre><?php var_dump($pagination->getItems()); ?></pre>
 
