@@ -63,6 +63,10 @@ class Template extends PlatesTemplate
             file_put_contents($tmpPathName, $file->getContent());
 
             $this->data($file->getData());
+            $this->data([
+                'permalink' => $file->getCompiledPermalink(),
+                'raw_permalink' => $file->getPermalink()
+            ]);
 
             extract($this->data);
 

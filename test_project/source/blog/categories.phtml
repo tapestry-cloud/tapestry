@@ -9,7 +9,7 @@ use:
 
 <ul>
 <?php foreach(array_keys($blog_categories_items) as $item){
-    ?><li><a href="<?= '/blog/categories/' . $item ?>"><?= $item ?></a></li><?php
+    ?><li><a href="<?= url('/blog/categories/' . str_slug($item)) ?>"><?= $item ?></a></li><?php
 }?>
 </ul>
 

@@ -71,7 +71,33 @@ class PaginationGenerator extends FileGenerator
             unset($pageFile);
         }
 
+        $totalGenerated = count($generatedFiles);
+        if ($totalGenerated > 1) {
+            /**
+             * @var int $key
+             * @var File $generatedFile
+             */
+            foreach ($generatedFiles as $key => &$generatedFile) {
+                /**
+                 * @var Pagination $pagination
+                 * @var null|File $previous
+                 * @var null|File $next
+                 */
+                $pagination = $generatedFile->getData('pagination');
+
+                $next = (isset($generatedFiles[($key+1)])) ? $generatedFiles[($key+1)] : null;
+                $previous = (isset($generatedFiles[($key-1)])) ? $generatedFiles[($key-1)] : null;
+
+                $pagination->setPreviousNext(
+                    is_null($previous) ? null : $previous->getUid(),
+                    is_null($next) ? null: $next->getUid()
+                );
+
+                $pagination->setPages($generatedFiles);
+            }
+            unset($generatedFile);
+        }
+
         return $generatedFiles;
     }
-
 }
