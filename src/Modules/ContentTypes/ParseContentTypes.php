@@ -46,7 +46,6 @@ class ParseContentTypes implements Step
                         continue;
                     }
                     $file->setData([$use . '_items' => $contentType->getTaxonomy($useTaxonomy)->getFileList()]);
-                    $file->setDeferred(true);
 
                     // If the file doesn't have a generator set then we need to define one
                     if (!$fileGenerator = $file->getData('generator')) {
@@ -58,7 +57,6 @@ class ParseContentTypes implements Step
                     if (!$contentType = $project['content_types.' . $use]) {
                         continue;
                     }
-                    $file->setDeferred(true);
                     $file->setData([$use . '_items' => $contentType->getFileList()]);
                 }
             }

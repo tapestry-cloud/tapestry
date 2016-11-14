@@ -5,6 +5,11 @@ use Symfony\Component\Finder\SplFileInfo;
 
 class File implements ProjectFileInterface
 {
+    /**
+     * Unique Identifier for this File
+     *
+     * @var null|string
+     */
     private $uid = null;
 
     /**
@@ -52,22 +57,6 @@ class File implements ProjectFileInterface
     private $rendered = false;
 
     /**
-     * The file extension that the content renderer outputs to
-     *
-     * @var string
-     */
-    private $renderedExt;
-
-    /**
-     * If a file has been set as deferred it means that it will be picked up by a ContentType generator such as the Blog
-     * generator. This is set by the LoadSourceFiles step when a file is considered a template belonging to a content type.
-     *
-     * @todo this functionality
-     * @var bool
-     */
-    private $deferred = false;
-
-    /**
      * Is true if the file info has been overwritten.
      * @var bool
      */
@@ -96,7 +85,8 @@ class File implements ProjectFileInterface
 
         $this->permalink = new Permalink();
 
-        preg_match('/^(\d{4}-\d{2}-\d{2})-(.*)/', $this->fileInfo->getBasename('.'.$this->fileInfo->getExtension()), $matches);
+        preg_match('/^(\d{4}-\d{2}-\d{2})-(.*)/', $this->fileInfo->getBasename('.' . $this->fileInfo->getExtension()),
+            $matches);
         if (count($matches) === 3) {
             $defaultData['date'] = new DateTime($matches[1]);
             $defaultData['draft'] = false;
@@ -105,7 +95,9 @@ class File implements ProjectFileInterface
         }
         $this->setData($defaultData);
 
-        if (substr($this->fileInfo->getRelativePath(), 0, 1) === '_' || substr($this->fileInfo->getFilename(), 0, 1) === '_') {
+        if (substr($this->fileInfo->getRelativePath(), 0, 1) === '_' || substr($this->fileInfo->getFilename(), 0,
+                1) === '_'
+        ) {
             $this->deferred = true;
         }
     }
@@ -116,12 +108,17 @@ class File implements ProjectFileInterface
      */
     public function getUid()
     {
-        if (is_null($this->uid)){
+        if (is_null($this->uid)) {
             $this->uid = str_replace('.', '_', $this->getFileInfo()->getRelativePathname());
         }
         return $this->uid;
     }
 
+    /**
+     * Set the files uid
+     *
+     * @param string$uid
+     */
     public function setUid($uid)
     {
         $this->uid = $uid;
@@ -163,21 +160,6 @@ class File implements ProjectFileInterface
         return $this->content;
     }
 
-
-    // @todo is this necessary anymore?
-    public function getRenderedContent()
-    {
-        if (!$this->isLoaded()) {
-            throw new \Exception('The file [' . $this->fileInfo->getRelativePathname() . '] has not been loaded.');
-        }
-
-        if (!$this->isRendered()) {
-            throw new \Exception('The file [' . $this->fileInfo->getRelativePathname() . '] has not been rendered.');
-        }
-
-        return 'todo, add rendered content code...';
-    }
-
     /**
      * Set the files content, this should be excluding any frontmatter
      *
@@ -189,14 +171,15 @@ class File implements ProjectFileInterface
         $this->loaded = true;
     }
 
-    public function setPermalink(Permalink $permalink) {
+    public function setPermalink(Permalink $permalink)
+    {
         $this->permalink = $permalink;
     }
 
     public function getCompiledPermalink($pretty = true)
     {
         // If the permalink is defined by the user via front matter then disable the pretty permalinks
-        if (isset($this->data['permalink'])){
+        if (isset($this->data['permalink'])) {
             $pretty = false;
         }
 
@@ -217,16 +200,6 @@ class File implements ProjectFileInterface
     public function isLoaded()
     {
         return $this->loaded;
-    }
-
-    public function setDeferred($value)
-    {
-        $this->deferred = boolval($value);
-    }
-
-    public function isDeferred()
-    {
-        return $this->deferred;
     }
 
     /**
@@ -289,14 +262,6 @@ class File implements ProjectFileInterface
     public function getFileContent()
     {
         return file_get_contents($this->fileInfo->getPathname());
-    }
-
-    /**
-     * @return string
-     */
-    public function getRenderedExt()
-    {
-        return $this->renderedExt;
     }
 
     /**

@@ -116,9 +116,8 @@ class Compile implements Step
                 }
                 $fileRenderer = $contentRenderers->get($file->getExt());
                 $file->setContent($fileRenderer->render($file));
-                $file->setExt($fileRenderer->getDestinationExtension());
+                $file->setExt($fileRenderer->getDestinationExtension($file->getExt()));
                 $file->setRendered(true);
-                $file->setDeferred(false);
                 $fileRenderer->mutateFile($file);
             }
             unset($file);

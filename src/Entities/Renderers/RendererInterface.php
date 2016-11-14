@@ -41,7 +41,7 @@ interface RendererInterface
      *
      * @return string
      */
-    public function getDestinationExtension();
+    public function getDestinationExtension($ext);
 
     /**
      * Does this renderer support frontmatter?
