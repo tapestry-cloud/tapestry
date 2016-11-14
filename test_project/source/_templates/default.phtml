@@ -16,10 +16,11 @@
 <hr>
 
 <ul>
-    <li><a href="/">Home</a></li>
-    <li><a href="/blog">Archive</a></li>
-    <li><a href="/blog/categories">Categories</a></li>
-    <li><a href="/blog/tags">Tags</a></li>
+    <li><a href="<?= $this->url() ?>">Home</a></li>
+    <li><a href="<?= $this->url('/blog') ?>">Archive</a></li>
+    <li><a href="<?= $this->url('/blog/categories') ?>">Categories</a></li>
+    <li><a href="<?= $this->url('/blog/tags') ?>">Tags</a></li>
+    <li><a href="<?= $this->url('/atom.xml') ?>">Feed</a></li>
 </ul>
 
 <hr>
