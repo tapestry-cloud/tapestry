@@ -3,16 +3,22 @@
 class Pagination
 {
     /**
+     * This pages items
+     *
      * @var array
      */
     private $items;
 
     /**
+     * Total pages in pagination
+     *
      * @var int
      */
     public $totalPages;
 
     /**
+     * Current page in pagination
+     *
      * @var int
      */
     public $currentPage;
@@ -22,7 +28,29 @@ class Pagination
      */
     private $project;
 
+    /**
+     * Is the local cache hot?
+     *
+     * @var bool
+     */
     private $loaded = false;
+
+    /**
+     * @var null|string
+     */
+    private $next;
+
+    /**
+     * @var null|string
+     */
+    private $previous;
+
+    /**
+     * Pages in pagination group
+     *
+     * @var array|ViewFile[]
+     */
+    private $pages = [];
 
     /**
      * Pagination constructor.
@@ -55,4 +83,70 @@ class Pagination
         return $this->items;
     }
 
+    /**
+     * @param string $previous
+     * @param string $next
+     */
+    public function setPreviousNext($previous, $next) {
+        $this->previous = $previous;
+        $this->next = $next;
+    }
+
+    /**
+     * Get the next page, or null if we are the last page
+     *
+     * @return null|ViewFile
+     */
+    public function getNext()
+    {
+        return is_null($this->next) ? null : new ViewFile($this->project, $this->next);
+    }
+
+    /**
+     * Get the previous page, or null if we are the first page
+     *
+     * @return null|ViewFile
+     */
+    public function getPrevious()
+    {
+        return is_null($this->previous) ? null : new ViewFile($this->project, $this->previous);
+    }
+
+    /**
+     * Is this the first page in the pagination?
+     *
+     * @return bool
+     */
+    public function isFirst()
+    {
+        return is_null($this->previous);
+    }
+
+    /**
+     * Is this the last page in the pagination?
+     *
+     * @return bool
+     */
+    public function isLast()
+    {
+        return is_null($this->next);
+    }
+
+    /**
+     * @param array|File[] $pages
+     */
+    public function setPages(array $pages = [])
+    {
+        foreach($pages as $file){
+            array_push($this->pages, new ViewFile($this->project, $file->getUid()));
+        }
+    }
+
+    /**
+     * @return array|ViewFile[]
+     */
+    public function getPages()
+    {
+        return $this->pages;
+    }
 }

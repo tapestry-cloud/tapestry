@@ -9,7 +9,13 @@ pagination:
     provider: blog_categories
     perPage: 3
 ---
-<?php $this->layout('_templates\default', ['title' => $title . ' &mdash; Page ' . $pagination->currentPage . ' of ' . $pagination->totalPages]); ?>
+<?php
+/**
+ * @var string $taxonomyName
+ * @var string $title
+ * @var \Tapestry\Entities\Pagination $pagination
+ */
+$this->layout('_templates\default', ['title' => $title . ' &mdash; Page ' . $pagination->currentPage . ' of ' . $pagination->totalPages]); ?>
 
 <h2><?= $taxonomyName ?></h2>
 
@@ -23,5 +29,5 @@ pagination:
     <?php } ?>
 </ul>
 
-<pre><?php var_dump($pagination->getItems()); ?></pre>
+<?php $this->insert('_views/pagination', ['pagination' => $pagination, 'permalink' => $permalink]); ?>
 
