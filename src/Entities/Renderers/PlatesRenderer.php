@@ -70,7 +70,7 @@ class PlatesRenderer implements RendererInterface
      *
      * @return string
      */
-    public function getDestinationExtension()
+    public function getDestinationExtension($ext)
     {
         return 'html';
     }

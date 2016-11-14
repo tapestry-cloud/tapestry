@@ -41,7 +41,6 @@ class Write implements Step
     {
         /** @var File $file */
         foreach ($project['compiled']->all() as $file) {
-            if ($file->isDeferred()){ continue; }
             $outputPath = $file->getCompiledPermalink(boolval($this->configuration->get('pretty_permalinks', true)));
             $output->writeln('[+] Writing File ['. $file->getUid() .'] to path ['. $outputPath .']');
             $this->filesystem->dumpFile($project->destinationDirectory . DIRECTORY_SEPARATOR . $outputPath, $file->getContent());

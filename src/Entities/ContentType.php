@@ -192,7 +192,6 @@ class ContentType
                 }else{
                     $file->setContent($file->getFileContent());
                 }
-                $file->setDeferred(false);
 
                 if ($generator = $file->getData('generator')){
                     $project->replaceFile($file, new FileGenerator($file));
