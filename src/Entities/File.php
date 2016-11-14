@@ -195,6 +195,11 @@ class File implements ProjectFileInterface
 
     public function getCompiledPermalink($pretty = true)
     {
+        // If the permalink is defined by the user via front matter then disable the pretty permalinks
+        if (isset($this->data['permalink'])){
+            $pretty = false;
+        }
+
         return $this->permalink->getCompiled($this, $pretty);
     }
 
@@ -252,6 +257,12 @@ class File implements ProjectFileInterface
     public function setData(array $data)
     {
         $this->data = array_merge($this->data, $data);
+
+        if ($permalink = $this->getData('permalink')) {
+            $this->permalink = new Permalink($permalink);
+        }else{
+            $this->permalink = new Permalink();
+        }
     }
 
     /**
