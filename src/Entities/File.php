@@ -260,8 +260,6 @@ class File implements ProjectFileInterface
 
         if ($permalink = $this->getData('permalink')) {
             $this->permalink = new Permalink($permalink);
-        }else{
-            $this->permalink = new Permalink();
         }
     }
 

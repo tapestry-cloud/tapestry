@@ -58,6 +58,23 @@ class ViewFile
         return $this->getFile()->getCompiledPermalink();
     }
 
+    /**
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        return $this->getData('date');
+    }
+
+    public function getContent()
+    {
+        if ($content = $this->getData('content')) {
+            return $content;
+        }
+
+        return $this->getFile()->getContent();
+    }
+
     public function isPaginated()
     {
         if (!$pagination = $this->getData('pagination')) {

@@ -8,6 +8,7 @@ use Tapestry\Entities\Configuration;
 use Tapestry\Entities\Project;
 use Tapestry\Plates\Engine;
 use Tapestry\Plates\Extensions\Site;
+use Tapestry\Plates\Extensions\Url;
 use Tapestry\Tapestry;
 
 class PlatesServiceProvider extends AbstractServiceProvider
@@ -36,6 +37,7 @@ class PlatesServiceProvider extends AbstractServiceProvider
         $this->getContainer()->share(Engine::class, function () use ($project) {
             $engine = new Engine($project->sourceDirectory, 'phtml');
             $engine->loadExtension($this->getContainer()->get(Site::class));
+            $engine->loadExtension($this->getContainer()->get(Url::class));
             return $engine;
         });
     }

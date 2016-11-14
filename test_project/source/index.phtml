@@ -22,7 +22,7 @@ use:
      */
     foreach($blog_items as $item) {
 ?>
-    <li><a href="<?= $item->getPermalink() ?>"><?= $item->getData('title') ?></a></li>
+    <li><a href="<?= $this->url($item->getPermalink()) ?>"><?= $item->getData('title') ?></a></li>
 <?php
     }
 ?>

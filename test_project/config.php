@@ -6,8 +6,10 @@ return [
      */
     'site' => [
         'title' => 'Tapestry Scaffold',
+        'url' => 'http://localhost:8080',
         'description' => 'Basic site scaffold for the Tapestry static site generator.',
-        'author' => 'Some One <some.one@example.com>'
+        'author' => 'Some One',
+        'email' => 'some.one@example.com'
     ],
 
     /**
