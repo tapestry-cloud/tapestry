@@ -26,9 +26,9 @@ permalink: atom.xml
     foreach(array_slice($blog_items,0, 10) as $item ){ ?>
     <entry>
         <title type="html"><![CDATA[<?= $item->getData('title') ?>]]></title>
-        <link href="<?= $this->url($item->getPermalink()) ?>"/>
+        <link href="<?= $item->getUrl() ?>"/>
         <updated><?= $item->getDate()->format('c') ?></updated>
-        <id><?= $this->url($item->getPermalink()) ?></id>
+        <id><?= $item->getUrl() ?></id>
         <content type="html"><![CDATA[<?= $item->getContent() ?>]]></content>
     </entry>
     <?php } ?>
