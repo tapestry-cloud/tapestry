@@ -8,6 +8,24 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
 </head>
 <body class="text-center">
-<?= $this->section('content') ?>
+
+<header>
+    <h1><?= $this->site('title') ?></h1>
+</header>
+
+<hr>
+
+<ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/blog">Archive</a></li>
+    <li><a href="/blog/categories">Categories</a></li>
+    <li><a href="/blog/tags">Tags</a></li>
+</ul>
+
+<hr>
+
+<main>
+    <?= $this->section('content') ?>
+</main>
 </body>
 </html>

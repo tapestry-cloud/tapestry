@@ -3,10 +3,16 @@ layout: default
 title: My Website
 use:
     - blog
+    - blog_categories
 ---
 
-<h1>Tapestry Scaffold</h1>
-<div>Congratulations you have successfully scaffolded your first tapestry site.</div>
+<p>Congratulations you have successfully scaffolded your first tapestry site.</p>
+
+<ul>
+    <?php foreach(array_keys($blog_categories_items) as $item){
+        ?><li><a href="<?= '/blog/categories/' . $item ?>"><?= $item ?></a></li><?php
+    }?>
+</ul>
 
 <ul>
 <?php
