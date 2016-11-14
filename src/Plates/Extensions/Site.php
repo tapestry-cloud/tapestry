@@ -31,6 +31,6 @@ class Site implements ExtensionInterface
         if ($value = $this->configuration->get($key, $default)) {
             return $value;
         }
-        throw new \Exception('The key [' . $key . '] could not be found in site configuration!');
+        return $default;
     }
 }
