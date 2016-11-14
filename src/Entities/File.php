@@ -68,6 +68,13 @@ class File implements ProjectFileInterface
     private $permalink;
 
     /**
+     * Should this file be copied from source to destination?
+     *
+     * @var bool
+     */
+    private $toCopy = false;
+
+    /**
      * File constructor.
      * @param SplFileInfo $fileInfo
      */
@@ -310,5 +317,21 @@ class File implements ProjectFileInterface
     public function setPath($path)
     {
         $this->path = $path;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isToCopy()
+    {
+        return $this->toCopy;
+    }
+
+    /**
+     * @param boolean $toCopy
+     */
+    public function setToCopy($toCopy)
+    {
+        $this->toCopy = $toCopy;
     }
 }
