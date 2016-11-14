@@ -59,5 +59,4 @@ class Url
 
         return $text;
     }
-
 }

@@ -11,6 +11,8 @@ if (!ini_get('date.timezone')) {
     date_default_timezone_set('UTC');
 }
 
+setlocale(LC_ALL, 'en_US.UTF8');
+
 // Phar includes
 if (isset($include)) {
     require_once $include . '/vendor/autoload.php';
