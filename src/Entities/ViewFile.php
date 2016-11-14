@@ -58,6 +58,11 @@ class ViewFile
         return $this->getFile()->getCompiledPermalink();
     }
 
+    public function getUrl()
+    {
+        return url($this->getPermalink());
+    }
+
     /**
      * @return \DateTime
      */

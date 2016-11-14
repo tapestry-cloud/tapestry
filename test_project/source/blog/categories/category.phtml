@@ -19,7 +19,7 @@ pagination:
      * @var \Tapestry\Entities\ViewFile $item
      */
     foreach($pagination->getItems() as $item) { ?>
-        <li><a href="<?= $item->getPermalink() ?>"><?= $item->getData('title'); ?></a></li>
+        <li><a href="<?= $item->getUrl() ?>"><?= $item->getData('title'); ?></a></li>
     <?php } ?>
 </ul>
 

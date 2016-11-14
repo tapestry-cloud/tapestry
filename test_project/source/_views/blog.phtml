@@ -22,13 +22,12 @@ $this->layout('_templates\default', ['title' => $title]);
 
 <ul>
 <?php if (! is_null($previous_next->previous)){ ?>
-    <li><a href="<?= $previous_next->previous->getPermalink() ?>">Previous</a></li>
+    <li><a href="<?= $previous_next->previous->getUrl() ?>">Previous</a></li>
 <?php } ?>
     <li><a href="/">Home</a></li>
 <?php if (! is_null($previous_next->next)){ ?>
-    <li><a href="<?= $previous_next->next->getPermalink() ?>">Next</a></li>
+    <li><a href="<?= $previous_next->next->getUrl() ?>">Next</a></li>
 <?php } ?>
 </ul>
 
 <pre><?php var_dump($previous_next); ?></pre>
-

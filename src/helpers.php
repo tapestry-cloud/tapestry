@@ -57,3 +57,13 @@ if (!function_exists('starts_with')) {
         return false;
     }
 }
+
+if (!function_exists('url')) {
+
+    function url($uri = '')
+    {
+        /** @var Tapestry\Entities\Url $url */
+        $url = \Tapestry\Tapestry::getInstance()->getContainer()->get(\Tapestry\Entities\Url::class);
+        return $url->parse($uri);
+    }
+}
