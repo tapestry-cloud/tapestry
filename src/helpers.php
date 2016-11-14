@@ -31,7 +31,25 @@ if (!function_exists('str_contains')) {
         return false;
     }
 }
+
+if (!function_exists('str_slug')) {
+    /**
+     * @param $str
+     * @param string $delimiter
+     * @return mixed|string
+     */
+    function str_slug($str, $delimiter = '-')
+    {
+        return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', $delimiter, $str)));
+    }
+}
+
 if (!function_exists('dd')) {
+    /**
+     * Dump and Die
+     *
+     * @param mixed $dump
+     */
     function dd($dump)
     {
         var_dump($dump);
