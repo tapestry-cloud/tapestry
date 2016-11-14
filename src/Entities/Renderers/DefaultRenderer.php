@@ -1,6 +1,7 @@
 <?php namespace Tapestry\Entities\Renderers;
 
 use Tapestry\Entities\File;
+use Tapestry\Entities\Filesystem\FileCopier;
 
 class DefaultRenderer implements RendererInterface
 {
@@ -67,6 +68,6 @@ class DefaultRenderer implements RendererInterface
      */
     public function mutateFile(File &$file)
     {
-        // ...
+        $file->setToCopy(true);
     }
 }

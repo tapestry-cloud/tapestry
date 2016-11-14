@@ -4,6 +4,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Tapestry\Entities\Configuration;
 use Tapestry\Entities\File;
+use Tapestry\Entities\Filesystem\FileCopier;
+use Tapestry\Entities\Filesystem\FileWriter;
 use Tapestry\Entities\Project;
 use Tapestry\Step;
 
@@ -39,11 +41,9 @@ class Write implements Step
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
-        /** @var File $file */
+        /** @var FileCopier|FileWriter $file */
         foreach ($project['compiled']->all() as $file) {
-            $outputPath = $file->getCompiledPermalink(boolval($this->configuration->get('pretty_permalinks', true)));
-            $output->writeln('[+] Writing File ['. $file->getUid() .'] to path ['. $outputPath .']');
-            $this->filesystem->dumpFile($project->destinationDirectory . DIRECTORY_SEPARATOR . $outputPath, $file->getContent());
+            $file->__invoke($this->filesystem, $output);
         }
     }
 }

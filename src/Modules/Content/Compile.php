@@ -4,6 +4,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Tapestry\Entities\ContentType;
 use Tapestry\Entities\File;
+use Tapestry\Entities\Filesystem\FileCopier;
+use Tapestry\Entities\Filesystem\FileWriter;
 use Tapestry\Entities\FlatCollection;
 use Tapestry\Entities\Generators\FileGenerator;
 use Tapestry\Entities\Project;
@@ -109,6 +111,9 @@ class Compile implements Step
             exit(1);
         }
 
+        //
+        // Execute Renderers
+        //
         while(! $this->allFilesRendered()) {
             foreach ($this->files as &$file) {
                 if ($file->isRendered()) {
@@ -122,6 +127,19 @@ class Compile implements Step
             }
             unset($file);
         }
+
+        //
+        // Mutate into FileCopy or FileWrite entities
+        //
+
+        foreach($this->files as &$file){
+
+            if ($file->isToCopy()){
+                $file = new FileCopier(clone($file), $project->destinationDirectory);
+            }else{
+                $file = new FileWriter(clone($file), $project->destinationDirectory);
+            }
+        }unset($file);
 
         $project->set('compiled', new FlatCollection($this->files));
         return true;
