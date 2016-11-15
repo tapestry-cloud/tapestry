@@ -3,13 +3,11 @@
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Tapestry\Entities\Configuration;
-use Tapestry\Entities\File;
-use Tapestry\Entities\Filesystem\FileCopier;
-use Tapestry\Entities\Filesystem\FileWriter;
+use Tapestry\Entities\Filesystem\FilesystemInterface;
 use Tapestry\Entities\Project;
 use Tapestry\Step;
 
-class Write implements Step
+class WriteFiles implements Step
 {
     /**
      * @var Filesystem
@@ -41,7 +39,7 @@ class Write implements Step
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
-        /** @var FileCopier|FileWriter $file */
+        /** @var FilesystemInterface $file */
         foreach ($project['compiled']->all() as $file) {
             $file->__invoke($this->filesystem, $output);
         }
