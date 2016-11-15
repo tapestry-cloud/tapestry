@@ -6,7 +6,7 @@ use Tapestry\Entities\ContentType;
 use Tapestry\Entities\File;
 use Tapestry\Entities\Filesystem\FileCopier;
 use Tapestry\Entities\Filesystem\FileWriter;
-use Tapestry\Entities\FlatCollection;
+use Tapestry\Entities\Collections\FlatCollection;
 use Tapestry\Entities\Generators\FileGenerator;
 use Tapestry\Entities\Project;
 use Tapestry\Entities\ViewFile;
