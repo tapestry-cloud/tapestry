@@ -1,0 +1,35 @@
+---
+use:
+    - blog
+permalink: atom.xml
+---
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="https://www.w3.org/2005/Atom">
+    <title><![CDATA[<?= $this->site('title') ?>]]></title>
+    <link href="<?= $this->url('/atom.xml') ?>" rel="self"/>
+    <link href="<?= $this->url('/') ?>"/>
+    <updated><?= date('c') ?></updated>
+    <id><?= $this->url('/') ?></id>
+    <?php if ($this->site('author', false) || $this->site('email', false)) { ?>
+    <author>
+        <?php if ($author = $this->site('author', null)){ ?>
+        <name><![CDATA[<?= $author ?>]]></name>
+        <?php } ?>
+        <?php if ($email = $this->site('email', null)){ ?>
+        <email><![CDATA[<?= $email ?>]]></email>
+        <?php } ?>
+    </author>
+    <?php } ?>
+    <generator uri="https://tapestry.cloud/">Tapestry</generator>
+    <?php
+        /** @var \Tapestry\Entities\ViewFile $item */
+    foreach(array_slice($blog_items,0, 10) as $item ){ ?>
+    <entry>
+        <title type="html"><![CDATA[<?= $item->getData('title') ?>]]></title>
+        <link href="<?= $item->getUrl() ?>"/>
+        <updated><?= $item->getDate()->format('c') ?></updated>
+        <id><?= $item->getUrl() ?></id>
+        <content type="html"><![CDATA[<?= $item->getContent() ?>]]></content>
+    </entry>
+    <?php } ?>
+</feed>
