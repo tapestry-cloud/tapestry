@@ -53,7 +53,7 @@ return [
      * Note: Must be valid regex.
      */
     'ignore' => [
-        '_templates\/(.*?)'
+        '_assets'
     ],
 
     /**
