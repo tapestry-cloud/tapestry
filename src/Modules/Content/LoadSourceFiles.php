@@ -2,6 +2,7 @@
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
+use Tapestry\Entities\Collections\ExcludedFilesCollection;
 use Tapestry\Entities\Configuration;
 use Tapestry\Entities\File;
 use Tapestry\Entities\Project;
@@ -18,6 +19,9 @@ class LoadSourceFiles implements Step
      */
     private $tapestry;
 
+    /** @var ExcludedFilesCollection */
+    private $excluded;
+
     /**
      * LoadSourceFiles constructor.
      * @param Tapestry $tapestry
@@ -26,6 +30,7 @@ class LoadSourceFiles implements Step
     public function __construct(Tapestry $tapestry, Configuration $configuration)
     {
         $this->tapestry = $tapestry;
+        $this->excluded = new ExcludedFilesCollection($configuration->get('ignore'));
     }
 
     /**
@@ -57,7 +62,7 @@ class LoadSourceFiles implements Step
             ->exclude(['_views','_templates'])
             ->ignoreDotFiles(true);
 
-        // todo add configured exclusions
+        $this->excluded->excludeFromFinder($finder);
 
         foreach($finder->files() as $file)
         {
