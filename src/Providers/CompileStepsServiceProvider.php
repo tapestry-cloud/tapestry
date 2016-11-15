@@ -2,6 +2,7 @@
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use Tapestry\Modules\Config\LoadConfig;
+use Tapestry\Modules\Content\Clean;
 use Tapestry\Modules\Content\Clear;
 use Tapestry\Modules\Content\Compile;
 use Tapestry\Modules\Content\LoadSourceFiles;
@@ -48,6 +49,7 @@ class CompileStepsServiceProvider extends AbstractServiceProvider
             Compile::class,
             WriteFiles::class,
             WriteCache::class,
+            Clean::class,
             After::class
         ];
 

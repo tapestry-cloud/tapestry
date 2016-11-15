@@ -2,6 +2,7 @@
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Tapestry\Entities\Cache;
 use Tapestry\Entities\Project;
 use Tapestry\Step;
 
@@ -30,22 +31,17 @@ class Clear implements Step
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
+        if ($project->get('cmd_options.clear') === true) {
+            $output->writeln('[+] Clearing destination folder [' . $project->destinationDirectory . ']');
+            if (file_exists($project->destinationDirectory)) {
+                $this->filesystem->remove($project->destinationDirectory);
+            }
 
-        //
-        // @todo this should be refactored into two steps, clear and clean. Clean will remove the .tmp folder while clear will remove the destination folder if asked by --clear cli flag
-        //
+            $output->writeln('[+] Clearing cache');
 
-        $tmpPath = $project->currentWorkingDirectory . DIRECTORY_SEPARATOR . '.tmp';
-        $output->writeln('[+] Clearing tmp folder ['. $tmpPath .']');
-
-        if (file_exists($tmpPath)){
-            $this->filesystem->remove($tmpPath);
-        }
-        $this->filesystem->mkdir($tmpPath);
-
-        $output->writeln('[+] Clearing destination folder ['. $project->destinationDirectory .']');
-        if (file_exists($project->destinationDirectory)){
-            $this->filesystem->remove($project->destinationDirectory);
+            /** @var Cache $cache */
+            $cache = $project->get('cache');
+            $cache->reset();
         }
         return true;
     }

@@ -1,5 +1,6 @@
 <?php namespace Tapestry\Console\Commands;
 
+use Symfony\Component\Console\Input\InputOption;
 use Tapestry\Entities\Project;
 use Tapestry\Generator;
 use Tapestry\Tapestry;
@@ -48,6 +49,12 @@ class BuildCommand extends Command
     {
         $this->setName('build')
             ->setDescription('Build Project.');
+
+        $this->getDefinition()->addOptions(
+            [
+                new InputOption('--clear', null, InputOption::VALUE_NONE, 'Clear the destination path and disable caching.'),
+            ]
+        );
     }
 
     protected function fire()
@@ -65,6 +72,9 @@ class BuildCommand extends Command
 
         $generator = new Generator($this->steps, $this->tapestry);
         $project = new Project($this->currentWorkingDirectory, $this->environment);
+
+        $project->set('cmd_options', $this->input->getOptions());
+
         $this->tapestry->getContainer()->add(Project::class, $project);
         $generator->generate($project, $this->output);
         return 0;
