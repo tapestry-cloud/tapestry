@@ -1,5 +1,7 @@
 <?php namespace Tapestry\Entities;
 
+use Tapestry\Entities\Collections\Collection;
+
 class Taxonomy
 {
     /**
