@@ -140,7 +140,7 @@ class Compile implements Step
         foreach($this->files as &$file){
 
             if ($cachedCTime = $cache->getItem($file->getUid())){
-                if ($file->getFileInfo()->getMTime() == $cachedCTime){
+                if ($file->getLastModified() == $cachedCTime){
                     $file = new FileIgnored(clone($file), $project->destinationDirectory);
                     continue;
                 }

@@ -13,6 +13,13 @@ class File implements ProjectFileInterface
     private $uid = null;
 
     /**
+     * Unix timestamp of when the content of this file was last modified
+     *
+     * @var int
+     */
+    private $lastModified;
+
+    /**
      * @var SplFileInfo
      */
     private $fileInfo;
@@ -81,6 +88,8 @@ class File implements ProjectFileInterface
     public function __construct(SplFileInfo $fileInfo)
     {
         $this->fileInfo = $fileInfo;
+
+        $this->setLastModified($this->fileInfo->getMTime());
 
         $this->filename = pathinfo($fileInfo->getBasename(), PATHINFO_FILENAME);
         $this->ext = pathinfo($fileInfo->getBasename(), PATHINFO_EXTENSION);
@@ -152,6 +161,10 @@ class File implements ProjectFileInterface
         $this->ext = pathinfo($fileInfo->getBasename(), PATHINFO_EXTENSION);
         $this->path = $fileInfo->getRelativePath();
         $this->overWritten = true;
+
+        if ($this->getLastModified() < $fileInfo->getMTime()){
+            $this->setLastModified($fileInfo->getMTime());
+        }
     }
 
     /**
@@ -334,4 +347,21 @@ class File implements ProjectFileInterface
     {
         $this->toCopy = $toCopy;
     }
+
+    /**
+     * @return int
+     */
+    public function getLastModified()
+    {
+        return $this->lastModified;
+    }
+
+    /**
+     * @param int $lastModified
+     */
+    public function setLastModified($lastModified)
+    {
+        $this->lastModified = $lastModified;
+    }
+
 }

@@ -25,7 +25,7 @@ class WriteCache implements Step
         /** @var FilesystemInterface $file */
         foreach ($project['compiled']->all() as $file) {
             $f = $file->getFile();
-            $cache->setItem($f->getUid(), $f->getFileInfo()->getMTime());
+            $cache->setItem($f->getUid(), $f->getLastModified());
         }
 
         $cache->save();
