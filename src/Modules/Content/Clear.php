@@ -30,6 +30,11 @@ class Clear implements Step
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
+
+        //
+        // @todo this should be refactored into two steps, clear and clean. Clean will remove the .tmp folder while clear will remove the destination folder if asked by --clear cli flag
+        //
+
         $tmpPath = $project->currentWorkingDirectory . DIRECTORY_SEPARATOR . '.tmp';
         $output->writeln('[+] Clearing tmp folder ['. $tmpPath .']');
 
