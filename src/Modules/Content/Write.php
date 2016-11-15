@@ -45,5 +45,7 @@ class Write implements Step
         foreach ($project['compiled']->all() as $file) {
             $file->__invoke($this->filesystem, $output);
         }
+
+        return true;
     }
 }

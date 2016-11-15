@@ -10,7 +10,7 @@ elixir(function (mix) {
     var port = argv.p || argv.port || 3000;
 
     mix.less('main.less')
-        .exec('tapestry build ' + env, ['./source/*', './source/**/*', '!./source/_assets/**/*'])
+        .exec('php ../bin/tapestry.php build --quiet --env=' + env, ['./source/*', './source/**/*', '!./source/_assets/**/*'])
         .browserSync({
             port: port,
             server: {baseDir: 'build_' + env},

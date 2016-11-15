@@ -67,5 +67,6 @@ class BuildCommand extends Command
         $project = new Project($this->currentWorkingDirectory, $this->environment);
         $this->tapestry->getContainer()->add(Project::class, $project);
         $generator->generate($project, $this->output);
+        return 0;
     }
 }

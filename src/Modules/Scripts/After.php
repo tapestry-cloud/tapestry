@@ -1,5 +1,6 @@
 <?php namespace Tapestry\Modules\Scripts;
 
+use Symfony\Component\Console\Output\OutputInterface;
 use Tapestry\Entities\Project;
 use Tapestry\Step;
 use Tapestry\Tapestry;
@@ -24,9 +25,10 @@ class After implements Step
      * Process the Project at current.
      *
      * @param Project $project
+     * @param OutputInterface $output
      * @return mixed
      */
-    public function __invoke(Project $project)
+    public function __invoke(Project $project, OutputInterface $output)
     {
         $this->tapestry->getEventEmitter()->emit('scripts.after');
         return true;
