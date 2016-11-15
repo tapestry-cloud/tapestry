@@ -2,9 +2,11 @@
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Tapestry\Entities\Cache;
 use Tapestry\Entities\ContentType;
 use Tapestry\Entities\File;
 use Tapestry\Entities\Filesystem\FileCopier;
+use Tapestry\Entities\Filesystem\FileIgnored;
 use Tapestry\Entities\Filesystem\FileWriter;
 use Tapestry\Entities\Collections\FlatCollection;
 use Tapestry\Entities\Generators\FileGenerator;
@@ -49,6 +51,9 @@ class Compile implements Step
 
         /** @var ContentRendererFactory $contentRenderers */
         $contentRenderers = $project->get('content_renderers');
+
+        /** @var Cache $cache */
+        $cache = $project->get('cache');
 
         //
         // Iterate over the file list of all content types and add the files they contain to the local compiled file list
@@ -133,6 +138,13 @@ class Compile implements Step
         //
 
         foreach($this->files as &$file){
+
+            if ($cachedCTime = $cache->getItem($file->getUid())){
+                if ($file->getFileInfo()->getMTime() == $cachedCTime){
+                    $file = new FileIgnored(clone($file), $project->destinationDirectory);
+                    continue;
+                }
+            }
 
             if ($file->isToCopy()){
                 $file = new FileCopier(clone($file), $project->destinationDirectory);

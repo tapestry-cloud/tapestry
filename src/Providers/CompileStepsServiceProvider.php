@@ -5,7 +5,9 @@ use Tapestry\Modules\Config\LoadConfig;
 use Tapestry\Modules\Content\Clear;
 use Tapestry\Modules\Content\Compile;
 use Tapestry\Modules\Content\LoadSourceFiles;
-use Tapestry\Modules\Content\Write;
+use Tapestry\Modules\Content\ReadCache;
+use Tapestry\Modules\Content\WriteCache;
+use Tapestry\Modules\Content\WriteFiles;
 use Tapestry\Modules\ContentTypes\LoadContentTypes;
 use Tapestry\Modules\ContentTypes\ParseContentTypes;
 use Tapestry\Modules\Generators\LoadContentGenerators;
@@ -35,6 +37,7 @@ class CompileStepsServiceProvider extends AbstractServiceProvider
         $steps = [
             LoadConfig::class,
             LoadKernel::class,
+            ReadCache::class,
             Before::class,
             Clear::class,
             LoadContentTypes::class,
@@ -43,7 +46,8 @@ class CompileStepsServiceProvider extends AbstractServiceProvider
             LoadSourceFiles::class,
             ParseContentTypes::class,
             Compile::class,
-            Write::class,
+            WriteFiles::class,
+            WriteCache::class,
             After::class
         ];
 
