@@ -4,8 +4,11 @@
     <meta charset="utf-8">
     <title><?= (isset($title) ? ($title . ' &mdash; ' . $this->site('title')) : $this->site('title')); ?></title>
     <meta title="description" content="<?= (isset($description) ? $description : $this->site('description')); ?>">
+    <link type="text/css" rel="stylesheet" href="" />
+    <link type="image/x-icon" rel="icon" href="<?= $this->url('img/favicon.ico') ?>"/>
     <meta title="author" content="<?= (isset($author) ? $author : $this->site('author')); ?>>">
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="generator" content="tapestry"/>
 </head>
 <body class="text-center">
 
