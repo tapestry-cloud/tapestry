@@ -72,14 +72,19 @@ class InitCommand extends Command
             }
         }
 
+        $sourcePath = __DIR__ . '/../../Scaffold';
+
         /** @var SplFileInfo $file */
-        foreach($this->finder->in(realpath(__DIR__ . '../../../Scaffold')) as $file){
-            $pathName = $this->currentWorkingDirectory . DIRECTORY_SEPARATOR . $file->getRelativePathname();
+        foreach($this->finder->in($sourcePath) as $file){
+            $fromPath = $sourcePath . DIRECTORY_SEPARATOR . $file->getRelativePathname();
+            $toPath = $this->currentWorkingDirectory . DIRECTORY_SEPARATOR . $file->getRelativePathname();
 
             if ($file->isDir()){
-                $this->filesystem->mkdir($pathName);
+                $this->output->writeln('[*] Creating Directory ['. $toPath .']');
+                $this->filesystem->mkdir($toPath);
             }else{
-                $this->filesystem->copy($file->getRealPath(), $pathName);
+                $this->output->writeln('[*] Copying ['. $fromPath .'] to ['. $toPath .']');
+                $this->filesystem->copy($fromPath, $toPath);
             }
         }
 
