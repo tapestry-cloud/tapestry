@@ -1,0 +1,4 @@
+/.tmp/
+/build_local/
+/node_modules/
+/vendor/
