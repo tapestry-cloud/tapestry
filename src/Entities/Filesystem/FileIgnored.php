@@ -4,16 +4,21 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Tapestry\Entities\File;
 
-class FileCopier implements FilesystemInterface
+/**
+ * Class FileIgnored
+ *
+ * Files that are configured to be ignored by Tapestry do not even make it to the compile stage; this class replaces
+ * files that have not changed since the last time Tapestry ran - this is so that Tapestry only writes files that need
+ * writing and doesn't crash browser sync.
+ *
+ * @package Tapestry\Entities\Filesystem
+ */
+class FileIgnored implements FilesystemInterface
 {
     /**
      * @var File
      */
     private $file;
-
-    /**
-     * @var string
-     */
     private $destinationPath;
 
     public function __construct(File $file, $destinationPath)
@@ -32,8 +37,6 @@ class FileCopier implements FilesystemInterface
 
     public function __invoke(Filesystem $filesystem, OutputInterface $output)
     {
-        $outputPath = $this->file->getCompiledPermalink(false);
-        $output->writeln('[+] Copying File ['. $this->file->getUid() .'] to path ['. $outputPath .']');
-        $filesystem->copy($this->file->getFileInfo()->getPathname(), $this->destinationPath . DIRECTORY_SEPARATOR . $outputPath);
+        $output->writeln('[+] Ignoring File ['. $this->file->getUid() .']');
     }
 }
