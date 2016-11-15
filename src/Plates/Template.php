@@ -60,6 +60,11 @@ class Template extends PlatesTemplate
 
         try {
             $tmpPathName = $tmpDirectory . DIRECTORY_SEPARATOR . time() . '-' . sha1($file->getUid()) . '.phtml';
+
+            if (!file_exists($tmpDirectory)){
+                mkdir($tmpDirectory);
+            }
+
             file_put_contents($tmpPathName, $file->getContent());
 
             $this->data($file->getData());
