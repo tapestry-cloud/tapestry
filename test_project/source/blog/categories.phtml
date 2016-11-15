@@ -5,12 +5,16 @@ use:
     - blog_categories
 ---
 
-<h2>Categories</h2>
+<section>
+    <header>
+        <p class="h6 mt4 caps m0">Blog</p>
+        <h1 class="h1 regular m0">Categories</h1>
+        <div class="h6 mono pt1 red border-top">&nbsp;<div>
+    </header>
+</section>
 
 <ul>
 <?php foreach(array_keys($blog_categories_items) as $item){
-    ?><li><a href="<?= url('/blog/categories/' . str_slug($item)) ?>"><?= $item ?></a></li><?php
+    ?><li><a href="<?= url('/blog/categories/' . str_slug($item)) ?>"><?= ucfirst($item) ?></a></li><?php
 }?>
 </ul>
-
-<pre><?php var_dump($blog_categories_items); ?></pre>

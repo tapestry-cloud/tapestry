@@ -3,7 +3,7 @@
  * @var \Tapestry\Entities\Pagination $pagination
  * @var string $permalink
  */ ?>
-<ul>
+<ul class="list-reset list-inline">
     <?php if($previous = $pagination->getPrevious()){ ?>
         <li><a href="<?= $previous->getUrl() ?>">&larr;</a></li>
     <?php } ?>

@@ -1,5 +1,9 @@
 {
   "private": true,
+  "dependencies": {
+    "basscss": "^8.0.3",
+    "normalize.css": "^5.0.0"
+  },
   "devDependencies": {
     "gulp": "^3.8.8",
     "laravel-elixir": "^4.2.0",

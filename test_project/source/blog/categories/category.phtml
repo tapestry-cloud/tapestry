@@ -17,17 +17,28 @@ pagination:
  */
 $this->layout('_templates\default', ['title' => $title . ' &mdash; Page ' . $pagination->currentPage . ' of ' . $pagination->totalPages]); ?>
 
-<h2><?= $taxonomyName ?></h2>
+<section>
+    <header>
+        <p class="h6 mt4 caps m0">Blog Categories</p>
+        <h1 class="h1 regular m0"><?= ucfirst($taxonomyName) ?></h1>
+        <div class="h6 mono pt1 red border-top">&nbsp;<div>
+    </header>
+</section>
 
-<ul>
-    <?php
-    /**
-     * @var \Tapestry\Entities\ViewFile $item
-     */
-    foreach($pagination->getItems() as $item) { ?>
-        <li><a href="<?= $item->getUrl() ?>"><?= $item->getData('title'); ?></a></li>
-    <?php } ?>
-</ul>
 
-<?php $this->insert('_views/pagination', ['pagination' => $pagination, 'permalink' => $permalink]); ?>
+<div class="border-bottom pb3">
+    <ul>
+        <?php
+        /**
+         * @var \Tapestry\Entities\ViewFile $item
+         */
+        foreach($pagination->getItems() as $item) { ?>
+            <li><a href="<?= $item->getUrl() ?>"><?= ucfirst($item->getData('title')); ?></a></li>
+        <?php } ?>
+    </ul>
+</div>
+
+<div class="center">
+    <?php $this->insert('_views/pagination', ['pagination' => $pagination, 'permalink' => $permalink]); ?>
+</div>
 
