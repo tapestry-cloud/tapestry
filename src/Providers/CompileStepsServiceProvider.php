@@ -12,7 +12,7 @@ use Tapestry\Modules\Content\WriteFiles;
 use Tapestry\Modules\ContentTypes\LoadContentTypes;
 use Tapestry\Modules\ContentTypes\ParseContentTypes;
 use Tapestry\Modules\Generators\LoadContentGenerators;
-use Tapestry\Modules\Kernel\LoadKernel;
+use Tapestry\Modules\Kernel\BootKernel;
 use Tapestry\Modules\Renderers\LoadContentRenderers;
 use Tapestry\Modules\Scripts\After;
 use Tapestry\Modules\Scripts\Before;
@@ -36,8 +36,7 @@ class CompileStepsServiceProvider extends AbstractServiceProvider
     public function register()
     {
         $steps = [
-            LoadConfig::class,
-            LoadKernel::class,
+            BootKernel::class,
             ReadCache::class,
             Before::class,
             Clear::class,

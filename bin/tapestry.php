@@ -26,9 +26,13 @@ if (isset($include)) {
 }
 
 $tapestry = new \Tapestry\Tapestry();
+$tapestry->register(\Tapestry\Providers\ProjectConfigurationServiceProvider::class);
+$tapestry->register(\Tapestry\Providers\ProjectKernelServiceProvider::class);
 $tapestry->register(\Tapestry\Providers\CompileStepsServiceProvider::class);
 $tapestry->register(\Tapestry\Providers\CommandServiceProvider::class);
 $tapestry->register(\Tapestry\Providers\PlatesServiceProvider::class);
+
+$k = $tapestry->getContainer()->get(\Tapestry\Modules\Kernel\KernelInterface::class);
 
 /** @var \Symfony\Component\Console\Application $cli */
 $cli = $tapestry[\Tapestry\Console\Application::class];
