@@ -32,7 +32,13 @@ $tapestry->register(\Tapestry\Providers\CompileStepsServiceProvider::class);
 $tapestry->register(\Tapestry\Providers\CommandServiceProvider::class);
 $tapestry->register(\Tapestry\Providers\PlatesServiceProvider::class);
 
-$k = $tapestry->getContainer()->get(\Tapestry\Modules\Kernel\KernelInterface::class);
+/** @var \Tapestry\Entities\Configuration $configuration */
+$configuration = $tapestry->getContainer()->get(\Tapestry\Entities\Configuration::class);
+if ($configuration->has('service_providers')) {
+    foreach ($configuration->get('service_providers') as $serviceProvider){
+        $tapestry->register($serviceProvider);
+    }
+}
 
 /** @var \Symfony\Component\Console\Application $cli */
 $cli = $tapestry[\Tapestry\Console\Application::class];
