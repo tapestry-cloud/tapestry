@@ -4,6 +4,7 @@ use League\Container\ServiceProvider\AbstractServiceProvider;
 use Tapestry\Console\Application;
 use Tapestry\Console\Commands\BuildCommand;
 use Tapestry\Console\Commands\InitCommand;
+use Tapestry\Console\Commands\SelfUpdateCommand;
 use Tapestry\Tapestry;
 
 class CommandServiceProvider extends AbstractServiceProvider
@@ -41,12 +42,19 @@ class CommandServiceProvider extends AbstractServiceProvider
                 $this->getContainer()->get('environment')
             ]);
 
+        $this->getContainer()->add(SelfUpdateCommand::class)
+            ->withArguments([
+                \Symfony\Component\Filesystem\Filesystem::class,
+                \Symfony\Component\Finder\Finder::class,
+            ]);
+
         $this->getContainer()->add(Application::class)
             ->withArguments([
                 Tapestry::class,
                 [
                     $this->getContainer()->get(InitCommand::class),
-                    $this->getContainer()->get(BuildCommand::class)
+                    $this->getContainer()->get(BuildCommand::class),
+                    $this->getContainer()->get(SelfUpdateCommand::class)
                 ]
             ]);
     }
