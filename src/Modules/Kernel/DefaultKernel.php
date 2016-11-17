@@ -18,6 +18,11 @@ class DefaultKernel implements KernelInterface
         $this->tapestry = $tapestry;
     }
 
+    public function register()
+    {
+        // ...
+    }
+
     public function boot()
     {
         // ...
