@@ -27,34 +27,36 @@ class CommandServiceProvider extends AbstractServiceProvider
      */
     public function register()
     {
-        $this->getContainer()->add(InitCommand::class)
+        $container = $this->getContainer();
+
+        $container->add(InitCommand::class)
             ->withArguments([
                 \Symfony\Component\Filesystem\Filesystem::class,
                 \Symfony\Component\Finder\Finder::class,
-                $this->getContainer()->get('currentWorkingDirectory')
+                $container->get('currentWorkingDirectory')
             ]);
 
-        $this->getContainer()->add(BuildCommand::class)
+        $container->add(BuildCommand::class)
             ->withArguments([
                 Tapestry::class,
-                $this->getContainer()->get('Compile.Steps'),
-                $this->getContainer()->get('currentWorkingDirectory'),
-                $this->getContainer()->get('environment')
+                $container->get('Compile.Steps'),
+                $container->get('currentWorkingDirectory'),
+                $container->get('environment')
             ]);
 
-        $this->getContainer()->add(SelfUpdateCommand::class)
+        $container->add(SelfUpdateCommand::class)
             ->withArguments([
                 \Symfony\Component\Filesystem\Filesystem::class,
                 \Symfony\Component\Finder\Finder::class,
             ]);
 
-        $this->getContainer()->add(Application::class)
+        $container->add(Application::class)
             ->withArguments([
                 Tapestry::class,
                 [
-                    $this->getContainer()->get(InitCommand::class),
-                    $this->getContainer()->get(BuildCommand::class),
-                    $this->getContainer()->get(SelfUpdateCommand::class)
+                    $container->get(InitCommand::class),
+                    $container->get(BuildCommand::class),
+                    $container->get(SelfUpdateCommand::class)
                 ]
             ]);
     }

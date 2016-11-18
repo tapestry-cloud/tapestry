@@ -25,14 +25,15 @@ class PlatesServiceProvider extends AbstractServiceProvider
      */
     public function register()
     {
+        $container = $this->getContainer();
 
         /** @var Project $project */
-        $project = $this->getContainer()->get(Project::class);
+        $project = $container->get(Project::class);
 
-        $this->getContainer()->share(Engine::class, function () use ($project) {
+        $this->getContainer()->share(Engine::class, function () use ($project, $container) {
             $engine = new Engine($project->sourceDirectory, 'phtml');
-            $engine->loadExtension($this->getContainer()->get(Site::class));
-            $engine->loadExtension($this->getContainer()->get(Url::class));
+            $engine->loadExtension($container->get(Site::class));
+            $engine->loadExtension($container->get(Url::class));
             return $engine;
         });
     }
