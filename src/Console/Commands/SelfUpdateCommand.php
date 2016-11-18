@@ -71,6 +71,10 @@ class SelfUpdateCommand extends Command
             exit(1);
         }
 
+        if ($this->input->getOption('rollback')){
+            $this->rollback();
+        }
+
         $jsonPathName = $this->scratchDirectoryPath . DIRECTORY_SEPARATOR . 'release.json';
         if (!$this->downloadFile($this->releaseApiUrl, $jsonPathName, ['Accept' => 'application/vnd.github.v3+json'])) {
             $this->panic('There was a problem in downloading the update, please try again.');
@@ -88,6 +92,11 @@ class SelfUpdateCommand extends Command
         $this->replacePhar($releaseJson->assets[0]->browser_download_url);
 
         return 0;
+    }
+
+    private function rollback()
+    {
+
     }
 
     private function backupPhar()
