@@ -1,15 +1,10 @@
 <?php namespace Tapestry\Providers;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
-use Tapestry\Console\Application;
-use Tapestry\Console\Commands\BuildCommand;
-use Tapestry\Console\Commands\InitCommand;
-use Tapestry\Entities\Configuration;
 use Tapestry\Entities\Project;
 use Tapestry\Plates\Engine;
 use Tapestry\Plates\Extensions\Site;
 use Tapestry\Plates\Extensions\Url;
-use Tapestry\Tapestry;
 
 class PlatesServiceProvider extends AbstractServiceProvider
 {
