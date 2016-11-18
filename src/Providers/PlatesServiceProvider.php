@@ -30,7 +30,7 @@ class PlatesServiceProvider extends AbstractServiceProvider
         /** @var Project $project */
         $project = $container->get(Project::class);
 
-        $this->getContainer()->share(Engine::class, function () use ($project, $container) {
+        $container->share(Engine::class, function () use ($project, $container) {
             $engine = new Engine($project->sourceDirectory, 'phtml');
             $engine->loadExtension($container->get(Site::class));
             $engine->loadExtension($container->get(Url::class));
