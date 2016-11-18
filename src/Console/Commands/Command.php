@@ -29,6 +29,12 @@ abstract class Command extends SymfonyCommand
     {
         $this->output->writeln('<error>[!]</error> ' . $string);
     }
+
+    protected function panic($string, $code = 1){
+        $this->error($string);
+        exit($code);
+    }
+
     /**
      * @return int
      */
