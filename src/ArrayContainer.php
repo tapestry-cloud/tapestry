@@ -67,6 +67,7 @@ class ArrayContainer implements ArrayAccess, Iterator
      */
     public function remove($key)
     {
+        // @todo there is a bug here where this does not remove nested keys!
         unset($this->items[$key]);
         unset($this->nestedKeyCache[$key]);
     }
