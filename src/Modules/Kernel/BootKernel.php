@@ -6,7 +6,7 @@ use Tapestry\Entities\Project;
 use Tapestry\Step;
 use Tapestry\Tapestry;
 
-class LoadKernel implements Step
+class BootKernel implements Step
 {
     /**
      * @var Tapestry
@@ -33,20 +33,6 @@ class LoadKernel implements Step
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
-        $kernelPath = $project->currentWorkingDirectory . DIRECTORY_SEPARATOR . 'kernel.php';
-
-        // Should we warn the user if the kernel.php exists but their configuration is malformed?
-        if (file_exists($kernelPath)){
-            include $kernelPath;
-            $this->tapestry->getContainer()->share(KernelInterface::class, $this->configuration->get('kernel', DefaultKernel::class))->withArgument(
-                $this->tapestry->getContainer()->get(Tapestry::class)
-            );
-        }else{
-            $this->tapestry->getContainer()->share(KernelInterface::class, DefaultKernel::class)->withArgument(
-                $this->tapestry->getContainer()->get(Tapestry::class)
-            );
-        }
-
         /** @var KernelInterface $kernel */
         $kernel = $this->tapestry->getContainer()->get(KernelInterface::class);
         $kernel->boot();

@@ -19,8 +19,13 @@ class SiteKernel implements KernelInterface {
         $this->tapestry = $tapestry;
     }
 
+    public function register()
+    {
+        // ...
+    }
+
     public function boot()
     {
-        // TODO: Implement boot() method.
+        // ...
     }
 }
