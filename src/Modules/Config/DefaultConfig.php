@@ -18,6 +18,11 @@ return [
     'pretty_permalinks' => true,
 
     /**
+     * Enable / Disable the publishing of files with `draft: true` in their front matter
+     */
+    'publish_drafts' => false,
+
+    /**
      * Tapestry Content Types
      * @todo write Collections and Generators that use the below
      */
