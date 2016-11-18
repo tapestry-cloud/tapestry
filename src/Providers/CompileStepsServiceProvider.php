@@ -1,7 +1,6 @@
 <?php namespace Tapestry\Providers;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
-use Tapestry\Modules\Config\LoadConfig;
 use Tapestry\Modules\Content\Clean;
 use Tapestry\Modules\Content\Clear;
 use Tapestry\Modules\Content\Compile;
