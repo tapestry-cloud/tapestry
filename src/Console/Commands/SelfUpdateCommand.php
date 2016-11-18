@@ -1,10 +1,11 @@
 <?php namespace Tapestry\Console\Commands;
 
-use Symfony\Component\Console\Input\InputArgument;
+use Composer\Semver\Comparator;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
+use Tapestry\Tapestry;
+use ZipArchive;
 
 class SelfUpdateCommand extends Command
 {
@@ -23,6 +24,12 @@ class SelfUpdateCommand extends Command
      */
     private $releaseApiUrl = 'https://api.github.com/repos/carbontwelve/tapestry/releases/latest';
 
+    private $currentPharFileName;
+
+    private $scratchDirectoryPath;
+
+    private $pharExists = false;
+
     /**
      * InitCommand constructor.
      * @param Filesystem $filesystem
@@ -33,6 +40,13 @@ class SelfUpdateCommand extends Command
         parent::__construct();
         $this->filesystem = $filesystem;
         $this->finder = $finder;
+        $this->currentPharFileName = realpath($_SERVER['argv'][0]) ?: $_SERVER['argv'][0];
+        $this->scratchDirectoryPath = dirname($this->currentPharFileName) . DIRECTORY_SEPARATOR . 'tmp';
+        $this->pharExists = (pathinfo($this->currentPharFileName, PATHINFO_EXTENSION) === 'phar');
+
+        if (!$filesystem->exists($this->scratchDirectoryPath)){
+            $filesystem->mkdir($this->scratchDirectoryPath);
+        }
     }
 
     /**
@@ -44,6 +58,7 @@ class SelfUpdateCommand extends Command
             ->setDescription('Update your installed version of Tapestry.')
             ->setDefinition([
                 new InputOption('test', 't', InputOption::VALUE_NONE, 'Test functionality outside of phar'),
+                new InputOption('force', 'f', InputOption::VALUE_NONE, 'Force update even if you have the latest version'),
                 new InputOption('rollback', 'r', InputOption::VALUE_NONE, 'Revert to an older installation of tapestry'),
                 new InputOption('clean-backups', null, InputOption::VALUE_NONE, 'Delete old backups during an update. This makes the current version of tapestry the only backup available after the update'),
             ]);
@@ -51,40 +66,77 @@ class SelfUpdateCommand extends Command
 
     protected function fire()
     {
-        $localFilename = realpath($_SERVER['argv'][0]) ?: $_SERVER['argv'][0];
-        if (!$this->input->getOption('test') && pathinfo($localFilename, PATHINFO_EXTENSION) !== 'phar'){
+        if (!$this->input->getOption('test') && $this->pharExists === false){
             $this->output->writeln('[!] Self-Update only works on phar archives.');
             exit(1);
         }
 
-        $tempDirectory = dirname($localFilename) . DIRECTORY_SEPARATOR . 'tmp';
-        $tempFilename = dirname($localFilename) . DIRECTORY_SEPARATOR . basename($localFilename, '.phar').'-temp.phar';
-
-        if (!file_exists($tempDirectory)){
-            mkdir($tempDirectory);
+        $jsonPathName = $this->scratchDirectoryPath . DIRECTORY_SEPARATOR . 'release.json';
+        if (!$this->downloadFile($this->releaseApiUrl, $jsonPathName, ['Accept' => 'application/vnd.github.v3+json'])) {
+            $this->panic('There was a problem in downloading the update, please try again.');
         }
 
-        $jsonPathName = $tempDirectory . DIRECTORY_SEPARATOR . 'release.json';
-        $this->downloadFile($this->releaseApiUrl, $jsonPathName);
-
         $releaseJson = json_decode(file_get_contents($jsonPathName));
-
         $latestVersion = $releaseJson->tag_name;
-        $latestVersionDownloadUrl = $releaseJson->assets[0]->browser_download_url;
 
-        dd($releaseJson);
+        if ($this->input->getOption('force') === false && Comparator::greaterThanOrEqualTo(Tapestry::VERSION, $latestVersion)){
+            $this->output->writeln('You already have the latest version of Tapestry ['. Tapestry::VERSION .']. Doing nothing and exiting.');
+            exit();
+        }
+
+        $this->backupPhar();
+        $this->replacePhar($releaseJson->assets[0]->browser_download_url);
+
         return 0;
     }
 
-    private function downloadFile($url, $filepath){
+    private function backupPhar()
+    {
+        if ($this->input->getOption('test') === true && $this->pharExists === false){
+            $this->output->writeln('[*] Pretending to Backup Phar');
+            return;
+        }elseif($this->input->getOption('test') === false && $this->pharExists === false){
+            $this->panic('Phar Archive Not Found!');
+        }
+
+        $this->output->writeln('[*] Making Backup Phar');
+        $tempFilename = dirname($this->currentPharFileName) . DIRECTORY_SEPARATOR . basename($this->currentPharFileName, '.phar').'-temp.phar';
+        $this->filesystem->copy($this->currentPharFileName, $tempFilename);
+    }
+
+    private function replacePhar($latestVersionDownloadUrl)
+    {
+        $this->output->writeln('[*] Downloading Update');
+        $downloadToPath = $this->scratchDirectoryPath . DIRECTORY_SEPARATOR . pathinfo($latestVersionDownloadUrl, PATHINFO_BASENAME);
+        if (!$this->downloadFile($latestVersionDownloadUrl, $downloadToPath)){
+            $this->panic('There was a problem in downloading the update, please try again.');
+        }
+
+        $this->output->writeln('[*] Unpacking Update');
+        $this->unzip($downloadToPath, dirname($this->currentPharFileName));
+    }
+
+    private function unzip($from, $to){
+        $zip = new ZipArchive;
+        $res = $zip->open($from);
+        if ($res === true) {
+            $zip->extractTo($to);
+            $zip->close();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private function downloadFile($url, $filepath, $accept = null){
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Tapestry CLI Update');
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Accept' => 'application/vnd.github.v3+json'
-        ]);
+        if (! is_null($accept)) {
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $accept);
+        }
         $raw_file_data = curl_exec($ch);
         $responseCode = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
 
