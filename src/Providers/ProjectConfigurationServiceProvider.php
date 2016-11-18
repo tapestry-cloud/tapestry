@@ -38,7 +38,11 @@ class ProjectConfigurationServiceProvider extends AbstractServiceProvider
         $configuration = new Configuration(include(__DIR__ . '/../../src/Modules/Config/DefaultConfig.php'));
 
         $configPath = $tapestry['currentWorkingDirectory'] . DIRECTORY_SEPARATOR . 'config.php';
+        if (file_exists($configPath)){
+            $configuration->merge(include($configPath));
+        }
 
+        $configPath = $tapestry['currentWorkingDirectory'] . DIRECTORY_SEPARATOR . 'config-'. $tapestry['environment'] .'.php';
         if (file_exists($configPath)){
             $configuration->merge(include($configPath));
         }
