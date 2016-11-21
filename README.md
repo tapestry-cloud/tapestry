@@ -1,4 +1,6 @@
 # Tapestry
+[![StyleCI](https://styleci.io/repos/73839963/shield?branch=master)](https://styleci.io/repos/73839963)
+
 Simple static sites with the league of extraordinary packages [plates](http://platesphp.com/) template system.
 
 ## Installing
