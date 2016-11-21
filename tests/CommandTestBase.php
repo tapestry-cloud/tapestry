@@ -2,8 +2,7 @@
 
 use Symfony\Component\Console\Tester\ApplicationTester;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Finder\Finder;
-use \Tapestry\Console\Application;
+use Tapestry\Console\Application;
 
 abstract class CommandTestBase extends \PHPUnit_Framework_TestCase
 {
@@ -37,7 +36,7 @@ abstract class CommandTestBase extends \PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
-        self::$fileSystem->remove(self::$tmpPath);
+        //self::$fileSystem->remove(self::$tmpPath);
     }
 
     /**
@@ -45,7 +44,7 @@ abstract class CommandTestBase extends \PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-        //$directoryContent = new \RecursiveDirectoryIterator(self::$tmpPath, \FilesystemIterator::SKIP_DOTS);
+        $directoryContent = new \RecursiveDirectoryIterator(self::$tmpPath, \FilesystemIterator::SKIP_DOTS);
         $files = new \RecursiveIteratorIterator($directoryContent, \RecursiveIteratorIterator::CHILD_FIRST);
         foreach($files as $file) {
             $file->isDir() ?  rmdir($file) : unlink($file);
@@ -67,14 +66,16 @@ abstract class CommandTestBase extends \PHPUnit_Framework_TestCase
 
     protected function copyDirectory($from, $to)
     {
-        // @todo implement this...
-        //foreach (self::$fileSystem->listContents($from, true) as $item) {
-        //    if ($item['type'] === 'file') {
-        //        self::$fileSystem->copy($item['path'], str_replace($from, $to, $item['path']));
-        //    } else {
-        //        self::$fileSystem->createDir(str_replace($from, $to, $item['path']));
-        //    }
-        //}
+        $directoryContent = new \RecursiveDirectoryIterator($from, \FilesystemIterator::SKIP_DOTS);
+        $files = new \RecursiveIteratorIterator($directoryContent, \RecursiveIteratorIterator::CHILD_FIRST);
+        /** @var \SplFileInfo $item */
+        foreach($files as $item) {
+            if ($item->isDir()){
+                self::$fileSystem->mkdir(str_replace($from, $to, $item->getPath()));
+            }else{
+                self::$fileSystem->copy($item->getPathname(), str_replace($from, $to, $item->getPathname()));
+            }
+        }
     }
     /**
      * Asserts that the contents of one file is equal to the contents of another
