@@ -66,6 +66,8 @@ abstract class CommandTestBase extends \PHPUnit_Framework_TestCase
 
     protected function copyDirectory($from, $to)
     {
+        $from = __DIR__ . DIRECTORY_SEPARATOR . $from;
+        $to = __DIR__ . DIRECTORY_SEPARATOR . $to;
         $directoryContent = new \RecursiveDirectoryIterator($from, \FilesystemIterator::SKIP_DOTS);
         $files = new \RecursiveIteratorIterator($directoryContent, \RecursiveIteratorIterator::CHILD_FIRST);
         /** @var \SplFileInfo $item */

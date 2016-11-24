@@ -12,7 +12,7 @@ class BuildCommandTest extends CommandTestBase
 
     public function testDefaultInit()
     {
-        $this->copyDirectory(__DIR__.'/assets/build_test_1/src', __DIR__. '/_tmp');
+        $this->copyDirectory('/assets/build_test_1/src', '/_tmp');
 
         $output = $this->runCommand('build', ['--quiet']);
 
@@ -42,9 +42,9 @@ class BuildCommandTest extends CommandTestBase
     {
         $this->copyDirectory('assets/build_test_2/src', '_tmp');
 
-        $output = $this->runCommand('build');
+        $output = $this->runCommand('build', ['--quiet']);
 
-        $this->assertEquals('Site successfully built.', trim($output->getDisplay()));
+        $this->assertEquals('', trim($output->getDisplay()));
         $this->assertEquals(0, $output->getStatusCode());
 
         $this->assertFileEquals(
