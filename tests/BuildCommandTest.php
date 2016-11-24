@@ -55,36 +55,36 @@ class BuildCommandTest extends CommandTestBase
         );
     }
 
-    //public function testPrettyPermalinksParsed()
-    //{
-    //    $this->copyDirectory('assets/build_test_3/src', '_tmp');
-//
-    //    $output = $this->runCommand('build');
-//
-    //    $this->assertEquals('Site successfully built.', trim($output->getDisplay()));
-    //    $this->assertEquals(0, $output->getStatusCode());
-//
-    //    $this->assertFileEquals(
-    //        __DIR__ . '/assets/build_test_3/check/index.html',
-    //        __DIR__ . '/_tmp/build_local/index.html',
-    //        '',
-    //        true
-    //    );
-//
-    //    $this->assertFileEquals(
-    //        __DIR__ . '/assets/build_test_3/check/about.html',
-    //        __DIR__ . '/_tmp/build_local/about/index.html',
-    //        '',
-    //        true
-    //    );
-//
-    //    $this->assertFileEquals(
-    //        __DIR__ . '/assets/build_test_3/check/not-pretty.html',
-    //        __DIR__ . '/_tmp/build_local/not-pretty.html',
-    //        '',
-    //        true
-    //    );
-    //}
+    public function testPrettyPermalinksParsed()
+    {
+        $this->copyDirectory('assets/build_test_3/src', '_tmp');
+
+        $output = $this->runCommand('build', ['--quiet']);
+
+        $this->assertEquals('', trim($output->getDisplay()));
+        $this->assertEquals(0, $output->getStatusCode());
+
+        $this->assertFileEquals(
+            __DIR__ . '/assets/build_test_3/check/index.html',
+            __DIR__ . '/_tmp/build_local/index.html',
+            '',
+            true
+        );
+
+        $this->assertFileEquals(
+            __DIR__ . '/assets/build_test_3/check/about.html',
+            __DIR__ . '/_tmp/build_local/about/index.html',
+            '',
+            true
+        );
+
+        $this->assertFileEquals(
+            __DIR__ . '/assets/build_test_3/check/not-pretty.html',
+            __DIR__ . '/_tmp/build_local/not-pretty.html',
+            '',
+            true
+        );
+    }
 //
     //public function testFilterFunctionality()
     //{
