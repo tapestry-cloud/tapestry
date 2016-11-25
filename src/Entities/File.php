@@ -85,7 +85,7 @@ class File implements ProjectFileInterface
      * File constructor.
      * @param SplFileInfo $fileInfo
      */
-    public function __construct(SplFileInfo $fileInfo)
+    public function __construct(SplFileInfo $fileInfo, array $data = [])
     {
         $this->fileInfo = $fileInfo;
 
@@ -95,9 +95,10 @@ class File implements ProjectFileInterface
         $this->ext = pathinfo($fileInfo->getBasename(), PATHINFO_EXTENSION);
         $this->path = $fileInfo->getRelativePath();
 
-        $defaultData = [
-            'date' => DateTime::createFromFormat('U', $fileInfo->getMTime())
-        ];
+        $defaultData = array_merge_recursive([
+            'date' => DateTime::createFromFormat('U', $fileInfo->getMTime()),
+            'pretty_permalink' => true
+        ], $data);
 
         $this->permalink = new Permalink();
 
