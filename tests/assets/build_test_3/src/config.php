@@ -1,4 +1,4 @@
 <?php
 return [
-    'pretty_permalinks' => true
+    'pretty_permalink' => true
 ];
