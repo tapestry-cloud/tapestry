@@ -95,7 +95,7 @@ class File implements ProjectFileInterface
         $this->ext = pathinfo($fileInfo->getBasename(), PATHINFO_EXTENSION);
         $this->path = $fileInfo->getRelativePath();
 
-        $defaultData = array_merge_recursive([
+        $defaultData = array_merge([
             'date' => DateTime::createFromFormat('U', $fileInfo->getMTime()),
             'pretty_permalink' => true
         ], $data);

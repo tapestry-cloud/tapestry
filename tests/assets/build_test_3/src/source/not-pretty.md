@@ -1,4 +1,4 @@
 ---
-    pretty_permalink: false
+pretty_permalink: false
 ---
 # Not Pretty
