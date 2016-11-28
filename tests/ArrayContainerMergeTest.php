@@ -69,4 +69,20 @@ class ArrayContainerMergeTest extends CommandTestBase
         $this->assertEquals('hello', $configuration->get('d'));
         $this->assertEquals('Test', $configuration->get('e'));
     }
+
+    public function testMultiDimensionMerge()
+    {
+        // ...
+    }
+
+    public function testMultiDimensionSet()
+    {
+        // @todo should the set method be called push? The push method exists but it is never used accoring to coverage...
+        // ...
+    }
+
+    public function testMultiDimensionRemove()
+    {
+
+    }
 }
