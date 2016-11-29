@@ -52,11 +52,11 @@ class ProjectKernelServiceProvider extends AbstractServiceProvider implements Bo
 
             $kernelClassName = $configuration->get('kernel', DefaultKernel::class);
 
-            if (! class_exists($kernelClassName)){
-                throw new Exception('['. $kernelClassName .'] kernel file not found.');
+            if (!class_exists($kernelClassName)) {
+                throw new Exception('[' . $kernelClassName . '] kernel file not found.');
             }
 
-            $container->share(KernelInterface::class,$kernelClassName)->withArgument(
+            $container->share(KernelInterface::class, $kernelClassName)->withArgument(
                 $container->get(Tapestry::class)
             );
         } else {

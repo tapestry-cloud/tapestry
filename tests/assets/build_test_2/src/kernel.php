@@ -5,7 +5,7 @@ namespace SiteTwo;
 use Tapestry\Modules\Kernel\DefaultKernel;
 use Tapestry\Modules\Kernel\KernelInterface;
 
-class Kernel extends DefaultKernel implements KernelInterface
+class TestKernel extends DefaultKernel implements KernelInterface
 {
     /**
      * This method is executed by Tapestry when the Kernel is registered.

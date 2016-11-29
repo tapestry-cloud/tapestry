@@ -2,6 +2,6 @@
 
 return [
     'debug'            => false,
-    'kernel'           => \SiteTwo\Kernel::class,
+    'kernel'           => \SiteTwo\TestKernel::class,
     'pretty_permalink' => false,
 ];
