@@ -1,7 +1,8 @@
-<?php namespace Tapestry\Entities\Renderers;
+<?php
+
+namespace Tapestry\Entities\Renderers;
 
 use Tapestry\Entities\File;
-use Tapestry\Entities\Filesystem\FileCopier;
 
 class DefaultRenderer implements RendererInterface
 {
@@ -21,9 +22,10 @@ class DefaultRenderer implements RendererInterface
     }
 
     /**
-     * Returns true if the renderer can render the given extension
+     * Returns true if the renderer can render the given extension.
      *
      * @param string $extension
+     *
      * @return bool
      */
     public function canRender($extension)
@@ -32,9 +34,10 @@ class DefaultRenderer implements RendererInterface
     }
 
     /**
-     * Render the input file content and return the output
+     * Render the input file content and return the output.
      *
      * @param File $file
+     *
      * @return string
      */
     public function render(File $file)
@@ -43,7 +46,7 @@ class DefaultRenderer implements RendererInterface
     }
 
     /**
-     * Returns the extension that the rendered output conforms to
+     * Returns the extension that the rendered output conforms to.
      *
      * @return string
      */
@@ -64,6 +67,7 @@ class DefaultRenderer implements RendererInterface
 
     /**
      * @param File $file
+     *
      * @return void
      */
     public function mutateFile(File &$file)

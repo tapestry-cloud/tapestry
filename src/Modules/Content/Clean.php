@@ -1,4 +1,6 @@
-<?php namespace Tapestry\Modules\Content;
+<?php
+
+namespace Tapestry\Modules\Content;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -14,6 +16,7 @@ class Clean implements Step
 
     /**
      * Clear constructor.
+     *
      * @param Filesystem $filesystem
      */
     public function __construct(Filesystem $filesystem)
@@ -24,9 +27,10 @@ class Clean implements Step
     /**
      * Process the Project at current.
      *
-     * @param Project $project
+     * @param Project         $project
      * @param OutputInterface $output
-     * @return boolean
+     *
+     * @return bool
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
@@ -35,10 +39,10 @@ class Clean implements Step
         // @todo this should be refactored into two steps, clear and clean. Clean will remove the .tmp folder while clear will remove the destination folder if asked by --clear cli flag
         //
 
-        $tmpPath = $project->currentWorkingDirectory . DIRECTORY_SEPARATOR . '.tmp';
-        $output->writeln('[+] Clearing tmp folder ['. $tmpPath .']');
+        $tmpPath = $project->currentWorkingDirectory.DIRECTORY_SEPARATOR.'.tmp';
+        $output->writeln('[+] Clearing tmp folder ['.$tmpPath.']');
 
-        if (file_exists($tmpPath)){
+        if (file_exists($tmpPath)) {
             $this->filesystem->remove($tmpPath);
         }
         //$this->filesystem->mkdir($tmpPath);

@@ -1,9 +1,11 @@
-<?php namespace SiteNine;
+<?php
+
+namespace SiteNine;
 
 use Interop\Container\ContainerInterface;
 use Tapestry\Tapestry;
 
-class SiteKernel implements \Tapestry\Kernel\KernelInterface
+class kernel implements \Tapestry\Kernel\KernelInterface
 {
     /**
      * @var Tapestry
@@ -17,15 +19,16 @@ class SiteKernel implements \Tapestry\Kernel\KernelInterface
 
     public function register()
     {
-        $this->tapestry->getContainer()->get( \Tapestry\Content\Configuration::class )->set('kernel_register_works', 'Kernel Registering Works');
+        $this->tapestry->getContainer()->get(\Tapestry\Content\Configuration::class)->set('kernel_register_works', 'Kernel Registering Works');
     }
 
     /**
      * @param ContainerInterface $container
+     *
      * @throws \Exception
      */
     public function boot(ContainerInterface $container)
     {
-        $this->tapestry->getContainer()->get( \Tapestry\Content\Configuration::class )->set('kernel_boot_works', 'Kernel Booting Works');
+        $this->tapestry->getContainer()->get(\Tapestry\Content\Configuration::class)->set('kernel_boot_works', 'Kernel Booting Works');
     }
 }

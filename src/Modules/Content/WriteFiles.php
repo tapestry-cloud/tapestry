@@ -1,4 +1,6 @@
-<?php namespace Tapestry\Modules\Content;
+<?php
+
+namespace Tapestry\Modules\Content;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -21,7 +23,8 @@ class WriteFiles implements Step
 
     /**
      * Write constructor.
-     * @param Filesystem $filesystem
+     *
+     * @param Filesystem    $filesystem
      * @param Configuration $configuration
      */
     public function __construct(Filesystem $filesystem, Configuration $configuration)
@@ -33,9 +36,10 @@ class WriteFiles implements Step
     /**
      * Process the Project at current.
      *
-     * @param Project $project
+     * @param Project         $project
      * @param OutputInterface $output
-     * @return boolean
+     *
+     * @return bool
      */
     public function __invoke(Project $project, OutputInterface $output)
     {

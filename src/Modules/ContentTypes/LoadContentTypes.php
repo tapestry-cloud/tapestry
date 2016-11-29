@@ -1,4 +1,6 @@
-<?php namespace Tapestry\Modules\ContentTypes;
+<?php
+
+namespace Tapestry\Modules\ContentTypes;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Tapestry\Entities\Configuration;
@@ -15,6 +17,7 @@ class LoadContentTypes implements Step
 
     /**
      * LoadContentTypes constructor.
+     *
      * @param Configuration $configuration
      */
     public function __construct(Configuration $configuration)
@@ -25,30 +28,31 @@ class LoadContentTypes implements Step
     /**
      * Process the Project at current.
      *
-     * @param Project $project
+     * @param Project         $project
      * @param OutputInterface $output
-     * @return boolean
+     *
+     * @return bool
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
-        if (! $contentTypes = $this->configuration->get('content_types', null)) {
+        if (!$contentTypes = $this->configuration->get('content_types', null)) {
             $output->writeln('[!] Your project\'s content types are miss-configured. Doing nothing and exiting.]');
         }
 
         $contentTypeFactory = new ContentTypeFactory([
             new ContentType('default', [
-                'path' => '*',
+                'path'      => '*',
                 'permalink' => '*',
-                'enabled' => true
-            ])
+                'enabled'   => true,
+            ]),
         ]);
 
-        foreach ($contentTypes as $name => $settings)
-        {
+        foreach ($contentTypes as $name => $settings) {
             $contentTypeFactory->add(new ContentType($name, $settings));
         }
 
         $project->set('content_types', $contentTypeFactory);
+
         return true;
     }
 }

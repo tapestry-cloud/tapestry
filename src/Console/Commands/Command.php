@@ -1,4 +1,6 @@
-<?php namespace Tapestry\Console\Commands;
+<?php
+
+namespace Tapestry\Console\Commands;
 
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -6,26 +8,26 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class Command extends SymfonyCommand
 {
-    /** @var  InputInterface */
-
+    /** @var InputInterface */
     protected $input;
-    /** @var  OutputInterface */
+    /** @var OutputInterface */
     protected $output;
 
     /**
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
+     *
      * @return int
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $this->input = $input;
         $this->output = $output;
-        $result = (int)$this->fire();
+        $result = (int) $this->fire();
 
         if (defined('TAPESTRY_START') === true && $this->input->getOption('stopwatch')) {
             $stopwatch = round((microtime(true) - TAPESTRY_START), 3);
-            $this->output->writeln('Task complete in: ' . $stopwatch . 's [' . file_size_convert(memory_get_usage(true)) . '/' . file_size_convert(memory_get_peak_usage(true)) . ']');
+            $this->output->writeln('Task complete in: '.$stopwatch.'s ['.file_size_convert(memory_get_usage(true)).'/'.file_size_convert(memory_get_peak_usage(true)).']');
         }
 
         return $result;
@@ -38,7 +40,7 @@ abstract class Command extends SymfonyCommand
 
     protected function error($string)
     {
-        $this->output->writeln('<error>[!]</error> ' . $string);
+        $this->output->writeln('<error>[!]</error> '.$string);
     }
 
     protected function panic($string, $code = 1)
