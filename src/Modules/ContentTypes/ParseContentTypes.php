@@ -1,4 +1,6 @@
-<?php namespace Tapestry\Modules\ContentTypes;
+<?php
+
+namespace Tapestry\Modules\ContentTypes;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Tapestry\Entities\ContentType;
@@ -12,9 +14,10 @@ class ParseContentTypes implements Step
     /**
      * Process the Project at current.
      *
-     * @param Project $project
+     * @param Project         $project
      * @param OutputInterface $output
-     * @return boolean
+     *
+     * @return bool
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
@@ -42,10 +45,10 @@ class ParseContentTypes implements Step
                     $useTaxonomy = implode('_', $useParts);
 
                     /** @var ContentType $contentType */
-                    if (!$contentType = $project['content_types.' . $useContentType]) {
+                    if (!$contentType = $project['content_types.'.$useContentType]) {
                         continue;
                     }
-                    $file->setData([$use . '_items' => $contentType->getTaxonomy($useTaxonomy)->getFileList()]);
+                    $file->setData([$use.'_items' => $contentType->getTaxonomy($useTaxonomy)->getFileList()]);
 
                     // If the file doesn't have a generator set then we need to define one
                     if (!$fileGenerator = $file->getData('generator')) {
@@ -54,10 +57,10 @@ class ParseContentTypes implements Step
                     }
                 } else {
                     /** @var ContentType $contentType */
-                    if (!$contentType = $project['content_types.' . $use]) {
+                    if (!$contentType = $project['content_types.'.$use]) {
                         continue;
                     }
-                    $file->setData([$use . '_items' => $contentType->getFileList()]);
+                    $file->setData([$use.'_items' => $contentType->getFileList()]);
                 }
             }
 

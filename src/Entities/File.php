@@ -1,4 +1,6 @@
-<?php namespace Tapestry\Entities;
+<?php
+
+namespace Tapestry\Entities;
 
 use DateTime;
 use Symfony\Component\Finder\SplFileInfo;
@@ -6,14 +8,14 @@ use Symfony\Component\Finder\SplFileInfo;
 class File implements ProjectFileInterface
 {
     /**
-     * Unique Identifier for this File
+     * Unique Identifier for this File.
      *
      * @var null|string
      */
     private $uid = null;
 
     /**
-     * Unix timestamp of when the content of this file was last modified
+     * Unix timestamp of when the content of this file was last modified.
      *
      * @var int
      */
@@ -40,31 +42,36 @@ class File implements ProjectFileInterface
     private $path;
 
     /**
-     * File data, usually found via frontmatter
+     * File data, usually found via frontmatter.
+     *
      * @var array
      */
     private $data = [];
 
     /**
-     * File Content
+     * File Content.
+     *
      * @var string
      */
     private $content = '';
 
     /**
-     * Has the file content been loaded
+     * Has the file content been loaded.
+     *
      * @var bool
      */
     private $loaded = false;
 
     /**
      * Has the file been passed through a Renderer?
+     *
      * @var bool
      */
     private $rendered = false;
 
     /**
      * Is true if the file info has been overwritten.
+     *
      * @var bool
      */
     private $overWritten = false;
@@ -83,6 +90,7 @@ class File implements ProjectFileInterface
 
     /**
      * File constructor.
+     *
      * @param SplFileInfo $fileInfo
      */
     public function __construct(SplFileInfo $fileInfo, array $data = [])
@@ -96,13 +104,13 @@ class File implements ProjectFileInterface
         $this->path = $fileInfo->getRelativePath();
 
         $defaultData = array_merge([
-            'date' => DateTime::createFromFormat('U', $fileInfo->getMTime()),
-            'pretty_permalink' => true
+            'date'             => DateTime::createFromFormat('U', $fileInfo->getMTime()),
+            'pretty_permalink' => true,
         ], $data);
 
         $this->permalink = new Permalink();
 
-        preg_match('/^(\d{4}-\d{2}-\d{2})-(.*)/', $this->fileInfo->getBasename('.' . $this->fileInfo->getExtension()),
+        preg_match('/^(\d{4}-\d{2}-\d{2})-(.*)/', $this->fileInfo->getBasename('.'.$this->fileInfo->getExtension()),
             $matches);
         if (count($matches) === 3) {
             $defaultData['date'] = new DateTime($matches[1]);
@@ -120,7 +128,8 @@ class File implements ProjectFileInterface
     }
 
     /**
-     * Get identifier for this file, the relative pathname is unique to each file so that should be good enough
+     * Get identifier for this file, the relative pathname is unique to each file so that should be good enough.
+     *
      * @return string
      */
     public function getUid()
@@ -128,11 +137,12 @@ class File implements ProjectFileInterface
         if (is_null($this->uid)) {
             $this->uid = str_replace('.', '_', $this->getFileInfo()->getRelativePathname());
         }
+
         return $this->uid;
     }
 
     /**
-     * Set the files uid
+     * Set the files uid.
      *
      * @param string$uid
      */
@@ -142,7 +152,7 @@ class File implements ProjectFileInterface
     }
 
     /**
-     * Returns the SplFileInfo class that the Symfony Finder created
+     * Returns the SplFileInfo class that the Symfony Finder created.
      *
      * @return SplFileInfo
      */
@@ -152,7 +162,6 @@ class File implements ProjectFileInterface
     }
 
     /**
-     *
      * @param SplFileInfo $fileInfo
      */
     public function setFileInfo(SplFileInfo $fileInfo)
@@ -163,26 +172,29 @@ class File implements ProjectFileInterface
         $this->path = $fileInfo->getRelativePath();
         $this->overWritten = true;
 
-        if ($this->getLastModified() < $fileInfo->getMTime()){
+        if ($this->getLastModified() < $fileInfo->getMTime()) {
             $this->setLastModified($fileInfo->getMTime());
         }
     }
 
     /**
-     * Returns the file content, this will be excluding any frontmatter
-     * @return string
+     * Returns the file content, this will be excluding any frontmatter.
+     *
      * @throws \Exception
+     *
+     * @return string
      */
     public function getContent()
     {
         if (!$this->isLoaded()) {
-            throw new \Exception('The file [' . $this->fileInfo->getRelativePathname() . '] has not been loaded.');
+            throw new \Exception('The file ['.$this->fileInfo->getRelativePathname().'] has not been loaded.');
         }
+
         return $this->content;
     }
 
     /**
-     * Set the files content, this should be excluding any frontmatter
+     * Set the files content, this should be excluding any frontmatter.
      *
      * @param string $content
      */
@@ -224,7 +236,7 @@ class File implements ProjectFileInterface
     }
 
     /**
-     * Set by the Compile class when it passes this File through a Renderer
+     * Set by the Compile class when it passes this File through a Renderer.
      *
      * @param $value
      */
@@ -244,7 +256,7 @@ class File implements ProjectFileInterface
     }
 
     /**
-     * Set this files data (via frontmatter or other source)
+     * Set this files data (via frontmatter or other source).
      *
      * @param array $data
      */
@@ -258,10 +270,11 @@ class File implements ProjectFileInterface
     }
 
     /**
-     * Return this files data (set via frontmatter if any is found)
+     * Return this files data (set via frontmatter if any is found).
      *
      * @param null $key
      * @param null $default
+     *
      * @return array|mixed|null
      */
     public function getData($key = null, $default = null)
@@ -272,6 +285,7 @@ class File implements ProjectFileInterface
         if (!isset($this->data[$key])) {
             return $default;
         }
+
         return $this->data[$key];
     }
 
@@ -334,7 +348,7 @@ class File implements ProjectFileInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isToCopy()
     {
@@ -342,7 +356,7 @@ class File implements ProjectFileInterface
     }
 
     /**
-     * @param boolean $toCopy
+     * @param bool $toCopy
      */
     public function setToCopy($toCopy)
     {
@@ -364,5 +378,4 @@ class File implements ProjectFileInterface
     {
         $this->lastModified = $lastModified;
     }
-
 }

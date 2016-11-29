@@ -2,7 +2,7 @@
 
 return [
     'debug' => false,
-    'site' => [
-        'environment_test' => 'Default Environment'
-    ]
+    'site'  => [
+        'environment_test' => 'Default Environment',
+    ],
 ];

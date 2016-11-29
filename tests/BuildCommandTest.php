@@ -1,9 +1,11 @@
-<?php namespace Tapestry\Tests;
+<?php
+
+namespace Tapestry\Tests;
 
 class BuildCommandTest extends CommandTestBase
 {
     /**
-     * Test that we are within the right path for Jigsaw to be tested
+     * Test that we are within the right path for Jigsaw to be tested.
      */
     public function testCurrentWorkingDirectoryIsTestTemp()
     {
@@ -19,20 +21,20 @@ class BuildCommandTest extends CommandTestBase
         $this->assertEquals('', trim($output->getDisplay()));
         $this->assertEquals(0, $output->getStatusCode());
 
-        $this->assertFileExists(self::$tmpPath . DIRECTORY_SEPARATOR . 'build_local');
-        $this->assertFileExists(self::$tmpPath . DIRECTORY_SEPARATOR . 'build_local' . DIRECTORY_SEPARATOR . 'index.html');
-        $this->assertFileExists(self::$tmpPath . DIRECTORY_SEPARATOR . 'build_local' . DIRECTORY_SEPARATOR . 'about.html');
-        $this->assertFileExists(self::$tmpPath . DIRECTORY_SEPARATOR . 'build_local' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'app.js');
+        $this->assertFileExists(self::$tmpPath.DIRECTORY_SEPARATOR.'build_local');
+        $this->assertFileExists(self::$tmpPath.DIRECTORY_SEPARATOR.'build_local'.DIRECTORY_SEPARATOR.'index.html');
+        $this->assertFileExists(self::$tmpPath.DIRECTORY_SEPARATOR.'build_local'.DIRECTORY_SEPARATOR.'about.html');
+        $this->assertFileExists(self::$tmpPath.DIRECTORY_SEPARATOR.'build_local'.DIRECTORY_SEPARATOR.'assets'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'app.js');
 
         $this->assertFileEquals(
-            __DIR__ . '/assets/build_test_1/check/about.html',
-            __DIR__ . '/_tmp/build_local/about.html',
+            __DIR__.'/assets/build_test_1/check/about.html',
+            __DIR__.'/_tmp/build_local/about.html',
             '',
             true
         );
         $this->assertFileEquals(
-            __DIR__ . '/assets/build_test_1/check/index.html',
-            __DIR__ . '/_tmp/build_local/index.html',
+            __DIR__.'/assets/build_test_1/check/index.html',
+            __DIR__.'/_tmp/build_local/index.html',
             '',
             true
         );
@@ -48,8 +50,8 @@ class BuildCommandTest extends CommandTestBase
         $this->assertEquals(0, $output->getStatusCode());
 
         $this->assertFileEquals(
-            __DIR__ . '/assets/build_test_2/check/about.html',
-            __DIR__ . '/_tmp/build_local/about.html',
+            __DIR__.'/assets/build_test_2/check/about.html',
+            __DIR__.'/_tmp/build_local/about.html',
             '',
             true
         );
@@ -65,26 +67,27 @@ class BuildCommandTest extends CommandTestBase
         $this->assertEquals(0, $output->getStatusCode());
 
         $this->assertFileEquals(
-            __DIR__ . '/assets/build_test_3/check/index.html',
-            __DIR__ . '/_tmp/build_local/index.html',
+            __DIR__.'/assets/build_test_3/check/index.html',
+            __DIR__.'/_tmp/build_local/index.html',
             '',
             true
         );
 
         $this->assertFileEquals(
-            __DIR__ . '/assets/build_test_3/check/about.html',
-            __DIR__ . '/_tmp/build_local/about/index.html',
+            __DIR__.'/assets/build_test_3/check/about.html',
+            __DIR__.'/_tmp/build_local/about/index.html',
             '',
             true
         );
 
         $this->assertFileEquals(
-            __DIR__ . '/assets/build_test_3/check/not-pretty.html',
-            __DIR__ . '/_tmp/build_local/not-pretty.html',
+            __DIR__.'/assets/build_test_3/check/not-pretty.html',
+            __DIR__.'/_tmp/build_local/not-pretty.html',
             '',
             true
         );
     }
+
 //
     //public function testFilterFunctionality()
     //{

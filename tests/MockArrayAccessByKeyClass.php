@@ -1,4 +1,6 @@
-<?php namespace Tapestry\Tests;
+<?php
+
+namespace Tapestry\Tests;
 
 class MockArrayAccessByKeyClass
 {
@@ -12,8 +14,9 @@ class MockArrayAccessByKeyClass
     public function arrayAccessByKey($key)
     {
         if (!isset($this->items[$key])) {
-            return null;
+            return;
         }
+
         return $this->items[$key];
     }
 }
