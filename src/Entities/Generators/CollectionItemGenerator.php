@@ -1,5 +1,6 @@
 <?php namespace Tapestry\Entities\Generators;
 
+use Tapestry\Entities\Collections\FlatCollection;
 use Tapestry\Entities\Project;
 use Tapestry\Entities\ViewFile;
 

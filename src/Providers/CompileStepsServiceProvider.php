@@ -44,7 +44,7 @@ class CompileStepsServiceProvider extends AbstractServiceProvider
             LoadContentRenderers::class,
             LoadContentGenerators::class,
             LoadSourceFiles::class,
-            RemoveDrafts::class,
+            //RemoveDrafts::class,
             ParseContentTypes::class,
             Compile::class,
             WriteFiles::class,

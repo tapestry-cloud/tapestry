@@ -29,6 +29,8 @@ class LoadSourceFiles implements Step
     */
     private $prettyPermalink = true;
 
+    private $publishDrafts = false;
+
     /**
      * LoadSourceFiles constructor.
      * @param Tapestry $tapestry
@@ -39,6 +41,7 @@ class LoadSourceFiles implements Step
         $this->tapestry = $tapestry;
         $this->excluded = new ExcludedFilesCollection($configuration->get('ignore'));
         $this->prettyPermalink = boolval($configuration->get('pretty_permalink', true));
+        $this->publishDrafts = boolval($configuration->get('publish_drafts', false));
     }
 
     /**
@@ -83,6 +86,12 @@ class LoadSourceFiles implements Step
                 $frontMatter = new FrontMatter($file->getFileContent());
                 $file->setData($frontMatter->getData());
                 $file->setContent($frontMatter->getContent());
+            }
+
+            if ($this->publishDrafts === false) {
+                if (boolval($file->getData('draft', false)) === true) {
+                    continue;
+                }
             }
 
             if (! $contentType = $contentTypes->find($file->getFileInfo()->getRelativePath())){

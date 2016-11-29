@@ -100,6 +100,11 @@ class Compile implements Step
                     }
                 });
 
+                // Filter out deleted pages, such as drafts
+                $items = array_filter($items, function($value) {
+                    return !is_null($value);
+                });
+
                 $file->setData([$use . '_items' => $items]);
             }
         }
@@ -136,7 +141,6 @@ class Compile implements Step
         //
         // Mutate into FileCopy or FileWrite entities
         //
-
         foreach($this->files as &$file){
 
             if ($cachedCTime = $cache->getItem($file->getUid())){
