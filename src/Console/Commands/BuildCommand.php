@@ -8,38 +8,25 @@ use Tapestry\Tapestry;
 class BuildCommand extends Command
 {
     /**
-     * Current Working Directory as set by user input --site-dir or getcwd() by default.
-     * @var string
+     * @var Tapestry
      */
-    private $currentWorkingDirectory;
+    private $tapestry;
+
     /**
      * @var array
      */
     private $steps;
 
     /**
-     * @var string
-     */
-    private $environment;
-    /**
-     * @var Tapestry
-     */
-    private $tapestry;
-
-    /**
      * InitCommand constructor.
      * @param Tapestry $tapestry
      * @param array $steps
-     * @param string $currentWorkingDirectory
-     * @param $environment
      */
-    public function __construct(Tapestry $tapestry, array $steps, $currentWorkingDirectory, $environment)
+    public function __construct(Tapestry $tapestry, array $steps)
     {
         parent::__construct();
-        $this->currentWorkingDirectory = $currentWorkingDirectory;
-        $this->steps = $steps;
-        $this->environment = $environment;
         $this->tapestry = $tapestry;
+        $this->steps = $steps;
     }
 
     /**
@@ -59,19 +46,22 @@ class BuildCommand extends Command
 
     protected function fire()
     {
-        if (!file_exists($this->currentWorkingDirectory)) {
-            $this->output->writeln('<error>[!]</error> The site directory ['. $this->currentWorkingDirectory .'] does not exist. Doing nothing and exiting.');
+        $currentWorkingDirectory = $this->input->getOption('site-dir');
+        $environment = $this->input->getOption('env');
+
+        if (!file_exists($currentWorkingDirectory)) {
+            $this->output->writeln('<error>[!]</error> The site directory ['. $currentWorkingDirectory .'] does not exist. Doing nothing and exiting.');
             exit(1);
         }
 
         // Lets use full paths.
-        if (! $this->currentWorkingDirectory = realpath($this->currentWorkingDirectory)) {
+        if (! $currentWorkingDirectory = realpath($currentWorkingDirectory)) {
             $this->output->writeln('<error>[!]</error> Sorry there has been an error identifying the site directory. Doing nothing and exiting.');
             exit(1);
         }
 
         $generator = new Generator($this->steps, $this->tapestry);
-        $project = new Project($this->currentWorkingDirectory, $this->environment);
+        $project = new Project($currentWorkingDirectory, $environment);
 
         $project->set('cmd_options', $this->input->getOptions());
 

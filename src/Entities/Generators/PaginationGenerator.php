@@ -8,7 +8,6 @@ use Tapestry\Entities\ViewFile;
 
 class PaginationGenerator extends FileGenerator
 {
-
     /**
      * @param Project $project
      * @return \Tapestry\Entities\ProjectFileInterface|\Tapestry\Entities\ProjectFileInterface[]
@@ -37,11 +36,23 @@ class PaginationGenerator extends FileGenerator
             return $newFile;
         }
 
+        $paginationItems = array_filter($paginationItems, function($key) use ($project){
+            return $project->has('files.' . $key);
+        }, ARRAY_FILTER_USE_KEY);
+
+
         // Segment $paginationItems into n segments based upon perPage and create a clone of the file with that page's items
         // also update the files permalink and uid (unless its the first page). Follow up by injecting an instance of Paginator
         // which is loaded with previous/next links and how many total pages there are.
 
         $totalPages = ceil(count($paginationItems) / $configuration['perPage']);
+
+        // If there are no pages because the pagination filter cleared out the array then return; otherwise this ends
+        // up with an infinite loop
+        if ($totalPages == 0){
+            return $newFile;
+        }
+
         $generatedFiles = [];
 
         $currentPage = 0;

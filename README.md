@@ -1,4 +1,8 @@
 # Tapestry
+[![StyleCI](https://styleci.io/repos/73839963/shield?branch=master)](https://styleci.io/repos/73839963)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
+[![ghit.me](https://ghit.me/badge.svg?repo=carbontwelve/tapestry)](https://ghit.me/repo/carbontwelve/tapestry)
+
 Simple static sites with the league of extraordinary packages [plates](http://platesphp.com/) template system.
 
 ## Installing
