@@ -99,7 +99,7 @@ class ArrayContainerMergeTest extends CommandTestBase
     /**
      * Test that `set` method works in both single and dot notation modes as well as correctly merges input
      */
-    public function testMultiDimensionDotSet()
+    public function testSet()
     {
         $arrayContainer = new ArrayContainer([
             'a' => true,
@@ -127,7 +127,7 @@ class ArrayContainerMergeTest extends CommandTestBase
     /**
      * Test that `remove` method works in both single and dot notation modes
      */
-    public function testMultiDimensionDotRemove()
+    public function testRemove()
     {
         $arrayContainer = new ArrayContainer([
             'a' => true,
@@ -157,5 +157,65 @@ class ArrayContainerMergeTest extends CommandTestBase
         $this->assertEquals(false, $arrayContainer->has('b.f.world'));
         $this->assertEquals(false, $arrayContainer->has('b.f.hello'));
         $this->assertEquals(false, $arrayContainer->has('b.f'));
+    }
+
+    /**
+     * Test pass-through functionality when value is an instance of `ArrayContainer`
+     */
+    public function testNestedArrayContainer()
+    {
+        $arrayContainer = new ArrayContainer([
+            'a' => new ArrayContainer([
+                'b' => 'A_B_Test',
+                'c' => 'A_C_Test',
+                'f' => [
+                    'hello' => 'world',
+                    'world' => 'hello'
+                ]
+            ]),
+            'd' => 'D_Test'
+        ]);
+
+        $this->assertEquals(true, $arrayContainer->has('a'));
+        $this->assertEquals(true, $arrayContainer->has('a.b'));
+        $this->assertEquals(false, $arrayContainer->has('a.e'));
+        $this->assertEquals(true, $arrayContainer->has('d'));
+
+        $arrayContainer->set('a.e', 'A_E_Test');
+        $this->assertEquals(true, $arrayContainer->has('a.e'));
+        $this->assertEquals('A_E_Test', $arrayContainer->get('a.e'));
+        $this->assertInstanceOf(ArrayContainer::class, $arrayContainer->get('a'));
+
+        // Test Nested ArrayContainer with Array (key f)
+        $this->assertEquals(true, $arrayContainer->has('a.f'));
+        $this->assertEquals(false, $arrayContainer->has('a.f.test'));
+        $this->assertEquals(null, $arrayContainer->get('a.f.test'));
+        $this->assertEquals('Test_Default', $arrayContainer->get('a.f.test', 'Test_Default'));
+
+        // Test Removal of Nested Set
+        $arrayContainer->remove('a.f');
+        $this->assertEquals(false, $arrayContainer->has('a.f'));
+
+        $arrayContainer->remove('a.c');
+        $this->assertEquals(false, $arrayContainer->has('a.c'));
+
+        $arrayContainer->set('a.b', 'A_B_Replace');
+        $this->assertEquals('A_B_Replace', $arrayContainer->get('a.b'));
+    }
+
+    /**
+     * Test special pass-through when value is a class with method `arrayAccessByKey`
+     */
+    public function testArrayAccessByKey (){
+        $arrayContainer = new ArrayContainer();
+        $arrayContainer->set('a', new MockArrayAccessByKeyClass([
+            'hello' => 'world',
+            'world' => 'hello'
+        ]));
+
+        $this->assertEquals('world', $arrayContainer->get('a.hello'));
+        $this->assertEquals(true, $arrayContainer->has('a.world'));
+        $this->assertEquals('hello', $arrayContainer->get('a.world'));
+        $this->assertEquals(false, $arrayContainer->has('a.Test_Has'));
     }
 }
