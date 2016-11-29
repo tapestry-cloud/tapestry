@@ -1,4 +1,5 @@
 # Tapestry
+[![Development Build Status](https://travis-ci.org/carbontwelve/tapestry.svg?branch=development)](https://travis-ci.org/carbontwelve/tapestry)
 [![StyleCI](https://styleci.io/repos/73839963/shield?branch=master)](https://styleci.io/repos/73839963)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 [![ghit.me](https://ghit.me/badge.svg?repo=carbontwelve/tapestry)](https://ghit.me/repo/carbontwelve/tapestry)
