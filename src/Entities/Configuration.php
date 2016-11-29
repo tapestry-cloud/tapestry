@@ -1,4 +1,6 @@
-<?php namespace Tapestry\Entities;
+<?php
+
+namespace Tapestry\Entities;
 
 use Tapestry\ArrayContainer;
 

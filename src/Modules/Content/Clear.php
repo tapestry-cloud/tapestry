@@ -1,4 +1,6 @@
-<?php namespace Tapestry\Modules\Content;
+<?php
+
+namespace Tapestry\Modules\Content;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -15,6 +17,7 @@ class Clear implements Step
 
     /**
      * Clear constructor.
+     *
      * @param Filesystem $filesystem
      */
     public function __construct(Filesystem $filesystem)
@@ -25,14 +28,15 @@ class Clear implements Step
     /**
      * Process the Project at current.
      *
-     * @param Project $project
+     * @param Project         $project
      * @param OutputInterface $output
-     * @return boolean
+     *
+     * @return bool
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
         if ($project->get('cmd_options.clear') === true) {
-            $output->writeln('[+] Clearing destination folder [' . $project->destinationDirectory . ']');
+            $output->writeln('[+] Clearing destination folder ['.$project->destinationDirectory.']');
             if (file_exists($project->destinationDirectory)) {
                 $this->filesystem->remove($project->destinationDirectory);
             }
@@ -43,6 +47,7 @@ class Clear implements Step
             $cache = $project->get('cache');
             $cache->reset();
         }
+
         return true;
     }
 }

@@ -1,4 +1,6 @@
-<?php namespace Tapestry\Console\Commands;
+<?php
+
+namespace Tapestry\Console\Commands;
 
 use Composer\Semver\Comparator;
 use Symfony\Component\Console\Input\InputOption;
@@ -32,8 +34,9 @@ class SelfUpdateCommand extends Command
 
     /**
      * InitCommand constructor.
+     *
      * @param Filesystem $filesystem
-     * @param Finder $finder
+     * @param Finder     $finder
      */
     public function __construct(Filesystem $filesystem, Finder $finder)
     {
@@ -41,10 +44,10 @@ class SelfUpdateCommand extends Command
         $this->filesystem = $filesystem;
         $this->finder = $finder;
         $this->currentPharFileName = realpath($_SERVER['argv'][0]) ?: $_SERVER['argv'][0];
-        $this->scratchDirectoryPath = dirname($this->currentPharFileName) . DIRECTORY_SEPARATOR . 'tmp';
+        $this->scratchDirectoryPath = dirname($this->currentPharFileName).DIRECTORY_SEPARATOR.'tmp';
         $this->pharExists = (pathinfo($this->currentPharFileName, PATHINFO_EXTENSION) === 'phar');
 
-        if (!$filesystem->exists($this->scratchDirectoryPath)){
+        if (!$filesystem->exists($this->scratchDirectoryPath)) {
             $filesystem->mkdir($this->scratchDirectoryPath);
         }
     }
@@ -66,16 +69,16 @@ class SelfUpdateCommand extends Command
 
     protected function fire()
     {
-        if (!$this->input->getOption('test') && $this->pharExists === false){
+        if (!$this->input->getOption('test') && $this->pharExists === false) {
             $this->output->writeln('[!] Self-Update only works on phar archives.');
             exit(1);
         }
 
-        if ($this->input->getOption('rollback')){
+        if ($this->input->getOption('rollback')) {
             $this->rollback();
         }
 
-        $jsonPathName = $this->scratchDirectoryPath . DIRECTORY_SEPARATOR . 'release.json';
+        $jsonPathName = $this->scratchDirectoryPath.DIRECTORY_SEPARATOR.'release.json';
         if (!$this->downloadFile($this->releaseApiUrl, $jsonPathName, ['Accept' => 'application/vnd.github.v3+json'])) {
             $this->panic('There was a problem in downloading the update, please try again.');
         }
@@ -83,8 +86,8 @@ class SelfUpdateCommand extends Command
         $releaseJson = json_decode(file_get_contents($jsonPathName));
         $latestVersion = $releaseJson->tag_name;
 
-        if ($this->input->getOption('force') === false && Comparator::greaterThanOrEqualTo(Tapestry::VERSION, $latestVersion)){
-            $this->output->writeln('You already have the latest version of Tapestry ['. Tapestry::VERSION .']. Doing nothing and exiting.');
+        if ($this->input->getOption('force') === false && Comparator::greaterThanOrEqualTo(Tapestry::VERSION, $latestVersion)) {
+            $this->output->writeln('You already have the latest version of Tapestry ['.Tapestry::VERSION.']. Doing nothing and exiting.');
             exit();
         }
 
@@ -96,28 +99,28 @@ class SelfUpdateCommand extends Command
 
     private function rollback()
     {
-
     }
 
     private function backupPhar()
     {
-        if ($this->input->getOption('test') === true && $this->pharExists === false){
+        if ($this->input->getOption('test') === true && $this->pharExists === false) {
             $this->output->writeln('[*] Pretending to Backup Phar');
+
             return;
-        }elseif($this->input->getOption('test') === false && $this->pharExists === false){
+        } elseif ($this->input->getOption('test') === false && $this->pharExists === false) {
             $this->panic('Phar Archive Not Found!');
         }
 
         $this->output->writeln('[*] Making Backup Phar');
-        $tempFilename = dirname($this->currentPharFileName) . DIRECTORY_SEPARATOR . basename($this->currentPharFileName, '.phar').'-temp.phar';
+        $tempFilename = dirname($this->currentPharFileName).DIRECTORY_SEPARATOR.basename($this->currentPharFileName, '.phar').'-temp.phar';
         $this->filesystem->copy($this->currentPharFileName, $tempFilename);
     }
 
     private function replacePhar($latestVersionDownloadUrl)
     {
         $this->output->writeln('[*] Downloading Update');
-        $downloadToPath = $this->scratchDirectoryPath . DIRECTORY_SEPARATOR . pathinfo($latestVersionDownloadUrl, PATHINFO_BASENAME);
-        if (!$this->downloadFile($latestVersionDownloadUrl, $downloadToPath)){
+        $downloadToPath = $this->scratchDirectoryPath.DIRECTORY_SEPARATOR.pathinfo($latestVersionDownloadUrl, PATHINFO_BASENAME);
+        if (!$this->downloadFile($latestVersionDownloadUrl, $downloadToPath)) {
             $this->panic('There was a problem in downloading the update, please try again.');
         }
 
@@ -125,38 +128,41 @@ class SelfUpdateCommand extends Command
         $this->unzip($downloadToPath, dirname($this->currentPharFileName));
     }
 
-    private function unzip($from, $to){
-        $zip = new ZipArchive;
+    private function unzip($from, $to)
+    {
+        $zip = new ZipArchive();
         $res = $zip->open($from);
         if ($res === true) {
             $zip->extractTo($to);
             $zip->close();
+
             return true;
         } else {
             return false;
         }
     }
 
-    private function downloadFile($url, $filepath, $accept = null){
+    private function downloadFile($url, $filepath, $accept = null)
+    {
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Tapestry CLI Update');
-        if (! is_null($accept)) {
+        if (!is_null($accept)) {
             curl_setopt($ch, CURLOPT_HTTPHEADER, $accept);
         }
         $raw_file_data = curl_exec($ch);
         $responseCode = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
 
-        if(curl_errno($ch)){
+        if (curl_errno($ch)) {
             $this->error(curl_error($ch));
             curl_close($ch);
             exit(1);
         }
 
         if ($responseCode !== 200) {
-            $this->error('Github responded with response code ['. $responseCode .']');
+            $this->error('Github responded with response code ['.$responseCode.']');
             curl_close($ch);
             exit(1);
         }
@@ -164,6 +170,7 @@ class SelfUpdateCommand extends Command
         curl_close($ch);
 
         file_put_contents($filepath, $raw_file_data);
-        return (filesize($filepath) > 0)? true : false;
+
+        return (filesize($filepath) > 0) ? true : false;
     }
 }

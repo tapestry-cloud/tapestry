@@ -1,4 +1,6 @@
-<?php namespace Tapestry\Entities\Renderers;
+<?php
+
+namespace Tapestry\Entities\Renderers;
 
 use Symfony\Component\Finder\SplFileInfo;
 use Tapestry\Entities\File;
@@ -18,6 +20,7 @@ class HTMLRenderer implements RendererInterface
 
     /**
      * HTMLRenderer constructor.
+     *
      * @param Project $project
      */
     public function __construct(Project $project)
@@ -36,9 +39,10 @@ class HTMLRenderer implements RendererInterface
     }
 
     /**
-     * Returns true if the renderer can render the given extension
+     * Returns true if the renderer can render the given extension.
      *
      * @param string $extension
+     *
      * @return bool
      */
     public function canRender($extension)
@@ -47,9 +51,10 @@ class HTMLRenderer implements RendererInterface
     }
 
     /**
-     * Render the input file content and return the output
+     * Render the input file content and return the output.
      *
      * @param File $file
+     *
      * @return string
      */
     public function render(File $file)
@@ -58,7 +63,7 @@ class HTMLRenderer implements RendererInterface
     }
 
     /**
-     * Returns the extension that the rendered output conforms to
+     * Returns the extension that the rendered output conforms to.
      *
      * @return string
      */
@@ -79,6 +84,7 @@ class HTMLRenderer implements RendererInterface
 
     /**
      * @param File $file
+     *
      * @return void
      */
     public function mutateFile(File &$file)
@@ -87,8 +93,8 @@ class HTMLRenderer implements RendererInterface
         // If the HTML file has a template then we should pass it on to the plates renderer
         //
         if ($template = $file->getData('template')) {
-            $templateRelativePath = '_templates' . DIRECTORY_SEPARATOR . $template . '.phtml';
-            $templatePath = $this->project->sourceDirectory . DIRECTORY_SEPARATOR . $templateRelativePath;
+            $templateRelativePath = '_templates'.DIRECTORY_SEPARATOR.$template.'.phtml';
+            $templatePath = $this->project->sourceDirectory.DIRECTORY_SEPARATOR.$templateRelativePath;
             if (file_exists($templatePath)) {
                 $fileName = $file->getFilename();
                 $filePath = $file->getPath();

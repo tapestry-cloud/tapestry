@@ -1,4 +1,6 @@
-<?php namespace Tapestry\Providers;
+<?php
+
+namespace Tapestry\Providers;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use Tapestry\Modules\Content\Clean;
@@ -23,7 +25,7 @@ class CompileStepsServiceProvider extends AbstractServiceProvider
      * @var array
      */
     protected $provides = [
-        'Compile.Steps'
+        'Compile.Steps',
     ];
 
     /**
@@ -50,7 +52,7 @@ class CompileStepsServiceProvider extends AbstractServiceProvider
             WriteFiles::class,
             WriteCache::class,
             Clean::class,
-            After::class
+            After::class,
         ];
 
         $this->getContainer()->add('Compile.Steps', $steps);

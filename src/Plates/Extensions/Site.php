@@ -1,4 +1,6 @@
-<?php namespace Tapestry\Plates\Extensions;
+<?php
+
+namespace Tapestry\Plates\Extensions;
 
 use League\Plates\Engine;
 use League\Plates\Extension\ExtensionInterface;
@@ -13,6 +15,7 @@ class Site implements ExtensionInterface
 
     /**
      * Site constructor.
+     *
      * @param Configuration $configuration
      */
     public function __construct(Configuration $configuration)
@@ -27,10 +30,11 @@ class Site implements ExtensionInterface
 
     public function site($key, $default = null)
     {
-        $key = 'site.' . $key;
+        $key = 'site.'.$key;
         if ($value = $this->configuration->get($key, $default)) {
             return $value;
         }
+
         return $default;
     }
 }
