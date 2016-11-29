@@ -85,3 +85,13 @@ if (!function_exists('url')) {
         return $url->parse($uri);
     }
 }
+
+if (!function_exists('file_size_convert')) {
+
+    function file_size_convert($size)
+    {
+        $unit = ['b', 'kb', 'mb', 'gb', 'tb', 'pb'];
+        return round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . ' ' . $unit[intval($i)];
+    }
+
+}
