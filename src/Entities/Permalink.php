@@ -49,12 +49,14 @@ class Permalink
 
         /** @var Pagination $pagination */
         if ($pagination = $file->getData('pagination')){
-            if ($pagination->currentPage == 1) {
-                $page = 'index';
-            }else{
-                $page = $pagination->currentPage;
+            if ($pagination instanceof Pagination) {
+                if ($pagination->currentPage == 1) {
+                    $page = 'index';
+                } else {
+                    $page = $pagination->currentPage;
+                }
+                $output = str_replace('{page}', $page, $output);
             }
-            $output = str_replace('{page}', $page, $output);
         }
 
         $output = str_replace('{slug}', $file->getData('slug', $this->sluggify($file->getData('title', $file->getFilename()))), $output);

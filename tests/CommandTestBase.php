@@ -56,8 +56,11 @@ abstract class CommandTestBase extends \PHPUnit_Framework_TestCase
      */
     private function createCliApplication()
     {
-        /** @var Application $jigsaw */
+        /** @var Application $app */
         $app = require __DIR__ . '/../src/bootstrap.php';
+
+        //$app->reboot();
+
         /** @var Application $cli */
         $cli = $app[Application::class];
         $cli->setAutoExit(false);

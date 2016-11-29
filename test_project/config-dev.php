@@ -6,5 +6,10 @@ return [
      */
     'site' => [
         'title' => 'Test',
-    ]
+    ],
+
+    /**
+     * Enable / Disable the publishing of files with `draft: true` in their front matter
+     */
+    'publish_drafts' => true,
 ];

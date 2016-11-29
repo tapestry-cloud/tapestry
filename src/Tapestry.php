@@ -8,6 +8,8 @@ use League\Container\Container;
 use League\Container\ServiceProvider\ServiceProviderInterface;
 use League\Event\Emitter;
 use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\InputDefinition;
+use Symfony\Component\Console\Input\InputOption;
 
 class Tapestry implements ContainerAwareInterface, ArrayAccess
 {
@@ -51,6 +53,21 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
         $this['environment'] = $siteEnvironment;
         $this['currentWorkingDirectory'] = $siteDirectory;
         $this['events'] = new Emitter();
+
+        $this->boot();
+    }
+
+    /**
+     * Register/Boot Providers
+     *
+     * @return void
+     */
+    public function boot(){
+        $this->register(\Tapestry\Providers\ProjectConfigurationServiceProvider::class);
+        $this->register(\Tapestry\Providers\ProjectKernelServiceProvider::class);
+        $this->register(\Tapestry\Providers\CompileStepsServiceProvider::class);
+        $this->register(\Tapestry\Providers\CommandServiceProvider::class);
+        $this->register(\Tapestry\Providers\PlatesServiceProvider::class);
     }
 
     /**
