@@ -1,4 +1,6 @@
-<?php namespace Tapestry\Providers;
+<?php
+
+namespace Tapestry\Providers;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use Tapestry\Entities\Project;
@@ -8,12 +10,11 @@ use Tapestry\Plates\Extensions\Url;
 
 class PlatesServiceProvider extends AbstractServiceProvider
 {
-
     /**
      * @var array
      */
     protected $provides = [
-        Engine::class
+        Engine::class,
     ];
 
     /**
@@ -34,6 +35,7 @@ class PlatesServiceProvider extends AbstractServiceProvider
             $engine = new Engine($project->sourceDirectory, 'phtml');
             $engine->loadExtension($container->get(Site::class));
             $engine->loadExtension($container->get(Url::class));
+
             return $engine;
         });
     }

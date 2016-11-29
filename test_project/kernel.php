@@ -1,10 +1,12 @@
-<?php namespace Site;
+<?php
+
+namespace Site;
 
 use Tapestry\Modules\Kernel\KernelInterface;
 use Tapestry\Tapestry;
 
-class SiteKernel implements KernelInterface {
-
+class kernel implements KernelInterface
+{
     /**
      * @var Tapestry
      */
@@ -12,6 +14,7 @@ class SiteKernel implements KernelInterface {
 
     /**
      * DefaultKernel constructor.
+     *
      * @param Tapestry $tapestry
      */
     public function __construct(Tapestry $tapestry)

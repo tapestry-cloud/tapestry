@@ -1,4 +1,6 @@
-<?php namespace Tapestry\Modules\Renderers;
+<?php
+
+namespace Tapestry\Modules\Renderers;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Tapestry\Entities\Configuration;
@@ -20,7 +22,8 @@ class LoadContentRenderers implements Step
 
     /**
      * LoadRenderers constructor.
-     * @param Tapestry $tapestry
+     *
+     * @param Tapestry      $tapestry
      * @param Configuration $configuration
      */
     public function __construct(Tapestry $tapestry, Configuration $configuration)
@@ -30,9 +33,10 @@ class LoadContentRenderers implements Step
     }
 
     /**
-     * @param Project $project
+     * @param Project         $project
      * @param OutputInterface $output
-     * @return boolean
+     *
+     * @return bool
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
@@ -47,6 +51,7 @@ class LoadContentRenderers implements Step
         }
 
         $project->set('content_renderers', $contentRendererFactory);
+
         return true;
     }
 }

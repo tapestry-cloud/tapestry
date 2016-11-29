@@ -1,4 +1,6 @@
-<?php namespace Tapestry\Entities\Generators;
+<?php
+
+namespace Tapestry\Entities\Generators;
 
 use Tapestry\Entities\File;
 use Tapestry\Entities\Project;
@@ -19,6 +21,7 @@ class FileGenerator implements ProjectFileInterface, ProjectFileGeneratorInterfa
 
     /**
      * FileGenerator constructor.
+     *
      * @param File $file
      */
     public function __construct(File $file)
@@ -28,6 +31,7 @@ class FileGenerator implements ProjectFileInterface, ProjectFileGeneratorInterfa
 
     /**
      * @param Project $project
+     *
      * @return ProjectFileInterface|ProjectFileInterface[]
      */
     public function generate(Project $project)
@@ -40,47 +44,57 @@ class FileGenerator implements ProjectFileInterface, ProjectFileGeneratorInterfa
             $this->mergeGenerated($project->getContentGenerator($first, $this->file)->generate($project));
 
             while ($this->canGenerate()) {
-                foreach ($this->generatedFiles as $file){
-                    if (! $generators = $file->getData('generator')) { continue; }
+                foreach ($this->generatedFiles as $file) {
+                    if (!$generators = $file->getData('generator')) {
+                        continue;
+                    }
                     $first = reset($generators);
                     $this->mergeGenerated($project->getContentGenerator($first, $file)->generate($project));
                 }
             }
+
             return $this->generatedFiles;
-        }else{
+        } else {
             return $this->file;
         }
     }
 
     public function __call($name, $arguments)
     {
-        if (! method_exists($this, $name) && method_exists($this->file, $name)) {
+        if (!method_exists($this, $name) && method_exists($this->file, $name)) {
             return call_user_func_array([$this->file, $name], $arguments);
         }
     }
 
     /**
-     * Identify whether we can continue generating
+     * Identify whether we can continue generating.
+     *
      * @return bool
      */
-    private function canGenerate(){
-        foreach($this->generatedFiles as $file){
+    private function canGenerate()
+    {
+        foreach ($this->generatedFiles as $file) {
             if ($uses = $file->getData('generator')) {
-                if (count($uses) > 0){ return true; }
+                if (count($uses) > 0) {
+                    return true;
+                }
             }
         }
+
         return false;
     }
 
     /**
      * Merge the generated files into our local generatedFiles list.
+     *
      * @param File|File[] $generated
      */
-    private function mergeGenerated($generated) {
-        if (! is_array($generated)){
+    private function mergeGenerated($generated)
+    {
+        if (!is_array($generated)) {
             $this->generatedFiles[$generated->getUid()] = $generated;
-        }else{
-            foreach ($generated as $file){
+        } else {
+            foreach ($generated as $file) {
                 $this->mergeGenerated($file);
             }
         }

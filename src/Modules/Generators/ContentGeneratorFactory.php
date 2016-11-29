@@ -1,4 +1,6 @@
-<?php namespace Tapestry\Modules\Generators;
+<?php
+
+namespace Tapestry\Modules\Generators;
 
 use Tapestry\Entities\File;
 

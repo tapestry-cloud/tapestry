@@ -1,4 +1,6 @@
-<?php namespace Tapestry;
+<?php
+
+namespace Tapestry;
 
 use ArrayAccess;
 use Closure;
@@ -7,19 +9,22 @@ use Iterator;
 class ArrayContainer implements ArrayAccess, Iterator
 {
     /**
-     * Current array key pointer for foreach
+     * Current array key pointer for foreach.
+     *
      * @var int
      */
     private $index = 0;
 
     /**
-     * Data item array
+     * Data item array.
+     *
      * @var array
      */
     protected $items = [];
 
     /**
-     * Nested Key Cache
+     * Nested Key Cache.
+     *
      * @var array
      */
     protected $nestedKeyCache = [];
@@ -35,33 +40,36 @@ class ArrayContainer implements ArrayAccess, Iterator
     }
 
     /**
-     * Push value onto the collection
+     * Push value onto the collection.
+     *
      * @deprecated this isn't used, it also doesn't work in a multi dimensional way with dot notation. Do Not Use.
+     *
      * @param mixed $value
      */
-    public function push($value) {
+    public function push($value)
+    {
         array_push($this->items, $value);
         $this->nestedKeyCache = [];
     }
 
     /**
-     * Add or amend an item in the container by $key
+     * Add or amend an item in the container by $key.
      *
      * @param string $key
-     * @param mixed $value
+     * @param mixed  $value
      */
     public function set($key, $value)
     {
         if ($this->isNestedKey($key)) {
             $this->setNestedValueByKey($key, $value);
-        }else{
+        } else {
             $this->items[$key] = $value;
         }
         $this->nestedKeyCache = [];
     }
 
     /**
-     * Remove an items from the container by $key
+     * Remove an items from the container by $key.
      *
      * @param string $key
      */
@@ -69,7 +77,7 @@ class ArrayContainer implements ArrayAccess, Iterator
     {
         if ($this->isNestedKey($key)) {
             $this->removeNestedValueByKey($key);
-        }else{
+        } else {
             unset($this->items[$key]);
         }
 
@@ -77,10 +85,11 @@ class ArrayContainer implements ArrayAccess, Iterator
     }
 
     /**
-     * Get an item from the container by $key if it exists or else return $default
+     * Get an item from the container by $key if it exists or else return $default.
      *
      * @param string $key
-     * @param mixed $default
+     * @param mixed  $default
+     *
      * @return mixed
      */
     public function get($key, $default = null)
@@ -91,28 +100,30 @@ class ArrayContainer implements ArrayAccess, Iterator
 
         if (!$this->isNestedKey($key)) {
             return $this->items[$key];
-        }else{
+        } else {
             return $this->getNestedValueByKey($key);
         }
     }
 
     /**
-     * Returns boolean true if the $key exists in this container
+     * Returns boolean true if the $key exists in this container.
      *
      * @param string $key
+     *
      * @return bool
      */
     public function has($key)
     {
         if (!$this->isNestedKey($key)) {
             return isset($this->items[$key]);
-        }else{
+        } else {
             return !is_null($this->getNestedValueByKey($key));
         }
     }
 
     /**
      * @toto implement feature
+     *
      * @param array $items
      */
     public function merge(array $items)
@@ -122,7 +133,7 @@ class ArrayContainer implements ArrayAccess, Iterator
     }
 
     /**
-     * Return all items within the container
+     * Return all items within the container.
      *
      * @return array
      */
@@ -137,11 +148,13 @@ class ArrayContainer implements ArrayAccess, Iterator
     }
 
     /**
-     * Recursive array merge found from stackoverflow
+     * Recursive array merge found from stackoverflow.
      *
      * @link http://stackoverflow.com/a/25712428/1225977
+     *
      * @param array $left
      * @param array $right
+     *
      * @return array
      */
     private function arrayMergeRecursive(array &$left, array &$right)
@@ -160,57 +173,66 @@ class ArrayContainer implements ArrayAccess, Iterator
                 }
             }
         }
+
         return $merged;
     }
 
     /**
      * @param string $key
+     *
      * @return bool
      */
-    private function isNestedKey($key) {
+    private function isNestedKey($key)
+    {
         return str_contains($key, '.');
     }
 
-    private function removeNestedValueByKey($key) {
+    private function removeNestedValueByKey($key)
+    {
         // Bust Cache
         $this->removeKeyFromNestedCache($key);
 
         // Check to see if this is targeting an instance of ArrayContainer and pass the nested value on
         $keyParts = explode('.', $key);
-        if($this->get($keyParts[0]) instanceof ArrayContainer && $arrayContainer = $this->get($keyParts[0])){
+        if ($this->get($keyParts[0]) instanceof self && $arrayContainer = $this->get($keyParts[0])) {
             array_shift($keyParts);
-            /** @var ArrayContainer $arrayContainer */
+            /* @var ArrayContainer $arrayContainer */
             $arrayContainer->remove(implode('.', $keyParts));
+
             return true;
-        } unset($keyParts);
+        }
+        unset($keyParts);
 
         $items = &$this->items;
         $keyParts = explode('.', $key);
         $lastKeyPart = end($keyParts);
         foreach ($keyParts as $keyPart) {
-            if ($keyPart === $lastKeyPart){
+            if ($keyPart === $lastKeyPart) {
                 unset($items[$keyPart]);
                 break;
             }
             $items = &$items[$keyPart];
         }
-        return true;
 
+        return true;
     }
 
-    private function setNestedValueByKey($key, $value) {
+    private function setNestedValueByKey($key, $value)
+    {
 
         // Bust Cache
         $this->removeKeyFromNestedCache($key);
 
         // Check to see if this is targeting an instance of ArrayContainer and pass the nested value on
         $keyParts = explode('.', $key);
-        if($this->get($keyParts[0]) instanceof ArrayContainer && $arrayContainer = $this->get($keyParts[0])){
+        if ($this->get($keyParts[0]) instanceof self && $arrayContainer = $this->get($keyParts[0])) {
             array_shift($keyParts);
-            /** @var ArrayContainer $arrayContainer */
+            /* @var ArrayContainer $arrayContainer */
             $arrayContainer->set(implode('.', $keyParts), $value);
+
             return true;
-        } unset($keyParts);
+        }
+        unset($keyParts);
 
         $items = &$this->items;
         foreach (explode('.', $key) as $keyPart) {
@@ -222,63 +244,71 @@ class ArrayContainer implements ArrayAccess, Iterator
 
     /**
      * @param string $key
+     *
      * @return string|null
      */
-    private function getNestedValueByKey($key) {
+    private function getNestedValueByKey($key)
+    {
         if (isset($this->nestedKeyCache[$key])) {
             return $this->nestedKeyCache[$key];
         }
 
         // Check to see if this is targeting an instance of ArrayContainer and grab it from the nested container
         $keyParts = explode('.', $key);
-        if($this->get($keyParts[0]) instanceof ArrayContainer && $arrayContainer = $this->get($keyParts[0])){
+        if ($this->get($keyParts[0]) instanceof self && $arrayContainer = $this->get($keyParts[0])) {
             array_shift($keyParts);
-            /** @var ArrayContainer $arrayContainer */
+            /* @var ArrayContainer $arrayContainer */
             $value = $arrayContainer->get(implode('.', $keyParts));
         } else {
             $value = $this->items;
             foreach (explode('.', $key) as $keyPart) {
-                if ((! is_array($value) || ! $value instanceof ArrayContainer)) {
+                if ((!is_array($value) || !$value instanceof self)) {
                     if (is_object($value) && method_exists($value, 'arrayAccessByKey')) {
-                        if ($value = $value->arrayAccessByKey($keyPart)){
+                        if ($value = $value->arrayAccessByKey($keyPart)) {
                             break;
-                        }else{
-                            return null;
+                        } else {
+                            return;
                         }
                     }
                 }
 
-                if (! isset($value[$keyPart])) {
-                    return null;
+                if (!isset($value[$keyPart])) {
+                    return;
                 }
 
-                if ( is_array($value[$keyPart]) && ! array_key_exists($keyPart, $value) ) {
-                    return null;
+                if (is_array($value[$keyPart]) && !array_key_exists($keyPart, $value)) {
+                    return;
                 }
                 $value = $value[$keyPart];
             }
         }
 
         $this->nestedKeyCache[$key] = $value;
+
         return $value;
     }
 
-    private function removeKeyFromNestedCache($key) {
+    private function removeKeyFromNestedCache($key)
+    {
         if (isset($this->nestedKeyCache[$key])) {
             unset($this->nestedKeyCache[$key]);
-        }else{
-            $this->nestedKeyCache = array_filter($this->nestedKeyCache, function($arrayKey) use($key){
+        } else {
+            $this->nestedKeyCache = array_filter($this->nestedKeyCache, function ($arrayKey) use ($key) {
                 $n = strpos($arrayKey, $key) === false;
+
                 return $n;
             }, ARRAY_FILTER_USE_KEY);
         }
     }
 
     /**
-     * Whether a offset exists
+     * Whether a offset exists.
+     *
      * @link http://php.net/manual/en/arrayaccess.offsetexists.php
+     *
      * @param mixed $offset
-     * @return boolean true on success or false on failure. The return value will be casted to boolean if non-boolean was returned.
+     *
+     * @return bool true on success or false on failure. The return value will be casted to boolean if non-boolean was returned.
      */
     public function offsetExists($offset)
     {
@@ -286,9 +316,12 @@ class ArrayContainer implements ArrayAccess, Iterator
     }
 
     /**
-     * Offset to retrieve
+     * Offset to retrieve.
+     *
      * @link http://php.net/manual/en/arrayaccess.offsetget.php
+     *
      * @param mixed $offset
+     *
      * @return mixed Can return all value types.
      */
     public function offsetGet($offset)
@@ -297,10 +330,13 @@ class ArrayContainer implements ArrayAccess, Iterator
     }
 
     /**
-     * Offset to set
+     * Offset to set.
+     *
      * @link http://php.net/manual/en/arrayaccess.offsetset.php
+     *
      * @param mixed $offset
      * @param mixed $value
+     *
      * @return void
      */
     public function offsetSet($offset, $value)
@@ -309,9 +345,12 @@ class ArrayContainer implements ArrayAccess, Iterator
     }
 
     /**
-     * Offset to unset
+     * Offset to unset.
+     *
      * @link http://php.net/manual/en/arrayaccess.offsetunset.php
+     *
      * @param mixed $offset
+     *
      * @return void
      */
     public function offsetUnset($offset)
@@ -320,22 +359,29 @@ class ArrayContainer implements ArrayAccess, Iterator
     }
 
     /**
-     * Return the current element
+     * Return the current element.
+     *
      * @link http://php.net/manual/en/iterator.current.php
+     *
      * @return mixed Can return any type.
+     *
      * @since 5.0.0
      */
     public function current()
     {
         $k = array_keys($this->items);
         $var = $this->items[$k[$this->index]];
+
         return $var;
     }
 
     /**
-     * Move forward to next element
+     * Move forward to next element.
+     *
      * @link http://php.net/manual/en/iterator.next.php
+     *
      * @return void Any returned value is ignored.
+     *
      * @since 5.0.0
      */
     public function next()
@@ -344,35 +390,46 @@ class ArrayContainer implements ArrayAccess, Iterator
     }
 
     /**
-     * Return the key of the current element
+     * Return the key of the current element.
+     *
      * @link http://php.net/manual/en/iterator.key.php
+     *
      * @return mixed scalar on success, or null on failure.
+     *
      * @since 5.0.0
      */
     public function key()
     {
         $k = array_keys($this->items);
         $var = $k[$this->index];
+
         return $var;
     }
 
     /**
-     * Checks if current position is valid
+     * Checks if current position is valid.
+     *
      * @link http://php.net/manual/en/iterator.valid.php
-     * @return boolean The return value will be casted to boolean and then evaluated.
-     * Returns true on success or false on failure.
+     *
+     * @return bool The return value will be casted to boolean and then evaluated.
+     *              Returns true on success or false on failure.
+     *
      * @since 5.0.0
      */
     public function valid()
     {
         $k = array_keys($this->items);
+
         return isset($k[$this->index]);
     }
 
     /**
-     * Rewind the Iterator to the first element
+     * Rewind the Iterator to the first element.
+     *
      * @link http://php.net/manual/en/iterator.rewind.php
+     *
      * @return void Any returned value is ignored.
+     *
      * @since 5.0.0
      */
     public function rewind()
@@ -391,9 +448,10 @@ class ArrayContainer implements ArrayAccess, Iterator
     }
 
     /**
-     * Output the container as an array
+     * Output the container as an array.
      *
      * @param int $options
+     *
      * @return string
      */
     public function toJson($options = 0)
@@ -402,39 +460,45 @@ class ArrayContainer implements ArrayAccess, Iterator
     }
 
     /**
-     * Sort through each item within the container by callback
+     * Sort through each item within the container by callback.
      *
      * @param Closure $callback
+     *
      * @return $this
      */
     public function sort(Closure $callback)
     {
         uasort($this->items, $callback);
+
         return $this;
     }
 
     /**
-     * A 2D array sort, useful for when you need to sort a two dimensional array
+     * A 2D array sort, useful for when you need to sort a two dimensional array.
      *
      * @param Closure $callback
+     *
      * @return $this
      */
     public function sortMultiDimension(Closure $callback)
     {
         foreach ($this->items as &$sortable) {
             uasort($sortable, $callback);
-        }unset($sortable);
+        }
+        unset($sortable);
+
         return $this;
     }
 
     /**
-     * Allow the filtering of items by key
+     * Allow the filtering of items by key.
      *
      * @param array $filteredKeys
      */
-    public function filterKeys(array $filteredKeys = []) {
-        $this->items = array_filter($this->items, function($key) use($filteredKeys){
-            return ! isset($filteredKeys[$key]);
+    public function filterKeys(array $filteredKeys = [])
+    {
+        $this->items = array_filter($this->items, function ($key) use ($filteredKeys) {
+            return !isset($filteredKeys[$key]);
         }, ARRAY_FILTER_USE_KEY);
     }
 }

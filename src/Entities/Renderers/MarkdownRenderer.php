@@ -1,4 +1,6 @@
-<?php namespace Tapestry\Entities\Renderers;
+<?php
+
+namespace Tapestry\Entities\Renderers;
 
 use cebe\markdown\GithubMarkdown;
 use Tapestry\Entities\File;
@@ -16,6 +18,7 @@ class MarkdownRenderer implements RendererInterface
 
     /**
      * MarkdownRenderer constructor.
+     *
      * @param GithubMarkdown $markdown
      */
     public function __construct(GithubMarkdown $markdown)
@@ -34,9 +37,10 @@ class MarkdownRenderer implements RendererInterface
     }
 
     /**
-     * Returns true if the renderer can render the given extension
+     * Returns true if the renderer can render the given extension.
      *
      * @param string $extension
+     *
      * @return bool
      */
     public function canRender($extension)
@@ -45,9 +49,10 @@ class MarkdownRenderer implements RendererInterface
     }
 
     /**
-     * Render the input file content and return the output
+     * Render the input file content and return the output.
      *
      * @param File $file
+     *
      * @return string
      */
     public function render(File $file)
@@ -56,7 +61,7 @@ class MarkdownRenderer implements RendererInterface
     }
 
     /**
-     * Returns the extension that the rendered output conforms to
+     * Returns the extension that the rendered output conforms to.
      *
      * @return string
      */
@@ -77,6 +82,7 @@ class MarkdownRenderer implements RendererInterface
 
     /**
      * @param File $file
+     *
      * @return void
      */
     public function mutateFile(File &$file)

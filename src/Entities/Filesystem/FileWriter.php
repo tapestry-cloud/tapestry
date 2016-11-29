@@ -1,4 +1,6 @@
-<?php namespace Tapestry\Entities\Filesystem;
+<?php
+
+namespace Tapestry\Entities\Filesystem;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -33,7 +35,7 @@ class FileWriter implements FilesystemInterface
     public function __invoke(Filesystem $filesystem, OutputInterface $output)
     {
         $outputPath = $this->file->getCompiledPermalink();
-        $output->writeln('[+] Writing File ['. $this->file->getUid() .'] to path ['. $outputPath .']');
-        $filesystem->dumpFile($this->destinationPath . DIRECTORY_SEPARATOR . $outputPath, $this->file->getContent());
+        $output->writeln('[+] Writing File ['.$this->file->getUid().'] to path ['.$outputPath.']');
+        $filesystem->dumpFile($this->destinationPath.DIRECTORY_SEPARATOR.$outputPath, $this->file->getContent());
     }
 }
