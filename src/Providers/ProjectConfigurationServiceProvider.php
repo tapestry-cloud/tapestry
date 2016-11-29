@@ -23,17 +23,23 @@ class ProjectConfigurationServiceProvider extends AbstractServiceProvider
      */
     public function register()
     {
+        $container = $this->getContainer();
+
         /** @var Tapestry $tapestry */
-        $tapestry = $this->getContainer()->get(Tapestry::class);
+        $tapestry = $container->get(Tapestry::class);
 
         $configuration = new Configuration(include(__DIR__ . '/../../src/Modules/Config/DefaultConfig.php'));
 
         $configPath = $tapestry['currentWorkingDirectory'] . DIRECTORY_SEPARATOR . 'config.php';
-
         if (file_exists($configPath)){
             $configuration->merge(include($configPath));
         }
 
-        $this->getContainer()->share(Configuration::class, $configuration);
+        $configPath = $tapestry['currentWorkingDirectory'] . DIRECTORY_SEPARATOR . 'config-'. $tapestry['environment'] .'.php';
+        if (file_exists($configPath)){
+            $configuration->merge(include($configPath));
+        }
+
+        $container->share(Configuration::class, $configuration);
     }
 }

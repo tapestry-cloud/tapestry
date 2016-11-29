@@ -4,7 +4,8 @@ use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Input\InputOption;
 use Tapestry\Tapestry;
 
-class Application extends ConsoleApplication{
+class Application extends ConsoleApplication
+{
 
     /**
      * @var Tapestry
@@ -22,7 +23,8 @@ class Application extends ConsoleApplication{
         $this->getDefinition()->addOptions(
             [
                 new InputOption('--site-dir', null, InputOption::VALUE_REQUIRED, 'The site directory', getcwd()),
-                new InputOption('--env', 'e', InputOption::VALUE_REQUIRED, 'Site environment', 'local')
+                new InputOption('--env', 'e', InputOption::VALUE_REQUIRED, 'Site environment', 'local'),
+                new InputOption('--stopwatch', 's', InputOption::VALUE_NONE, 'Time how long the build took')
             ]
         );
         $this->tapestry = $tapestry;
@@ -37,7 +39,8 @@ class Application extends ConsoleApplication{
     public function getLongVersion()
     {
         if ('UNKNOWN' !== $this->getName() && 'UNKNOWN' !== $this->getVersion()) {
-            return sprintf('<info>%s</info> version <comment>%s</comment>, environment <comment>%s</comment>', $this->getName(), $this->getVersion(), $this->tapestry['environment']);
+            return sprintf('<info>%s</info> version <comment>%s</comment>, environment <comment>%s</comment>',
+                $this->getName(), $this->getVersion(), $this->tapestry['environment']);
         }
         return '<info>Console Tool</info>';
     }
