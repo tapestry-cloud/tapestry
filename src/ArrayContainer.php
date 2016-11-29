@@ -426,4 +426,15 @@ class ArrayContainer implements ArrayAccess, Iterator
         }unset($sortable);
         return $this;
     }
+
+    /**
+     * Allow the filtering of items by key
+     *
+     * @param array $filteredKeys
+     */
+    public function filterKeys(array $filteredKeys = []) {
+        $this->items = array_filter($this->items, function($key) use($filteredKeys){
+            return ! isset($filteredKeys[$key]);
+        }, ARRAY_FILTER_USE_KEY);
+    }
 }

@@ -52,7 +52,6 @@ class ContentType
      */
     private $items;
 
-
     /**
      * Cached output of getFileList. This is because two items with the same timestamp will end up randomly
      * swapping places with each other between calls to getFileList as happens with CollectionItemGenerator.
@@ -141,6 +140,7 @@ class ContentType
         if (! is_null($this->itemsOrderCache)) {
             return $this->itemsOrderCache;
         }
+
         // Order Files by date newer to older
         $this->items->sort(function($a, $b) use ($order){
             if ($a == $b) {

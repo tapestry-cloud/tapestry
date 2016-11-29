@@ -8,6 +8,8 @@ use League\Container\Container;
 use League\Container\ServiceProvider\ServiceProviderInterface;
 use League\Event\Emitter;
 use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\InputDefinition;
+use Symfony\Component\Console\Input\InputOption;
 
 class Tapestry implements ContainerAwareInterface, ArrayAccess
 {
@@ -35,22 +37,34 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
      */
     public function __construct($arguments = [])
     {
-        if (php_sapi_name() === 'cli') {
+        //if (php_sapi_name() === 'cli') {
             $input = new ArgvInput();
             if ((!$siteEnvironment = $input->getParameterOption('--env')) && (!$siteEnvironment = $input->getParameterOption('-e'))) {
-                $siteEnvironment = 'local';
+                $siteEnvironment = (isset($arguments['--env'])) ? $arguments['--env'] : 'local';
             }
             if (!$siteDirectory = $input->getParameterOption('--site-dir')) {
-                $siteDirectory = getcwd();
+                $siteDirectory = (isset($arguments['--site-dir'])) ? $arguments['--site-dir'] : getcwd();
             }
-        }else{
-            $siteEnvironment = (isset($arguments['environment'])) ? $arguments['environment'] : 'local';
-            $siteDirectory = (isset($arguments['cwd'])) ? $arguments['cwd'] : getcwd();
-        }
+        //}
 
         $this['environment'] = $siteEnvironment;
         $this['currentWorkingDirectory'] = $siteDirectory;
         $this['events'] = new Emitter();
+
+        $this->boot();
+    }
+
+    /**
+     * Register/Boot Providers
+     *
+     * @return void
+     */
+    public function boot(){
+        $this->register(\Tapestry\Providers\ProjectConfigurationServiceProvider::class);
+        $this->register(\Tapestry\Providers\ProjectKernelServiceProvider::class);
+        $this->register(\Tapestry\Providers\CompileStepsServiceProvider::class);
+        $this->register(\Tapestry\Providers\CommandServiceProvider::class);
+        $this->register(\Tapestry\Providers\PlatesServiceProvider::class);
     }
 
     /**
