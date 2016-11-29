@@ -37,26 +37,28 @@ class ProjectKernelServiceProvider extends AbstractServiceProvider implements Bo
      */
     public function boot()
     {
-        /** @var Tapestry $tapestry */
-        $tapestry = $this->getContainer()->get(Tapestry::class);
+        $container = $this->getContainer();
 
-        $configuration = $this->getContainer()->get(Configuration::class);
+        /** @var Tapestry $tapestry */
+        $tapestry = $container->get(Tapestry::class);
+
+        $configuration = $container->get(Configuration::class);
 
         $kernelPath = $tapestry['currentWorkingDirectory'] . DIRECTORY_SEPARATOR . 'kernel.php';
 
         if (file_exists($kernelPath)){
             include $kernelPath;
-            $this->getContainer()->share(KernelInterface::class, $configuration->get('kernel', DefaultKernel::class))->withArgument(
-                $this->getContainer()->get(Tapestry::class)
+            $container->share(KernelInterface::class, $configuration->get('kernel', DefaultKernel::class))->withArgument(
+                $container->get(Tapestry::class)
             );
         }else{
-            $this->getContainer()->share(KernelInterface::class, DefaultKernel::class)->withArgument(
-                $this->getContainer()->get(Tapestry::class)
+            $container->share(KernelInterface::class, DefaultKernel::class)->withArgument(
+                $container->get(Tapestry::class)
             );
         }
 
         /** @var KernelInterface $kernel */
-        $kernel = $this->getContainer()->get(KernelInterface::class);
+        $kernel = $container->get(KernelInterface::class);
         $kernel->register();
     }
 }
