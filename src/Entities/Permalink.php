@@ -63,7 +63,7 @@ class Permalink
             $output = '/' . $output;
         }
 
-        if ($pretty === true && $file->getData('pretty_permalinks', true)) {
+        if ($pretty === true && $file->getData('pretty_permalink', true)) {
             return $this->prettify($output);
         }
 
