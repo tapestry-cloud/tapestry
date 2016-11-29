@@ -24,7 +24,3 @@ if (isset($include)) {
     echo "Please run composer install." . PHP_EOL;
     exit(1);
 }
-
-$tapestry = new \Tapestry\Tapestry();
-
-return $tapestry;

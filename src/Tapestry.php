@@ -37,18 +37,15 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
      */
     public function __construct($arguments = [])
     {
-        $siteEnvironment = (isset($arguments['environment'])) ? $arguments['environment'] : 'local';
-        $siteDirectory = (isset($arguments['cwd'])) ? $arguments['cwd'] : getcwd();
-
-        if (php_sapi_name() === 'cli') {
+        //if (php_sapi_name() === 'cli') {
             $input = new ArgvInput();
             if ((!$siteEnvironment = $input->getParameterOption('--env')) && (!$siteEnvironment = $input->getParameterOption('-e'))) {
-                $siteEnvironment = 'local';
+                $siteEnvironment = (isset($arguments['--env'])) ? $arguments['--env'] : 'local';
             }
             if (!$siteDirectory = $input->getParameterOption('--site-dir')) {
-                $siteDirectory = getcwd();
+                $siteDirectory = (isset($arguments['--site-dir'])) ? $arguments['--site-dir'] : getcwd();
             }
-        }
+        //}
 
         $this['environment'] = $siteEnvironment;
         $this['currentWorkingDirectory'] = $siteDirectory;
