@@ -4,6 +4,7 @@ namespace Tapestry\Providers;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use League\Container\ServiceProvider\BootableServiceProviderInterface;
+use Phine\Exception\Exception;
 use Tapestry\Entities\Configuration;
 use Tapestry\Modules\Kernel\DefaultKernel;
 use Tapestry\Modules\Kernel\KernelInterface;
@@ -48,7 +49,14 @@ class ProjectKernelServiceProvider extends AbstractServiceProvider implements Bo
 
         if (file_exists($kernelPath)) {
             include $kernelPath;
-            $container->share(KernelInterface::class, $configuration->get('kernel', DefaultKernel::class))->withArgument(
+
+            $kernelClassName = $configuration->get('kernel', DefaultKernel::class);
+
+            if (! class_exists($kernelClassName)){
+                throw new Exception('['. $kernelClassName .'] kernel file not found.');
+            }
+
+            $container->share(KernelInterface::class,$kernelClassName)->withArgument(
                 $container->get(Tapestry::class)
             );
         } else {
