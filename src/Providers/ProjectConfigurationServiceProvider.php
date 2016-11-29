@@ -23,8 +23,10 @@ class ProjectConfigurationServiceProvider extends AbstractServiceProvider
      */
     public function register()
     {
+        $container = $this->getContainer();
+
         /** @var Tapestry $tapestry */
-        $tapestry = $this->getContainer()->get(Tapestry::class);
+        $tapestry = $container->get(Tapestry::class);
 
         $configuration = new Configuration(include(__DIR__ . '/../../src/Modules/Config/DefaultConfig.php'));
 
@@ -38,6 +40,6 @@ class ProjectConfigurationServiceProvider extends AbstractServiceProvider
             $configuration->merge(include($configPath));
         }
 
-        $this->getContainer()->share(Configuration::class, $configuration);
+        $container->share(Configuration::class, $configuration);
     }
 }
