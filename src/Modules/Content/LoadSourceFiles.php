@@ -19,8 +19,17 @@ class LoadSourceFiles implements Step
      */
     private $tapestry;
 
-    /** @var ExcludedFilesCollection */
+    /**
+     * @var ExcludedFilesCollection
+     */
     private $excluded;
+
+    /**
+     * @var bool
+    */
+    private $prettyPermalink = true;
+
+    private $publishDrafts = false;
 
     /**
      * LoadSourceFiles constructor.
@@ -31,6 +40,8 @@ class LoadSourceFiles implements Step
     {
         $this->tapestry = $tapestry;
         $this->excluded = new ExcludedFilesCollection($configuration->get('ignore'));
+        $this->prettyPermalink = boolval($configuration->get('pretty_permalink', true));
+        $this->publishDrafts = boolval($configuration->get('publish_drafts', false));
     }
 
     /**
@@ -66,13 +77,21 @@ class LoadSourceFiles implements Step
 
         foreach($finder->files() as $file)
         {
-            $file = new File($file);
+            $file = new File($file, [
+                'pretty_permalink' => $this->prettyPermalink
+            ]);
             $renderer = $contentRenderers->get($file->getFileInfo()->getExtension());
 
             if ($renderer->supportsFrontMatter()) {
                 $frontMatter = new FrontMatter($file->getFileContent());
                 $file->setData($frontMatter->getData());
                 $file->setContent($frontMatter->getContent());
+            }
+
+            if ($this->publishDrafts === false) {
+                if (boolval($file->getData('draft', false)) === true) {
+                    continue;
+                }
             }
 
             if (! $contentType = $contentTypes->find($file->getFileInfo()->getRelativePath())){
