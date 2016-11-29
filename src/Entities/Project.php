@@ -1,4 +1,6 @@
-<?php namespace Tapestry\Entities;
+<?php
+
+namespace Tapestry\Entities;
 
 use Tapestry\ArrayContainer;
 use Tapestry\Entities\Collections\FlatCollection;
@@ -28,20 +30,21 @@ class Project extends ArrayContainer
 
     /**
      * Project constructor.
+     *
      * @param $currentWorkingDirectory
      * @param $environment
      */
     public function __construct($currentWorkingDirectory, $environment)
     {
-        $this->sourceDirectory = $currentWorkingDirectory . DIRECTORY_SEPARATOR . 'source';
-        $this->destinationDirectory = $currentWorkingDirectory . DIRECTORY_SEPARATOR . 'build_' . $environment;
+        $this->sourceDirectory = $currentWorkingDirectory.DIRECTORY_SEPARATOR.'source';
+        $this->destinationDirectory = $currentWorkingDirectory.DIRECTORY_SEPARATOR.'build_'.$environment;
 
         $this->currentWorkingDirectory = $currentWorkingDirectory;
         $this->environment = $environment;
 
         parent::__construct(
             [
-                'files' => new FlatCollection()
+                'files' => new FlatCollection(),
             ]
         );
     }
@@ -51,16 +54,17 @@ class Project extends ArrayContainer
      */
     public function addFile(ProjectFileInterface $file)
     {
-        $this->set('files.' . $file->getUid(), $file);
+        $this->set('files.'.$file->getUid(), $file);
     }
 
     /**
      * @param string $key
+     *
      * @return ProjectFileInterface|File|FileGenerator
      */
     public function getFile($key)
     {
-        return $this->get('files.' . $key);
+        return $this->get('files.'.$key);
     }
 
     /**
@@ -68,7 +72,7 @@ class Project extends ArrayContainer
      */
     public function removeFile(ProjectFileInterface $file)
     {
-        $this->remove('files.'. $file->getUid());
+        $this->remove('files.'.$file->getUid());
     }
 
     /**
@@ -83,7 +87,8 @@ class Project extends ArrayContainer
 
     /**
      * @param string $name
-     * @param File $file
+     * @param File   $file
+     *
      * @return ProjectFileGeneratorInterface
      */
     public function getContentGenerator($name, File $file)
@@ -93,10 +98,11 @@ class Project extends ArrayContainer
 
     /**
      * @param string $name
+     *
      * @return ContentType
      */
     public function getContentType($name)
     {
-        return $this->get('content_types.'. $name);
+        return $this->get('content_types.'.$name);
     }
 }

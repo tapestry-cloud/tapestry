@@ -1,9 +1,11 @@
-<?php namespace SiteEleven;
+<?php
+
+namespace SiteEleven;
 
 use Interop\Container\ContainerInterface;
 use Tapestry\Tapestry;
 
-class SiteKernel implements \Tapestry\Kernel\KernelInterface
+class kernel implements \Tapestry\Kernel\KernelInterface
 {
     /**
      * @var Tapestry
@@ -26,10 +28,10 @@ class SiteKernel implements \Tapestry\Kernel\KernelInterface
     public function boot(ContainerInterface $container)
     {
         // Not the ideal way of adding the file, but this a test so autoloading is not required :)
-        include __DIR__ . '/TestKernelCommand.php';
+        include __DIR__.'/TestKernelCommand.php';
 
         /** @var \Tapestry\Console\Application $cliApplication */
         $cliApplication = $container->get(\Tapestry\Console\Application::class);
-        $cliApplication->add( new \SiteEleven\TestKernelCommand() );
+        $cliApplication->add(new \SiteEleven\TestKernelCommand());
     }
 }

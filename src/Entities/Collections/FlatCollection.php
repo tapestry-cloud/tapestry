@@ -1,9 +1,12 @@
-<?php namespace Tapestry\Entities\Collections;
+<?php
+
+namespace Tapestry\Entities\Collections;
 
 use Tapestry\ArrayContainer;
 
 // do we need search/filter/order/pagination/etc functionality baked into this class?
-class FlatCollection extends ArrayContainer {
+class FlatCollection extends ArrayContainer
+{
     public function set($key, $value)
     {
         $this->items[$key] = $value;
@@ -19,6 +22,7 @@ class FlatCollection extends ArrayContainer {
         if (!$this->has($key)) {
             return $default;
         }
+
         return $this->items[$key];
     }
 }

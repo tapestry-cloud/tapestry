@@ -1,4 +1,6 @@
-<?php namespace Tapestry\Tests;
+<?php
+
+namespace Tapestry\Tests;
 
 use Tapestry\ArrayContainer;
 
@@ -9,9 +11,9 @@ class ArrayContainerMergeTest extends CommandTestBase
         $arrayContainer = new ArrayContainer([
             'a' => true,
             'b' => [
-                'c' => 123
+                'c' => 123,
             ],
-            'd' => 'hello'
+            'd' => 'hello',
         ]);
 
         $this->assertEquals(true, $arrayContainer->has('a'));
@@ -30,28 +32,28 @@ class ArrayContainerMergeTest extends CommandTestBase
         $arrayContainer->merge([
             'b' => [
                 'hello',
-                'world'
-            ]
+                'world',
+            ],
         ]);
 
         $this->assertEquals([
             'c' => 123,
             'hello',
-            'world'
+            'world',
         ], $arrayContainer->get('b'));
     }
 
     /**
-     * Test `merge` method successfully merges
+     * Test `merge` method successfully merges.
      */
     public function testArrayMerge()
     {
         $arrayContainer = new ArrayContainer([
             'a' => true,
             'b' => [
-                'c' => 123
+                'c' => 123,
             ],
-            'd' => 'hello'
+            'd' => 'hello',
         ]);
 
         $this->assertEquals(true, $arrayContainer->get('a'));
@@ -61,10 +63,10 @@ class ArrayContainerMergeTest extends CommandTestBase
         $arrayContainer->merge([
             'a' => false,
             'b' => [
-                'c' => 321,
-                'c1' => 'Hello world!'
+                'c'  => 321,
+                'c1' => 'Hello world!',
             ],
-            'e' => 'Test'
+            'e' => 'Test',
         ]);
 
         $this->assertEquals(false, $arrayContainer->get('a'));
@@ -75,7 +77,7 @@ class ArrayContainerMergeTest extends CommandTestBase
     }
 
     /**
-     * Test that `has` method works in both single and dot notation modes
+     * Test that `has` method works in both single and dot notation modes.
      */
     public function testHas()
     {
@@ -97,16 +99,16 @@ class ArrayContainerMergeTest extends CommandTestBase
     }
 
     /**
-     * Test that `set` method works in both single and dot notation modes as well as correctly merges input
+     * Test that `set` method works in both single and dot notation modes as well as correctly merges input.
      */
     public function testSet()
     {
         $arrayContainer = new ArrayContainer([
             'a' => true,
             'b' => [
-                'c' => 123
+                'c' => 123,
             ],
-            'd' => 'hello'
+            'd' => 'hello',
         ]);
 
         $b = $arrayContainer->get('b');
@@ -125,7 +127,7 @@ class ArrayContainerMergeTest extends CommandTestBase
     }
 
     /**
-     * Test that `remove` method works in both single and dot notation modes
+     * Test that `remove` method works in both single and dot notation modes.
      */
     public function testRemove()
     {
@@ -136,10 +138,10 @@ class ArrayContainerMergeTest extends CommandTestBase
                 'e' => 'Test_B',
                 'f' => [
                     'hello' => 'world',
-                    'world' => 'hello'
-                ]
+                    'world' => 'hello',
+                ],
             ],
-            'd' => 'hello'
+            'd' => 'hello',
         ]);
 
         $arrayContainer->remove('a');
@@ -160,7 +162,7 @@ class ArrayContainerMergeTest extends CommandTestBase
     }
 
     /**
-     * Test pass-through functionality when value is an instance of `ArrayContainer`
+     * Test pass-through functionality when value is an instance of `ArrayContainer`.
      */
     public function testNestedArrayContainer()
     {
@@ -170,10 +172,10 @@ class ArrayContainerMergeTest extends CommandTestBase
                 'c' => 'A_C_Test',
                 'f' => [
                     'hello' => 'world',
-                    'world' => 'hello'
-                ]
+                    'world' => 'hello',
+                ],
             ]),
-            'd' => 'D_Test'
+            'd' => 'D_Test',
         ]);
 
         $this->assertEquals(true, $arrayContainer->has('a'));
@@ -204,13 +206,14 @@ class ArrayContainerMergeTest extends CommandTestBase
     }
 
     /**
-     * Test special pass-through when value is a class with method `arrayAccessByKey`
+     * Test special pass-through when value is a class with method `arrayAccessByKey`.
      */
-    public function testArrayAccessByKey (){
+    public function testArrayAccessByKey()
+    {
         $arrayContainer = new ArrayContainer();
         $arrayContainer->set('a', new MockArrayAccessByKeyClass([
             'hello' => 'world',
-            'world' => 'hello'
+            'world' => 'hello',
         ]));
 
         $this->assertEquals('world', $arrayContainer->get('a.hello'));

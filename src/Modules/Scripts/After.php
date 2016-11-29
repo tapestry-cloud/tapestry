@@ -1,4 +1,6 @@
-<?php namespace Tapestry\Modules\Scripts;
+<?php
+
+namespace Tapestry\Modules\Scripts;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Tapestry\Entities\Project;
@@ -14,6 +16,7 @@ class After implements Step
 
     /**
      * Before constructor.
+     *
      * @param Tapestry $tapestry
      */
     public function __construct(Tapestry $tapestry)
@@ -24,13 +27,15 @@ class After implements Step
     /**
      * Process the Project at current.
      *
-     * @param Project $project
+     * @param Project         $project
      * @param OutputInterface $output
+     *
      * @return mixed
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
         $this->tapestry->getEventEmitter()->emit('scripts.after');
+
         return true;
     }
 }

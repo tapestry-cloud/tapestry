@@ -1,15 +1,15 @@
-<?php namespace Tapestry\Entities\Renderers;
+<?php
+
+namespace Tapestry\Entities\Renderers;
 
 use Tapestry\Entities\File;
 
 /**
- * Interface RendererInterface
+ * Interface RendererInterface.
  *
  * A renderer is a class that deals with the actual rendering of a file within a collection.
  * The Manager class loops over all found files and identifies their renderer via the
  * canRender method. A generator then uses the render method to generate the page.
- *
- * @package Tapestry\Modules\Renderers
  */
 interface RendererInterface
 {
@@ -21,23 +21,25 @@ interface RendererInterface
     public function supportedExtensions();
 
     /**
-     * Returns true if the renderer can render the given extension
+     * Returns true if the renderer can render the given extension.
      *
      * @param string $extension
+     *
      * @return bool
      */
     public function canRender($extension);
 
     /**
-     * Render the input file content and return the output
+     * Render the input file content and return the output.
      *
      * @param File $file
+     *
      * @return string
      */
     public function render(File $file);
 
     /**
-     * Returns the extension that the rendered output conforms to
+     * Returns the extension that the rendered output conforms to.
      *
      * @return string
      */
@@ -55,6 +57,7 @@ interface RendererInterface
      * by the HTMLRenderer to pass through a html file that has a template to the PlatesRenderer.
      *
      * @param File $file
+     *
      * @return void
      */
     public function mutateFile(File &$file);

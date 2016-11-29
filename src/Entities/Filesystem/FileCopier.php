@@ -1,4 +1,6 @@
-<?php namespace Tapestry\Entities\Filesystem;
+<?php
+
+namespace Tapestry\Entities\Filesystem;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -33,7 +35,7 @@ class FileCopier implements FilesystemInterface
     public function __invoke(Filesystem $filesystem, OutputInterface $output)
     {
         $outputPath = $this->file->getCompiledPermalink(false);
-        $output->writeln('[+] Copying File ['. $this->file->getUid() .'] to path ['. $outputPath .']');
-        $filesystem->copy($this->file->getFileInfo()->getPathname(), $this->destinationPath . DIRECTORY_SEPARATOR . $outputPath);
+        $output->writeln('[+] Copying File ['.$this->file->getUid().'] to path ['.$outputPath.']');
+        $filesystem->copy($this->file->getFileInfo()->getPathname(), $this->destinationPath.DIRECTORY_SEPARATOR.$outputPath);
     }
 }

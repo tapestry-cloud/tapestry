@@ -1,3 +1,7 @@
-<?php namespace Tapestry\Entities;
+<?php
 
-interface ProjectFileInterface {}
+namespace Tapestry\Entities;
+
+interface ProjectFileInterface
+{
+}
