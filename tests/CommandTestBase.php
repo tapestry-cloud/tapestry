@@ -4,6 +4,8 @@ use Symfony\Component\Console\Tester\ApplicationTester;
 use Symfony\Component\Filesystem\Filesystem;
 use Tapestry\Console\Application;
 
+require_once __DIR__ . '/../src/bootstrap.php';
+
 abstract class CommandTestBase extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -49,19 +51,6 @@ abstract class CommandTestBase extends \PHPUnit_Framework_TestCase
         foreach($files as $file) {
             $file->isDir() ?  rmdir($file) : unlink($file);
         }
-    }
-
-    /**
-     * @return Application
-     */
-    private function createCliApplication()
-    {
-        /** @var Application $jigsaw */
-        $app = require __DIR__ . '/../src/bootstrap.php';
-        /** @var Application $cli */
-        $cli = $app[Application::class];
-        $cli->setAutoExit(false);
-        return $cli;
     }
 
     protected function copyDirectory($from, $to)
@@ -114,7 +103,7 @@ abstract class CommandTestBase extends \PHPUnit_Framework_TestCase
      */
     protected function runCommand($command, array $arguments = [])
     {
-        $applicationTester = new ApplicationTester($this->getCli());
+        $applicationTester = new ApplicationTester($this->getCli($arguments));
         $arguments = array_merge(['command' => $command], $arguments);
         $applicationTester->run($arguments);
         return $applicationTester;
@@ -123,12 +112,14 @@ abstract class CommandTestBase extends \PHPUnit_Framework_TestCase
      * Obtain the cli application for testing
      * @return Application
      */
-    private function getCli()
+    private function getCli(array $arguments = [])
     {
-        if (is_null($this->cli)) {
-            $this->cli = $this->createCliApplication();
-        }
-        return $this->cli;
+        $tapestry = new \Tapestry\Tapestry($arguments);
+
+        /** @var Application $cli */
+        $cli = $tapestry[Application::class];
+        $cli->setAutoExit(false);
+        return $cli;
     }
 
 }

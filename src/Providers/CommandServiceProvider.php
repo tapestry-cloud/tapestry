@@ -30,16 +30,13 @@ class CommandServiceProvider extends AbstractServiceProvider
         $this->getContainer()->add(InitCommand::class)
             ->withArguments([
                 \Symfony\Component\Filesystem\Filesystem::class,
-                \Symfony\Component\Finder\Finder::class,
-                $this->getContainer()->get('currentWorkingDirectory')
+                \Symfony\Component\Finder\Finder::class
             ]);
 
         $this->getContainer()->add(BuildCommand::class)
             ->withArguments([
                 Tapestry::class,
-                $this->getContainer()->get('Compile.Steps'),
-                $this->getContainer()->get('currentWorkingDirectory'),
-                $this->getContainer()->get('environment')
+                $this->getContainer()->get('Compile.Steps')
             ]);
 
         $this->getContainer()->add(SelfUpdateCommand::class)

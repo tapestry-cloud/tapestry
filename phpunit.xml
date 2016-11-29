@@ -8,6 +8,7 @@
 >
     <php>
         <ini name="error_reporting" value="-1"/>
+        <const name="PHPUNIT_TAPESTRY_TESTSUITE" value="true"/>
     </php>
 
     <testsuites>

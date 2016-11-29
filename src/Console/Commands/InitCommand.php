@@ -13,11 +13,6 @@ class InitCommand extends Command
     private $filesystem;
 
     /**
-     * Current Working Directory as set by user input --site-dir or getcwd() by default.
-     * @var string
-     */
-    private $currentWorkingDirectory;
-    /**
      * @var Finder
      */
     private $finder;
@@ -26,14 +21,12 @@ class InitCommand extends Command
      * InitCommand constructor.
      * @param Filesystem $filesystem
      * @param Finder $finder
-     * @param string $currentWorkingDirectory
      */
-    public function __construct(Filesystem $filesystem, Finder $finder, $currentWorkingDirectory)
+    public function __construct(Filesystem $filesystem, Finder $finder)
     {
         parent::__construct();
         $this->filesystem = $filesystem;
         $this->finder = $finder;
-        $this->currentWorkingDirectory = $currentWorkingDirectory;
     }
 
     /**
@@ -48,26 +41,28 @@ class InitCommand extends Command
 
     protected function fire()
     {
+        $currentWorkingDirectory = $this->input->getOption('site-dir');
+
         // If the current working directory does not exist, do nothing and exit. This is often due to a borked --site-dir
-        if (!$this->filesystem->exists($this->currentWorkingDirectory)) {
-            $this->error('The project directory [' . $this->currentWorkingDirectory . '] does not exist. Doing nothing and exiting.');
+        if (!$this->filesystem->exists($currentWorkingDirectory)) {
+            $this->error('The project directory [' . $currentWorkingDirectory . '] does not exist. Doing nothing and exiting.');
             return 1;
         }
 
         if ($name = $this->input->getArgument('name')) {
-            $this->currentWorkingDirectory .= ((substr($this->currentWorkingDirectory, -1, 1) === DIRECTORY_SEPARATOR) ? '' : DIRECTORY_SEPARATOR) . $name;
+            $currentWorkingDirectory .= ((substr($currentWorkingDirectory, -1, 1) === DIRECTORY_SEPARATOR) ? '' : DIRECTORY_SEPARATOR) . $name;
         }
 
-        if ($this->filesystem->exists($this->currentWorkingDirectory) && $this->finder->in($this->currentWorkingDirectory)->count() > 0) {
-            $this->error('The project directory [' . $this->currentWorkingDirectory . '] is not empty. Doing nothing and exiting.');
+        if ($this->filesystem->exists($currentWorkingDirectory) && $this->finder->in($currentWorkingDirectory)->count() > 0) {
+            $this->error('The project directory [' . $currentWorkingDirectory . '] is not empty. Doing nothing and exiting.');
             return 1;
         }
 
-        if (!$this->filesystem->exists($this->currentWorkingDirectory)) {
-            $this->filesystem->mkdir($this->currentWorkingDirectory);
+        if (!$this->filesystem->exists($currentWorkingDirectory)) {
+            $this->filesystem->mkdir($currentWorkingDirectory);
 
-            if (!$this->filesystem->exists($this->currentWorkingDirectory)) {
-                $this->error('The project directory [' . $this->currentWorkingDirectory . '] could not be created.');
+            if (!$this->filesystem->exists($currentWorkingDirectory)) {
+                $this->error('The project directory [' . $currentWorkingDirectory . '] could not be created.');
                 return 1;
             }
         }
@@ -77,7 +72,7 @@ class InitCommand extends Command
         /** @var SplFileInfo $file */
         foreach($this->finder->in($sourcePath) as $file){
             $fromPath = $sourcePath . DIRECTORY_SEPARATOR . $file->getRelativePathname();
-            $toPath = $this->currentWorkingDirectory . DIRECTORY_SEPARATOR . $file->getRelativePathname();
+            $toPath = $currentWorkingDirectory . DIRECTORY_SEPARATOR . $file->getRelativePathname();
 
             if ($file->isDir()){
                 $this->output->writeln('[*] Creating Directory ['. $toPath .']');
@@ -88,7 +83,7 @@ class InitCommand extends Command
             }
         }
 
-        $this->info('Project initiated successfully in [' . $this->currentWorkingDirectory . ']');
+        $this->info('Project initiated successfully in [' . $currentWorkingDirectory . ']');
         return 0;
     }
 }
