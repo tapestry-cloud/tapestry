@@ -1,12 +1,12 @@
 <?php namespace Tapestry\Providers;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
-use Tapestry\Modules\Config\LoadConfig;
 use Tapestry\Modules\Content\Clean;
 use Tapestry\Modules\Content\Clear;
 use Tapestry\Modules\Content\Compile;
 use Tapestry\Modules\Content\LoadSourceFiles;
 use Tapestry\Modules\Content\ReadCache;
+use Tapestry\Modules\Content\RemoveDrafts;
 use Tapestry\Modules\Content\WriteCache;
 use Tapestry\Modules\Content\WriteFiles;
 use Tapestry\Modules\ContentTypes\LoadContentTypes;
@@ -44,6 +44,7 @@ class CompileStepsServiceProvider extends AbstractServiceProvider
             LoadContentRenderers::class,
             LoadContentGenerators::class,
             LoadSourceFiles::class,
+            RemoveDrafts::class,
             ParseContentTypes::class,
             Compile::class,
             WriteFiles::class,

@@ -36,7 +36,7 @@ class ArrayContainer implements ArrayAccess, Iterator
 
     /**
      * Push value onto the collection
-     *
+     * @deprecated this isn't used, it also doesn't work in a multi dimensional way with dot notation. Do Not Use.
      * @param mixed $value
      */
     public function push($value) {
@@ -67,8 +67,13 @@ class ArrayContainer implements ArrayAccess, Iterator
      */
     public function remove($key)
     {
-        unset($this->items[$key]);
-        unset($this->nestedKeyCache[$key]);
+        if ($this->isNestedKey($key)) {
+            $this->removeNestedValueByKey($key);
+        }else{
+            unset($this->items[$key]);
+        }
+
+        $this->removeKeyFromNestedCache($key);
     }
 
     /**
@@ -166,10 +171,37 @@ class ArrayContainer implements ArrayAccess, Iterator
         return str_contains($key, '.');
     }
 
+    private function removeNestedValueByKey($key) {
+        // Bust Cache
+        $this->removeKeyFromNestedCache($key);
+
+        // Check to see if this is targeting an instance of ArrayContainer and pass the nested value on
+        $keyParts = explode('.', $key);
+        if($this->get($keyParts[0]) instanceof ArrayContainer && $arrayContainer = $this->get($keyParts[0])){
+            array_shift($keyParts);
+            /** @var ArrayContainer $arrayContainer */
+            $arrayContainer->remove(implode('.', $keyParts));
+            return true;
+        } unset($keyParts);
+
+        $items = &$this->items;
+        $keyParts = explode('.', $key);
+        $lastKeyPart = end($keyParts);
+        foreach ($keyParts as $keyPart) {
+            if ($keyPart === $lastKeyPart){
+                unset($items[$keyPart]);
+                break;
+            }
+            $items = &$items[$keyPart];
+        }
+        return true;
+
+    }
+
     private function setNestedValueByKey($key, $value) {
 
         // Bust Cache
-        unset($this->nestedKeyCache[$key]);
+        $this->removeKeyFromNestedCache($key);
 
         // Check to see if this is targeting an instance of ArrayContainer and pass the nested value on
         $keyParts = explode('.', $key);
@@ -220,7 +252,7 @@ class ArrayContainer implements ArrayAccess, Iterator
                     return null;
                 }
 
-                if ( ! is_array($value[$keyPart]) && ! array_key_exists($keyPart, $value) ) {
+                if ( is_array($value[$keyPart]) && ! array_key_exists($keyPart, $value) ) {
                     return null;
                 }
                 $value = $value[$keyPart];
@@ -229,6 +261,17 @@ class ArrayContainer implements ArrayAccess, Iterator
 
         $this->nestedKeyCache[$key] = $value;
         return $value;
+    }
+
+    private function removeKeyFromNestedCache($key) {
+        if (isset($this->nestedKeyCache[$key])) {
+            unset($this->nestedKeyCache[$key]);
+        }else{
+            $this->nestedKeyCache = array_filter($this->nestedKeyCache, function($arrayKey) use($key){
+                $n = strpos($arrayKey, $key) === false;
+                return $n;
+            }, ARRAY_FILTER_USE_KEY);
+        }
     }
 
     /**

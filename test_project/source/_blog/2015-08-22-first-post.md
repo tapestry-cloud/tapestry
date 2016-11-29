@@ -1,6 +1,6 @@
 ---
 title: First Post
-draft: false
+draft: true
 categories:
     - misc
     - first post
