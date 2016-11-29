@@ -19,8 +19,15 @@ class LoadSourceFiles implements Step
      */
     private $tapestry;
 
-    /** @var ExcludedFilesCollection */
+    /**
+     * @var ExcludedFilesCollection
+     */
     private $excluded;
+
+    /**
+     * @var bool
+    */
+    private $prettyPermalink = true;
 
     /**
      * LoadSourceFiles constructor.
@@ -31,6 +38,7 @@ class LoadSourceFiles implements Step
     {
         $this->tapestry = $tapestry;
         $this->excluded = new ExcludedFilesCollection($configuration->get('ignore'));
+        $this->prettyPermalink = boolval($configuration->get('pretty_permalink', true));
     }
 
     /**
@@ -66,7 +74,9 @@ class LoadSourceFiles implements Step
 
         foreach($finder->files() as $file)
         {
-            $file = new File($file);
+            $file = new File($file, [
+                'pretty_permalink' => $this->prettyPermalink
+            ]);
             $renderer = $contentRenderers->get($file->getFileInfo()->getExtension());
 
             if ($renderer->supportsFrontMatter()) {

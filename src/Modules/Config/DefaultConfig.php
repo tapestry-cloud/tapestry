@@ -15,7 +15,7 @@ return [
      * Enable / Disable pretty permalink, if enabled then /about.md will be written as /about/index.md.
      * This may be over-ridden on a per file basis.
      */
-    'pretty_permalinks' => true,
+    'pretty_permalink' => true,
 
     /**
      * Enable / Disable the publishing of files with `draft: true` in their front matter
