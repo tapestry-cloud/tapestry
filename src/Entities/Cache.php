@@ -1,8 +1,9 @@
-<?php namespace Tapestry\Entities;
+<?php
+
+namespace Tapestry\Entities;
 
 class Cache
 {
-
     /**
      * @var array
      */
@@ -15,6 +16,7 @@ class Cache
 
     /**
      * Cache constructor.
+     *
      * @param string $path
      */
     public function __construct($path)
@@ -42,16 +44,13 @@ class Cache
 
     public function getItem($key)
     {
-        if (isset($this->items[$key])){
+        if (isset($this->items[$key])) {
             return $this->items[$key];
         }
-
-        return null;
     }
 
     public function reset()
     {
         $this->items = [];
     }
-
 }

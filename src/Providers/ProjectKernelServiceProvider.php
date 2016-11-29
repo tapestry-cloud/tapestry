@@ -1,4 +1,6 @@
-<?php namespace Tapestry\Providers;
+<?php
+
+namespace Tapestry\Providers;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use League\Container\ServiceProvider\BootableServiceProviderInterface;
@@ -9,12 +11,11 @@ use Tapestry\Tapestry;
 
 class ProjectKernelServiceProvider extends AbstractServiceProvider implements BootableServiceProviderInterface
 {
-
     /**
      * @var array
      */
     protected $provides = [
-        KernelInterface::class
+        KernelInterface::class,
     ];
 
     /**
@@ -26,7 +27,6 @@ class ProjectKernelServiceProvider extends AbstractServiceProvider implements Bo
      */
     public function register()
     {
-
     }
 
     /**
@@ -44,14 +44,14 @@ class ProjectKernelServiceProvider extends AbstractServiceProvider implements Bo
 
         $configuration = $container->get(Configuration::class);
 
-        $kernelPath = $tapestry['currentWorkingDirectory'] . DIRECTORY_SEPARATOR . 'kernel.php';
+        $kernelPath = $tapestry['currentWorkingDirectory'].DIRECTORY_SEPARATOR.'kernel.php';
 
-        if (file_exists($kernelPath)){
+        if (file_exists($kernelPath)) {
             include $kernelPath;
             $container->share(KernelInterface::class, $configuration->get('kernel', DefaultKernel::class))->withArgument(
                 $container->get(Tapestry::class)
             );
-        }else{
+        } else {
             $container->share(KernelInterface::class, DefaultKernel::class)->withArgument(
                 $container->get(Tapestry::class)
             );

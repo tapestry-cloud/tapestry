@@ -1,12 +1,12 @@
-<?php namespace Tapestry\Entities;
+<?php
+
+namespace Tapestry\Entities;
 
 /**
- * Class ViewFile
+ * Class ViewFile.
  *
  * A wrapper surrounding a File object for the purpose of providing view helper
  * methods that are friendly to the end user.
- *
- * @package Tapestry\Entities
  */
 class ViewFile
 {
@@ -27,6 +27,7 @@ class ViewFile
 
     /**
      * ViewFile constructor.
+     *
      * @param Project $project
      * @param $fileUid
      */
@@ -42,7 +43,7 @@ class ViewFile
     public function getFile()
     {
         if (is_null($this->file)) {
-            $this->file = $this->project->get('compiled.' . $this->fileUid);
+            $this->file = $this->project->get('compiled.'.$this->fileUid);
         }
 
         return $this->file;

@@ -1,6 +1,8 @@
-<?php namespace SiteEleven;
+<?php
 
-use \Tapestry\Console\Command;
+namespace SiteEleven;
+
+use Tapestry\Console\Command;
 
 class TestKernelCommand extends Command
 {
@@ -19,6 +21,7 @@ class TestKernelCommand extends Command
     protected function fire()
     {
         $this->info('Hello world! This command was loaded via a site Kernel.');
+
         return 0;
     }
 }

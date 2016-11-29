@@ -1,20 +1,20 @@
-<?php namespace Tapestry;
+<?php
+
+namespace Tapestry;
 
 use ArrayAccess;
+use League\Container\Container;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerInterface;
 use League\Container\ReflectionContainer;
-use League\Container\Container;
 use League\Container\ServiceProvider\ServiceProviderInterface;
 use League\Event\Emitter;
 use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Input\InputDefinition;
-use Symfony\Component\Console\Input\InputOption;
 
 class Tapestry implements ContainerAwareInterface, ArrayAccess
 {
     /**
-     * The current globally available instance of Tapestry
+     * The current globally available instance of Tapestry.
      *
      * @var static
      */
@@ -26,25 +26,27 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
     protected $container;
 
     /**
-     * Version Number
+     * Version Number.
+     *
      * @var string
      */
     const VERSION = '1.0.4';
 
     /**
      * Tapestry constructor.
+     *
      * @param array $arguments
      */
     public function __construct($arguments = [])
     {
         //if (php_sapi_name() === 'cli') {
             $input = new ArgvInput();
-            if ((!$siteEnvironment = $input->getParameterOption('--env')) && (!$siteEnvironment = $input->getParameterOption('-e'))) {
-                $siteEnvironment = (isset($arguments['--env'])) ? $arguments['--env'] : 'local';
-            }
-            if (!$siteDirectory = $input->getParameterOption('--site-dir')) {
-                $siteDirectory = (isset($arguments['--site-dir'])) ? $arguments['--site-dir'] : getcwd();
-            }
+        if ((!$siteEnvironment = $input->getParameterOption('--env')) && (!$siteEnvironment = $input->getParameterOption('-e'))) {
+            $siteEnvironment = (isset($arguments['--env'])) ? $arguments['--env'] : 'local';
+        }
+        if (!$siteDirectory = $input->getParameterOption('--site-dir')) {
+            $siteDirectory = (isset($arguments['--site-dir'])) ? $arguments['--site-dir'] : getcwd();
+        }
         //}
 
         $this['environment'] = $siteEnvironment;
@@ -55,11 +57,12 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
     }
 
     /**
-     * Register/Boot Providers
+     * Register/Boot Providers.
      *
      * @return void
      */
-    public function boot(){
+    public function boot()
+    {
         $this->register(\Tapestry\Providers\ProjectConfigurationServiceProvider::class);
         $this->register(\Tapestry\Providers\ProjectKernelServiceProvider::class);
         $this->register(\Tapestry\Providers\CompileStepsServiceProvider::class);
@@ -76,7 +79,7 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
     {
         $this->container = $container;
         $this->container->delegate(
-            new ReflectionContainer
+            new ReflectionContainer()
         );
         $this->container->add(self::class, $this);
         self::setInstance($this);
@@ -90,15 +93,17 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
     public function getContainer()
     {
         if (!isset($this->container)) {
-            $this->setContainer(new Container);
+            $this->setContainer(new Container());
         }
+
         return $this->container;
     }
 
     /**
-     * Register a service provider
+     * Register a service provider.
      *
-     * @param  string|ServiceProviderInterface $serviceProvider
+     * @param string|ServiceProviderInterface $serviceProvider
+     *
      * @return void
      */
     public function register($serviceProvider)
@@ -131,10 +136,12 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
     }
 
     /**
-     * Whether a offset exists
+     * Whether a offset exists.
      *
      * @link http://php.net/manual/en/arrayaccess.offsetexists.php
+     *
      * @param mixed $offset
+     *
      * @return bool
      */
     public function offsetExists($offset)
@@ -143,10 +150,12 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
     }
 
     /**
-     * Offset to retrieve
+     * Offset to retrieve.
      *
      * @link http://php.net/manual/en/arrayaccess.offsetget.php
+     *
      * @param mixed $offset
+     *
      * @return mixed
      */
     public function offsetGet($offset)
@@ -155,11 +164,13 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
     }
 
     /**
-     * Offset to set
+     * Offset to set.
      *
      * @link http://php.net/manual/en/arrayaccess.offsetset.php
+     *
      * @param mixed $offset
      * @param mixed $value
+     *
      * @return void
      */
     public function offsetSet($offset, $value)
@@ -168,10 +179,12 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
     }
 
     /**
-     * Offset to unset
+     * Offset to unset.
      *
      * @link http://php.net/manual/en/arrayaccess.offsetunset.php
+     *
      * @param mixed $offset
+     *
      * @throws \Exception
      */
     public function offsetUnset($offset)
@@ -179,4 +192,3 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
         throw new \Exception("The container doesn't support removal of registered containers.");
     }
 }
-
