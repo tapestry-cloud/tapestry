@@ -40,7 +40,7 @@ class LoadContentRenderers implements Step
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
-        if (!$contentRenderers = $this->configuration->get('content_renderers', null)) {
+        if (! $contentRenderers = $this->configuration->get('content_renderers', null)) {
             $output->writeln('[!] Your project\'s content renderers are miss-configured. Doing nothing and exiting.]');
         }
 

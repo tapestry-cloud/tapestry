@@ -41,10 +41,10 @@ class Url
 
     private function loadSiteUrl()
     {
-        if (!is_null($this->siteUrl)) {
+        if (! is_null($this->siteUrl)) {
             return $this->siteUrl;
         }
-        if (!$this->siteUrl = $this->configuration->get('site.url')) {
+        if (! $this->siteUrl = $this->configuration->get('site.url')) {
             throw new \Exception('The site url is not set in your site configuration.');
         }
 

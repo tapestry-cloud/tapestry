@@ -47,7 +47,7 @@ class InitCommand extends Command
         $currentWorkingDirectory = $this->input->getOption('site-dir');
 
         // If the current working directory does not exist, do nothing and exit. This is often due to a borked --site-dir
-        if (!$this->filesystem->exists($currentWorkingDirectory)) {
+        if (! $this->filesystem->exists($currentWorkingDirectory)) {
             $this->error('The project directory ['.$currentWorkingDirectory.'] does not exist. Doing nothing and exiting.');
 
             return 1;
@@ -63,10 +63,10 @@ class InitCommand extends Command
             return 1;
         }
 
-        if (!$this->filesystem->exists($currentWorkingDirectory)) {
+        if (! $this->filesystem->exists($currentWorkingDirectory)) {
             $this->filesystem->mkdir($currentWorkingDirectory);
 
-            if (!$this->filesystem->exists($currentWorkingDirectory)) {
+            if (! $this->filesystem->exists($currentWorkingDirectory)) {
                 $this->error('The project directory ['.$currentWorkingDirectory.'] could not be created.');
 
                 return 1;

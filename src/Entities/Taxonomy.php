@@ -57,7 +57,7 @@ class Taxonomy
 
     public function addFile(File $file, $classification)
     {
-        if (!$this->items->has($classification)) {
+        if (! $this->items->has($classification)) {
             $this->items->set($classification, []);
         }
 

@@ -54,7 +54,7 @@ class ContentRendererFactory
         $uid = sha1(get_class($item).'_'.sha1(json_encode($item->supportedExtensions())));
 
         foreach ($item->supportedExtensions() as $ext) {
-            if ($this->has($ext) && !$overWrite) {
+            if ($this->has($ext) && ! $overWrite) {
                 throw new Exception('The collection ['. 1 .'] already collects for the path ['. 1 .']');
             }
         }
@@ -87,11 +87,11 @@ class ContentRendererFactory
      */
     public function get($ext)
     {
-        if (!$this->has($ext) && !$this->has('*')) {
+        if (! $this->has($ext) && ! $this->has('*')) {
             throw new Exception('There is no collection that collects for the extension ['.$ext.']');
         }
 
-        if (!$this->has($ext) && $this->has('*')) {
+        if (! $this->has($ext) && $this->has('*')) {
             return $this->items[$this->lookupTable['*']];
         }
 
