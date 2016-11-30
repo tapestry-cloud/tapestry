@@ -72,7 +72,7 @@ class Compile implements Step
             // the Project File.
             foreach (array_keys($contentType->getFileList()) as $fileKey) {
                 /** @var File $file */
-                if (!$file = $project->get('files.'.$fileKey)) {
+                if (! $file = $project->get('files.'.$fileKey)) {
                     continue;
                 }
 
@@ -91,17 +91,17 @@ class Compile implements Step
         //
         /** @var File $file */
         foreach ($project['compiled'] as $file) {
-            if (!$uses = $file->getData('use')) {
+            if (! $uses = $file->getData('use')) {
                 continue;
             }
             foreach ($uses as $use) {
-                if (!$items = $file->getData($use.'_items')) {
+                if (! $items = $file->getData($use.'_items')) {
                     continue;
                 }
 
                 array_walk_recursive($items, function (&$file, $fileKey) use ($project) {
                     /** @var File $compiledFile */
-                    if (!$compiledFile = $project->get('compiled.'.$fileKey)) {
+                    if (! $compiledFile = $project->get('compiled.'.$fileKey)) {
                         $file = null;
                     } else {
                         $file = new ViewFile($project, $compiledFile->getUid());
@@ -110,14 +110,14 @@ class Compile implements Step
 
                 // Filter out deleted pages, such as drafts
                 $items = array_filter($items, function ($value) {
-                    return !is_null($value);
+                    return ! is_null($value);
                 });
 
                 $file->setData([$use.'_items' => $items]);
             }
         }
 
-        if (!$this->allFilesGenerated()) {
+        if (! $this->allFilesGenerated()) {
             foreach ($this->files as &$file) {
                 if ($uses = $file->getData('generator')) {
                     if (count($uses) > 0) {
@@ -133,7 +133,7 @@ class Compile implements Step
         //
         // Execute Renderers
         //
-        while (!$this->allFilesRendered()) {
+        while (! $this->allFilesRendered()) {
             foreach ($this->files as &$file) {
                 if ($file->isRendered()) {
                     continue;
@@ -193,7 +193,7 @@ class Compile implements Step
     private function allFilesRendered()
     {
         foreach ($this->files as $file) {
-            if (!$file->isRendered()) {
+            if (! $file->isRendered()) {
                 return false;
             }
         }

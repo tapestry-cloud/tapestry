@@ -49,7 +49,7 @@ class ContentTypeFactory
      */
     public function add(ContentType $contentType, $overWrite = false)
     {
-        if (!$overWrite && $this->has($contentType->getPath())) {
+        if (! $overWrite && $this->has($contentType->getPath())) {
             throw new \Exception('The collection ['.$this->pathLookupTable[$contentType->getPath()].'] already collects for the path ['.$contentType->getPath().']');
         }
         $uid = sha1(md5(get_class($contentType)).'_'.sha1($contentType->getName().'-'.$contentType->getPath()));
@@ -108,11 +108,11 @@ class ContentTypeFactory
      */
     public function get($path)
     {
-        if (!$this->has($path) && !$this->has('*')) {
+        if (! $this->has($path) && ! $this->has('*')) {
             throw new \Exception('There is no collection that collects for the path ['.$path.']');
         }
 
-        if (!$this->has($path) && $this->has('*')) {
+        if (! $this->has($path) && $this->has('*')) {
             return $this->items[$this->pathLookupTable['*']];
         }
 

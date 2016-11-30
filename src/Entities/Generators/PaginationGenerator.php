@@ -23,7 +23,7 @@ class PaginationGenerator extends FileGenerator
             }),
         ]);
 
-        if (!$configuration = $this->file->getData('pagination')) {
+        if (! $configuration = $this->file->getData('pagination')) {
             return $newFile;
         }
 
@@ -34,7 +34,7 @@ class PaginationGenerator extends FileGenerator
         $configuration = array_merge($defaultConfiguration, $configuration);
         $paginationKey = $configuration['provider'].'_items';
 
-        if (!$paginationItems = $this->file->getData($paginationKey)) {
+        if (! $paginationItems = $this->file->getData($paginationKey)) {
             return $newFile;
         }
 
@@ -91,7 +91,7 @@ class PaginationGenerator extends FileGenerator
              * @var File $generatedFile
              */
             foreach ($generatedFiles as $key => &$generatedFile) {
-                /**
+                /*
                  * @var Pagination
                  * @var null|File  $previous
                  * @var null|File  $next

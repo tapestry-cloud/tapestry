@@ -19,7 +19,7 @@ class FlatCollection extends ArrayContainer
 
     public function get($key, $default = null)
     {
-        if (!$this->has($key)) {
+        if (! $this->has($key)) {
             return $default;
         }
 

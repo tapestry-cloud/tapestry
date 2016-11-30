@@ -31,11 +31,11 @@ class CollectionItemGenerator extends FileGenerator
         $previousNext->next = null;
         $previousNext->previous = null;
 
-        if (!$previousNext->isFirst) {
+        if (! $previousNext->isFirst) {
             $previousNext->previous = isset($siblings[$position - 1]) ? new ViewFile($project, $siblings[$position - 1]) : null;
         }
 
-        if (!$previousNext->isLast) {
+        if (! $previousNext->isLast) {
             $previousNext->next = isset($siblings[$position + 1]) ? new ViewFile($project, $siblings[$position + 1]) : null;
         }
 

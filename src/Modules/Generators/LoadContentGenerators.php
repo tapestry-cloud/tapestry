@@ -36,7 +36,7 @@ class LoadContentGenerators implements Step
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
-        if (!$contentGenerators = $this->configuration->get('content_generators', null)) {
+        if (! $contentGenerators = $this->configuration->get('content_generators', null)) {
             $output->writeln('[!] Your project\'s content generators are miss-configured. Doing nothing and exiting.]');
             exit(1);
         }

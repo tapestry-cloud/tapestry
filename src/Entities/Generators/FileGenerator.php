@@ -45,7 +45,7 @@ class FileGenerator implements ProjectFileInterface, ProjectFileGeneratorInterfa
 
             while ($this->canGenerate()) {
                 foreach ($this->generatedFiles as $file) {
-                    if (!$generators = $file->getData('generator')) {
+                    if (! $generators = $file->getData('generator')) {
                         continue;
                     }
                     $first = reset($generators);
@@ -61,7 +61,7 @@ class FileGenerator implements ProjectFileInterface, ProjectFileGeneratorInterfa
 
     public function __call($name, $arguments)
     {
-        if (!method_exists($this, $name) && method_exists($this->file, $name)) {
+        if (! method_exists($this, $name) && method_exists($this->file, $name)) {
             return call_user_func_array([$this->file, $name], $arguments);
         }
     }
@@ -91,7 +91,7 @@ class FileGenerator implements ProjectFileInterface, ProjectFileGeneratorInterfa
      */
     private function mergeGenerated($generated)
     {
-        if (!is_array($generated)) {
+        if (! is_array($generated)) {
             $this->generatedFiles[$generated->getUid()] = $generated;
         } else {
             foreach ($generated as $file) {

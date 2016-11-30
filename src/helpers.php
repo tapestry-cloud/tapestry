@@ -1,6 +1,6 @@
 <?php
 
-if (!function_exists('class_basename')) {
+if (! function_exists('class_basename')) {
     /**
      * Get the class "basename" of the given object / class.
      *
@@ -16,7 +16,7 @@ if (!function_exists('class_basename')) {
     }
 }
 
-if (!function_exists('str_contains')) {
+if (! function_exists('str_contains')) {
     /**
      * Determine if a given string contains a given sub-string.
      *
@@ -37,7 +37,7 @@ if (!function_exists('str_contains')) {
     }
 }
 
-if (!function_exists('str_slug')) {
+if (! function_exists('str_slug')) {
     /**
      * @param $str
      * @param string $delimiter
@@ -50,7 +50,7 @@ if (!function_exists('str_slug')) {
     }
 }
 
-if (!function_exists('dd')) {
+if (! function_exists('dd')) {
     /**
      * Dump and Die.
      *
@@ -63,7 +63,7 @@ if (!function_exists('dd')) {
     }
 }
 
-if (!function_exists('starts_with')) {
+if (! function_exists('starts_with')) {
     /**
      * Determine if a given string starts with a given substring.
      *
@@ -84,7 +84,7 @@ if (!function_exists('starts_with')) {
     }
 }
 
-if (!function_exists('url')) {
+if (! function_exists('url')) {
     function url($uri = '')
     {
         /** @var Tapestry\Entities\Url $url */
@@ -94,7 +94,7 @@ if (!function_exists('url')) {
     }
 }
 
-if (!function_exists('file_size_convert')) {
+if (! function_exists('file_size_convert')) {
     function file_size_convert($size)
     {
         $unit = ['b', 'kb', 'mb', 'gb', 'tb', 'pb'];

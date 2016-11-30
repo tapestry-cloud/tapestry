@@ -35,7 +35,7 @@ class LoadContentTypes implements Step
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
-        if (!$contentTypes = $this->configuration->get('content_types', null)) {
+        if (! $contentTypes = $this->configuration->get('content_types', null)) {
             $output->writeln('[!] Your project\'s content types are miss-configured. Doing nothing and exiting.]');
         }
 
