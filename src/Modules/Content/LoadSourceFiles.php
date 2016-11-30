@@ -58,7 +58,7 @@ class LoadSourceFiles implements Step
     {
         $sourcePath = $project->sourceDirectory;
 
-        if (!file_exists($sourcePath)) {
+        if (! file_exists($sourcePath)) {
             $output->writeln('[!] The project source path could not be opened at ['.$sourcePath.']');
 
             return false;
@@ -97,7 +97,7 @@ class LoadSourceFiles implements Step
                 }
             }
 
-            if (!$contentType = $contentTypes->find($file->getFileInfo()->getRelativePath())) {
+            if (! $contentType = $contentTypes->find($file->getFileInfo()->getRelativePath())) {
                 $contentType = $contentTypes->get('*');
             } else {
                 $contentType = $contentTypes->get($contentType);

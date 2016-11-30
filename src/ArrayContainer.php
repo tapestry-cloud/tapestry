@@ -94,11 +94,11 @@ class ArrayContainer implements ArrayAccess, Iterator
      */
     public function get($key, $default = null)
     {
-        if (!$this->has($key)) {
+        if (! $this->has($key)) {
             return $default;
         }
 
-        if (!$this->isNestedKey($key)) {
+        if (! $this->isNestedKey($key)) {
             return $this->items[$key];
         } else {
             return $this->getNestedValueByKey($key);
@@ -114,10 +114,10 @@ class ArrayContainer implements ArrayAccess, Iterator
      */
     public function has($key)
     {
-        if (!$this->isNestedKey($key)) {
+        if (! $this->isNestedKey($key)) {
             return isset($this->items[$key]);
         } else {
-            return !is_null($this->getNestedValueByKey($key));
+            return ! is_null($this->getNestedValueByKey($key));
         }
     }
 
@@ -165,7 +165,7 @@ class ArrayContainer implements ArrayAccess, Iterator
                 $merged[$key] = $this->arrayMergeRecursive($merged[$key], $value);
             } else {
                 if (is_numeric($key)) {
-                    if (!in_array($value, $merged)) {
+                    if (! in_array($value, $merged)) {
                         $merged[] = $value;
                     }
                 } else {
@@ -262,7 +262,7 @@ class ArrayContainer implements ArrayAccess, Iterator
         } else {
             $value = $this->items;
             foreach (explode('.', $key) as $keyPart) {
-                if ((!is_array($value) || !$value instanceof self)) {
+                if ((! is_array($value) || ! $value instanceof self)) {
                     if (is_object($value) && method_exists($value, 'arrayAccessByKey')) {
                         if ($value = $value->arrayAccessByKey($keyPart)) {
                             break;
@@ -272,11 +272,11 @@ class ArrayContainer implements ArrayAccess, Iterator
                     }
                 }
 
-                if (!isset($value[$keyPart])) {
+                if (! isset($value[$keyPart])) {
                     return;
                 }
 
-                if (is_array($value[$keyPart]) && !array_key_exists($keyPart, $value)) {
+                if (is_array($value[$keyPart]) && ! array_key_exists($keyPart, $value)) {
                     return;
                 }
                 $value = $value[$keyPart];
@@ -498,7 +498,7 @@ class ArrayContainer implements ArrayAccess, Iterator
     public function filterKeys(array $filteredKeys = [])
     {
         $this->items = array_filter($this->items, function ($key) use ($filteredKeys) {
-            return !isset($filteredKeys[$key]);
+            return ! isset($filteredKeys[$key]);
         }, ARRAY_FILTER_USE_KEY);
     }
 }

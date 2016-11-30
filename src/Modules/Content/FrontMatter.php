@@ -62,7 +62,7 @@ class FrontMatter
 
     private function parse($string)
     {
-        if (!preg_match('/^(\s*[-]+\s*|\s*)$/', $string)) {
+        if (! preg_match('/^(\s*[-]+\s*|\s*)$/', $string)) {
             try {
                 $this->data = Yaml::parse($string);
             } catch (ParseException $e) {

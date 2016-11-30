@@ -1,13 +1,13 @@
 <?php
 
-if (!defined('TAPESTRY_START')) {
+if (! defined('TAPESTRY_START')) {
     define('TAPESTRY_START', microtime(true));
 }
 
 if (version_compare(phpversion(), '5.4', '<')) {
     die('You must use PHP >= 5.4 in order to use Tapestry. Please upgrade your PHP version.');
 }
-if (!ini_get('date.timezone')) {
+if (! ini_get('date.timezone')) {
     date_default_timezone_set('UTC');
 }
 

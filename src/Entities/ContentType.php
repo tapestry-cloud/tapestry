@@ -148,7 +148,7 @@ class ContentType
      */
     public function getFileList($order = 'desc')
     {
-        if (!is_null($this->itemsOrderCache)) {
+        if (! is_null($this->itemsOrderCache)) {
             return $this->itemsOrderCache;
         }
 
@@ -181,7 +181,7 @@ class ContentType
 
         foreach (array_keys($this->getFileList()) as $fileKey) {
             /** @var File $file */
-            if (!$file = $project->get('files.'.$fileKey)) {
+            if (! $file = $project->get('files.'.$fileKey)) {
                 continue;
             }
 

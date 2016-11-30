@@ -83,11 +83,11 @@ class ViewFile
 
     public function isPaginated()
     {
-        if (!$pagination = $this->getData('pagination')) {
+        if (! $pagination = $this->getData('pagination')) {
             return false;
         }
 
-        if (!$pagination instanceof Pagination) {
+        if (! $pagination instanceof Pagination) {
             return false;
         }
 
@@ -96,11 +96,11 @@ class ViewFile
 
     public function hasPreviousNext()
     {
-        if (!$previousNext = $this->getData('previous_next')) {
+        if (! $previousNext = $this->getData('previous_next')) {
             return false;
         }
 
-        if (!$previousNext instanceof \stdClass) {
+        if (! $previousNext instanceof \stdClass) {
             return false;
         }
 

@@ -35,11 +35,11 @@ class Template extends PlatesTemplate
      */
     protected function section($name, $default = null)
     {
-        if ($name === 'content' && !isset($this->sections['content']) && isset($this->data['content'])) {
+        if ($name === 'content' && ! isset($this->sections['content']) && isset($this->data['content'])) {
             return $this->data['content'];
         }
 
-        if (!isset($this->sections[$name])) {
+        if (! isset($this->sections[$name])) {
             return $default;
         }
 
@@ -59,14 +59,14 @@ class Template extends PlatesTemplate
     public function renderFile(File $file, $tmpDirectory)
     {
         if ($layoutName = $file->getData('layout')) {
-            $this->layoutName = (!strpos('_templates', $layoutName)) ? '_templates'.DIRECTORY_SEPARATOR.$layoutName : $layoutName;
+            $this->layoutName = (! strpos('_templates', $layoutName)) ? '_templates'.DIRECTORY_SEPARATOR.$layoutName : $layoutName;
             $this->layoutData = $file->getData();
         }
 
         try {
             $tmpPathName = $tmpDirectory.DIRECTORY_SEPARATOR.time().'-'.sha1($file->getUid()).'.phtml';
 
-            if (!file_exists($tmpDirectory)) {
+            if (! file_exists($tmpDirectory)) {
                 mkdir($tmpDirectory);
             }
 
