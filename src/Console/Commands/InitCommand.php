@@ -1,4 +1,6 @@
-<?php namespace Tapestry\Console\Commands;
+<?php
+
+namespace Tapestry\Console\Commands;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Filesystem\Filesystem;
@@ -19,8 +21,9 @@ class InitCommand extends Command
 
     /**
      * InitCommand constructor.
+     *
      * @param Filesystem $filesystem
-     * @param Finder $finder
+     * @param Finder     $finder
      */
     public function __construct(Filesystem $filesystem, Finder $finder)
     {
@@ -44,46 +47,50 @@ class InitCommand extends Command
         $currentWorkingDirectory = $this->input->getOption('site-dir');
 
         // If the current working directory does not exist, do nothing and exit. This is often due to a borked --site-dir
-        if (!$this->filesystem->exists($currentWorkingDirectory)) {
-            $this->error('The project directory [' . $currentWorkingDirectory . '] does not exist. Doing nothing and exiting.');
+        if (! $this->filesystem->exists($currentWorkingDirectory)) {
+            $this->error('The project directory ['.$currentWorkingDirectory.'] does not exist. Doing nothing and exiting.');
+
             return 1;
         }
 
         if ($name = $this->input->getArgument('name')) {
-            $currentWorkingDirectory .= ((substr($currentWorkingDirectory, -1, 1) === DIRECTORY_SEPARATOR) ? '' : DIRECTORY_SEPARATOR) . $name;
+            $currentWorkingDirectory .= ((substr($currentWorkingDirectory, -1, 1) === DIRECTORY_SEPARATOR) ? '' : DIRECTORY_SEPARATOR).$name;
         }
 
         if ($this->filesystem->exists($currentWorkingDirectory) && $this->finder->in($currentWorkingDirectory)->count() > 0) {
-            $this->error('The project directory [' . $currentWorkingDirectory . '] is not empty. Doing nothing and exiting.');
+            $this->error('The project directory ['.$currentWorkingDirectory.'] is not empty. Doing nothing and exiting.');
+
             return 1;
         }
 
-        if (!$this->filesystem->exists($currentWorkingDirectory)) {
+        if (! $this->filesystem->exists($currentWorkingDirectory)) {
             $this->filesystem->mkdir($currentWorkingDirectory);
 
-            if (!$this->filesystem->exists($currentWorkingDirectory)) {
-                $this->error('The project directory [' . $currentWorkingDirectory . '] could not be created.');
+            if (! $this->filesystem->exists($currentWorkingDirectory)) {
+                $this->error('The project directory ['.$currentWorkingDirectory.'] could not be created.');
+
                 return 1;
             }
         }
 
-        $sourcePath = __DIR__ . '/../../Scaffold';
+        $sourcePath = __DIR__.'/../../Scaffold';
 
         /** @var SplFileInfo $file */
-        foreach($this->finder->in($sourcePath) as $file){
-            $fromPath = $sourcePath . DIRECTORY_SEPARATOR . $file->getRelativePathname();
-            $toPath = $currentWorkingDirectory . DIRECTORY_SEPARATOR . $file->getRelativePathname();
+        foreach ($this->finder->in($sourcePath) as $file) {
+            $fromPath = $sourcePath.DIRECTORY_SEPARATOR.$file->getRelativePathname();
+            $toPath = $currentWorkingDirectory.DIRECTORY_SEPARATOR.$file->getRelativePathname();
 
-            if ($file->isDir()){
-                $this->output->writeln('[*] Creating Directory ['. $toPath .']');
+            if ($file->isDir()) {
+                $this->output->writeln('[*] Creating Directory ['.$toPath.']');
                 $this->filesystem->mkdir($toPath);
-            }else{
-                $this->output->writeln('[*] Copying ['. $fromPath .'] to ['. $toPath .']');
+            } else {
+                $this->output->writeln('[*] Copying ['.$fromPath.'] to ['.$toPath.']');
                 $this->filesystem->copy($fromPath, $toPath);
             }
         }
 
-        $this->info('Project initiated successfully in [' . $currentWorkingDirectory . ']');
+        $this->info('Project initiated successfully in ['.$currentWorkingDirectory.']');
+
         return 0;
     }
 }

@@ -1,44 +1,51 @@
-<?php namespace Tapestry\Entities;
+<?php
+
+namespace Tapestry\Entities;
 
 use Tapestry\Entities\Collections\Collection;
 
 class Taxonomy
 {
     /**
-     * The developer friendly name of this content type
+     * The developer friendly name of this content type.
+     *
      * @var string
      */
     private $name;
 
     /**
-     * The template path relative to the source path
+     * The template path relative to the source path.
+     *
      * @var string
      */
     private $template = '';
 
     /**
-     * The permalink template for this content type. e.g. /%slug%.html
+     * The permalink template for this content type. e.g. /%slug%.html.
+     *
      * @var string
      */
     private $permalink;
 
     /**
-     * Collection of Entities\File that this Taxonomy has collected
+     * Collection of Entities\File that this Taxonomy has collected.
+     *
      * @var Collection
      */
     private $items;
 
     /**
      * ContentType constructor.
+     *
      * @param string $name
-     * @param array $settings
+     * @param array  $settings
      */
     public function __construct($name, array $settings)
     {
         $this->name = $name;
 
-        $this->template = (isset($settings['template']) ? $settings['template'] : $this->name . '.phtml');
-        $this->permalink = (isset($settings['permalink']) ? $settings['permalink'] : ($this->name . '/{page}'));
+        $this->template = (isset($settings['template']) ? $settings['template'] : $this->name.'.phtml');
+        $this->permalink = (isset($settings['permalink']) ? $settings['permalink'] : ($this->name.'/{page}'));
 
         $this->items = new Collection();
     }
@@ -48,13 +55,13 @@ class Taxonomy
         return $this->name;
     }
 
-    public function addFile(File $file, $classification){
-
-        if (!$this->items->has($classification)){
+    public function addFile(File $file, $classification)
+    {
+        if (! $this->items->has($classification)) {
             $this->items->set($classification, []);
         }
 
-        $this->items->set($classification . '.' . $file->getUid(), $file->getData('date')->getTimestamp());
+        $this->items->set($classification.'.'.$file->getUid(), $file->getData('date')->getTimestamp());
     }
 
     /**
@@ -62,18 +69,19 @@ class Taxonomy
      * the files date.
      *
      * @param string $order
+     *
      * @return array
      */
     public function getFileList($order = 'desc')
     {
         // Order Files by date newer to older
-        $this->items->sortMultiDimension(function($a, $b) use ($order){
+        $this->items->sortMultiDimension(function ($a, $b) use ($order) {
             if ($a == $b) {
                 return 0;
             }
-            if ($order === 'asc'){
+            if ($order === 'asc') {
                 return ($a < $b) ? -1 : 1;
-            }else{
+            } else {
                 return ($a > $b) ? -1 : 1;
             }
         });

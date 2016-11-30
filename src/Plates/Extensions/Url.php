@@ -1,8 +1,9 @@
-<?php namespace Tapestry\Plates\Extensions;
+<?php
+
+namespace Tapestry\Plates\Extensions;
 
 use League\Plates\Engine;
 use League\Plates\Extension\ExtensionInterface;
-use Tapestry\Entities\Configuration;
 
 class Url implements ExtensionInterface
 {
@@ -13,6 +14,7 @@ class Url implements ExtensionInterface
 
     /**
      * Url constructor.
+     *
      * @param \Tapestry\Entities\Url $url
      */
     public function __construct(\Tapestry\Entities\Url $url)

@@ -1,17 +1,17 @@
-<?php namespace Tapestry\Entities\Filesystem;
+<?php
+
+namespace Tapestry\Entities\Filesystem;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Tapestry\Entities\File;
 
 /**
- * Class FileIgnored
+ * Class FileIgnored.
  *
  * Files that are configured to be ignored by Tapestry do not even make it to the compile stage; this class replaces
  * files that have not changed since the last time Tapestry ran - this is so that Tapestry only writes files that need
  * writing and doesn't crash browser sync.
- *
- * @package Tapestry\Entities\Filesystem
  */
 class FileIgnored implements FilesystemInterface
 {
@@ -37,6 +37,6 @@ class FileIgnored implements FilesystemInterface
 
     public function __invoke(Filesystem $filesystem, OutputInterface $output)
     {
-        $output->writeln('[+] Ignoring File ['. $this->file->getUid() .']');
+        $output->writeln('[+] Ignoring File ['.$this->file->getUid().']');
     }
 }

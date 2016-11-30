@@ -1,7 +1,7 @@
-<?php namespace Tapestry\Entities;
+<?php
 
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Finder\Finder;
+namespace Tapestry\Entities;
+
 use Symfony\Component\Finder\SplFileInfo;
 use Tapestry\Entities\Collections\FlatCollection;
 use Tapestry\Entities\Generators\FileGenerator;
@@ -11,43 +11,50 @@ use Tapestry\Modules\Renderers\ContentRendererFactory;
 class ContentType
 {
     /**
-     * The developer friendly name of this content type
+     * The developer friendly name of this content type.
+     *
      * @var string
      */
     private $name;
 
     /**
-     * Is this content type allowed to collect from its $path
+     * Is this content type allowed to collect from its $path.
+     *
      * @var bool
      */
     private $enabled = false;
 
     /**
-     * The path which this content type collects from
+     * The path which this content type collects from.
+     *
      * @var string
      */
     private $path = '';
 
     /**
-     * The template path relative to the source path
+     * The template path relative to the source path.
+     *
      * @var string
      */
     private $template = '';
 
     /**
-     * The permalink template for this content type. e.g. /%slug%.html
+     * The permalink template for this content type. e.g. /%slug%.html.
+     *
      * @var string
      */
     private $permalink;
 
     /**
-     * Which taxonomies used to classify this content types collection
+     * Which taxonomies used to classify this content types collection.
+     *
      * @var array|Taxonomy[]
      */
     private $taxonomies = [];
 
     /**
-     * Collection of Entities\File that this ContentType has collected
+     * Collection of Entities\File that this ContentType has collected.
+     *
      * @var FlatCollection
      */
     private $items;
@@ -55,29 +62,31 @@ class ContentType
     /**
      * Cached output of getFileList. This is because two items with the same timestamp will end up randomly
      * swapping places with each other between calls to getFileList as happens with CollectionItemGenerator.
+     *
      * @var null|array
      */
     private $itemsOrderCache = null;
 
     /**
      * ContentType constructor.
+     *
      * @param string $name
-     * @param array $settings
+     * @param array  $settings
      */
     public function __construct($name, array $settings)
     {
         $this->name = $name;
 
-        $this->path = (isset($settings['path']) ? $settings['path'] : ('_' . $this->name));
+        $this->path = (isset($settings['path']) ? $settings['path'] : ('_'.$this->name));
         $this->template = (isset($settings['template']) ? $settings['template'] : $this->name);
-        $this->permalink = (isset($settings['permalink']) ? $settings['permalink'] : ($this->name . '/{slug}.{ext}'));
+        $this->permalink = (isset($settings['permalink']) ? $settings['permalink'] : ($this->name.'/{slug}.{ext}'));
         $this->enabled = (isset($settings['enabled']) ? boolval($settings['enabled']) : false);
 
         if (isset($settings['taxonomies'])) {
             foreach ($settings['taxonomies'] as $taxonomy) {
                 $this->taxonomies[$taxonomy] = new Taxonomy($taxonomy, [
-                    'template' => $this->template . '/list-' . $taxonomy . '.phtml',
-                    'permalink' => $this->name . '/' . $taxonomy . '/{?page}'
+                    'template'  => $this->template.'/list-'.$taxonomy.'.phtml',
+                    'permalink' => $this->name.'/'.$taxonomy.'/{?page}',
                 ]);
             }
         }
@@ -121,6 +130,7 @@ class ContentType
 
     /**
      * @param string $name
+     *
      * @return Taxonomy
      */
     public function getTaxonomy($name)
@@ -133,6 +143,7 @@ class ContentType
      * the files date.
      *
      * @param string $order
+     *
      * @return array
      */
     public function getFileList($order = 'desc')
@@ -142,23 +153,24 @@ class ContentType
         }
 
         // Order Files by date newer to older
-        $this->items->sort(function($a, $b) use ($order){
+        $this->items->sort(function ($a, $b) use ($order) {
             if ($a == $b) {
                 return 0;
             }
-            if ($order === 'asc'){
+            if ($order === 'asc') {
                 return ($a < $b) ? -1 : 1;
-            }else{
+            } else {
                 return ($a > $b) ? -1 : 1;
             }
         });
 
         $this->itemsOrderCache = $this->items->all();
+
         return $this->itemsOrderCache;
     }
 
     /**
-     * Mutate project files that are contained within this ContentType
+     * Mutate project files that are contained within this ContentType.
      *
      * @param Project $project
      */
@@ -169,7 +181,7 @@ class ContentType
 
         foreach (array_keys($this->getFileList()) as $fileKey) {
             /** @var File $file */
-            if (! $file = $project->get('files.' . $fileKey)) {
+            if (! $file = $project->get('files.'.$fileKey)) {
                 continue;
             }
 
@@ -180,21 +192,21 @@ class ContentType
             }
 
             // If we are not a default Content Type
-            $templatePath = $project->sourceDirectory . DIRECTORY_SEPARATOR . '_views' . DIRECTORY_SEPARATOR . $this->template . '.phtml';
+            $templatePath = $project->sourceDirectory.DIRECTORY_SEPARATOR.'_views'.DIRECTORY_SEPARATOR.$this->template.'.phtml';
             if ($this->template !== 'default' && file_exists($templatePath)) {
                 $fileRenderer = $contentRenderers->get($file->getExt());
                 $file->setData(['content' => $fileRenderer->render($file)]);
-                $file->setFileInfo(new SplFileInfo($templatePath, '_views','_views' . DIRECTORY_SEPARATOR . $this->template . '.phtml'));
+                $file->setFileInfo(new SplFileInfo($templatePath, '_views', '_views'.DIRECTORY_SEPARATOR.$this->template.'.phtml'));
 
                 if ($fileRenderer->supportsFrontMatter()) {
                     $frontMatter = new FrontMatter($file->getFileContent());
                     $file->setData(array_merge_recursive($file->getData(), $frontMatter->getData()));
                     $file->setContent($frontMatter->getContent());
-                }else{
+                } else {
                     $file->setContent($file->getFileContent());
                 }
 
-                if ($generator = $file->getData('generator')){
+                if ($generator = $file->getData('generator')) {
                     $project->replaceFile($file, new FileGenerator($file));
                 }
             }

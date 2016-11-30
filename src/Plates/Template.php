@@ -1,21 +1,22 @@
-<?php namespace Tapestry\Plates;
+<?php
+
+namespace Tapestry\Plates;
 
 use League\Plates\Template\Template as PlatesTemplate;
 use LogicException;
 use Tapestry\Entities\File;
 
 /**
- * Class Template
+ * Class Template.
  *
  * @todo maybe overload the Template class so that we can filter out frontmatter from phtml files before they are rendered and inject into the files data any front matter
  * The above may get complex if we are talking about data generators... but it may work in a nice, simple, compact way.
- *
- * @package Tapestry\Providers\Plates
  */
 class Template extends PlatesTemplate
 {
     /**
      * Create new Template instance.
+     *
      * @param Engine $engine
      * @param string $name
      */
@@ -26,17 +27,19 @@ class Template extends PlatesTemplate
 
     /**
      * Returns the content for a section block.
-     * @param  string      $name    Section name
-     * @param  string      $default Default section content
+     *
+     * @param string $name    Section name
+     * @param string $default Default section content
+     *
      * @return string|null
      */
     protected function section($name, $default = null)
     {
-        if ($name === 'content' && !isset($this->sections['content']) && isset($this->data['content'])){
+        if ($name === 'content' && ! isset($this->sections['content']) && isset($this->data['content'])) {
             return $this->data['content'];
         }
 
-        if (!isset($this->sections[$name])) {
+        if (! isset($this->sections[$name])) {
             return $default;
         }
 
@@ -44,24 +47,26 @@ class Template extends PlatesTemplate
     }
 
     /**
-     * Render the File
+     * Render the File.
+     *
      * @param File $file
      * @param $tmpDirectory
-     * @return string
+     *
      * @throws \Exception
+     *
+     * @return string
      */
     public function renderFile(File $file, $tmpDirectory)
     {
-
         if ($layoutName = $file->getData('layout')) {
-            $this->layoutName = (!strpos('_templates', $layoutName)) ? '_templates' . DIRECTORY_SEPARATOR . $layoutName : $layoutName;
+            $this->layoutName = (! strpos('_templates', $layoutName)) ? '_templates'.DIRECTORY_SEPARATOR.$layoutName : $layoutName;
             $this->layoutData = $file->getData();
         }
 
         try {
-            $tmpPathName = $tmpDirectory . DIRECTORY_SEPARATOR . time() . '-' . sha1($file->getUid()) . '.phtml';
+            $tmpPathName = $tmpDirectory.DIRECTORY_SEPARATOR.time().'-'.sha1($file->getUid()).'.phtml';
 
-            if (!file_exists($tmpDirectory)){
+            if (! file_exists($tmpDirectory)) {
                 mkdir($tmpDirectory);
             }
 
@@ -69,8 +74,8 @@ class Template extends PlatesTemplate
 
             $this->data($file->getData());
             $this->data([
-                'permalink' => $file->getCompiledPermalink(),
-                'raw_permalink' => $file->getPermalink()
+                'permalink'     => $file->getCompiledPermalink(),
+                'raw_permalink' => $file->getPermalink(),
             ]);
 
             extract($this->data);
@@ -83,7 +88,7 @@ class Template extends PlatesTemplate
 
             if (isset($this->layoutName)) {
                 $layout = $this->engine->make($this->layoutName);
-                $layout->sections = array_merge($this->sections, array('content' => $content));
+                $layout->sections = array_merge($this->sections, ['content' => $content]);
                 $content = $layout->render($this->layoutData);
             }
 

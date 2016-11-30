@@ -1,6 +1,7 @@
 <?php
+
 return [
-    'debug' => false,
-    'kernel' => \SiteOne\SiteKernel::class,
-    'pretty_permalink' => false
+    'debug'            => false,
+    'kernel'           => \SiteOne\TestKernel::class,
+    'pretty_permalink' => false,
 ];

@@ -1,12 +1,12 @@
-<?php namespace Tapestry\Entities;
+<?php
+
+namespace Tapestry\Entities;
 
 /**
- * Class ViewFile
+ * Class ViewFile.
  *
  * A wrapper surrounding a File object for the purpose of providing view helper
  * methods that are friendly to the end user.
- *
- * @package Tapestry\Entities
  */
 class ViewFile
 {
@@ -27,6 +27,7 @@ class ViewFile
 
     /**
      * ViewFile constructor.
+     *
      * @param Project $project
      * @param $fileUid
      */
@@ -42,7 +43,7 @@ class ViewFile
     public function getFile()
     {
         if (is_null($this->file)) {
-            $this->file = $this->project->get('compiled.' . $this->fileUid);
+            $this->file = $this->project->get('compiled.'.$this->fileUid);
         }
 
         return $this->file;
@@ -82,11 +83,11 @@ class ViewFile
 
     public function isPaginated()
     {
-        if (!$pagination = $this->getData('pagination')) {
+        if (! $pagination = $this->getData('pagination')) {
             return false;
         }
 
-        if (!$pagination instanceof Pagination) {
+        if (! $pagination instanceof Pagination) {
             return false;
         }
 
@@ -95,11 +96,11 @@ class ViewFile
 
     public function hasPreviousNext()
     {
-        if (!$previousNext = $this->getData('previous_next')) {
+        if (! $previousNext = $this->getData('previous_next')) {
             return false;
         }
 
-        if (!$previousNext instanceof \stdClass) {
+        if (! $previousNext instanceof \stdClass) {
             return false;
         }
 

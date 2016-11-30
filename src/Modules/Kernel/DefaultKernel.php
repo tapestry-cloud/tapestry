@@ -1,4 +1,6 @@
-<?php namespace Tapestry\Modules\Kernel;
+<?php
+
+namespace Tapestry\Modules\Kernel;
 
 use Tapestry\Tapestry;
 
@@ -11,6 +13,7 @@ class DefaultKernel implements KernelInterface
 
     /**
      * DefaultKernel constructor.
+     *
      * @param Tapestry $tapestry
      */
     public function __construct(Tapestry $tapestry)

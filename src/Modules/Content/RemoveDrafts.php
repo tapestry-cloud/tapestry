@@ -1,7 +1,8 @@
-<?php namespace Tapestry\Modules\Content;
+<?php
+
+namespace Tapestry\Modules\Content;
 
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Filesystem\Filesystem;
 use Tapestry\Entities\Configuration;
 use Tapestry\Entities\File;
 use Tapestry\Entities\Project;
@@ -16,6 +17,7 @@ class RemoveDrafts implements Step
 
     /**
      * RemoveDrafts constructor.
+     *
      * @param Configuration $configuration
      */
     public function __construct(Configuration $configuration)
@@ -26,19 +28,21 @@ class RemoveDrafts implements Step
     /**
      * Process the Project at current.
      *
-     * @param Project $project
+     * @param Project         $project
      * @param OutputInterface $output
-     * @return boolean
+     *
+     * @return bool
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
-        if (boolval($this->configuration->get('publish_drafts', false)) === false){
+        if (boolval($this->configuration->get('publish_drafts', false)) === false) {
             /** @var File $file */
-            foreach ($project->get('files')->all() as $file){
-                if (boolval($file->getData('draft', false)) === true){
+            foreach ($project->get('files')->all() as $file) {
+                if (boolval($file->getData('draft', false)) === true) {
                     $project->removeFile($file);
                 }
-            }unset($file);
+            }
+            unset($file);
         }
 
         return true;

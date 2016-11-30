@@ -1,7 +1,10 @@
-<?php namespace Tapestry\Providers;
+<?php
+
+namespace Tapestry\Providers;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use League\Container\ServiceProvider\BootableServiceProviderInterface;
+use Phine\Exception\Exception;
 use Tapestry\Entities\Configuration;
 use Tapestry\Modules\Kernel\DefaultKernel;
 use Tapestry\Modules\Kernel\KernelInterface;
@@ -9,12 +12,11 @@ use Tapestry\Tapestry;
 
 class ProjectKernelServiceProvider extends AbstractServiceProvider implements BootableServiceProviderInterface
 {
-
     /**
      * @var array
      */
     protected $provides = [
-        KernelInterface::class
+        KernelInterface::class,
     ];
 
     /**
@@ -26,7 +28,6 @@ class ProjectKernelServiceProvider extends AbstractServiceProvider implements Bo
      */
     public function register()
     {
-
     }
 
     /**
@@ -44,14 +45,21 @@ class ProjectKernelServiceProvider extends AbstractServiceProvider implements Bo
 
         $configuration = $container->get(Configuration::class);
 
-        $kernelPath = $tapestry['currentWorkingDirectory'] . DIRECTORY_SEPARATOR . 'kernel.php';
+        $kernelPath = $tapestry['currentWorkingDirectory'].DIRECTORY_SEPARATOR.'kernel.php';
 
-        if (file_exists($kernelPath)){
+        if (file_exists($kernelPath)) {
             include $kernelPath;
-            $container->share(KernelInterface::class, $configuration->get('kernel', DefaultKernel::class))->withArgument(
+
+            $kernelClassName = $configuration->get('kernel', DefaultKernel::class);
+
+            if (! class_exists($kernelClassName)) {
+                throw new Exception('['.$kernelClassName.'] kernel file not found.');
+            }
+
+            $container->share(KernelInterface::class, $kernelClassName)->withArgument(
                 $container->get(Tapestry::class)
             );
-        }else{
+        } else {
             $container->share(KernelInterface::class, DefaultKernel::class)->withArgument(
                 $container->get(Tapestry::class)
             );

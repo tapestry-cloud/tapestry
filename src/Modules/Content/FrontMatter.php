@@ -1,4 +1,6 @@
-<?php namespace Tapestry\Modules\Content;
+<?php
+
+namespace Tapestry\Modules\Content;
 
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
@@ -41,7 +43,7 @@ class FrontMatter
     }
 
     /**
-     * Return an array
+     * Return an array.
      *
      * @return array
      */
@@ -49,6 +51,7 @@ class FrontMatter
     {
         return $this->data;
     }
+
     /**
      * @return string
      */
@@ -56,9 +59,10 @@ class FrontMatter
     {
         return $this->content;
     }
+
     private function parse($string)
     {
-        if (!preg_match('/^(\s*[-]+\s*|\s*)$/', $string)) {
+        if (! preg_match('/^(\s*[-]+\s*|\s*)$/', $string)) {
             try {
                 $this->data = Yaml::parse($string);
             } catch (ParseException $e) {

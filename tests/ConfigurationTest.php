@@ -1,5 +1,6 @@
-<?php namespace Tapestry\Tests;
+<?php
 
+namespace Tapestry\Tests;
 
 class ConfigurationTest extends CommandTestBase
 {
@@ -13,8 +14,8 @@ class ConfigurationTest extends CommandTestBase
         $this->assertEquals(0, $output->getStatusCode());
 
         $this->assertFileEquals(
-            __DIR__ . '/assets/build_test_14/check/default_index.html',
-            __DIR__ . '/_tmp/build_local/index.html',
+            __DIR__.'/assets/build_test_14/check/default_index.html',
+            __DIR__.'/_tmp/build_local/index.html',
             '',
             true
         );
@@ -30,8 +31,8 @@ class ConfigurationTest extends CommandTestBase
         $this->assertEquals(0, $output->getStatusCode());
 
         $this->assertFileEquals(
-            __DIR__ . '/assets/build_test_14/check/development_index.html',
-            __DIR__ . '/_tmp/build_development/index.html',
+            __DIR__.'/assets/build_test_14/check/development_index.html',
+            __DIR__.'/_tmp/build_development/index.html',
             '',
             true
         );

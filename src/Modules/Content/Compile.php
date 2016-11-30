@@ -1,14 +1,16 @@
-<?php namespace Tapestry\Modules\Content;
+<?php
+
+namespace Tapestry\Modules\Content;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Tapestry\Entities\Cache;
+use Tapestry\Entities\Collections\FlatCollection;
 use Tapestry\Entities\ContentType;
 use Tapestry\Entities\File;
 use Tapestry\Entities\Filesystem\FileCopier;
 use Tapestry\Entities\Filesystem\FileIgnored;
 use Tapestry\Entities\Filesystem\FileWriter;
-use Tapestry\Entities\Collections\FlatCollection;
 use Tapestry\Entities\Generators\FileGenerator;
 use Tapestry\Entities\Project;
 use Tapestry\Entities\ViewFile;
@@ -30,6 +32,7 @@ class Compile implements Step
 
     /**
      * Write constructor.
+     *
      * @param Filesystem $filesystem
      */
     public function __construct(Filesystem $filesystem)
@@ -40,9 +43,10 @@ class Compile implements Step
     /**
      * Process the Project at current.
      *
-     * @param Project $project
+     * @param Project         $project
      * @param OutputInterface $output
-     * @return boolean
+     *
+     * @return bool
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
@@ -61,21 +65,21 @@ class Compile implements Step
         //
         /** @var ContentType $contentType */
         foreach ($contentTypes->all() as $contentType) {
-            $output->writeln('[+] Compiling content within ['. $contentType->getName() .']');
+            $output->writeln('[+] Compiling content within ['.$contentType->getName().']');
             $project->set('compiled', $this->files);
 
             // Foreach ContentType look up their Files and run the particular Renderer on their $content before updating
             // the Project File.
             foreach (array_keys($contentType->getFileList()) as $fileKey) {
                 /** @var File $file */
-                if (! $file = $project->get('files.' . $fileKey)) {
+                if (! $file = $project->get('files.'.$fileKey)) {
                     continue;
                 }
 
                 // Pre-compile via use of File Generators
-                if ($file instanceof FileGenerator){
+                if ($file instanceof FileGenerator) {
                     $this->add($file->generate($project));
-                }else{
+                } else {
                     $this->add($file);
                 }
                 $project->set('compiled', $this->files);
@@ -87,36 +91,41 @@ class Compile implements Step
         //
         /** @var File $file */
         foreach ($project['compiled'] as $file) {
-            if (! $uses = $file->getData('use')) { continue; }
-            foreach ($uses as $use){
-                if (! $items = $file->getData($use . '_items')) { continue; }
+            if (! $uses = $file->getData('use')) {
+                continue;
+            }
+            foreach ($uses as $use) {
+                if (! $items = $file->getData($use.'_items')) {
+                    continue;
+                }
 
-                array_walk_recursive($items, function(&$file, $fileKey) use ($project){
+                array_walk_recursive($items, function (&$file, $fileKey) use ($project) {
                     /** @var File $compiledFile */
-                    if (! $compiledFile = $project->get('compiled.' . $fileKey)) {
+                    if (! $compiledFile = $project->get('compiled.'.$fileKey)) {
                         $file = null;
-                    }else{
+                    } else {
                         $file = new ViewFile($project, $compiledFile->getUid());
                     }
                 });
 
                 // Filter out deleted pages, such as drafts
-                $items = array_filter($items, function($value) {
-                    return !is_null($value);
+                $items = array_filter($items, function ($value) {
+                    return ! is_null($value);
                 });
 
-                $file->setData([$use . '_items' => $items]);
+                $file->setData([$use.'_items' => $items]);
             }
         }
 
-        if (! $this->allFilesGenerated()){
+        if (! $this->allFilesGenerated()) {
             foreach ($this->files as &$file) {
-                if ($uses = $file->getData('generator')){
-                    if (count($uses)>0){
-                        $output->writeln('[!] File ['. $file->getUid() .'] has not completed generating');
+                if ($uses = $file->getData('generator')) {
+                    if (count($uses) > 0) {
+                        $output->writeln('[!] File ['.$file->getUid().'] has not completed generating');
                     }
                 }
-            }unset($file);
+            }
+            unset($file);
 
             exit(1);
         }
@@ -124,7 +133,7 @@ class Compile implements Step
         //
         // Execute Renderers
         //
-        while(! $this->allFilesRendered()) {
+        while (! $this->allFilesRendered()) {
             foreach ($this->files as &$file) {
                 if ($file->isRendered()) {
                     continue;
@@ -141,23 +150,24 @@ class Compile implements Step
         //
         // Mutate into FileCopy or FileWrite entities
         //
-        foreach($this->files as &$file){
-
-            if ($cachedCTime = $cache->getItem($file->getUid())){
-                if ($file->getLastModified() == $cachedCTime){
-                    $file = new FileIgnored(clone($file), $project->destinationDirectory);
+        foreach ($this->files as &$file) {
+            if ($cachedCTime = $cache->getItem($file->getUid())) {
+                if ($file->getLastModified() == $cachedCTime) {
+                    $file = new FileIgnored(clone $file, $project->destinationDirectory);
                     continue;
                 }
             }
 
-            if ($file->isToCopy()){
-                $file = new FileCopier(clone($file), $project->destinationDirectory);
-            }else{
-                $file = new FileWriter(clone($file), $project->destinationDirectory);
+            if ($file->isToCopy()) {
+                $file = new FileCopier(clone $file, $project->destinationDirectory);
+            } else {
+                $file = new FileWriter(clone $file, $project->destinationDirectory);
             }
-        }unset($file);
+        }
+        unset($file);
 
         $project->set('compiled', new FlatCollection($this->files));
+
         return true;
     }
 
@@ -166,11 +176,11 @@ class Compile implements Step
      */
     private function add($files)
     {
-        if (is_array($files)){
-            foreach($files as $file) {
+        if (is_array($files)) {
+            foreach ($files as $file) {
                 $this->files[$file->getUid()] = $file;
             }
-        }else{
+        } else {
             $this->files[$files->getUid()] = $files;
         }
     }
@@ -182,16 +192,19 @@ class Compile implements Step
      */
     private function allFilesRendered()
     {
-        foreach ($this->files as $file){
-            if (!$file->isRendered()) { return false; }
+        foreach ($this->files as $file) {
+            if (! $file->isRendered()) {
+                return false;
+            }
         }
+
         return true;
     }
 
     private function allFilesGenerated()
     {
         foreach ($this->files as $file) {
-            if ($uses = $file->getData('generator')){
+            if ($uses = $file->getData('generator')) {
                 if (count($uses) > 0) {
                     return false;
                 }

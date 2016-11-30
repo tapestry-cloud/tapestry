@@ -1,5 +1,6 @@
-<?php namespace Tapestry\Modules\Generators;
+<?php
 
+namespace Tapestry\Modules\Generators;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Tapestry\Entities\Configuration;
@@ -28,9 +29,10 @@ class LoadContentGenerators implements Step
     /**
      * Process the Project at current.
      *
-     * @param Project $project
+     * @param Project         $project
      * @param OutputInterface $output
-     * @return boolean
+     *
+     * @return bool
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
