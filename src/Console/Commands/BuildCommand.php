@@ -52,13 +52,13 @@ class BuildCommand extends Command
         $currentWorkingDirectory = $this->input->getOption('site-dir');
         $environment = $this->input->getOption('env');
 
-        if (!file_exists($currentWorkingDirectory)) {
+        if (! file_exists($currentWorkingDirectory)) {
             $this->output->writeln('<error>[!]</error> The site directory ['.$currentWorkingDirectory.'] does not exist. Doing nothing and exiting.');
             exit(1);
         }
 
         // Lets use full paths.
-        if (!$currentWorkingDirectory = realpath($currentWorkingDirectory)) {
+        if (! $currentWorkingDirectory = realpath($currentWorkingDirectory)) {
             $this->output->writeln('<error>[!]</error> Sorry there has been an error identifying the site directory. Doing nothing and exiting.');
             exit(1);
         }

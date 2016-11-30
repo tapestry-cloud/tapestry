@@ -78,7 +78,7 @@ class Pagination
 
         array_walk_recursive($this->items, function (&$file, $fileKey) {
             /** @var File $compiledFile */
-            if (!$compiledFile = $this->project->get('compiled.'.$fileKey)) {
+            if (! $compiledFile = $this->project->get('compiled.'.$fileKey)) {
                 $file = null;
             } else {
                 $file = new ViewFile($this->project, $compiledFile->getUid());

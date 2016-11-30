@@ -186,7 +186,7 @@ class File implements ProjectFileInterface
      */
     public function getContent()
     {
-        if (!$this->isLoaded()) {
+        if (! $this->isLoaded()) {
             throw new \Exception('The file ['.$this->fileInfo->getRelativePathname().'] has not been loaded.');
         }
 
@@ -282,7 +282,7 @@ class File implements ProjectFileInterface
         if (is_null($key)) {
             return $this->data;
         }
-        if (!isset($this->data[$key])) {
+        if (! isset($this->data[$key])) {
             return $default;
         }
 

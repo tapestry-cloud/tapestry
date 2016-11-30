@@ -47,7 +47,7 @@ class SelfUpdateCommand extends Command
         $this->scratchDirectoryPath = dirname($this->currentPharFileName).DIRECTORY_SEPARATOR.'tmp';
         $this->pharExists = (pathinfo($this->currentPharFileName, PATHINFO_EXTENSION) === 'phar');
 
-        if (!$filesystem->exists($this->scratchDirectoryPath)) {
+        if (! $filesystem->exists($this->scratchDirectoryPath)) {
             $filesystem->mkdir($this->scratchDirectoryPath);
         }
     }
@@ -69,7 +69,7 @@ class SelfUpdateCommand extends Command
 
     protected function fire()
     {
-        if (!$this->input->getOption('test') && $this->pharExists === false) {
+        if (! $this->input->getOption('test') && $this->pharExists === false) {
             $this->output->writeln('[!] Self-Update only works on phar archives.');
             exit(1);
         }
@@ -79,7 +79,7 @@ class SelfUpdateCommand extends Command
         }
 
         $jsonPathName = $this->scratchDirectoryPath.DIRECTORY_SEPARATOR.'release.json';
-        if (!$this->downloadFile($this->releaseApiUrl, $jsonPathName, ['Accept' => 'application/vnd.github.v3+json'])) {
+        if (! $this->downloadFile($this->releaseApiUrl, $jsonPathName, ['Accept' => 'application/vnd.github.v3+json'])) {
             $this->panic('There was a problem in downloading the update, please try again.');
         }
 
@@ -120,7 +120,7 @@ class SelfUpdateCommand extends Command
     {
         $this->output->writeln('[*] Downloading Update');
         $downloadToPath = $this->scratchDirectoryPath.DIRECTORY_SEPARATOR.pathinfo($latestVersionDownloadUrl, PATHINFO_BASENAME);
-        if (!$this->downloadFile($latestVersionDownloadUrl, $downloadToPath)) {
+        if (! $this->downloadFile($latestVersionDownloadUrl, $downloadToPath)) {
             $this->panic('There was a problem in downloading the update, please try again.');
         }
 
@@ -149,7 +149,7 @@ class SelfUpdateCommand extends Command
         curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Tapestry CLI Update');
-        if (!is_null($accept)) {
+        if (! is_null($accept)) {
             curl_setopt($ch, CURLOPT_HTTPHEADER, $accept);
         }
         $raw_file_data = curl_exec($ch);

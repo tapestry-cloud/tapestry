@@ -15,12 +15,12 @@ class TaxonomyArchiveGenerator extends FileGenerator implements ProjectFileGener
         // Look up the files content types via the use and then look up the taxonomy that has been injected into this files
         // data array and create a clone of the File once each for every Taxonomy name with the Files passed to them.
 
-        if (!$uses = $this->file->getData('use')) {
+        if (! $uses = $this->file->getData('use')) {
             return $this->file;
         }
 
         foreach ($uses as $use) {
-            if (!$data = $this->file->getData($use.'_items')) {
+            if (! $data = $this->file->getData($use.'_items')) {
                 continue;
             }
 

@@ -36,7 +36,7 @@ class Generator
             /** @var Step $step */
             $step = $this->tapestry->getContainer()->get($step);
             $output->writeln('Executing step ['.class_basename($step).']');
-            if (!$step->__invoke($project, $output)) {
+            if (! $step->__invoke($project, $output)) {
                 exit(1);
             }
         }
