@@ -1,4 +1,6 @@
-<?php namespace Tapestry\Entities;
+<?php
+
+namespace Tapestry\Entities;
 
 class Permalink
 {
@@ -9,6 +11,7 @@ class Permalink
 
     /**
      * Permalink constructor.
+     *
      * @param string $template
      */
     public function __construct($template = '{path}/{filename}.{ext}')
@@ -27,10 +30,11 @@ class Permalink
     }
 
     /**
-     * Returns a compiled permalink path in string form
+     * Returns a compiled permalink path in string form.
      *
      * @param File $file
      * @param bool $pretty
+     *
      * @return mixed|string
      */
     public function getCompiled(File $file, $pretty = true)
@@ -41,14 +45,14 @@ class Permalink
         $output = str_replace('{path}', $file->getPath(), $output);
 
         /** @var \DateTime $date */
-        if ($date = $file->getData('date')){
+        if ($date = $file->getData('date')) {
             $output = str_replace('{year}', $date->format('Y'), $output);
             $output = str_replace('{month}', $date->format('m'), $output);
             $output = str_replace('{day}', $date->format('d'), $output);
         }
 
         /** @var Pagination $pagination */
-        if ($pagination = $file->getData('pagination')){
+        if ($pagination = $file->getData('pagination')) {
             if ($pagination instanceof Pagination) {
                 if ($pagination->currentPage == 1) {
                     $page = 'index';
@@ -61,8 +65,8 @@ class Permalink
 
         $output = str_replace('{slug}', $file->getData('slug', $this->sluggify($file->getData('title', $file->getFilename()))), $output);
 
-        if (substr($output, 0, 1) !== '/'){
-            $output = '/' . $output;
+        if (substr($output, 0, 1) !== '/') {
+            $output = '/'.$output;
         }
 
         if ($pretty === true && $file->getData('pretty_permalink', true)) {
@@ -73,11 +77,14 @@ class Permalink
     }
 
     /**
-     * Slugify the input string
+     * Slugify the input string.
+     *
      * @param string $text
+     *
      * @return string
      */
-    private function sluggify($text) {
+    private function sluggify($text)
+    {
         return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $text)));
     }
 
@@ -86,17 +93,21 @@ class Permalink
      * become /blog/categories/ making it "pretty".
      *
      * @param string $text
+     *
      * @return string
      */
-    private function prettify($text) {
-        if (strpos($this->template, '{ext}') !== false || strpos($text, '.') !== false){
-            if (strpos($text, 'index') === false){
+    private function prettify($text)
+    {
+        if (strpos($this->template, '{ext}') !== false || strpos($text, '.') !== false) {
+            if (strpos($text, 'index') === false) {
                 $parts = explode('.', $text);
                 $text = array_shift($parts);
                 $ext = array_shift($parts);
-                return $text . '/index.' . $ext;
+
+                return $text.'/index.'.$ext;
             }
         }
+
         return $text;
     }
 }

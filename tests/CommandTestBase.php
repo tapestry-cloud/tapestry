@@ -1,10 +1,12 @@
-<?php namespace Tapestry\Tests;
+<?php
+
+namespace Tapestry\Tests;
 
 use Symfony\Component\Console\Tester\ApplicationTester;
 use Symfony\Component\Filesystem\Filesystem;
 use Tapestry\Console\Application;
 
-require_once __DIR__ . '/../src/bootstrap.php';
+require_once __DIR__.'/../src/bootstrap.php';
 
 abstract class CommandTestBase extends \PHPUnit_Framework_TestCase
 {
@@ -24,16 +26,17 @@ abstract class CommandTestBase extends \PHPUnit_Framework_TestCase
     protected static $fileSystem;
 
     /**
-     * Before the test cases are run, change directory to the tests directory and set the _tmp path
+     * Before the test cases are run, change directory to the tests directory and set the _tmp path.
+     *
      * @return void
      */
     public static function setUpBeforeClass()
     {
-        self::$tmpPath = __DIR__ . DIRECTORY_SEPARATOR . '_tmp';
+        self::$tmpPath = __DIR__.DIRECTORY_SEPARATOR.'_tmp';
         $fileSystem = new Filesystem();
         $fileSystem->mkdir(self::$tmpPath);
         chdir(self::$tmpPath);
-        self::$fileSystem  = $fileSystem;
+        self::$fileSystem = $fileSystem;
     }
 
     public static function tearDownAfterClass()
@@ -42,32 +45,33 @@ abstract class CommandTestBase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Clean the _tmp path between tests so they do not conflict with one another
+     * Clean the _tmp path between tests so they do not conflict with one another.
      */
     protected function tearDown()
     {
         $directoryContent = new \RecursiveDirectoryIterator(self::$tmpPath, \FilesystemIterator::SKIP_DOTS);
         $files = new \RecursiveIteratorIterator($directoryContent, \RecursiveIteratorIterator::CHILD_FIRST);
-        foreach($files as $file) {
-            $file->isDir() ?  rmdir($file) : unlink($file);
+        foreach ($files as $file) {
+            $file->isDir() ? rmdir($file) : unlink($file);
         }
     }
 
     protected function copyDirectory($from, $to)
     {
-        $from = __DIR__ . DIRECTORY_SEPARATOR . $from;
-        $to = __DIR__ . DIRECTORY_SEPARATOR . $to;
+        $from = __DIR__.DIRECTORY_SEPARATOR.$from;
+        $to = __DIR__.DIRECTORY_SEPARATOR.$to;
         $directoryContent = new \RecursiveDirectoryIterator($from, \FilesystemIterator::SKIP_DOTS);
         $files = new \RecursiveIteratorIterator($directoryContent, \RecursiveIteratorIterator::CHILD_FIRST);
         /** @var \SplFileInfo $item */
-        foreach($files as $item) {
-            if ($item->isDir()){
+        foreach ($files as $item) {
+            if ($item->isDir()) {
                 self::$fileSystem->mkdir(str_replace($from, $to, $item->getPath()));
-            }else{
+            } else {
                 self::$fileSystem->copy($item->getPathname(), str_replace($from, $to, $item->getPathname()));
             }
         }
     }
+
     /**
      * Asserts that the contents of one file is equal to the contents of another
      * file.
@@ -94,11 +98,13 @@ abstract class CommandTestBase extends \PHPUnit_Framework_TestCase
             $ignoreCase
         );
     }
+
     /**
-     * Using the cli application itself, execute a command that already exists
+     * Using the cli application itself, execute a command that already exists.
      *
      * @param string $command
-     * @param array $arguments
+     * @param array  $arguments
+     *
      * @return ApplicationTester
      */
     protected function runCommand($command, array $arguments = [])
@@ -106,10 +112,13 @@ abstract class CommandTestBase extends \PHPUnit_Framework_TestCase
         $applicationTester = new ApplicationTester($this->getCli($arguments));
         $arguments = array_merge(['command' => $command], $arguments);
         $applicationTester->run($arguments);
+
         return $applicationTester;
     }
+
     /**
-     * Obtain the cli application for testing
+     * Obtain the cli application for testing.
+     *
      * @return Application
      */
     private function getCli(array $arguments = [])
@@ -119,7 +128,7 @@ abstract class CommandTestBase extends \PHPUnit_Framework_TestCase
         /** @var Application $cli */
         $cli = $tapestry[Application::class];
         $cli->setAutoExit(false);
+
         return $cli;
     }
-
 }

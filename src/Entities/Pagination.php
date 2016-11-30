@@ -1,23 +1,25 @@
-<?php namespace Tapestry\Entities;
+<?php
+
+namespace Tapestry\Entities;
 
 class Pagination
 {
     /**
-     * This pages items
+     * This pages items.
      *
      * @var array
      */
     private $items;
 
     /**
-     * Total pages in pagination
+     * Total pages in pagination.
      *
      * @var int
      */
     public $totalPages;
 
     /**
-     * Current page in pagination
+     * Current page in pagination.
      *
      * @var int
      */
@@ -46,7 +48,7 @@ class Pagination
     private $previous;
 
     /**
-     * Pages in pagination group
+     * Pages in pagination group.
      *
      * @var array|ViewFile[]
      */
@@ -54,10 +56,11 @@ class Pagination
 
     /**
      * Pagination constructor.
+     *
      * @param Project $project
-     * @param array $items
-     * @param int $totalPages
-     * @param int $currentPage
+     * @param array   $items
+     * @param int     $totalPages
+     * @param int     $currentPage
      */
     public function __construct(Project $project, array $items = [], $totalPages = 0, $currentPage = 0)
     {
@@ -69,13 +72,15 @@ class Pagination
 
     public function getItems()
     {
-        if ($this->loaded === true) { return $this->items; }
+        if ($this->loaded === true) {
+            return $this->items;
+        }
 
-        array_walk_recursive($this->items, function(&$file, $fileKey){
+        array_walk_recursive($this->items, function (&$file, $fileKey) {
             /** @var File $compiledFile */
-            if (! $compiledFile = $this->project->get('compiled.' . $fileKey)) {
+            if (! $compiledFile = $this->project->get('compiled.'.$fileKey)) {
                 $file = null;
-            }else{
+            } else {
                 $file = new ViewFile($this->project, $compiledFile->getUid());
             }
         });
@@ -87,13 +92,14 @@ class Pagination
      * @param string $previous
      * @param string $next
      */
-    public function setPreviousNext($previous, $next) {
+    public function setPreviousNext($previous, $next)
+    {
         $this->previous = $previous;
         $this->next = $next;
     }
 
     /**
-     * Get the next page, or null if we are the last page
+     * Get the next page, or null if we are the last page.
      *
      * @return null|ViewFile
      */
@@ -103,7 +109,7 @@ class Pagination
     }
 
     /**
-     * Get the previous page, or null if we are the first page
+     * Get the previous page, or null if we are the first page.
      *
      * @return null|ViewFile
      */
@@ -137,7 +143,7 @@ class Pagination
      */
     public function setPages(array $pages = [])
     {
-        foreach($pages as $file){
+        foreach ($pages as $file) {
             array_push($this->pages, new ViewFile($this->project, $file->getUid()));
         }
     }

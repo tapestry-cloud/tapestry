@@ -1,4 +1,6 @@
-<?php namespace Tapestry;
+<?php
+
+namespace Tapestry;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Tapestry\Entities\Project;
@@ -16,7 +18,8 @@ class Generator
 
     /**
      * Generator constructor.
-     * @param array $steps
+     *
+     * @param array    $steps
      * @param Tapestry $tapestry
      */
     public function __construct(array $steps, Tapestry $tapestry)
@@ -27,13 +30,13 @@ class Generator
 
     public function generate(Project $project, OutputInterface $output)
     {
-        $output->writeln('Generating site from <comment>'. $project->sourceDirectory .'</comment> to <comment>' . $project->destinationDirectory . '</comment>');
+        $output->writeln('Generating site from <comment>'.$project->sourceDirectory.'</comment> to <comment>'.$project->destinationDirectory.'</comment>');
 
-        foreach($this->steps as $step) {
+        foreach ($this->steps as $step) {
             /** @var Step $step */
             $step = $this->tapestry->getContainer()->get($step);
-            $output->writeln('Executing step ['. class_basename($step) .']');
-            if (! $step->__invoke($project, $output)){
+            $output->writeln('Executing step ['.class_basename($step).']');
+            if (! $step->__invoke($project, $output)) {
                 exit(1);
             }
         }

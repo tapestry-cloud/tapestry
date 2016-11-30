@@ -1,4 +1,6 @@
-<?php namespace Tapestry\Entities\Renderers;
+<?php
+
+namespace Tapestry\Entities\Renderers;
 
 use Tapestry\Entities\File;
 use Tapestry\Entities\Project;
@@ -23,12 +25,12 @@ class PlatesRenderer implements RendererInterface
 
     /**
      * PlatesRenderer constructor.
-     * @param Engine $parser
+     *
+     * @param Engine  $parser
      * @param Project $project
      */
     public function __construct(Engine $parser, Project $project)
     {
-
         $this->parser = $parser;
         $this->project = $project;
     }
@@ -44,9 +46,10 @@ class PlatesRenderer implements RendererInterface
     }
 
     /**
-     * Returns true if the renderer can render the given extension
+     * Returns true if the renderer can render the given extension.
      *
      * @param string $extension
+     *
      * @return bool
      */
     public function canRender($extension)
@@ -55,18 +58,19 @@ class PlatesRenderer implements RendererInterface
     }
 
     /**
-     * Render the input file content and return the output
+     * Render the input file content and return the output.
      *
      * @param File $file
+     *
      * @return string
      */
     public function render(File $file)
     {
-        return $this->parser->renderFile($file, $this->project->currentWorkingDirectory . DIRECTORY_SEPARATOR . '.tmp');
+        return $this->parser->renderFile($file, $this->project->currentWorkingDirectory.DIRECTORY_SEPARATOR.'.tmp');
     }
 
     /**
-     * Returns the extension that the rendered output conforms to
+     * Returns the extension that the rendered output conforms to.
      *
      * @return string
      */
@@ -87,6 +91,7 @@ class PlatesRenderer implements RendererInterface
 
     /**
      * @param File $file
+     *
      * @return void
      */
     public function mutateFile(File &$file)

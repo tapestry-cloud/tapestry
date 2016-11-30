@@ -1,4 +1,6 @@
-<?php namespace Tapestry\Console\Commands;
+<?php
+
+namespace Tapestry\Console\Commands;
 
 use Symfony\Component\Console\Input\InputOption;
 use Tapestry\Entities\Project;
@@ -19,8 +21,9 @@ class BuildCommand extends Command
 
     /**
      * InitCommand constructor.
+     *
      * @param Tapestry $tapestry
-     * @param array $steps
+     * @param array    $steps
      */
     public function __construct(Tapestry $tapestry, array $steps)
     {
@@ -49,8 +52,8 @@ class BuildCommand extends Command
         $currentWorkingDirectory = $this->input->getOption('site-dir');
         $environment = $this->input->getOption('env');
 
-        if (!file_exists($currentWorkingDirectory)) {
-            $this->output->writeln('<error>[!]</error> The site directory ['. $currentWorkingDirectory .'] does not exist. Doing nothing and exiting.');
+        if (! file_exists($currentWorkingDirectory)) {
+            $this->output->writeln('<error>[!]</error> The site directory ['.$currentWorkingDirectory.'] does not exist. Doing nothing and exiting.');
             exit(1);
         }
 
@@ -67,6 +70,7 @@ class BuildCommand extends Command
 
         $this->tapestry->getContainer()->add(Project::class, $project);
         $generator->generate($project, $this->output);
+
         return 0;
     }
 }

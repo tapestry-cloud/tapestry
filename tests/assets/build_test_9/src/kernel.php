@@ -1,9 +1,11 @@
-<?php namespace SiteTen;
+<?php
+
+namespace SiteTen;
 
 use Interop\Container\ContainerInterface;
 use Tapestry\Tapestry;
 
-class SiteKernel implements \Tapestry\Kernel\KernelInterface
+class kernel implements \Tapestry\Kernel\KernelInterface
 {
     /**
      * @var Tapestry
@@ -17,7 +19,7 @@ class SiteKernel implements \Tapestry\Kernel\KernelInterface
 
     public function register()
     {
-        $this->tapestry->getContainer()->get( \Tapestry\Content\Configuration::class )->set('kernel_works', 'Hello world, this is the kernel speaking!');
+        $this->tapestry->getContainer()->get(\Tapestry\Content\Configuration::class)->set('kernel_works', 'Hello world, this is the kernel speaking!');
     }
 
     /**

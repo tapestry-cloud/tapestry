@@ -1,43 +1,45 @@
-<?php namespace Tapestry\Entities\Generators;
+<?php
+
+namespace Tapestry\Entities\Generators;
 
 use Tapestry\Entities\File;
 use Tapestry\Entities\Pagination;
 use Tapestry\Entities\Permalink;
 use Tapestry\Entities\Project;
-use Tapestry\Entities\ViewFile;
 
 class PaginationGenerator extends FileGenerator
 {
     /**
      * @param Project $project
+     *
      * @return \Tapestry\Entities\ProjectFileInterface|\Tapestry\Entities\ProjectFileInterface[]
      */
     public function generate(Project $project)
     {
-        $newFile = clone($this->file);
+        $newFile = clone $this->file;
         $newFile->setData([
             'generator' => array_filter($this->file->getData('generator'), function ($value) {
                 return $value !== 'PaginationGenerator';
-            })
+            }),
         ]);
 
-        if (!$configuration = $this->file->getData('pagination')) {
+        if (! $configuration = $this->file->getData('pagination')) {
             return $newFile;
         }
 
         $defaultConfiguration = [
-            'perPage' => 5
+            'perPage' => 5,
         ];
 
         $configuration = array_merge($defaultConfiguration, $configuration);
-        $paginationKey = $configuration['provider'] . '_items';
+        $paginationKey = $configuration['provider'].'_items';
 
-        if (!$paginationItems = $this->file->getData($paginationKey)) {
+        if (! $paginationItems = $this->file->getData($paginationKey)) {
             return $newFile;
         }
 
-        $paginationItems = array_filter($paginationItems, function($key) use ($project){
-            return $project->has('files.' . $key);
+        $paginationItems = array_filter($paginationItems, function ($key) use ($project) {
+            return $project->has('files.'.$key);
         }, ARRAY_FILTER_USE_KEY);
 
 
@@ -49,7 +51,7 @@ class PaginationGenerator extends FileGenerator
 
         // If there are no pages because the pagination filter cleared out the array then return; otherwise this ends
         // up with an infinite loop
-        if ($totalPages == 0){
+        if ($totalPages == 0) {
             return $newFile;
         }
 
@@ -57,12 +59,12 @@ class PaginationGenerator extends FileGenerator
 
         $currentPage = 0;
         foreach (array_chunk($paginationItems, $configuration['perPage'], true) as $pageItems) {
-            $pageFile = clone($newFile);
+            $pageFile = clone $newFile;
             $currentPage++;
             $pageFile->setData(['pagination' => new Pagination($project, $pageItems, $totalPages, ($currentPage))]);
 
             if ($currentPage > 1) {
-                $pageFile->setUid($pageFile->getUid() . '_page_' . $currentPage);
+                $pageFile->setUid($pageFile->getUid().'_page_'.$currentPage);
 
                 $permalink = $pageFile->getPermalink();
                 $template = $permalink->getTemplate();
@@ -85,23 +87,23 @@ class PaginationGenerator extends FileGenerator
         $totalGenerated = count($generatedFiles);
         if ($totalGenerated > 1) {
             /**
-             * @var int $key
+             * @var int
              * @var File $generatedFile
              */
             foreach ($generatedFiles as $key => &$generatedFile) {
-                /**
-                 * @var Pagination $pagination
-                 * @var null|File $previous
-                 * @var null|File $next
+                /*
+                 * @var Pagination
+                 * @var null|File  $previous
+                 * @var null|File  $next
                  */
                 $pagination = $generatedFile->getData('pagination');
 
-                $next = (isset($generatedFiles[($key+1)])) ? $generatedFiles[($key+1)] : null;
-                $previous = (isset($generatedFiles[($key-1)])) ? $generatedFiles[($key-1)] : null;
+                $next = (isset($generatedFiles[($key + 1)])) ? $generatedFiles[($key + 1)] : null;
+                $previous = (isset($generatedFiles[($key - 1)])) ? $generatedFiles[($key - 1)] : null;
 
                 $pagination->setPreviousNext(
                     is_null($previous) ? null : $previous->getUid(),
-                    is_null($next) ? null: $next->getUid()
+                    is_null($next) ? null : $next->getUid()
                 );
 
                 $pagination->setPages($generatedFiles);

@@ -3,10 +3,10 @@
 return [
     'ignore' => [
         '_templates\/(.*?)',
-        'assets\/(.*?)'
+        'assets\/(.*?)',
     ],
 
     'copy' => [
-        'assets\/(.*?)'
-    ]
+        'assets\/(.*?)',
+    ],
 ];

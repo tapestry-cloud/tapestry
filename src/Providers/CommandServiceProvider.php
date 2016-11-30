@@ -1,4 +1,6 @@
-<?php namespace Tapestry\Providers;
+<?php
+
+namespace Tapestry\Providers;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use Tapestry\Console\Application;
@@ -9,13 +11,12 @@ use Tapestry\Tapestry;
 
 class CommandServiceProvider extends AbstractServiceProvider
 {
-
     /**
      * @var array
      */
     protected $provides = [
         Application::class,
-        InitCommand::class
+        InitCommand::class,
     ];
 
     /**
@@ -32,13 +33,13 @@ class CommandServiceProvider extends AbstractServiceProvider
         $container->add(InitCommand::class)
             ->withArguments([
                 \Symfony\Component\Filesystem\Filesystem::class,
-                \Symfony\Component\Finder\Finder::class
+                \Symfony\Component\Finder\Finder::class,
             ]);
 
         $this->getContainer()->add(BuildCommand::class)
             ->withArguments([
                 Tapestry::class,
-                $this->getContainer()->get('Compile.Steps')
+                $this->getContainer()->get('Compile.Steps'),
             ]);
 
         $container->add(SelfUpdateCommand::class)
@@ -53,8 +54,8 @@ class CommandServiceProvider extends AbstractServiceProvider
                 [
                     $container->get(InitCommand::class),
                     $container->get(BuildCommand::class),
-                    $container->get(SelfUpdateCommand::class)
-                ]
+                    $container->get(SelfUpdateCommand::class),
+                ],
             ]);
     }
 }

@@ -1,5 +1,8 @@
-<?php namespace Tapestry\Entities;
+<?php
 
-interface ProjectFileGeneratorInterface {
+namespace Tapestry\Entities;
+
+interface ProjectFileGeneratorInterface
+{
     public function generate(Project $project);
 }
