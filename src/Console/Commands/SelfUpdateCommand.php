@@ -71,11 +71,11 @@ class SelfUpdateCommand extends Command
     {
         if (! $this->input->getOption('test') && $this->pharExists === false) {
             $this->output->writeln('[!] Self-Update only works on phar archives.');
-            exit(1);
+            return 1;
         }
 
         if ($this->input->getOption('rollback')) {
-            $this->rollback();
+            return $this->rollback();
         }
 
         $jsonPathName = $this->scratchDirectoryPath.DIRECTORY_SEPARATOR.'release.json';
@@ -88,7 +88,7 @@ class SelfUpdateCommand extends Command
 
         if ($this->input->getOption('force') === false && Comparator::greaterThanOrEqualTo(Tapestry::VERSION, $latestVersion)) {
             $this->output->writeln('You already have the latest version of Tapestry ['.Tapestry::VERSION.']. Doing nothing and exiting.');
-            exit();
+            return 0;
         }
 
         $this->backupPhar();
@@ -99,6 +99,16 @@ class SelfUpdateCommand extends Command
 
     private function rollback()
     {
+
+        $pharPath = pathinfo($this->currentPharFileName, PATHINFO_DIRNAME);
+        if (! file_exists($pharPath . DIRECTORY_SEPARATOR . 'tapestry-temp.phar')){
+            $this->error('There is no previous version stored to rollback to. Doing nothing and exiting.');
+            return 0;
+        }
+
+
+
+        return 0;
     }
 
     private function backupPhar()
