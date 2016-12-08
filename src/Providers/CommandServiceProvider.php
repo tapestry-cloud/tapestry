@@ -2,12 +2,12 @@
 
 namespace Tapestry\Providers;
 
-use League\Container\ServiceProvider\AbstractServiceProvider;
-use Tapestry\Console\Application;
-use Tapestry\Console\Commands\BuildCommand;
-use Tapestry\Console\Commands\InitCommand;
-use Tapestry\Console\Commands\SelfUpdateCommand;
 use Tapestry\Tapestry;
+use Tapestry\Console\Application;
+use Tapestry\Console\Commands\InitCommand;
+use Tapestry\Console\Commands\BuildCommand;
+use Tapestry\Console\Commands\SelfUpdateCommand;
+use League\Container\ServiceProvider\AbstractServiceProvider;
 
 class CommandServiceProvider extends AbstractServiceProvider
 {

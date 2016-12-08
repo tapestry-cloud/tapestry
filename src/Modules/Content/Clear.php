@@ -2,11 +2,11 @@
 
 namespace Tapestry\Modules\Content;
 
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Filesystem\Filesystem;
+use Tapestry\Step;
 use Tapestry\Entities\Cache;
 use Tapestry\Entities\Project;
-use Tapestry\Step;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class Clear implements Step
 {

@@ -2,11 +2,11 @@
 
 namespace Tapestry\Modules\Kernel;
 
-use Symfony\Component\Console\Output\OutputInterface;
-use Tapestry\Entities\Configuration;
-use Tapestry\Entities\Project;
 use Tapestry\Step;
 use Tapestry\Tapestry;
+use Tapestry\Entities\Project;
+use Tapestry\Entities\Configuration;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class BootKernel implements Step
 {

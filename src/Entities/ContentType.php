@@ -3,9 +3,9 @@
 namespace Tapestry\Entities;
 
 use Symfony\Component\Finder\SplFileInfo;
-use Tapestry\Entities\Collections\FlatCollection;
-use Tapestry\Entities\Generators\FileGenerator;
 use Tapestry\Modules\Content\FrontMatter;
+use Tapestry\Entities\Generators\FileGenerator;
+use Tapestry\Entities\Collections\FlatCollection;
 use Tapestry\Modules\Renderers\ContentRendererFactory;
 
 class ContentType

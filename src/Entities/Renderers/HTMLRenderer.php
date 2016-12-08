@@ -2,9 +2,9 @@
 
 namespace Tapestry\Entities\Renderers;
 
-use Symfony\Component\Finder\SplFileInfo;
 use Tapestry\Entities\File;
 use Tapestry\Entities\Project;
+use Symfony\Component\Finder\SplFileInfo;
 
 class HTMLRenderer implements RendererInterface
 {

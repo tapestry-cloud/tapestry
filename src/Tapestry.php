@@ -3,13 +3,13 @@
 namespace Tapestry;
 
 use ArrayAccess;
+use League\Event\Emitter;
 use League\Container\Container;
-use League\Container\ContainerAwareInterface;
 use League\Container\ContainerInterface;
 use League\Container\ReflectionContainer;
-use League\Container\ServiceProvider\ServiceProviderInterface;
-use League\Event\Emitter;
+use League\Container\ContainerAwareInterface;
 use Symfony\Component\Console\Input\ArgvInput;
+use League\Container\ServiceProvider\ServiceProviderInterface;
 
 class Tapestry implements ContainerAwareInterface, ArrayAccess
 {

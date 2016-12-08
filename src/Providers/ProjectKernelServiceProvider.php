@@ -2,13 +2,13 @@
 
 namespace Tapestry\Providers;
 
-use League\Container\ServiceProvider\AbstractServiceProvider;
-use League\Container\ServiceProvider\BootableServiceProviderInterface;
+use Tapestry\Tapestry;
 use Phine\Exception\Exception;
 use Tapestry\Entities\Configuration;
 use Tapestry\Modules\Kernel\DefaultKernel;
 use Tapestry\Modules\Kernel\KernelInterface;
-use Tapestry\Tapestry;
+use League\Container\ServiceProvider\AbstractServiceProvider;
+use League\Container\ServiceProvider\BootableServiceProviderInterface;
 
 class ProjectKernelServiceProvider extends AbstractServiceProvider implements BootableServiceProviderInterface
 {
