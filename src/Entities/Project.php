@@ -3,8 +3,8 @@
 namespace Tapestry\Entities;
 
 use Tapestry\ArrayContainer;
-use Tapestry\Entities\Collections\FlatCollection;
 use Tapestry\Entities\Generators\FileGenerator;
+use Tapestry\Entities\Collections\FlatCollection;
 
 class Project extends ArrayContainer
 {

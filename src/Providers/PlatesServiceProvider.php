@@ -2,11 +2,11 @@
 
 namespace Tapestry\Providers;
 
-use League\Container\ServiceProvider\AbstractServiceProvider;
-use Tapestry\Entities\Project;
 use Tapestry\Plates\Engine;
-use Tapestry\Plates\Extensions\Site;
+use Tapestry\Entities\Project;
 use Tapestry\Plates\Extensions\Url;
+use Tapestry\Plates\Extensions\Site;
+use League\Container\ServiceProvider\AbstractServiceProvider;
 
 class PlatesServiceProvider extends AbstractServiceProvider
 {

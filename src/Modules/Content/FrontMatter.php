@@ -2,8 +2,8 @@
 
 namespace Tapestry\Modules\Content;
 
-use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Yaml\Exception\ParseException;
 
 class FrontMatter
 {

@@ -2,12 +2,12 @@
 
 namespace Tapestry\Modules\Content;
 
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Filesystem\Filesystem;
-use Tapestry\Entities\Configuration;
-use Tapestry\Entities\Filesystem\FilesystemInterface;
-use Tapestry\Entities\Project;
 use Tapestry\Step;
+use Tapestry\Entities\Project;
+use Tapestry\Entities\Configuration;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Console\Output\OutputInterface;
+use Tapestry\Entities\Filesystem\FilesystemInterface;
 
 class WriteFiles implements Step
 {

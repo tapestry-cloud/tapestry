@@ -2,9 +2,9 @@
 
 namespace Tapestry\Providers;
 
-use League\Container\ServiceProvider\AbstractServiceProvider;
-use Tapestry\Entities\Configuration;
 use Tapestry\Tapestry;
+use Tapestry\Entities\Configuration;
+use League\Container\ServiceProvider\AbstractServiceProvider;
 
 class ProjectConfigurationServiceProvider extends AbstractServiceProvider
 {

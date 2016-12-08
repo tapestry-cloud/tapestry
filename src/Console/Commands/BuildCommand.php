@@ -2,10 +2,10 @@
 
 namespace Tapestry\Console\Commands;
 
-use Symfony\Component\Console\Input\InputOption;
-use Tapestry\Entities\Project;
-use Tapestry\Generator;
 use Tapestry\Tapestry;
+use Tapestry\Generator;
+use Tapestry\Entities\Project;
+use Symfony\Component\Console\Input\InputOption;
 
 class BuildCommand extends Command
 {

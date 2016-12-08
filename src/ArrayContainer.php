@@ -2,9 +2,9 @@
 
 namespace Tapestry;
 
-use ArrayAccess;
 use Closure;
 use Iterator;
+use ArrayAccess;
 
 class ArrayContainer implements ArrayAccess, Iterator
 {

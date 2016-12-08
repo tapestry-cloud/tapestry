@@ -2,8 +2,8 @@
 
 namespace Tapestry\Entities\Renderers;
 
-use cebe\markdown\GithubMarkdown;
 use Tapestry\Entities\File;
+use cebe\markdown\GithubMarkdown;
 
 class MarkdownRenderer implements RendererInterface
 {
