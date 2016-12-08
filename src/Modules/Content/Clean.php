@@ -2,10 +2,10 @@
 
 namespace Tapestry\Modules\Content;
 
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Filesystem\Filesystem;
-use Tapestry\Entities\Project;
 use Tapestry\Step;
+use Tapestry\Entities\Project;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class Clean implements Step
 {

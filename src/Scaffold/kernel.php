@@ -2,8 +2,8 @@
 
 namespace Site;
 
-use Tapestry\Modules\Kernel\KernelInterface;
 use Tapestry\Tapestry;
+use Tapestry\Modules\Kernel\KernelInterface;
 
 class kernel implements KernelInterface
 {

@@ -2,9 +2,9 @@
 
 namespace Tapestry\Plates;
 
-use League\Plates\Template\Template as PlatesTemplate;
 use LogicException;
 use Tapestry\Entities\File;
+use League\Plates\Template\Template as PlatesTemplate;
 
 /**
  * Class Template.

@@ -2,11 +2,11 @@
 
 namespace Tapestry\Modules\Content;
 
-use Symfony\Component\Console\Output\OutputInterface;
-use Tapestry\Entities\Cache;
-use Tapestry\Entities\Filesystem\FilesystemInterface;
-use Tapestry\Entities\Project;
 use Tapestry\Step;
+use Tapestry\Entities\Cache;
+use Tapestry\Entities\Project;
+use Symfony\Component\Console\Output\OutputInterface;
+use Tapestry\Entities\Filesystem\FilesystemInterface;
 
 class WriteCache implements Step
 {

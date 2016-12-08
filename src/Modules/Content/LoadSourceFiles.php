@@ -2,16 +2,16 @@
 
 namespace Tapestry\Modules\Content;
 
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Finder\Finder;
-use Tapestry\Entities\Collections\ExcludedFilesCollection;
-use Tapestry\Entities\Configuration;
-use Tapestry\Entities\File;
-use Tapestry\Entities\Project;
-use Tapestry\Modules\ContentTypes\ContentTypeFactory;
-use Tapestry\Modules\Renderers\ContentRendererFactory;
 use Tapestry\Step;
 use Tapestry\Tapestry;
+use Tapestry\Entities\File;
+use Tapestry\Entities\Project;
+use Symfony\Component\Finder\Finder;
+use Tapestry\Entities\Configuration;
+use Symfony\Component\Console\Output\OutputInterface;
+use Tapestry\Modules\ContentTypes\ContentTypeFactory;
+use Tapestry\Modules\Renderers\ContentRendererFactory;
+use Tapestry\Entities\Collections\ExcludedFilesCollection;
 
 class LoadSourceFiles implements Step
 {

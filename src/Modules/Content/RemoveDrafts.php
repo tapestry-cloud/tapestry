@@ -2,11 +2,11 @@
 
 namespace Tapestry\Modules\Content;
 
-use Symfony\Component\Console\Output\OutputInterface;
-use Tapestry\Entities\Configuration;
+use Tapestry\Step;
 use Tapestry\Entities\File;
 use Tapestry\Entities\Project;
-use Tapestry\Step;
+use Tapestry\Entities\Configuration;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class RemoveDrafts implements Step
 {

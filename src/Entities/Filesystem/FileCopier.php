@@ -2,9 +2,9 @@
 
 namespace Tapestry\Entities\Filesystem;
 
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Filesystem\Filesystem;
 use Tapestry\Entities\File;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class FileCopier implements FilesystemInterface
 {

@@ -2,10 +2,10 @@
 
 namespace Tapestry\Modules\Scripts;
 
-use Symfony\Component\Console\Output\OutputInterface;
-use Tapestry\Entities\Project;
 use Tapestry\Step;
 use Tapestry\Tapestry;
+use Tapestry\Entities\Project;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class After implements Step
 {

@@ -4,8 +4,8 @@ namespace Tapestry\Entities\Generators;
 
 use Tapestry\Entities\File;
 use Tapestry\Entities\Project;
-use Tapestry\Entities\ProjectFileGeneratorInterface;
 use Tapestry\Entities\ProjectFileInterface;
+use Tapestry\Entities\ProjectFileGeneratorInterface;
 
 class FileGenerator implements ProjectFileInterface, ProjectFileGeneratorInterface
 {
