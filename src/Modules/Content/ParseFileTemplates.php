@@ -2,9 +2,9 @@
 
 namespace Tapestry\Modules\Content;
 
-use Symfony\Component\Console\Output\OutputInterface;
-use Tapestry\Entities\Project;
 use Tapestry\Step;
+use Tapestry\Entities\Project;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class ParseFileTemplates implements Step
 {

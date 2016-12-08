@@ -2,12 +2,12 @@
 
 namespace Tapestry\Modules\ContentTypes;
 
-use Symfony\Component\Console\Output\OutputInterface;
-use Tapestry\Entities\ContentType;
-use Tapestry\Entities\File;
-use Tapestry\Entities\Generators\FileGenerator;
-use Tapestry\Entities\Project;
 use Tapestry\Step;
+use Tapestry\Entities\File;
+use Tapestry\Entities\Project;
+use Tapestry\Entities\ContentType;
+use Tapestry\Entities\Generators\FileGenerator;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class ParseContentTypes implements Step
 {

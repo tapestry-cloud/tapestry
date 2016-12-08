@@ -2,8 +2,8 @@
 
 namespace Tapestry;
 
-use Symfony\Component\Console\Output\OutputInterface;
 use Tapestry\Entities\Project;
+use Symfony\Component\Console\Output\OutputInterface;
 
 interface Step
 {

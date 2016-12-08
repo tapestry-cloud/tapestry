@@ -2,8 +2,8 @@
 
 namespace Tapestry\Plates;
 
-use League\Plates\Engine as LeagueEngine;
 use Tapestry\Entities\File;
+use League\Plates\Engine as LeagueEngine;
 
 class Engine extends LeagueEngine
 {

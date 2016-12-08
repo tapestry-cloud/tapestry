@@ -3,9 +3,9 @@
 namespace Tapestry\Entities\Generators;
 
 use Tapestry\Entities\File;
-use Tapestry\Entities\Pagination;
-use Tapestry\Entities\Permalink;
 use Tapestry\Entities\Project;
+use Tapestry\Entities\Permalink;
+use Tapestry\Entities\Pagination;
 
 class PaginationGenerator extends FileGenerator
 {
@@ -41,7 +41,6 @@ class PaginationGenerator extends FileGenerator
         $paginationItems = array_filter($paginationItems, function ($key) use ($project) {
             return $project->has('files.'.$key);
         }, ARRAY_FILTER_USE_KEY);
-
 
         // Segment $paginationItems into n segments based upon perPage and create a clone of the file with that page's items
         // also update the files permalink and uid (unless its the first page). Follow up by injecting an instance of Paginator

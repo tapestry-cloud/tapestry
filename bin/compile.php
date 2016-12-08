@@ -1,7 +1,7 @@
 <?php
 
-use Phine\Phar\Builder;
 use Phine\Phar\Stub;
+use Phine\Phar\Builder;
 use Symfony\Component\Finder\Finder;
 
 require_once __DIR__.'/../vendor/autoload.php';

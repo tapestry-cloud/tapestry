@@ -2,12 +2,12 @@
 
 namespace Tapestry\Console\Commands;
 
-use Composer\Semver\Comparator;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Finder\Finder;
-use Tapestry\Tapestry;
 use ZipArchive;
+use Tapestry\Tapestry;
+use Composer\Semver\Comparator;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Console\Input\InputOption;
 
 class SelfUpdateCommand extends Command
 {

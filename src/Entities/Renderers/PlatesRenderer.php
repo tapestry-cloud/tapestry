@@ -3,8 +3,8 @@
 namespace Tapestry\Entities\Renderers;
 
 use Tapestry\Entities\File;
-use Tapestry\Entities\Project;
 use Tapestry\Plates\Engine;
+use Tapestry\Entities\Project;
 
 class PlatesRenderer implements RendererInterface
 {

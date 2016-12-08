@@ -2,8 +2,8 @@
 
 namespace Tapestry\Entities\Collections;
 
-use Symfony\Component\Finder\Finder;
 use Tapestry\ArrayContainer;
+use Symfony\Component\Finder\Finder;
 
 class ExcludedFilesCollection extends ArrayContainer
 {

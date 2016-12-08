@@ -2,21 +2,21 @@
 
 namespace Tapestry\Modules\Content;
 
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Filesystem\Filesystem;
-use Tapestry\Entities\Cache;
-use Tapestry\Entities\Collections\FlatCollection;
-use Tapestry\Entities\ContentType;
+use Tapestry\Step;
 use Tapestry\Entities\File;
-use Tapestry\Entities\Filesystem\FileCopier;
-use Tapestry\Entities\Filesystem\FileIgnored;
-use Tapestry\Entities\Filesystem\FileWriter;
-use Tapestry\Entities\Generators\FileGenerator;
+use Tapestry\Entities\Cache;
 use Tapestry\Entities\Project;
 use Tapestry\Entities\ViewFile;
+use Tapestry\Entities\ContentType;
+use Symfony\Component\Filesystem\Filesystem;
+use Tapestry\Entities\Filesystem\FileCopier;
+use Tapestry\Entities\Filesystem\FileWriter;
+use Tapestry\Entities\Filesystem\FileIgnored;
+use Tapestry\Entities\Generators\FileGenerator;
+use Tapestry\Entities\Collections\FlatCollection;
+use Symfony\Component\Console\Output\OutputInterface;
 use Tapestry\Modules\ContentTypes\ContentTypeFactory;
 use Tapestry\Modules\Renderers\ContentRendererFactory;
-use Tapestry\Step;
 
 class Compile implements Step
 {
