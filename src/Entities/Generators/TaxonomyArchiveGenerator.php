@@ -24,6 +24,10 @@ class TaxonomyArchiveGenerator extends FileGenerator implements ProjectFileGener
                 continue;
             }
 
+            // This is a work around to get my photogabble theme up and running. We should really have a taxonomy object
+            // that is passed to the front end with view helpers attached.
+            $taxonomyItems = array_keys($data);
+
             foreach ($data as $taxonomyName => $files) {
                 $newFile = clone $this->file;
                 $newFile->setData([
@@ -32,6 +36,7 @@ class TaxonomyArchiveGenerator extends FileGenerator implements ProjectFileGener
                     }),
                     'taxonomyName' => $taxonomyName,
                     $use.'_items'  => $files,
+                    $use => $taxonomyItems
                 ]);
 
                 $newFile->setUid($newFile->getUid().'_'.$taxonomyName);
