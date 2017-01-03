@@ -94,6 +94,20 @@ if (! function_exists('url')) {
     }
 }
 
+if (! function_exists('config')) {
+    function config($key = '', $default = null)
+    {
+        /** @var \Tapestry\Entities\Configuration $config */
+        $config = \Tapestry\Tapestry::getInstance()->getContainer()->get(\Tapestry\Entities\Configuration::class);
+
+        if ($key === '' && is_null($default)) {
+            return $config;
+        }
+
+        return $config->get($key, $default);
+    }
+}
+
 if (! function_exists('file_size_convert')) {
     function file_size_convert($size)
     {
