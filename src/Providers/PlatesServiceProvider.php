@@ -4,6 +4,7 @@ namespace Tapestry\Providers;
 
 use Tapestry\Plates\Engine;
 use Tapestry\Entities\Project;
+use Tapestry\Plates\Extensions\Helpers;
 use Tapestry\Plates\Extensions\Url;
 use Tapestry\Plates\Extensions\Site;
 use League\Container\ServiceProvider\AbstractServiceProvider;
@@ -35,6 +36,7 @@ class PlatesServiceProvider extends AbstractServiceProvider
             $engine = new Engine($project->sourceDirectory, 'phtml');
             $engine->loadExtension($container->get(Site::class));
             $engine->loadExtension($container->get(Url::class));
+            $engine->loadExtension($container->get(Helpers::class));
 
             return $engine;
         });
