@@ -39,7 +39,7 @@ class CollectionItemGenerator extends FileGenerator
             $previousNext->next = isset($siblings[$position + 1]) ? new ViewFile($project, $siblings[$position + 1]) : null;
         }
 
-        $newFile->setData(['previous_next' => $previousNext]);
+        $newFile->setData(['previous_next' => $previousNext, 'item' => $this->file]);
 
         return $newFile;
     }
