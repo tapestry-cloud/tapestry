@@ -3,23 +3,22 @@
 namespace Tapestry\Entities;
 
 /**
- * Class ViewFileTrait
+ * Class ViewFileTrait.
  *
  * This trait contains methods that are shared between the ViewFile class and Tapestry\Plates\Extensions\Helpers
  *
  * @see Tapestry\Plates\Extensions\Helpers
  * @see Tapestry\Entities\ViewFile
- * @package Tapestry\Entities
  */
-trait ViewFileTrait {
-
+trait ViewFileTrait
+{
     /**
      * @return File
      */
-    abstract function getFile();
+    abstract public function getFile();
 
     /**
-     * Returns data from attached File or $default if not found
+     * Returns data from attached File or $default if not found.
      *
      * @param $key
      * @param null $default
@@ -31,7 +30,7 @@ trait ViewFileTrait {
     }
 
     /**
-     * Returns the Files compiled permalink
+     * Returns the Files compiled permalink.
      *
      * @return mixed|string
      */
@@ -41,7 +40,7 @@ trait ViewFileTrait {
     }
 
     /**
-     * Returns the Files compiled permalink as a absolute url
+     * Returns the Files compiled permalink as a absolute url.
      *
      * @return string
      */
@@ -51,7 +50,7 @@ trait ViewFileTrait {
     }
 
     /**
-     * Returns the Files date data, this equals the files last modified date unless date is set in front matter
+     * Returns the Files date data, this equals the files last modified date unless date is set in front matter.
      *
      * @return \DateTime
      */
@@ -61,7 +60,7 @@ trait ViewFileTrait {
     }
 
     /**
-     * Returns the files content, rendered or otherwise
+     * Returns the files content, rendered or otherwise.
      *
      * @return string
      * @throws \Exception
@@ -76,7 +75,7 @@ trait ViewFileTrait {
     }
 
     /**
-     * Returns true if the page has $pagination set to an instance of Pagination
+     * Returns true if the page has $pagination set to an instance of Pagination.
      *
      * @return bool
      */
@@ -94,7 +93,7 @@ trait ViewFileTrait {
     }
 
     /**
-     * Returns true if the page has $previous_next set as an instance of stdClass
+     * Returns true if the page has $previous_next set as an instance of stdClass.
      *
      * @return bool
      */
@@ -110,5 +109,4 @@ trait ViewFileTrait {
 
         return true;
     }
-
 }

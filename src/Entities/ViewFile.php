@@ -10,7 +10,6 @@ namespace Tapestry\Entities;
  */
 class ViewFile
 {
-
     use ViewFileTrait;
 
     /**
@@ -46,7 +45,7 @@ class ViewFile
     public function getFile()
     {
         if (is_null($this->file)) {
-            $this->file = $this->project->get('compiled.' . $this->fileUid);
+            $this->file = $this->project->get('compiled.'.$this->fileUid);
         }
 
         return $this->file;

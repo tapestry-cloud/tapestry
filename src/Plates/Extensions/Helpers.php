@@ -3,13 +3,12 @@
 namespace Tapestry\Plates\Extensions;
 
 use League\Plates\Engine;
-use League\Plates\Extension\ExtensionInterface;
 use Tapestry\Entities\File;
 use Tapestry\Entities\ViewFileTrait;
+use League\Plates\Extension\ExtensionInterface;
 
 class Helpers implements ExtensionInterface
 {
-
     use ViewFileTrait;
 
     /**
@@ -25,8 +24,10 @@ class Helpers implements ExtensionInterface
     {
         $engine->registerFunction('getFile', [$this, 'getFile']);
         $class = new \ReflectionClass(ViewFileTrait::class);
-        foreach($class->getMethods() as $method) {
-            if ($method->name === 'getFile'){ continue; }
+        foreach ($class->getMethods() as $method) {
+            if ($method->name === 'getFile') {
+                continue;
+            }
             $engine->registerFunction($method->name, [$this, $method->name]);
         }
     }
