@@ -36,7 +36,7 @@ class TaxonomyArchiveGenerator extends FileGenerator implements ProjectFileGener
                     }),
                     'taxonomyName' => $taxonomyName,
                     $use.'_items'  => $files,
-                    $use => $taxonomyItems
+                    $use => $taxonomyItems,
                 ]);
 
                 $newFile->setUid($newFile->getUid().'_'.$taxonomyName);
