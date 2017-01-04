@@ -39,7 +39,7 @@ class Template extends PlatesTemplate
      *
      * @return string|null
      */
-    protected function section($name, $default = null)
+    public function section($name, $default = null)
     {
         if ($name === 'content' && ! isset($this->sections['content']) && isset($this->data['content'])) {
             return $this->data['content'];
