@@ -14,7 +14,6 @@ use League\Plates\Template\Template as PlatesTemplate;
  */
 class Template extends PlatesTemplate
 {
-
     /**
      * @var File|null
      */

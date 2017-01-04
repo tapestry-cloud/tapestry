@@ -4,9 +4,9 @@ namespace Tapestry\Providers;
 
 use Tapestry\Plates\Engine;
 use Tapestry\Entities\Project;
-use Tapestry\Plates\Extensions\Helpers;
 use Tapestry\Plates\Extensions\Url;
 use Tapestry\Plates\Extensions\Site;
+use Tapestry\Plates\Extensions\Helpers;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
 class PlatesServiceProvider extends AbstractServiceProvider
