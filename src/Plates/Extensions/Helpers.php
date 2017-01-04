@@ -18,11 +18,6 @@ class Helpers implements ExtensionInterface
     public $template;
 
     /**
-     * @var File
-     */
-    private $file;
-
-    /**
      * Register extension function.
      * @param Engine $engine
      */
@@ -41,10 +36,6 @@ class Helpers implements ExtensionInterface
      */
     public function getFile()
     {
-        if (is_null($this->file)) {
-            $this->file = $this->template->getFile();
-        }
-
-        return $this->file;
+        return $this->template->getFile();
     }
 }
