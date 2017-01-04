@@ -60,6 +60,15 @@ trait ViewFileTrait
     }
 
     /**
+     * @param string $name
+     * @return array
+     */
+    public function taxonomyList($name)
+    {
+        return $this->getData($name, []);
+    }
+
+    /**
      * Returns the files content, rendered or otherwise.
      *
      * @return string
