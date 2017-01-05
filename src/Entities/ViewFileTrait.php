@@ -120,7 +120,7 @@ trait ViewFileTrait
     }
 
     /**
-     * Returns true if the File has draft front matter set to true
+     * Returns true if the File has draft front matter set to true.
      *
      * @return bool
      */
