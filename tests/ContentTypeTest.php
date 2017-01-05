@@ -4,7 +4,7 @@ namespace Tapestry\Tests;
 
 class ContentTypeTest extends CommandTestBase
 {
-    public function testIsDraftHelper()
+    public function testContentTypeTaxonomyDefaultsSetOnFiles()
     {
         $this->copyDirectory('assets/build_test_16/src', '_tmp');
         $output = $this->runCommand('build', ['--quiet']);
