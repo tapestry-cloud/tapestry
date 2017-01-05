@@ -503,7 +503,7 @@ class ArrayContainer implements ArrayAccess, Iterator
     }
 
     /**
-     * Return an array of items where their key contains $query; this is a basic strpos check
+     * Return an array of items where their key contains $query; this is a basic strpos check.
      *
      * @param $query
      * @return array
@@ -511,11 +511,12 @@ class ArrayContainer implements ArrayAccess, Iterator
     public function find($query)
     {
         $output = [];
-        foreach (array_keys($this->items) as $key){
-            if (strpos($key, $query) !== false){
+        foreach (array_keys($this->items) as $key) {
+            if (strpos($key, $query) !== false) {
                 $output[$key] = $this->items[$key];
             }
         }
+
         return $output;
     }
 }
