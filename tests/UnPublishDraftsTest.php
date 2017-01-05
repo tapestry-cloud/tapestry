@@ -17,7 +17,7 @@ class UnPublishDraftsTest extends CommandTestBase
         $this->assertEquals(0, $output->getStatusCode());
 
         $this->assertFileEquals(
-            __DIR__.'/assets/build_test_11/check/blog/2016/test-blog-entry.html',
+            __DIR__.'/assets/build_test_12/check/blog/2016/test-blog-entry.html',
             __DIR__.'/_tmp/build_local/blog/2016/test-blog-entry/index.html',
             '',
             true
@@ -38,14 +38,14 @@ class UnPublishDraftsTest extends CommandTestBase
         $this->assertEquals(0, $output->getStatusCode());
 
         $this->assertFileEquals(
-            __DIR__.'/assets/build_test_11/check/blog/2016/test-blog-entry.html',
+            __DIR__.'/assets/build_test_13/check/blog/2016/test-blog-entry.html',
             __DIR__.'/_tmp/build_local/blog/2016/test-blog-entry/index.html',
             '',
             true
         );
 
         $this->assertFileEquals(
-            __DIR__.'/assets/build_test_11/check/blog/2016/test-blog-entry-two.html',
+            __DIR__.'/assets/build_test_13/check/blog/2016/test-blog-entry-two.html',
             __DIR__.'/_tmp/build_local/blog/2016/test-blog-entry-two/index.html',
             '',
             true
