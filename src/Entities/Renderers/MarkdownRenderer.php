@@ -3,7 +3,7 @@
 namespace Tapestry\Entities\Renderers;
 
 use Tapestry\Entities\File;
-use cebe\markdown\GithubMarkdown;
+use Michelf\MarkdownExtra;
 
 class MarkdownRenderer implements RendererInterface
 {
@@ -12,16 +12,16 @@ class MarkdownRenderer implements RendererInterface
      */
     private $extensions = ['md', 'markdown'];
     /**
-     * @var GithubMarkdown
+     * @var MarkdownExtra
      */
     private $markdown;
 
     /**
      * MarkdownRenderer constructor.
      *
-     * @param GithubMarkdown $markdown
+     * @param MarkdownExtra $markdown
      */
-    public function __construct(GithubMarkdown $markdown)
+    public function __construct(MarkdownExtra $markdown)
     {
         $this->markdown = $markdown;
     }
@@ -57,7 +57,7 @@ class MarkdownRenderer implements RendererInterface
      */
     public function render(File $file)
     {
-        return $this->markdown->parse($file->getContent());
+        return $this->markdown->transform($file->getContent());
     }
 
     /**
