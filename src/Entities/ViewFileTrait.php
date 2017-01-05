@@ -118,4 +118,14 @@ trait ViewFileTrait
 
         return true;
     }
+
+    /**
+     * Returns true if the File has draft front matter set to true
+     *
+     * @return bool
+     */
+    public function isDraft()
+    {
+        return boolval($this->getData('draft', false));
+    }
 }
