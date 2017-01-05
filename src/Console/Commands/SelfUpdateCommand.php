@@ -71,6 +71,7 @@ class SelfUpdateCommand extends Command
     {
         if (! $this->input->getOption('test') && $this->pharExists === false) {
             $this->output->writeln('[!] Self-Update only works on phar archives.');
+
             return 1;
         }
 
@@ -88,6 +89,7 @@ class SelfUpdateCommand extends Command
 
         if ($this->input->getOption('force') === false && Comparator::greaterThanOrEqualTo(Tapestry::VERSION, $latestVersion)) {
             $this->output->writeln('You already have the latest version of Tapestry ['.Tapestry::VERSION.']. Doing nothing and exiting.');
+
             return 0;
         }
 
@@ -100,16 +102,18 @@ class SelfUpdateCommand extends Command
     private function rollback()
     {
         $binPath = pathinfo($this->currentPharFileName, PATHINFO_DIRNAME);
-        $pharPath = $binPath . DIRECTORY_SEPARATOR . 'tapestry.phar';
-        $pharBackupPath = $binPath . DIRECTORY_SEPARATOR . 'tapestry-temp.phar';
+        $pharPath = $binPath.DIRECTORY_SEPARATOR.'tapestry.phar';
+        $pharBackupPath = $binPath.DIRECTORY_SEPARATOR.'tapestry-temp.phar';
 
         if (! $this->filesystem->exists($pharPath)) {
-            $this->error('tapestry.phar could not be found at ['. $pharPath .']. Doing nothing and exiting.');
+            $this->error('tapestry.phar could not be found at ['.$pharPath.']. Doing nothing and exiting.');
+
             return 0;
         }
 
-        if (! $this->filesystem->exists($pharBackupPath)){
-            $this->error('No previous version could be found at ['. $pharBackupPath .']. Doing nothing and exiting.');
+        if (! $this->filesystem->exists($pharBackupPath)) {
+            $this->error('No previous version could be found at ['.$pharBackupPath.']. Doing nothing and exiting.');
+
             return 0;
         }
 
@@ -123,6 +127,7 @@ class SelfUpdateCommand extends Command
     {
         if ($this->input->getOption('test') === true && $this->pharExists === false) {
             $this->output->writeln('[*] Pretending to Backup Phar');
+
             return;
         } elseif ($this->input->getOption('test') === false && $this->pharExists === false) {
             $this->panic('Phar Archive Not Found!');
