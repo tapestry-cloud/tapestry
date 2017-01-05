@@ -17,6 +17,7 @@ use Tapestry\Entities\Collections\FlatCollection;
 use Symfony\Component\Console\Output\OutputInterface;
 use Tapestry\Modules\ContentTypes\ContentTypeFactory;
 use Tapestry\Modules\Renderers\ContentRendererFactory;
+use Tapestry\Tapestry;
 
 class Compile implements Step
 {
@@ -29,15 +30,21 @@ class Compile implements Step
      * @var array|File[]
      */
     private $files = [];
+    /**
+     * @var Tapestry
+     */
+    private $tapestry;
 
     /**
      * Write constructor.
      *
      * @param Filesystem $filesystem
+     * @param Tapestry $tapestry
      */
-    public function __construct(Filesystem $filesystem)
+    public function __construct(Filesystem $filesystem, Tapestry $tapestry)
     {
         $this->filesystem = $filesystem;
+        $this->tapestry = $tapestry;
     }
 
     /**
@@ -50,6 +57,8 @@ class Compile implements Step
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
+        $this->tapestry->getEventEmitter()->emit('compile.before');
+
         /** @var ContentTypeFactory $contentTypes */
         $contentTypes = $project->get('content_types');
 
@@ -167,6 +176,7 @@ class Compile implements Step
         unset($file);
 
         $project->set('compiled', new FlatCollection($this->files));
+        $this->tapestry->getEventEmitter()->emit('compile.after');
 
         return true;
     }
