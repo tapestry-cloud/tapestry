@@ -2,8 +2,8 @@
 
 namespace Tapestry\Entities\Renderers;
 
-use Tapestry\Entities\File;
 use Michelf\MarkdownExtra;
+use Tapestry\Entities\File;
 
 class MarkdownRenderer implements RendererInterface
 {
