@@ -119,6 +119,8 @@ class ContentType
                 foreach ($classifications as $classification) {
                     $taxonomy->addFile($file, $classification);
                 }
+            }else{
+                $file->setData([$taxonomy->getName() => []]);
             }
         }
     }
