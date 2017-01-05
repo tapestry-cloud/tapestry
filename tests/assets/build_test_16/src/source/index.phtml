@@ -1,0 +1,13 @@
+---
+title: My Website
+use:
+- blog
+---
+
+<?php
+/** @var Tapestry\Entities\ViewFile[] $blog_items */
+foreach ($blog_items as $item) {
+    echo $item->getFile()->getUid() . ' : Categories : ' . (is_null($item->getData('categories')) ? 'isNotSet' : 'isSet') . "\n";
+    echo $item->getFile()->getUid() . ' : Tags : ' . (is_null($item->getData('tags')) ? 'isNotSet' : 'isSet') . "\n";
+}
+?>
