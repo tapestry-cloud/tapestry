@@ -151,9 +151,11 @@ class File implements ProjectFileInterface
         $this->uid = $this->cleanUid($uid);
     }
 
-    private function cleanUid($uid){
+    private function cleanUid($uid)
+    {
         $uid = str_replace('.', '_', $uid);
         $uid = str_replace(['/', '\\'], '_', $uid);
+
         return $uid;
     }
 
