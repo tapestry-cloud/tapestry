@@ -135,7 +135,7 @@ class File implements ProjectFileInterface
     public function getUid()
     {
         if (is_null($this->uid)) {
-            $this->uid = str_replace('.', '_', $this->getFileInfo()->getRelativePathname());
+            $this->uid = $this->cleanUid($this->getFileInfo()->getRelativePathname());
         }
 
         return $this->uid;
@@ -148,7 +148,15 @@ class File implements ProjectFileInterface
      */
     public function setUid($uid)
     {
-        $this->uid = $uid;
+        $this->uid = $this->cleanUid($uid);
+    }
+
+    private function cleanUid($uid)
+    {
+        $uid = str_replace('.', '_', $uid);
+        $uid = str_replace(['/', '\\'], '_', $uid);
+
+        return $uid;
     }
 
     /**
