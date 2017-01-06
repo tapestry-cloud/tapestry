@@ -15,6 +15,12 @@ use League\Plates\Template\Template as PlatesTemplate;
 class Template extends PlatesTemplate
 {
     /**
+     * Instance of the template engine.
+     * @var Engine
+     */
+    protected $engine;
+
+    /**
      * @var File|null
      */
     private $file = null;
@@ -54,6 +60,11 @@ class Template extends PlatesTemplate
     public function getFile()
     {
         return $this->file;
+    }
+
+    public function setFile(File $file)
+    {
+        $this->file = $file;
     }
 
     /**
@@ -100,6 +111,7 @@ class Template extends PlatesTemplate
 
             if (isset($this->layoutName)) {
                 $layout = $this->engine->make($this->layoutName);
+                $layout->setFile($this->file);
                 $layout->sections = array_merge($this->sections, ['content' => $content]);
                 $content = $layout->render($this->layoutData);
             }
