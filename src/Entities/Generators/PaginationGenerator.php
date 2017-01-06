@@ -80,8 +80,8 @@ class PaginationGenerator extends FileGenerator
                 // because nobody expects page one to be /blog/index.html and page two to be blog/index/2/index.html
                 // as per issue #50
 
-                if ($this->file->getFilename() === 'index'){
-                    $parts = array_filter(explode('/', $template), function($value){
+                if ($this->file->getFilename() === 'index') {
+                    $parts = array_filter(explode('/', $template), function ($value) {
                         return $value !== '{filename}';
                     });
 
