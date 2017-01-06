@@ -22,7 +22,7 @@ class CollectionItemGenerator extends FileGenerator
             $contentType = $project->getContentType($contentType);
         }
 
-        $siblings = array_keys($contentType->getFileList());
+        $siblings = array_keys($contentType->getFileList('asc'));
         $position = array_search($this->file->getUid(), $siblings);
 
         $previousNext = new \stdClass();
