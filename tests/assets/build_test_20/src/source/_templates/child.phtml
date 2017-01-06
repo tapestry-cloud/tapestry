@@ -1,0 +1,9 @@
+<?php
+/**
+ * @var \Tapestry\Entities\ViewFileTrait|\Tapestry\Plates\Template $this
+ */
+$this->layout('_templates/page'); ?>
+<h1><?= (isset($title) ? $title : ''); ?></h1>
+<div>
+    <?= $this->getContent() ?>
+</div>
