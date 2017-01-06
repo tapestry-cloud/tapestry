@@ -150,8 +150,8 @@ class ContentType
      */
     public function getFileList($order = 'desc')
     {
-        if (! is_null($this->itemsOrderCache)) {
-            return $this->itemsOrderCache;
+        if (! is_null($this->itemsOrderCache) && isset($this->itemsOrderCache[$order])) {
+            return $this->itemsOrderCache[$order];
         }
 
         // Order Files by date newer to older
@@ -166,9 +166,9 @@ class ContentType
             }
         });
 
-        $this->itemsOrderCache = $this->items->all();
+        $this->itemsOrderCache[$order] = $this->items->all();
 
-        return $this->itemsOrderCache;
+        return $this->itemsOrderCache[$order];
     }
 
     /**
