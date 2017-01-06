@@ -1,0 +1,9 @@
+---
+generator:
+- CollectionItemGenerator
+---
+<?php
+if (isset($previous_next)) {
+    echo 'prev : ' . (is_null($previous_next->previous) ? 'isNull' : $previous_next->previous->getData('title')) . "\n";
+    echo 'next : ' . (is_null($previous_next->next) ? 'isNull' : $previous_next->next->getData('title')) . "\n";
+}
