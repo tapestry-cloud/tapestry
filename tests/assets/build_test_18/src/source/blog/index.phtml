@@ -1,0 +1,21 @@
+---
+title: Blog Archive
+use:
+    - blog
+    - blog_categories
+generator:
+    - PaginationGenerator
+pagination:
+    provider: blog
+    perPage: 3
+---
+<?php
+
+/**
+ * @var \Tapestry\Entities\Pagination $pagination
+ */
+
+echo 'next : ' . (is_null($pagination->getNext()) ? '' : $pagination->getNext()->getFile()->getUid()) . "\n";
+echo 'prev : ' . (is_null($pagination->getPrevious()) ? '' : $pagination->getPrevious()->getFile()->getUid()) . "\n";
+
+?>
