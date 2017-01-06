@@ -1,0 +1,20 @@
+---
+title: Blog Archive
+use:
+    - blog
+    - blog_categories
+generator:
+    - PaginationGenerator
+pagination:
+    provider: blog
+    perPage: 3
+---
+<?php
+
+/**
+ * @var \Tapestry\Entities\Pagination $pagination
+ */
+
+var_dump($pagination->getItems());
+
+?>
