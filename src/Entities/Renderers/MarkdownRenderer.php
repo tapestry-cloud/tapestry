@@ -93,6 +93,5 @@ class MarkdownRenderer implements RendererInterface
             $file->setExt('phtml');     // Templates are managed by the phtml renderer
             $file->setRendered(false);  // Set rendered to false so that within Compile.php's Execute Renderers loop it gets re-rendered
         }
-
     }
 }
