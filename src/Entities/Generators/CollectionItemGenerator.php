@@ -2,8 +2,8 @@
 
 namespace Tapestry\Entities\Generators;
 
-use Tapestry\Entities\Pagination;
 use Tapestry\Entities\Project;
+use Tapestry\Entities\Pagination;
 
 class CollectionItemGenerator extends FileGenerator
 {
