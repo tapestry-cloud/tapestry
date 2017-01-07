@@ -3,7 +3,12 @@ generator:
 - CollectionItemGenerator
 ---
 <?php
+
+/**
+ * @var \Tapestry\Entities\Pagination $previous_next
+ */
+
 if (isset($previous_next)) {
-    echo 'prev : ' . (is_null($previous_next->previous) ? 'isNull' : $previous_next->previous->getData('title')) . "\n";
-    echo 'next : ' . (is_null($previous_next->next) ? 'isNull' : $previous_next->next->getData('title')) . "\n";
+    echo 'prev : ' . (is_null($previous_next->getPrevious()) ? 'isNull' : $previous_next->getPrevious()->getData('title')) . "\n";
+    echo 'next : ' . (is_null($previous_next->getNext()) ? 'isNull' : $previous_next->getNext()->getData('title')) . "\n";
 }
