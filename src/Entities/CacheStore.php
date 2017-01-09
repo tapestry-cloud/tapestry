@@ -36,6 +36,11 @@ class CacheStore
         return null;
     }
 
+    public function count()
+    {
+        return count($this->items);
+    }
+
     public function reset()
     {
         $this->items = [];
