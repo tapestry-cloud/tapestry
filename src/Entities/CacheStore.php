@@ -6,19 +6,16 @@ class CacheStore
 {
     private $items = [];
 
-    private $version;
-
     private $hash;
 
-    public function __construct($hash, $version)
+    public function __construct($hash)
     {
         $this->hash = $hash;
-        $this->version = $version;
     }
 
-    public function validate($hash, $version)
+    public function validate($hash)
     {
-        if ($hash !== $this->hash || $version !== $this->version) {
+        if ($hash !== $this->hash) {
             $this->reset();
         }
     }
