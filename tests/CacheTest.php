@@ -2,8 +2,11 @@
 
 namespace Tapestry\Tests;
 
+use Symfony\Component\Console\Output\NullOutput;
 use Tapestry\Entities\Cache;
 use Tapestry\Entities\CacheStore;
+use Tapestry\Entities\Project;
+use Tapestry\Modules\Content\ReadCache;
 
 class CacheTest extends CommandTestBase
 {
@@ -97,6 +100,16 @@ class CacheTest extends CommandTestBase
         $this->assertEquals(null, $cache->getItem('Z'));
     }
 
+    public function testCacheReset()
+    {
+        $hashA = sha1('Hello World');
+        $cache = new Cache(__DIR__ . '/_tmp/cache.bin', $hashA);
+        $cache->setItem('A', 'B');
+        $this->assertEquals(1, $cache->count());
+        $cache->reset();
+        $this->assertEquals(0, $cache->count());
+    }
+
     public function testCacheInvalidationByHash()
     {
         $hashA = sha1('Hello World');
@@ -112,5 +125,18 @@ class CacheTest extends CommandTestBase
         $cache = new Cache(__DIR__ . '/_tmp/cache.bin', $hashB);
         $cache->load();
         $this->assertEquals(0, $cache->count());
+    }
+
+    public function testReadCacheModule()
+    {
+        $module = new ReadCache();
+        $project = new Project(__DIR__ . '/_tmp', 'test');
+
+        $this->assertEquals(false, $project->has('cache'));
+
+        $result = $module->__invoke($project, new NullOutput());
+
+        $this->assertEquals(true, $project->has('cache'));
+        $this->assertEquals(true, $result);
     }
 }
