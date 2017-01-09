@@ -2,6 +2,8 @@
 
 namespace Tapestry\Entities;
 
+use Tapestry\Tapestry;
+
 class Cache
 {
     /**
@@ -15,14 +17,26 @@ class Cache
     private $path;
 
     /**
+     * @var string
+     */
+    private $hash;
+
+    /**
+     * @var string
+     */
+    private $version;
+
+    /**
      * Cache constructor.
      *
      * @param string $path
      */
-    public function __construct($path)
+    public function __construct($path, $hash)
     {
         clearstatcache();
         $this->path = $path;
+        $this->hash = $hash;
+        $this->version = Tapestry::VERSION;
     }
 
     public function load()
@@ -47,6 +61,12 @@ class Cache
         if (isset($this->items[$key])) {
             return $this->items[$key];
         }
+        return null;
+    }
+
+    public function count()
+    {
+        return count($this->items);
     }
 
     public function reset()
