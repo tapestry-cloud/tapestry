@@ -6,6 +6,7 @@ use Tapestry\Step;
 use Tapestry\Entities\Cache;
 use Tapestry\Entities\Project;
 use Symfony\Component\Console\Output\OutputInterface;
+use Tapestry\Tapestry;
 
 class ReadCache implements Step
 {
@@ -19,7 +20,9 @@ class ReadCache implements Step
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
-        $cache = new Cache($project->currentWorkingDirectory.DIRECTORY_SEPARATOR.'.'.$project->environment.'_cache');
+        $hash = sha1(Tapestry::VERSION);
+
+        $cache = new Cache($project->currentWorkingDirectory.DIRECTORY_SEPARATOR.'.'.$project->environment.'_cache', $hash);
         $cache->load();
         $project->set('cache', $cache);
 
