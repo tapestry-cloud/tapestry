@@ -24,13 +24,20 @@ class CachedFile
     private $sourceDirectory;
 
     /**
+     * @var array
+     */
+    private $layouts;
+
+    /**
      * CachedFile constructor.
      *
      * @param File $file
-     * @param $sourceDirectory
+     * @param array $layouts
+     * @param string $sourceDirectory
      */
-    public function __construct(File $file, $sourceDirectory = '')
+    public function __construct(File $file, array $layouts = [], $sourceDirectory = '')
     {
+        $this->layouts = $layouts;
         $this->sourceDirectory = $sourceDirectory;
         $this->uid = $file->getUid();
         $this->hash = $this->hashFile($file);
@@ -61,8 +68,9 @@ class CachedFile
     private function hashFile(File $file)
     {
         $arr = [];
-        if ($layout = $file->getData('layout')){
-            if (!strpos($layout, '_templates')){
+
+        foreach($this->layouts as $layout) {
+            if (strpos($layout, '_templates') === false){
                 $layout = '_templates' . DIRECTORY_SEPARATOR . $layout;
             }
 
