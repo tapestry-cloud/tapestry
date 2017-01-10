@@ -33,6 +33,7 @@ class PlatesRenderer implements RendererInterface
     {
         $this->parser = $parser;
         $this->project = $project;
+        $this->parser->setProject($project);
     }
 
     /**
@@ -66,7 +67,7 @@ class PlatesRenderer implements RendererInterface
      */
     public function render(File $file)
     {
-        return $this->parser->renderFile($file, $this->project->currentWorkingDirectory.DIRECTORY_SEPARATOR.'.tmp');
+        return $this->parser->renderFile($file);
     }
 
     /**
