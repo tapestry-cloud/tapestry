@@ -163,14 +163,14 @@ class CacheTest extends CommandTestBase
         unset($module, $project);
 
         self::$fileSystem->copy(
-            __DIR__.DIRECTORY_SEPARATOR.'/assets/build_test_21/src_replace/config.php',
-            __DIR__.DIRECTORY_SEPARATOR.'/_tmp/config.php',
+            __DIR__ . DIRECTORY_SEPARATOR . '/assets/build_test_21/src_replace/config.php',
+            __DIR__ . DIRECTORY_SEPARATOR . '/_tmp/config.php',
             true
         );
 
         self::$fileSystem->copy(
-            __DIR__.DIRECTORY_SEPARATOR.'/assets/build_test_21/src_replace/kernel.php',
-            __DIR__.DIRECTORY_SEPARATOR.'/_tmp/kernel.php',
+            __DIR__ . DIRECTORY_SEPARATOR . '/assets/build_test_21/src_replace/kernel.php',
+            __DIR__ . DIRECTORY_SEPARATOR . '/_tmp/kernel.php',
             true
         );
 
@@ -178,5 +178,36 @@ class CacheTest extends CommandTestBase
         $project = new Project(__DIR__ . '/_tmp', 'test');
         $module->__invoke($project, new NullOutput());
         $this->assertEquals(0, $project->get('cache')->count());
+    }
+
+    public function testTemplateModificationInvalidateCache()
+    {
+        $this->copyDirectory('/assets/build_test_22/src', '/_tmp');
+        $output = $this->runCommand('build', ['--quiet']);
+        $this->assertEquals('', trim($output->getDisplay()));
+        $this->assertEquals(0, $output->getStatusCode());
+
+        $this->assertFileEquals(
+            __DIR__ . '/assets/build_test_22/check/index.html',
+            __DIR__ . '/_tmp/build_local/test/index.html',
+            '',
+            true
+        );
+
+        self::$fileSystem->copy(
+            __DIR__ . DIRECTORY_SEPARATOR . '/assets/build_test_22/src_replace/page.phtml',
+            __DIR__ . DIRECTORY_SEPARATOR . '/_tmp/source/_templates/page.phtml',
+            true
+        );
+
+        $output = $this->runCommand('build', ['--quiet']);
+        $this->assertEquals(0, $output->getStatusCode());
+
+        $this->assertFileEquals(
+            __DIR__ . '/assets/build_test_22/check/index_replace.html',
+            __DIR__ . '/_tmp/build_local/test/index.html',
+            '',
+            true
+        );
     }
 }
