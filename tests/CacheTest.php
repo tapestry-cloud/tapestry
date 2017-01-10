@@ -181,7 +181,7 @@ class CacheTest extends CommandTestBase
         $this->assertEquals(0, $project->get('cache')->count());
     }
 
-    public function testTemplateModificationInvalidateCache()
+    public function testTemplateModificationInvalidateCacheViaFrontMatter()
     {
         $this->copyDirectory('/assets/build_test_22/src', '/_tmp');
         $output = $this->runCommand('build', ['--quiet']);
@@ -207,6 +207,30 @@ class CacheTest extends CommandTestBase
         $this->assertFileEquals(
             __DIR__ . '/assets/build_test_22/check/index_replace.html',
             __DIR__ . '/_tmp/build_local/test/index.html',
+            '',
+            true
+        );
+    }
+
+    public function testTemplateModificationInvalidateCacheViaPlates()
+    {
+        $this->copyDirectory('/assets/build_test_22/src', '/_tmp');
+        $output = $this->runCommand('build', ['--quiet']);
+        $this->assertEquals('', trim($output->getDisplay()));
+        $this->assertEquals(0, $output->getStatusCode());
+
+        self::$fileSystem->copy(
+            __DIR__ . DIRECTORY_SEPARATOR . '/assets/build_test_22/src_replace/page.phtml',
+            __DIR__ . DIRECTORY_SEPARATOR . '/_tmp/source/_templates/page.phtml',
+            true
+        );
+
+        $output = $this->runCommand('build', ['--quiet']);
+        $this->assertEquals(0, $output->getStatusCode());
+
+        $this->assertFileEquals(
+            __DIR__ . '/assets/build_test_22/check/multi-inheritance.html',
+            __DIR__ . '/_tmp/build_local/multi-inheritance-test/index.html',
             '',
             true
         );
