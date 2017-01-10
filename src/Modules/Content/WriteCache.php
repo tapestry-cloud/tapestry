@@ -2,11 +2,11 @@
 
 namespace Tapestry\Modules\Content;
 
-use Tapestry\Entities\CachedFile;
-use Tapestry\Entities\Collections\FlatCollection;
 use Tapestry\Step;
 use Tapestry\Entities\Cache;
 use Tapestry\Entities\Project;
+use Tapestry\Entities\CachedFile;
+use Tapestry\Entities\Collections\FlatCollection;
 use Symfony\Component\Console\Output\OutputInterface;
 use Tapestry\Entities\Filesystem\FilesystemInterface;
 

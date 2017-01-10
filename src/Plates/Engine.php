@@ -2,14 +2,13 @@
 
 namespace Tapestry\Plates;
 
-use Tapestry\Entities\Collections\FlatCollection;
 use Tapestry\Entities\File;
-use League\Plates\Engine as LeagueEngine;
 use Tapestry\Entities\Project;
+use League\Plates\Engine as LeagueEngine;
+use Tapestry\Entities\Collections\FlatCollection;
 
 class Engine extends LeagueEngine
 {
-
     /**
      * @var Project
      */
