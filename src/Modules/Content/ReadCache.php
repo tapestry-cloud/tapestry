@@ -2,13 +2,13 @@
 
 namespace Tapestry\Modules\Content;
 
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
 use Tapestry\Step;
+use Tapestry\Tapestry;
 use Tapestry\Entities\Cache;
 use Tapestry\Entities\Project;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Console\Output\OutputInterface;
-use Tapestry\Tapestry;
 
 class ReadCache implements Step
 {
@@ -36,7 +36,7 @@ class ReadCache implements Step
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
-        $cache = new Cache($project->currentWorkingDirectory . DIRECTORY_SEPARATOR . '.' . $project->environment . '_cache',
+        $cache = new Cache($project->currentWorkingDirectory.DIRECTORY_SEPARATOR.'.'.$project->environment.'_cache',
             $this->createInvalidationHash($project));
         $cache->load();
         $project->set('cache', $cache);
@@ -64,6 +64,7 @@ class ReadCache implements Step
         }
 
         array_push($hash, sha1(Tapestry::VERSION));
+
         return sha1(implode('.', $hash));
     }
 }
