@@ -2,13 +2,13 @@
 
 namespace Tapestry\Modules\Content;
 
-use Tapestry\Entities\CachedFile;
 use Tapestry\Step;
 use Tapestry\Tapestry;
 use Tapestry\Entities\File;
 use Tapestry\Entities\Cache;
 use Tapestry\Entities\Project;
 use Tapestry\Entities\ViewFile;
+use Tapestry\Entities\CachedFile;
 use Tapestry\Entities\ContentType;
 use Symfony\Component\Filesystem\Filesystem;
 use Tapestry\Entities\Filesystem\FileCopier;

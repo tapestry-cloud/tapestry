@@ -44,7 +44,7 @@ class CachedFile
     }
 
     /**
-     * Check to see if the current cache entry is still valid
+     * Check to see if the current cache entry is still valid.
      *
      * @param File $file
      * @return bool
@@ -53,14 +53,14 @@ class CachedFile
     public function check(File $file)
     {
         if ($file->getUid() !== $this->uid) {
-            throw new \Exception('This CachedFile is not for uid [' . $file->getUid() . ']');
+            throw new \Exception('This CachedFile is not for uid ['.$file->getUid().']');
         }
 
         return $this->hash === $this->hashFile($file);
     }
 
     /**
-     * Calculates the invalidation hash for the given File
+     * Calculates the invalidation hash for the given File.
      *
      * @param File $file
      * @return string
@@ -69,18 +69,19 @@ class CachedFile
     {
         $arr = [];
 
-        foreach($this->layouts as $layout) {
-            if (strpos($layout, '_templates') === false){
-                $layout = '_templates' . DIRECTORY_SEPARATOR . $layout;
+        foreach ($this->layouts as $layout) {
+            if (strpos($layout, '_templates') === false) {
+                $layout = '_templates'.DIRECTORY_SEPARATOR.$layout;
             }
 
-            $layoutPathName = $this->sourceDirectory . DIRECTORY_SEPARATOR . $layout . '.phtml';
-            if (file_exists($layoutPathName)){
+            $layoutPathName = $this->sourceDirectory.DIRECTORY_SEPARATOR.$layout.'.phtml';
+            if (file_exists($layoutPathName)) {
                 array_push($arr, sha1_file($layoutPathName));
             }
         }
 
         array_push($arr, $file->getLastModified());
+
         return sha1(implode('.', $arr));
     }
 }
