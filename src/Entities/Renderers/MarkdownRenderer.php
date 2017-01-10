@@ -11,6 +11,7 @@ class MarkdownRenderer implements RendererInterface
      * @var array File extensions that this renderer supports
      */
     private $extensions = ['md', 'markdown'];
+
     /**
      * @var MarkdownExtra
      */
@@ -87,7 +88,6 @@ class MarkdownRenderer implements RendererInterface
      */
     public function mutateFile(File &$file)
     {
-
         // If markdown file has a layout associated with it, we need to ensure it gets rendered within that
         if ($layout = $file->getData('layout')) {
             $file->setExt('phtml');     // Templates are managed by the phtml renderer
