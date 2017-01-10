@@ -5,6 +5,7 @@ namespace Tapestry\Plates;
 use LogicException;
 use Tapestry\Entities\File;
 use League\Plates\Template\Template as PlatesTemplate;
+use Tapestry\Entities\Project;
 
 /**
  * Class Template.
@@ -71,19 +72,18 @@ class Template extends PlatesTemplate
      * Render the File.
      *
      * @param File $file
-     * @param $tmpDirectory
-     *
      * @throws \Exception
-     *
      * @return string
      */
-    public function renderFile(File $file, $tmpDirectory)
+    public function renderFile(File $file)
     {
         $this->file = $file;
+        $tmpDirectory = $this->engine->getProject()->currentWorkingDirectory.DIRECTORY_SEPARATOR.'.tmp';
 
         if ($layoutName = $file->getData('layout')) {
-            $this->layoutName = (! strpos('_templates', $layoutName)) ? '_templates'.DIRECTORY_SEPARATOR.$layoutName : $layoutName;
+            $this->layoutName = (strpos('_templates', $layoutName) === false) ? '_templates'.DIRECTORY_SEPARATOR.$layoutName : $layoutName;
             $this->layoutData = $file->getData();
+            $this->engine->getProject()->get('file_layout_cache')->merge([$this->file->getUid() => [$this->layoutName]]);
         }
 
         try {
@@ -124,5 +124,18 @@ class Template extends PlatesTemplate
 
             throw $e;
         }
+    }
+
+    /**
+     * Set the template's layout.
+     * @param  string $name
+     * @param  array $data
+     * @return void
+     */
+    public function layout($name, array $data = array())
+    {
+        $this->layoutName = $name;
+        $this->layoutData = $data;
+        $this->engine->getProject()->get('file_layout_cache')->merge([$this->file->getUid() => [$this->layoutName]]);
     }
 }
