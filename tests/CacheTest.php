@@ -129,6 +129,8 @@ class CacheTest extends CommandTestBase
 
     public function testReadCacheModule()
     {
+        $this->copyDirectory('/assets/build_test_21/src', '/_tmp');
+
         $module = new ReadCache();
         $project = new Project(__DIR__ . '/_tmp', 'test');
 
@@ -138,5 +140,42 @@ class CacheTest extends CommandTestBase
 
         $this->assertEquals(true, $project->has('cache'));
         $this->assertEquals(true, $result);
+        $this->assertInstanceOf(Cache::class, $project->get('cache'));
+
+        $project->get('cache')->setItem('A', 'B');
+        $project->get('cache')->setItem('B', 'C');
+        $this->assertEquals(2, $project->get('cache')->count());
+        $project->get('cache')->save();
+
+        // Reset $module && $project variables to test loading from save
+
+        unset($module, $project);
+        $module = new ReadCache();
+        $project = new Project(__DIR__ . '/_tmp', 'test');
+        $module->__invoke($project, new NullOutput());
+        $this->assertEquals(2, $project->get('cache')->count());
+        $this->assertEquals('B', $project->get('cache')->getItem('A'));
+        $this->assertEquals('C', $project->get('cache')->getItem('B'));
+
+
+        // Reset $module && $project variables and modify the src directory to test cache invalidation
+        unset($module, $project);
+
+        self::$fileSystem->copy(
+            __DIR__.DIRECTORY_SEPARATOR.'/assets/build_test_21/src_replace/config.php',
+            __DIR__.DIRECTORY_SEPARATOR.'/_tmp/config.php',
+            true
+        );
+
+        self::$fileSystem->copy(
+            __DIR__.DIRECTORY_SEPARATOR.'/assets/build_test_21/src_replace/kernel.php',
+            __DIR__.DIRECTORY_SEPARATOR.'/_tmp/kernel.php',
+            true
+        );
+
+        $module = new ReadCache();
+        $project = new Project(__DIR__ . '/_tmp', 'test');
+        $module->__invoke($project, new NullOutput());
+        $this->assertEquals(0, $project->get('cache')->count());
     }
 }
