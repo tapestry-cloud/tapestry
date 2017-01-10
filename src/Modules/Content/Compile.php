@@ -8,6 +8,7 @@ use Tapestry\Entities\File;
 use Tapestry\Entities\Cache;
 use Tapestry\Entities\Project;
 use Tapestry\Entities\ViewFile;
+use Tapestry\Entities\CachedFile;
 use Tapestry\Entities\ContentType;
 use Symfony\Component\Filesystem\Filesystem;
 use Tapestry\Entities\Filesystem\FileCopier;
@@ -160,8 +161,10 @@ class Compile implements Step
         // Mutate into FileCopy or FileWrite entities
         //
         foreach ($this->files as &$file) {
-            if ($cachedCTime = $cache->getItem($file->getUid())) {
-                if ($file->getLastModified() == $cachedCTime) {
+
+            /** @var CachedFile $cachedFile */
+            if ($cachedFile = $cache->getItem($file->getUid())) {
+                if ($cachedFile->check($file)) {
                     $file = new FileIgnored(clone $file, $project->destinationDirectory);
                     continue;
                 }

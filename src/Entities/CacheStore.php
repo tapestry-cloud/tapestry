@@ -4,15 +4,35 @@ namespace Tapestry\Entities;
 
 class CacheStore
 {
+    /**
+     * Cached items.
+     *
+     * @var array
+     */
     private $items = [];
 
+    /**
+     * Cache Store invalidation hash.
+     *
+     * @var string
+     */
     private $hash;
 
+    /**
+     * CacheStore constructor.
+     *
+     * @param $hash
+     */
     public function __construct($hash)
     {
         $this->hash = $hash;
     }
 
+    /**
+     * Reset the cache store if $hash is different to the one in the store.
+     *
+     * @param $hash
+     */
     public function validate($hash)
     {
         if ($hash !== $this->hash) {
