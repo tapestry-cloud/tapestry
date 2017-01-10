@@ -55,7 +55,7 @@ class ReadCache implements Step
      */
     private function createInvalidationHash(Project $project)
     {
-        $files = $this->finder->files()->in($project->currentWorkingDirectory);
+        $files = $this->finder->files()->in($project->currentWorkingDirectory)->depth('== 0');
         $hash = [];
 
         /** @var SplFileInfo $file */
