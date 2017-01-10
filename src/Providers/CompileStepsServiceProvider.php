@@ -11,7 +11,6 @@ use Tapestry\Modules\Content\ReadCache;
 use Tapestry\Modules\Kernel\BootKernel;
 use Tapestry\Modules\Content\WriteCache;
 use Tapestry\Modules\Content\WriteFiles;
-use Tapestry\Modules\Content\RemoveDrafts;
 use Tapestry\Modules\Content\LoadSourceFiles;
 use Tapestry\Modules\ContentTypes\LoadContentTypes;
 use Tapestry\Modules\ContentTypes\ParseContentTypes;
@@ -46,7 +45,6 @@ class CompileStepsServiceProvider extends AbstractServiceProvider
             LoadContentRenderers::class,
             LoadContentGenerators::class,
             LoadSourceFiles::class,
-            //RemoveDrafts::class,
             ParseContentTypes::class,
             Compile::class,
             WriteFiles::class,
