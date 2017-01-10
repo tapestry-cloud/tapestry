@@ -504,6 +504,7 @@ class ArrayContainer implements ArrayAccess, Iterator
 
     /**
      * Return an array of items where their key contains $query; this is a basic strpos check.
+     * Note: The $query is case sensitive.
      *
      * @param $query
      * @return array
