@@ -3,6 +3,7 @@
 namespace Tapestry\Tests;
 
 use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Finder\Finder;
 use Tapestry\Entities\Cache;
 use Tapestry\Entities\CacheStore;
 use Tapestry\Entities\Project;
@@ -131,7 +132,7 @@ class CacheTest extends CommandTestBase
     {
         $this->copyDirectory('/assets/build_test_21/src', '/_tmp');
 
-        $module = new ReadCache();
+        $module = new ReadCache(new Finder());
         $project = new Project(__DIR__ . '/_tmp', 'test');
 
         $this->assertEquals(false, $project->has('cache'));
@@ -150,7 +151,7 @@ class CacheTest extends CommandTestBase
         // Reset $module && $project variables to test loading from save
 
         unset($module, $project);
-        $module = new ReadCache();
+        $module = new ReadCache(new Finder());
         $project = new Project(__DIR__ . '/_tmp', 'test');
         $module->__invoke($project, new NullOutput());
         $this->assertEquals(2, $project->get('cache')->count());
@@ -173,7 +174,7 @@ class CacheTest extends CommandTestBase
             true
         );
 
-        $module = new ReadCache();
+        $module = new ReadCache(new Finder());
         $project = new Project(__DIR__ . '/_tmp', 'test');
         $module->__invoke($project, new NullOutput());
         $this->assertEquals(0, $project->get('cache')->count());
