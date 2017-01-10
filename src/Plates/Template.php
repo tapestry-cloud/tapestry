@@ -5,7 +5,6 @@ namespace Tapestry\Plates;
 use LogicException;
 use Tapestry\Entities\File;
 use League\Plates\Template\Template as PlatesTemplate;
-use Tapestry\Entities\Project;
 
 /**
  * Class Template.
@@ -132,7 +131,7 @@ class Template extends PlatesTemplate
      * @param  array $data
      * @return void
      */
-    public function layout($name, array $data = array())
+    public function layout($name, array $data = [])
     {
         $this->layoutName = $name;
         $this->layoutData = $data;

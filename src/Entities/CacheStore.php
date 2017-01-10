@@ -5,14 +5,14 @@ namespace Tapestry\Entities;
 class CacheStore
 {
     /**
-     * Cached items
+     * Cached items.
      *
      * @var array
      */
     private $items = [];
 
     /**
-     * Cache Store invalidation hash
+     * Cache Store invalidation hash.
      *
      * @var string
      */
@@ -29,7 +29,7 @@ class CacheStore
     }
 
     /**
-     * Reset the cache store if $hash is different to the one in the store
+     * Reset the cache store if $hash is different to the one in the store.
      *
      * @param $hash
      */
