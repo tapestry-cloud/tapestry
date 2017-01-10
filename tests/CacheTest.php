@@ -6,8 +6,10 @@ use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Finder\Finder;
 use Tapestry\Entities\Cache;
 use Tapestry\Entities\CacheStore;
+use Tapestry\Entities\Collections\FlatCollection;
 use Tapestry\Entities\Project;
 use Tapestry\Modules\Content\ReadCache;
+use Tapestry\Modules\Content\WriteCache;
 
 class CacheTest extends CommandTestBase
 {
@@ -157,7 +159,6 @@ class CacheTest extends CommandTestBase
         $this->assertEquals(2, $project->get('cache')->count());
         $this->assertEquals('B', $project->get('cache')->getItem('A'));
         $this->assertEquals('C', $project->get('cache')->getItem('B'));
-
 
         // Reset $module && $project variables and modify the src directory to test cache invalidation
         unset($module, $project);
