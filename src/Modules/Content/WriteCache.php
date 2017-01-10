@@ -2,6 +2,7 @@
 
 namespace Tapestry\Modules\Content;
 
+use Tapestry\Entities\CachedFile;
 use Tapestry\Step;
 use Tapestry\Entities\Cache;
 use Tapestry\Entities\Project;
@@ -26,7 +27,7 @@ class WriteCache implements Step
         /** @var FilesystemInterface $file */
         foreach ($project['compiled']->all() as $file) {
             $f = $file->getFile();
-            $cache->setItem($f->getUid(), $f->getLastModified());
+            $cache->setItem($f->getUid(), new CachedFile($f, $project->sourceDirectory));
         }
 
         $cache->save();
