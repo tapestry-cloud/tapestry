@@ -2,6 +2,7 @@
 [![Development Build Status](https://travis-ci.org/carbontwelve/tapestry.svg?branch=development)](https://travis-ci.org/carbontwelve/tapestry)
 [![StyleCI](https://styleci.io/repos/73839963/shield?branch=master)](https://styleci.io/repos/73839963)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
+[![Gitmoji](https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg?style=flat-square)](https://gitmoji.carloscuesta.me)
 [![ghit.me](https://ghit.me/badge.svg?repo=carbontwelve/tapestry)](https://ghit.me/repo/carbontwelve/tapestry)
 
 Simple static sites with the league of extraordinary packages [plates](http://platesphp.com/) template system.
