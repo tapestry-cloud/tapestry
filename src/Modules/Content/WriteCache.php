@@ -20,7 +20,6 @@ class WriteCache implements Step
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
-
         /** @var Cache $cache */
         $cache = $project->get('cache');
 
