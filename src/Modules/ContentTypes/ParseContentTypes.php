@@ -51,7 +51,7 @@ class ParseContentTypes implements Step
                     $file->setData([$use.'_items' => $contentType->getTaxonomy($useTaxonomy)->getFileList()]);
 
                     // If the file doesn't have a generator set then we need to define one
-                    if (! $fileGenerator = $file->getData('generator')) {
+                    if (! $file->hasData('generator')) {
                         // do we _need_ to add a generator here?
                         $file->setData(['generator' => ['TaxonomyIndexGenerator']]);
                     }
