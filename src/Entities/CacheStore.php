@@ -30,6 +30,7 @@ class CacheStore
         if (isset($this->items[$key])) {
             return $this->items[$key];
         }
+
         return null;
     }
 
