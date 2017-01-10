@@ -6,8 +6,10 @@ use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Finder\Finder;
 use Tapestry\Entities\Cache;
 use Tapestry\Entities\CacheStore;
+use Tapestry\Entities\Collections\FlatCollection;
 use Tapestry\Entities\Project;
 use Tapestry\Modules\Content\ReadCache;
+use Tapestry\Modules\Content\WriteCache;
 
 class CacheTest extends CommandTestBase
 {
@@ -158,19 +160,18 @@ class CacheTest extends CommandTestBase
         $this->assertEquals('B', $project->get('cache')->getItem('A'));
         $this->assertEquals('C', $project->get('cache')->getItem('B'));
 
-
         // Reset $module && $project variables and modify the src directory to test cache invalidation
         unset($module, $project);
 
         self::$fileSystem->copy(
-            __DIR__.DIRECTORY_SEPARATOR.'/assets/build_test_21/src_replace/config.php',
-            __DIR__.DIRECTORY_SEPARATOR.'/_tmp/config.php',
+            __DIR__ . DIRECTORY_SEPARATOR . '/assets/build_test_21/src_replace/config.php',
+            __DIR__ . DIRECTORY_SEPARATOR . '/_tmp/config.php',
             true
         );
 
         self::$fileSystem->copy(
-            __DIR__.DIRECTORY_SEPARATOR.'/assets/build_test_21/src_replace/kernel.php',
-            __DIR__.DIRECTORY_SEPARATOR.'/_tmp/kernel.php',
+            __DIR__ . DIRECTORY_SEPARATOR . '/assets/build_test_21/src_replace/kernel.php',
+            __DIR__ . DIRECTORY_SEPARATOR . '/_tmp/kernel.php',
             true
         );
 
@@ -178,5 +179,60 @@ class CacheTest extends CommandTestBase
         $project = new Project(__DIR__ . '/_tmp', 'test');
         $module->__invoke($project, new NullOutput());
         $this->assertEquals(0, $project->get('cache')->count());
+    }
+
+    public function testTemplateModificationInvalidateCacheViaFrontMatter()
+    {
+        $this->copyDirectory('/assets/build_test_22/src', '/_tmp');
+        $output = $this->runCommand('build', ['--quiet']);
+        $this->assertEquals('', trim($output->getDisplay()));
+        $this->assertEquals(0, $output->getStatusCode());
+
+        $this->assertFileEquals(
+            __DIR__ . '/assets/build_test_22/check/index.html',
+            __DIR__ . '/_tmp/build_local/test/index.html',
+            '',
+            true
+        );
+
+        self::$fileSystem->copy(
+            __DIR__ . DIRECTORY_SEPARATOR . '/assets/build_test_22/src_replace/page.phtml',
+            __DIR__ . DIRECTORY_SEPARATOR . '/_tmp/source/_templates/page.phtml',
+            true
+        );
+
+        $output = $this->runCommand('build', ['--quiet']);
+        $this->assertEquals(0, $output->getStatusCode());
+
+        $this->assertFileEquals(
+            __DIR__ . '/assets/build_test_22/check/index_replace.html',
+            __DIR__ . '/_tmp/build_local/test/index.html',
+            '',
+            true
+        );
+    }
+
+    public function testTemplateModificationInvalidateCacheViaPlates()
+    {
+        $this->copyDirectory('/assets/build_test_22/src', '/_tmp');
+        $output = $this->runCommand('build', ['--quiet']);
+        $this->assertEquals('', trim($output->getDisplay()));
+        $this->assertEquals(0, $output->getStatusCode());
+
+        self::$fileSystem->copy(
+            __DIR__ . DIRECTORY_SEPARATOR . '/assets/build_test_22/src_replace/page.phtml',
+            __DIR__ . DIRECTORY_SEPARATOR . '/_tmp/source/_templates/page.phtml',
+            true
+        );
+
+        $output = $this->runCommand('build', ['--quiet']);
+        $this->assertEquals(0, $output->getStatusCode());
+
+        $this->assertFileEquals(
+            __DIR__ . '/assets/build_test_22/check/multi-inheritance.html',
+            __DIR__ . '/_tmp/build_local/multi-inheritance-test/index.html',
+            '',
+            true
+        );
     }
 }
