@@ -254,17 +254,17 @@ class ArrayContainer implements ArrayAccess, Iterator
                         if ($value = $value->arrayAccessByKey($keyPart)) {
                             break;
                         } else {
-                            return;
+                            return null;
                         }
                     }
                 }
 
                 if (! isset($value[$keyPart])) {
-                    return;
+                    return null;
                 }
 
                 if (is_array($value[$keyPart]) && ! array_key_exists($keyPart, $value)) {
-                    return;
+                    return null;
                 }
                 $value = $value[$keyPart];
             }
