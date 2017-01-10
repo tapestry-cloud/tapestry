@@ -2,6 +2,7 @@
 
 namespace Tapestry\Modules\Content;
 
+use Tapestry\Entities\CachedFile;
 use Tapestry\Step;
 use Tapestry\Tapestry;
 use Tapestry\Entities\File;
@@ -160,8 +161,10 @@ class Compile implements Step
         // Mutate into FileCopy or FileWrite entities
         //
         foreach ($this->files as &$file) {
-            if ($cachedCTime = $cache->getItem($file->getUid())) {
-                if ($file->getLastModified() == $cachedCTime) {
+
+            /** @var CachedFile $cachedFile */
+            if ($cachedFile = $cache->getItem($file->getUid())) {
+                if ($cachedFile->check($file)) {
                     $file = new FileIgnored(clone $file, $project->destinationDirectory);
                     continue;
                 }
