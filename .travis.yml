@@ -27,11 +27,10 @@ install:
 
 script:
   - mkdir -p build/logs
-  - ls -lah
   - vendor/bin/phpunit --coverage-clover build/logs/clover.xml
 
 after_success:
-  - vendor/bin/test-reporter
+  - vendor/bin/test-reporter --coverage-report=./build/logs/clover.xml
 
 addons:
     code_climate:
