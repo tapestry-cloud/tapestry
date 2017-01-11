@@ -3,10 +3,12 @@
 namespace Tapestry\Modules\Content;
 
 use Tapestry\Step;
+use Tapestry\Tapestry;
 use Tapestry\Entities\File;
 use Tapestry\Entities\Cache;
 use Tapestry\Entities\Project;
 use Tapestry\Entities\ViewFile;
+use Tapestry\Entities\CachedFile;
 use Tapestry\Entities\ContentType;
 use Symfony\Component\Filesystem\Filesystem;
 use Tapestry\Entities\Filesystem\FileCopier;
@@ -29,15 +31,21 @@ class Compile implements Step
      * @var array|File[]
      */
     private $files = [];
+    /**
+     * @var Tapestry
+     */
+    private $tapestry;
 
     /**
      * Write constructor.
      *
      * @param Filesystem $filesystem
+     * @param Tapestry $tapestry
      */
-    public function __construct(Filesystem $filesystem)
+    public function __construct(Filesystem $filesystem, Tapestry $tapestry)
     {
         $this->filesystem = $filesystem;
+        $this->tapestry = $tapestry;
     }
 
     /**
@@ -50,6 +58,8 @@ class Compile implements Step
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
+        $this->tapestry->getEventEmitter()->emit('compile.before');
+
         /** @var ContentTypeFactory $contentTypes */
         $contentTypes = $project->get('content_types');
 
@@ -59,10 +69,27 @@ class Compile implements Step
         /** @var Cache $cache */
         $cache = $project->get('cache');
 
-        //
-        // Iterate over the file list of all content types and add the files they contain to the local compiled file list
-        // also at this point run any generators that the file may be linked to.
-        //
+        $this->iterateProjectContentTypes($contentTypes, $project, $output);
+        $this->collectProjectFilesUseData($project, $output);
+        $this->executeContentRenderers($contentRenderers);
+        $this->mutateFilesToFilesystemInterfaces($project, $cache);
+
+        $project->set('compiled', new FlatCollection($this->files));
+        $this->tapestry->getEventEmitter()->emit('compile.after');
+
+        return true;
+    }
+
+    /**
+     * Iterate over the file list of all content types and add the files they contain to the local compiled file list
+     * also at this point run any generators that the file may be linked to.
+     *
+     * @param ContentTypeFactory $contentTypes
+     * @param Project $project
+     * @param OutputInterface $output
+     */
+    private function iterateProjectContentTypes(ContentTypeFactory $contentTypes, Project $project, OutputInterface $output)
+    {
         /** @var ContentType $contentType */
         foreach ($contentTypes->all() as $contentType) {
             $output->writeln('[+] Compiling content within ['.$contentType->getName().']');
@@ -85,10 +112,16 @@ class Compile implements Step
                 $project->set('compiled', $this->files);
             }
         }
+    }
 
-        //
-        // Where a file has a use statement, we now need to collect the associated use data and inject it
-        //
+    /**
+     * Where a file has a use statement, we now need to collect the associated use data and inject it.
+     *
+     * @param Project $project
+     * @param OutputInterface $output
+     */
+    private function collectProjectFilesUseData(Project $project, OutputInterface $output)
+    {
         /** @var File $file */
         foreach ($project['compiled'] as $file) {
             if (! $uses = $file->getData('use')) {
@@ -129,10 +162,15 @@ class Compile implements Step
 
             exit(1);
         }
+    }
 
-        //
-        // Execute Renderers
-        //
+    /**
+     * Execute Content Renderers.
+     *
+     * @param ContentRendererFactory $contentRenderers
+     */
+    private function executeContentRenderers(ContentRendererFactory $contentRenderers)
+    {
         while (! $this->allFilesRendered()) {
             foreach ($this->files as &$file) {
                 if ($file->isRendered()) {
@@ -146,13 +184,20 @@ class Compile implements Step
             }
             unset($file);
         }
+    }
 
-        //
-        // Mutate into FileCopy or FileWrite entities
-        //
+    /**
+     * Mutate compiled File into FileIgnored, FileCopy or FileWrite entities.
+     *
+     * @param Project $project
+     * @param Cache $cache
+     */
+    private function mutateFilesToFilesystemInterfaces(Project $project, Cache $cache)
+    {
         foreach ($this->files as &$file) {
-            if ($cachedCTime = $cache->getItem($file->getUid())) {
-                if ($file->getLastModified() == $cachedCTime) {
+            /** @var CachedFile $cachedFile */
+            if ($cachedFile = $cache->getItem($file->getUid())) {
+                if ($cachedFile->check($file)) {
                     $file = new FileIgnored(clone $file, $project->destinationDirectory);
                     continue;
                 }
@@ -165,10 +210,6 @@ class Compile implements Step
             }
         }
         unset($file);
-
-        $project->set('compiled', new FlatCollection($this->files));
-
-        return true;
     }
 
     /**

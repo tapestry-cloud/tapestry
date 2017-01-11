@@ -2,8 +2,8 @@
 
 namespace Tapestry\Entities\Renderers;
 
+use Michelf\MarkdownExtra;
 use Tapestry\Entities\File;
-use cebe\markdown\GithubMarkdown;
 
 class MarkdownRenderer implements RendererInterface
 {
@@ -11,17 +11,18 @@ class MarkdownRenderer implements RendererInterface
      * @var array File extensions that this renderer supports
      */
     private $extensions = ['md', 'markdown'];
+
     /**
-     * @var GithubMarkdown
+     * @var MarkdownExtra
      */
     private $markdown;
 
     /**
      * MarkdownRenderer constructor.
      *
-     * @param GithubMarkdown $markdown
+     * @param MarkdownExtra $markdown
      */
-    public function __construct(GithubMarkdown $markdown)
+    public function __construct(MarkdownExtra $markdown)
     {
         $this->markdown = $markdown;
     }
@@ -57,7 +58,7 @@ class MarkdownRenderer implements RendererInterface
      */
     public function render(File $file)
     {
-        return $this->markdown->parse($file->getContent());
+        return $this->markdown->transform($file->getContent());
     }
 
     /**
@@ -87,6 +88,10 @@ class MarkdownRenderer implements RendererInterface
      */
     public function mutateFile(File &$file)
     {
-        // ...
+        // If markdown file has a layout associated with it, we need to ensure it gets rendered within that
+        if ($file->hasData('layout')) {
+            $file->setExt('phtml');     // Templates are managed by the phtml renderer
+            $file->setRendered(false);  // Set rendered to false so that within Compile.php's Execute Renderers loop it gets re-rendered
+        }
     }
 }
