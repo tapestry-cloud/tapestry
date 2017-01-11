@@ -82,6 +82,7 @@ class ContentType
         $this->permalink = (isset($settings['permalink']) ? $settings['permalink'] : ($this->name.'/{slug}.{ext}'));
         $this->enabled = (isset($settings['enabled']) ? boolval($settings['enabled']) : false);
 
+        // @todo for #31 look into this
         if (isset($settings['taxonomies'])) {
             foreach ($settings['taxonomies'] as $taxonomy) {
                 $this->taxonomies[$taxonomy] = new Taxonomy($taxonomy, [

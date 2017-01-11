@@ -48,6 +48,7 @@ class ParseContentTypes implements Step
                     if (! $contentType = $project['content_types.'.$useContentType]) {
                         continue;
                     }
+                    // @todo for #31 this should be an instance of TaxonomyItems
                     $file->setData([$use.'_items' => $contentType->getTaxonomy($useTaxonomy)->getFileList()]);
 
                     // If the file doesn't have a generator set then we need to define one
