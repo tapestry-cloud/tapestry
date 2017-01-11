@@ -25,6 +25,9 @@ before_install:
 install:
   - travis_retry composer install --no-interaction --prefer-dist --no-suggest;
 
+after_success:
+  - vendor/bin/test-reporter
+
 script: vendor/bin/phpunit
 
 addons:
