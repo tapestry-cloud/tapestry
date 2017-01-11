@@ -3,37 +3,21 @@ layout: default
 title: My Website
 use:
     - blog
-    - blog_categories
 ---
 
-<section class="py2 center">
-    <h1 class="h1 regular m0 mt4">Blog</h1>
-
-    <ul class="list-reset list-inline h6 mono pt1 red border-top">
-        <?php foreach(array_keys($blog_categories_items) as $item){
-            ?><li class="mx1"><a href="<?= $this->url('/blog/categories/' . str_slug($item)) ?>"><?= $item ?></a></li><?php
-        }?>
+<section>
+    <h1 class="caps h3">Posts</h1>
+    <ul>
+    <?php
+        /**
+         * @var \Tapestry\Entities\ViewFile[] $blog_items
+         * @var \Tapestry\Entities\ViewFile $item
+         */
+        foreach(array_slice($blog_items, 0, 6) as $item) {
+    ?>
+        <li><a href="<?= $item->getUrl() ?>"><?= $item->getData('title') ?></a> &ndash; Posted on <?= $item->getDate()->format('l, jS F Y') ?></li>
+    <?php
+        }
+    ?>
     </ul>
 </section>
-
-
-
-<ul>
-<?php
-    /**
-     * @var \Tapestry\Entities\ViewFile[] $blog_items
-     * @var \Tapestry\Entities\ViewFile $item
-     */
-    foreach(array_slice($blog_items, 0, 6) as $item) {
-?>
-    <li><a href="<?= $item->getUrl() ?>"><?= $item->getData('title') ?></a></li>
-<?php
-    }
-?>
-</ul>
-
-<div class="center">
-    <?php if (count($blog_items) > 6){ ?>
-        <a href="<?= $this->url('blog') ?>">More&hellip;</a>
-    <?php } ?>
-</div>
