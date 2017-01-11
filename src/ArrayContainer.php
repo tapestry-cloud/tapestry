@@ -52,6 +52,7 @@ class ArrayContainer implements ArrayAccess, Iterator
 
         if ($this->isNestedKey($key)) {
             $this->setNestedValueByKey($key, $value);
+
             return;
         }
 
@@ -70,6 +71,7 @@ class ArrayContainer implements ArrayAccess, Iterator
 
         if ($this->isNestedKey($key)) {
             $this->removeNestedValueByKey($key);
+
             return;
         }
 
@@ -286,7 +288,7 @@ class ArrayContainer implements ArrayAccess, Iterator
             unset($this->nestedKeyCache[$key]);
         } else {
             $this->nestedKeyCache = array_filter($this->nestedKeyCache, function ($arrayKey) use ($key) {
-                return (strpos($arrayKey, $key) === false);
+                return strpos($arrayKey, $key) === false;
             }, ARRAY_FILTER_USE_KEY);
         }
     }
