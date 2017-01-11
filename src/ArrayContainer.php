@@ -44,15 +44,18 @@ class ArrayContainer implements ArrayAccess, Iterator
      *
      * @param string $key
      * @param mixed  $value
+     * @return void
      */
     public function set($key, $value)
     {
+        $this->nestedKeyCache = [];
+
         if ($this->isNestedKey($key)) {
             $this->setNestedValueByKey($key, $value);
-        } else {
-            $this->items[$key] = $value;
+            return;
         }
-        $this->nestedKeyCache = [];
+
+        $this->items[$key] = $value;
     }
 
     /**
