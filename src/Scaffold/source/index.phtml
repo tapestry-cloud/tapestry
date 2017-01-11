@@ -5,16 +5,19 @@ use:
     - blog
 ---
 
-<ul>
-<?php
-    /**
-     * @var \Tapestry\Entities\ViewFile[] $blog_items
-     * @var \Tapestry\Entities\ViewFile $item
-     */
-    foreach(array_slice($blog_items, 0, 6) as $item) {
-?>
-    <li><a href="<?= $item->getUrl() ?>"><?= $item->getData('title') ?></a></li>
-<?php
-    }
-?>
-</ul>
+<section>
+    <h1 class="caps h3">Posts</h1>
+    <ul>
+    <?php
+        /**
+         * @var \Tapestry\Entities\ViewFile[] $blog_items
+         * @var \Tapestry\Entities\ViewFile $item
+         */
+        foreach(array_slice($blog_items, 0, 6) as $item) {
+    ?>
+        <li><a href="<?= $item->getUrl() ?>"><?= $item->getData('title') ?></a> &ndash; Posted on <?= $item->getDate()->format('l, jS F Y') ?></li>
+    <?php
+        }
+    ?>
+    </ul>
+</section>
