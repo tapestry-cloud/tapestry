@@ -286,9 +286,7 @@ class ArrayContainer implements ArrayAccess, Iterator
             unset($this->nestedKeyCache[$key]);
         } else {
             $this->nestedKeyCache = array_filter($this->nestedKeyCache, function ($arrayKey) use ($key) {
-                $n = strpos($arrayKey, $key) === false;
-
-                return $n;
+                return (strpos($arrayKey, $key) === false);
             }, ARRAY_FILTER_USE_KEY);
         }
     }
@@ -300,7 +298,7 @@ class ArrayContainer implements ArrayAccess, Iterator
      *
      * @param mixed $offset
      *
-     * @return bool true on success or false on failure. The return value will be casted to boolean if non-boolean was returned.
+     * @return bool
      */
     public function offsetExists($offset)
     {
