@@ -41,5 +41,4 @@ class SiteKernel implements KernelInterface
     {
         // ...
     }
-
 }
