@@ -27,6 +27,7 @@ install:
 
 script:
   - mkdir -p build/logs
+  - ls -lah
   - vendor/bin/phpunit --coverage-clover build/logs/clover.xml
 
 after_success:
@@ -34,4 +35,4 @@ after_success:
 
 addons:
     code_climate:
-        repo_token: b6debbe390df91a295cbbda324e1f48466b85efa97afc0765de49b783c000211
+        repo_token: $CODECLIMATE_REPO_TOKEN
