@@ -62,16 +62,18 @@ class ArrayContainer implements ArrayAccess, Iterator
      * Remove an items from the container by $key.
      *
      * @param string $key
+     * @return void
      */
     public function remove($key)
     {
+        $this->removeKeyFromNestedCache($key);
+
         if ($this->isNestedKey($key)) {
             $this->removeNestedValueByKey($key);
-        } else {
-            unset($this->items[$key]);
+            return;
         }
 
-        $this->removeKeyFromNestedCache($key);
+        unset($this->items[$key]);
     }
 
     /**
