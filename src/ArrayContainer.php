@@ -92,9 +92,9 @@ class ArrayContainer implements ArrayAccess, Iterator
 
         if (! $this->isNestedKey($key)) {
             return $this->items[$key];
-        } else {
-            return $this->getNestedValueByKey($key);
         }
+
+        return $this->getNestedValueByKey($key);
     }
 
     /**
