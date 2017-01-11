@@ -290,11 +290,21 @@ class File implements ProjectFileInterface
         if (is_null($key)) {
             return $this->data;
         }
-        if (! isset($this->data[$key])) {
+        if (! $this->hasData($key)) {
             return $default;
         }
 
         return $this->data[$key];
+    }
+
+    /**
+     * Return true if this file has data set for $key.
+     * @param $key
+     * @return bool
+     */
+    public function hasData($key)
+    {
+        return isset($this->data[$key]);
     }
 
     /**

@@ -40,48 +40,42 @@ class ArrayContainer implements ArrayAccess, Iterator
     }
 
     /**
-     * Push value onto the collection.
-     *
-     * @deprecated this isn't used, it also doesn't work in a multi dimensional way with dot notation. Do Not Use.
-     *
-     * @param mixed $value
-     */
-    public function push($value)
-    {
-        array_push($this->items, $value);
-        $this->nestedKeyCache = [];
-    }
-
-    /**
      * Add or amend an item in the container by $key.
      *
      * @param string $key
      * @param mixed  $value
+     * @return void
      */
     public function set($key, $value)
     {
+        $this->nestedKeyCache = [];
+
         if ($this->isNestedKey($key)) {
             $this->setNestedValueByKey($key, $value);
-        } else {
-            $this->items[$key] = $value;
+
+            return;
         }
-        $this->nestedKeyCache = [];
+
+        $this->items[$key] = $value;
     }
 
     /**
      * Remove an items from the container by $key.
      *
      * @param string $key
+     * @return void
      */
     public function remove($key)
     {
+        $this->removeKeyFromNestedCache($key);
+
         if ($this->isNestedKey($key)) {
             $this->removeNestedValueByKey($key);
-        } else {
-            unset($this->items[$key]);
+
+            return;
         }
 
-        $this->removeKeyFromNestedCache($key);
+        unset($this->items[$key]);
     }
 
     /**
@@ -100,9 +94,9 @@ class ArrayContainer implements ArrayAccess, Iterator
 
         if (! $this->isNestedKey($key)) {
             return $this->items[$key];
-        } else {
-            return $this->getNestedValueByKey($key);
         }
+
+        return $this->getNestedValueByKey($key);
     }
 
     /**
@@ -267,17 +261,17 @@ class ArrayContainer implements ArrayAccess, Iterator
                         if ($value = $value->arrayAccessByKey($keyPart)) {
                             break;
                         } else {
-                            return;
+                            return null;
                         }
                     }
                 }
 
                 if (! isset($value[$keyPart])) {
-                    return;
+                    return null;
                 }
 
                 if (is_array($value[$keyPart]) && ! array_key_exists($keyPart, $value)) {
-                    return;
+                    return null;
                 }
                 $value = $value[$keyPart];
             }
@@ -294,9 +288,7 @@ class ArrayContainer implements ArrayAccess, Iterator
             unset($this->nestedKeyCache[$key]);
         } else {
             $this->nestedKeyCache = array_filter($this->nestedKeyCache, function ($arrayKey) use ($key) {
-                $n = strpos($arrayKey, $key) === false;
-
-                return $n;
+                return strpos($arrayKey, $key) === false;
             }, ARRAY_FILTER_USE_KEY);
         }
     }
@@ -308,7 +300,7 @@ class ArrayContainer implements ArrayAccess, Iterator
      *
      * @param mixed $offset
      *
-     * @return bool true on success or false on failure. The return value will be casted to boolean if non-boolean was returned.
+     * @return bool
      */
     public function offsetExists($offset)
     {
@@ -369,8 +361,8 @@ class ArrayContainer implements ArrayAccess, Iterator
      */
     public function current()
     {
-        $k = array_keys($this->items);
-        $var = $this->items[$k[$this->index]];
+        $keys = array_keys($this->items);
+        $var = $this->items[$keys[$this->index]];
 
         return $var;
     }
@@ -400,8 +392,8 @@ class ArrayContainer implements ArrayAccess, Iterator
      */
     public function key()
     {
-        $k = array_keys($this->items);
-        $var = $k[$this->index];
+        $keys = array_keys($this->items);
+        $var = $keys[$this->index];
 
         return $var;
     }
@@ -418,9 +410,9 @@ class ArrayContainer implements ArrayAccess, Iterator
      */
     public function valid()
     {
-        $k = array_keys($this->items);
+        $keys = array_keys($this->items);
 
-        return isset($k[$this->index]);
+        return isset($keys[$this->index]);
     }
 
     /**
