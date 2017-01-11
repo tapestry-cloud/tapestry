@@ -28,7 +28,7 @@ install:
 after_success:
   - vendor/bin/test-reporter
 
-script: vendor/bin/phpunit
+script: vendor/bin/phpunit --coverage-clover=build/logs/clover.xml
 
 addons:
     code_climate:
