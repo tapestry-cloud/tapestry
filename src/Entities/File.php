@@ -298,7 +298,7 @@ class File implements ProjectFileInterface
     }
 
     /**
-     * Return true if this file has data set for $key
+     * Return true if this file has data set for $key.
      * @param $key
      * @return bool
      */
