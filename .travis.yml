@@ -23,14 +23,11 @@ before_install:
   - travis_retry composer self-update
 
 install:
-  - travis_retry composer install --no-interaction --prefer-dist --no-suggest;
+  - travis_retry composer install --no-interaction --prefer-dist --dev --no-suggest;
 
 script:
   - mkdir -p build/logs
   - vendor/bin/phpunit --coverage-clover build/logs/clover.xml
-
-after_success:
-  - vendor/bin/test-reporter --coverage-report=./build/logs/clover.xml
 
 addons:
     code_climate:
