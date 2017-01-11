@@ -14,7 +14,7 @@ elixir(function (mix) {
     mix.less('main.less')
         .imagemin()
         .copy(elixir.config.assetsPath + '/img/favicon.ico', elixir.config.publicPath + '/img/favicon.ico')
-        .exec('php ../bin/tapestry.php build --quiet --env=' + env, ['./source/*', './source/**/*', '!./source/_assets/**/*'])
+        .exec('tapestry build --quiet --env=' + env, ['./source/*', './source/**/*', '!./source/_assets/**/*'])
         .browserSync({
             port: port,
             server: {baseDir: 'build_' + env},
