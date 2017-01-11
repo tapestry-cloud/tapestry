@@ -15,6 +15,17 @@ use League\Plates\Template\Template as PlatesTemplate;
 class Template extends PlatesTemplate
 {
     /**
+     * Instance of the template engine.
+     * @var Engine
+     */
+    protected $engine;
+
+    /**
+     * @var File|null
+     */
+    private $file = null;
+
+    /**
      * Create new Template instance.
      *
      * @param Engine $engine
@@ -33,7 +44,7 @@ class Template extends PlatesTemplate
      *
      * @return string|null
      */
-    protected function section($name, $default = null)
+    public function section($name, $default = null)
     {
         if ($name === 'content' && ! isset($this->sections['content']) && isset($this->data['content'])) {
             return $this->data['content'];
@@ -46,21 +57,32 @@ class Template extends PlatesTemplate
         return $this->sections[$name];
     }
 
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    public function setFile(File $file)
+    {
+        $this->file = $file;
+    }
+
     /**
      * Render the File.
      *
      * @param File $file
-     * @param $tmpDirectory
-     *
      * @throws \Exception
-     *
      * @return string
      */
-    public function renderFile(File $file, $tmpDirectory)
+    public function renderFile(File $file)
     {
+        $this->file = $file;
+        $tmpDirectory = $this->engine->getProject()->currentWorkingDirectory.DIRECTORY_SEPARATOR.'.tmp';
+
         if ($layoutName = $file->getData('layout')) {
-            $this->layoutName = (! strpos('_templates', $layoutName)) ? '_templates'.DIRECTORY_SEPARATOR.$layoutName : $layoutName;
+            $this->layoutName = (strpos('_templates', $layoutName) === false) ? '_templates'.DIRECTORY_SEPARATOR.$layoutName : $layoutName;
             $this->layoutData = $file->getData();
+            $this->engine->getProject()->get('file_layout_cache')->merge([$this->file->getUid() => [$this->layoutName]]);
         }
 
         try {
@@ -88,6 +110,7 @@ class Template extends PlatesTemplate
 
             if (isset($this->layoutName)) {
                 $layout = $this->engine->make($this->layoutName);
+                $layout->setFile($this->file);
                 $layout->sections = array_merge($this->sections, ['content' => $content]);
                 $content = $layout->render($this->layoutData);
             }
@@ -100,5 +123,18 @@ class Template extends PlatesTemplate
 
             throw $e;
         }
+    }
+
+    /**
+     * Set the template's layout.
+     * @param  string $name
+     * @param  array $data
+     * @return void
+     */
+    public function layout($name, array $data = [])
+    {
+        $this->layoutName = $name;
+        $this->layoutData = $data;
+        $this->engine->getProject()->get('file_layout_cache')->merge([$this->file->getUid() => [$this->layoutName]]);
     }
 }

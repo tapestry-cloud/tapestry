@@ -99,7 +99,8 @@ class Permalink
     private function prettify($text)
     {
         if (strpos($this->template, '{ext}') !== false || strpos($text, '.') !== false) {
-            if (strpos($text, 'index') === false) {
+            // Check to see if the file is index.html already
+            if (strpos($text, 'index.') === false) {
                 $parts = explode('.', $text);
                 $text = array_shift($parts);
                 $ext = array_shift($parts);
