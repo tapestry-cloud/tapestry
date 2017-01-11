@@ -3,20 +3,7 @@ layout: default
 title: My Website
 use:
     - blog
-    - blog_categories
 ---
-
-<section class="py2 center">
-    <h1 class="h1 regular m0 mt4">Blog</h1>
-
-    <ul class="list-reset list-inline h6 mono pt1 red border-top">
-        <?php foreach(array_keys($blog_categories_items) as $item){
-            ?><li class="mx1"><a href="<?= $this->url('/blog/categories/' . str_slug($item)) ?>"><?= $item ?></a></li><?php
-        }?>
-    </ul>
-</section>
-
-
 
 <ul>
 <?php
@@ -31,9 +18,3 @@ use:
     }
 ?>
 </ul>
-
-<div class="center">
-    <?php if (count($blog_items) > 6){ ?>
-        <a href="<?= $this->url('blog') ?>">More&hellip;</a>
-    <?php } ?>
-</div>
