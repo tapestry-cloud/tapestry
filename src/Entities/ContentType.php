@@ -208,7 +208,7 @@ class ContentType
                     $file->setContent($file->getFileContent());
                 }
 
-                if ($generator = $file->getData('generator')) {
+                if ($file->hasData('generator')) {
                     $project->replaceFile($file, new FileGenerator($file));
                 }
             }

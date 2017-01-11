@@ -89,7 +89,7 @@ class MarkdownRenderer implements RendererInterface
     public function mutateFile(File &$file)
     {
         // If markdown file has a layout associated with it, we need to ensure it gets rendered within that
-        if ($layout = $file->getData('layout')) {
+        if ($file->hasData('layout')) {
             $file->setExt('phtml');     // Templates are managed by the phtml renderer
             $file->setRendered(false);  // Set rendered to false so that within Compile.php's Execute Renderers loop it gets re-rendered
         }
