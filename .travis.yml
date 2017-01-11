@@ -25,8 +25,13 @@ before_install:
 install:
   - travis_retry composer install --no-interaction --prefer-dist --no-suggest;
 
-script: vendor/bin/phpunit
+script:
+  - mkdir -p build/logs
+  - vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+
+after_success:
+  - vendor/bin/test-reporter
 
 addons:
     code_climate:
-        repo_token: b6debbe390df91a295cbbda324e1f48466b85efa97afc0765de49b783c000211
+        repo_token: $CODECLIMATE_REPO_TOKEN
