@@ -359,8 +359,8 @@ class ArrayContainer implements ArrayAccess, Iterator
      */
     public function current()
     {
-        $k = array_keys($this->items);
-        $var = $this->items[$k[$this->index]];
+        $keys = array_keys($this->items);
+        $var = $this->items[$keys[$this->index]];
 
         return $var;
     }
@@ -390,8 +390,8 @@ class ArrayContainer implements ArrayAccess, Iterator
      */
     public function key()
     {
-        $k = array_keys($this->items);
-        $var = $k[$this->index];
+        $keys = array_keys($this->items);
+        $var = $keys[$this->index];
 
         return $var;
     }
@@ -408,9 +408,9 @@ class ArrayContainer implements ArrayAccess, Iterator
      */
     public function valid()
     {
-        $k = array_keys($this->items);
+        $keys = array_keys($this->items);
 
-        return isset($k[$this->index]);
+        return isset($keys[$this->index]);
     }
 
     /**
