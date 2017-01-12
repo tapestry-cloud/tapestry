@@ -69,7 +69,6 @@ class Taxonomy
      * the files date.
      *
      * @param string $order
-     *
      * @return array
      */
     public function getFileList($order = 'desc')
