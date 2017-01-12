@@ -8,6 +8,11 @@ engines:
     enabled: true
   phpmd:
     enabled: true
+    checks:
+      CleanCode/ElseExpression:
+        enabled: false
+      Controversial/Superglobals:
+        enabled: false
   phpcodesniffer:
     enabled: true
 ratings:
