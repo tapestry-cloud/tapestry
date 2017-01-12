@@ -85,10 +85,7 @@ class ContentType
         // @todo for #31 look into this
         if (isset($settings['taxonomies'])) {
             foreach ($settings['taxonomies'] as $taxonomy) {
-                $this->taxonomies[$taxonomy] = new Taxonomy($taxonomy, [
-                    'template'  => $this->template.'/list-'.$taxonomy.'.phtml',
-                    'permalink' => $this->name.'/'.$taxonomy.'/{?page}',
-                ]);
+                $this->taxonomies[$taxonomy] = new Taxonomy($taxonomy);
             }
         }
 
