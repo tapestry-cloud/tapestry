@@ -53,8 +53,5 @@ class TaxonomyArchiveGeneratorTest extends CommandTestBase
 
         $this->assertTrue($indexFile->hasData('blog_categories_items'));
         $this->assertTrue($indexFile->hasData('blog_items'));
-
-        $n = 1;
-
     }
 }
