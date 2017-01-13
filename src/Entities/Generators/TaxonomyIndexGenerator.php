@@ -9,7 +9,12 @@ class TaxonomyIndexGenerator extends FileGenerator
     public function generate(Project $project)
     {
         if (! $this->file->hasData('use')) {
-            return $this->file; //@todo this should return a stripped version of the generator, otherwise you will get infinite loops?
+            $this->file->setData([
+                'generator' => array_filter($this->file->getData('generator'), function ($value) {
+                    return $value !== 'TaxonomyIndexGenerator';
+                }),
+            ]);
+            return $this->file;
         }
 
         $newFile = clone $this->file;
