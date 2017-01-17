@@ -2,6 +2,7 @@
 
 namespace Tapestry\Tests;
 
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Tester\ApplicationTester;
 use Symfony\Component\Filesystem\Filesystem;
 use Tapestry\Console\Application;
@@ -123,7 +124,7 @@ abstract class CommandTestBase extends \PHPUnit_Framework_TestCase
      */
     private function getCli(array $arguments = [])
     {
-        $tapestry = new \Tapestry\Tapestry($arguments);
+        $tapestry = new \Tapestry\Tapestry(new ArrayInput($arguments));
 
         /** @var Application $cli */
         $cli = $tapestry[Application::class];

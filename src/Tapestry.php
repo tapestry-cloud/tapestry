@@ -7,8 +7,8 @@ use League\Event\Emitter;
 use League\Container\Container;
 use League\Container\ContainerInterface;
 use League\Container\ReflectionContainer;
+use Symfony\Component\Console\Input\Input;
 use League\Container\ContainerAwareInterface;
-use Symfony\Component\Console\Input\ArgvInput;
 use League\Container\ServiceProvider\ServiceProviderInterface;
 
 class Tapestry implements ContainerAwareInterface, ArrayAccess
@@ -35,22 +35,21 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
     /**
      * Tapestry constructor.
      *
-     * @param array $arguments
+     * @param Input $arguments
      */
-    public function __construct($arguments = [])
+    public function __construct(Input $arguments)
     {
-        //if (php_sapi_name() === 'cli') {
-            $input = new ArgvInput();
-        if ((! $siteEnvironment = $input->getParameterOption('--env')) && (! $siteEnvironment = $input->getParameterOption('-e'))) {
-            $siteEnvironment = (isset($arguments['--env'])) ? $arguments['--env'] : 'local';
-        }
-        if (! $siteDirectory = $input->getParameterOption('--site-dir')) {
-            $siteDirectory = (isset($arguments['--site-dir'])) ? $arguments['--site-dir'] : getcwd();
-        }
-        //}
+        $this['environment'] = 'local';
+        $this['currentWorkingDirectory'] = getcwd();
 
-        $this['environment'] = $siteEnvironment;
-        $this['currentWorkingDirectory'] = $siteDirectory;
+        if ($env = $arguments->getParameterOption('--env')) {
+            $this['environment'] = $env;
+        }
+
+        if ($cwd = $arguments->getParameterOption('--site-dir')) {
+            $this['currentWorkingDirectory'] = $cwd;
+        }
+
         $this['events'] = new Emitter();
 
         $this->boot();
