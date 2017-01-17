@@ -2,6 +2,7 @@
 
 namespace Tapestry\Tests;
 
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
 use Tapestry\Entities\Collections\FlatCollection;
 use Tapestry\Entities\File;
@@ -17,7 +18,7 @@ class TaxonomyArchiveGeneratorTest extends CommandTestBase
         $this->copyDirectory('assets/build_test_23/src', '_tmp');
 
         // <Bootstrap Tapestry>
-        $tapestry = new Tapestry();
+        $tapestry = new Tapestry(new ArrayInput([]));
         $generator = new Generator($tapestry->getContainer()->get('Compile.Steps'), $tapestry);
         $project = new Project(__DIR__ . DIRECTORY_SEPARATOR . '_tmp', 'testing');
 
