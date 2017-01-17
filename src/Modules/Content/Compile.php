@@ -153,7 +153,8 @@ class Compile implements Step
         }
     }
 
-    private function checkForFileGeneratorError(OutputInterface $output) {
+    private function checkForFileGeneratorError(OutputInterface $output)
+    {
         if (! $this->allFilesGenerated()) {
             foreach ($this->files as &$file) {
                 if ($uses = $file->getData('generator')) {
