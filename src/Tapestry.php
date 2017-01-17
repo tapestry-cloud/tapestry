@@ -7,9 +7,9 @@ use League\Event\Emitter;
 use League\Container\Container;
 use League\Container\ContainerInterface;
 use League\Container\ReflectionContainer;
+use Symfony\Component\Console\Input\Input;
 use League\Container\ContainerAwareInterface;
 use League\Container\ServiceProvider\ServiceProviderInterface;
-use Symfony\Component\Console\Input\Input;
 
 class Tapestry implements ContainerAwareInterface, ArrayAccess
 {
