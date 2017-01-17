@@ -30,7 +30,7 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
      *
      * @var string
      */
-    const VERSION = '1.0.5';
+    const VERSION = '1.0.6-dev';
 
     /**
      * Tapestry constructor.
