@@ -2,7 +2,7 @@
 [![Development Build Status](https://travis-ci.org/carbontwelve/tapestry.svg?branch=development)](https://travis-ci.org/carbontwelve/tapestry)
 [![StyleCI](https://styleci.io/repos/73839963/shield?branch=master)](https://styleci.io/repos/73839963)
 [![Code Climate](https://codeclimate.com/github/carbontwelve/tapestry/badges/gpa.svg)](https://codeclimate.com/github/carbontwelve/tapestry)
-[![Packagist](https://img.shields.io/packagist/v/symfony/symfony.svg?style=flat-square)](https://packagist.org/packages/carbontwelve/tapestry)
+[![Packagist](https://img.shields.io/packagist/v/carbontwelve/tapestry.svg?style=flat-square)](https://packagist.org/packages/carbontwelve/tapestry)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 [![Gitmoji](https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg?style=flat-square)](https://gitmoji.carloscuesta.me)
 [![ghit.me](https://ghit.me/badge.svg?repo=carbontwelve/tapestry)](https://ghit.me/repo/carbontwelve/tapestry)
