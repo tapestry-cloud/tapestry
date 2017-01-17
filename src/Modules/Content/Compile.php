@@ -70,7 +70,10 @@ class Compile implements Step
         $cache = $project->get('cache');
 
         $this->iterateProjectContentTypes($contentTypes, $project, $output);
-        $this->collectProjectFilesUseData($project, $output);
+        $this->collectProjectFilesUseData($project);
+        if (! $this->checkForFileGeneratorError($output)) {
+            return false;
+        }
         $this->executeContentRenderers($contentRenderers);
         $this->mutateFilesToFilesystemInterfaces($project, $cache);
 
@@ -118,9 +121,8 @@ class Compile implements Step
      * Where a file has a use statement, we now need to collect the associated use data and inject it.
      *
      * @param Project $project
-     * @param OutputInterface $output
      */
-    private function collectProjectFilesUseData(Project $project, OutputInterface $output)
+    private function collectProjectFilesUseData(Project $project)
     {
         /** @var File $file */
         foreach ($project['compiled'] as $file) {
@@ -149,7 +151,10 @@ class Compile implements Step
                 $file->setData([$use.'_items' => $items]);
             }
         }
+    }
 
+    private function checkForFileGeneratorError(OutputInterface $output)
+    {
         if (! $this->allFilesGenerated()) {
             foreach ($this->files as &$file) {
                 if ($uses = $file->getData('generator')) {
@@ -160,8 +165,10 @@ class Compile implements Step
             }
             unset($file);
 
-            exit(1);
+            return false;
         }
+
+        return true;
     }
 
     /**

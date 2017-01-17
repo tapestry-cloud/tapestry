@@ -14,25 +14,17 @@
 <body class="text-center">
 
 <header>
-    <div class="flex justify-end bg-black clearfix">
+    <div class="flex justify-end bg-black white clearfix">
         <div class="flex items-center max-width-4 col-11 p2 mx-auto">
             <h1 class="h5 m0 flex flex-column col-6 caps white"><?= $this->site('title') ?></h1>
             <nav class="flex flex-column col-6 right-align">
-                <ul class="list-reset list-inline m0">
-                    <li class="px1"><a href="<?= $this->url() ?>">Home</a></li>
-                    <li class="px1"><a href="<?= $this->url('/blog') ?>">Archive</a></li>
-                    <li class="px1"><a href="<?= $this->url('/blog/categories') ?>">Categories</a></li>
-                    <li class="px1"><a href="<?= $this->url('/blog/tags') ?>">Tags</a></li>
-                    <li class="px1"><a href="<?= $this->url('/atom.xml') ?>" target="_blank">Feed</a></li>
-                </ul>
+                <a href="<?= $this->url() ?>">Home</a>
             </nav>
         </div>
     </div>
-
-    <div class="v40 bg-cover bg-center vignette" style="background-image: url(http://jxnblk.s3.amazonaws.com/basscss/assets/bkly-map.jpg)"></div>
 </header>
 
-<main class="max-width-4 mx-auto px3">
+<main class="max-width-4 mx-auto p3">
     <?= $this->section('content') ?>
 </main>
 </body>

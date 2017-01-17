@@ -7,25 +7,11 @@ use Tapestry\Entities\Collections\Collection;
 class Taxonomy
 {
     /**
-     * The developer friendly name of this content type.
+     * The name of this Taxonomy.
      *
      * @var string
      */
     private $name;
-
-    /**
-     * The template path relative to the source path.
-     *
-     * @var string
-     */
-    private $template = '';
-
-    /**
-     * The permalink template for this content type. e.g. /%slug%.html.
-     *
-     * @var string
-     */
-    private $permalink;
 
     /**
      * Collection of Entities\File that this Taxonomy has collected.
@@ -38,23 +24,27 @@ class Taxonomy
      * ContentType constructor.
      *
      * @param string $name
-     * @param array  $settings
      */
-    public function __construct($name, array $settings)
+    public function __construct($name)
     {
         $this->name = $name;
-
-        $this->template = (isset($settings['template']) ? $settings['template'] : $this->name.'.phtml');
-        $this->permalink = (isset($settings['permalink']) ? $settings['permalink'] : ($this->name.'/{page}'));
-
         $this->items = new Collection();
     }
 
+    /**
+     * The taxonomy name.
+     *
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * @param File $file
+     * @param $classification
+     */
     public function addFile(File $file, $classification)
     {
         if (! $this->items->has($classification)) {
@@ -69,7 +59,6 @@ class Taxonomy
      * the files date.
      *
      * @param string $order
-     *
      * @return array
      */
     public function getFileList($order = 'desc')
@@ -81,9 +70,9 @@ class Taxonomy
             }
             if ($order === 'asc') {
                 return ($a < $b) ? -1 : 1;
-            } else {
-                return ($a > $b) ? -1 : 1;
             }
+
+            return ($a > $b) ? -1 : 1;
         });
 
         return $this->items->all();

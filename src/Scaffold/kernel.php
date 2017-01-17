@@ -5,7 +5,7 @@ namespace Site;
 use Tapestry\Tapestry;
 use Tapestry\Modules\Kernel\KernelInterface;
 
-class kernel implements KernelInterface
+class SiteKernel implements KernelInterface
 {
     /**
      * @var Tapestry
@@ -22,6 +22,21 @@ class kernel implements KernelInterface
         $this->tapestry = $tapestry;
     }
 
+    /**
+     * This method is executed by Tapestry when the Kernel is registered.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        // ...
+    }
+
+    /**
+     * This method of executed by Tapestry as part of the build process.
+     *
+     * @return void
+     */
     public function boot()
     {
         // ...
