@@ -7,9 +7,9 @@ use League\Event\Emitter;
 use League\Container\Container;
 use League\Container\ContainerInterface;
 use League\Container\ReflectionContainer;
-use Symfony\Component\Console\Input\Input;
 use League\Container\ContainerAwareInterface;
 use League\Container\ServiceProvider\ServiceProviderInterface;
+use Symfony\Component\Console\Input\InputInterface;
 
 class Tapestry implements ContainerAwareInterface, ArrayAccess
 {
@@ -35,9 +35,19 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
     /**
      * Tapestry constructor.
      *
-     * @param Input $arguments
+     * @param InputInterface $arguments
      */
-    public function __construct(Input $arguments)
+    public function __construct(InputInterface $arguments)
+    {
+        $this->parseInput($arguments);
+        $this['events'] = new Emitter();
+        $this->boot();
+    }
+
+    /**
+     * @param InputInterface $arguments
+     */
+    private function parseInput(InputInterface $arguments)
     {
         $this['environment'] = 'local';
         $this['currentWorkingDirectory'] = getcwd();
@@ -50,9 +60,20 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
             $this['currentWorkingDirectory'] = $cwd;
         }
 
-        $this['events'] = new Emitter();
+        // @todo have this implemented for #82
+        $this['destinationDirectory'] = $this['currentWorkingDirectory'] . DIRECTORY_SEPARATOR . 'build_' . $this['environment'];
 
-        $this->boot();
+        if ($dist = $arguments->getParameterOption('--dist-dir')) {
+            $this['destinationDirectory'] = $dist;
+        }
+    }
+
+    /**
+     * @param InputInterface $arguments
+     */
+    public function setInput(InputInterface $arguments)
+    {
+        $this->parseInput($arguments);
     }
 
     /**
@@ -91,7 +112,7 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
      */
     public function getContainer()
     {
-        if (! isset($this->container)) {
+        if (!isset($this->container)) {
             $this->setContainer(new Container());
         }
 

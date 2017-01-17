@@ -49,6 +49,8 @@ class BuildCommand extends Command
 
     protected function fire()
     {
+        $this->tapestry->setInput($this->input);
+
         $currentWorkingDirectory = $this->input->getOption('site-dir');
         $environment = $this->input->getOption('env');
 
