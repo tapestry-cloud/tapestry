@@ -7,7 +7,7 @@ use Tapestry\Entities\Collections\Collection;
 class Taxonomy
 {
     /**
-     * The name of this Taxonomy
+     * The name of this Taxonomy.
      *
      * @var string
      */
@@ -71,6 +71,7 @@ class Taxonomy
             if ($order === 'asc') {
                 return ($a < $b) ? -1 : 1;
             }
+
             return ($a > $b) ? -1 : 1;
         });
 

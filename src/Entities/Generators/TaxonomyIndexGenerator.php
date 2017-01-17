@@ -14,6 +14,7 @@ class TaxonomyIndexGenerator extends FileGenerator
                     return $value !== 'TaxonomyIndexGenerator';
                 }),
             ]);
+
             return $this->file;
         }
 
