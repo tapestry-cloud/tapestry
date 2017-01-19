@@ -73,7 +73,7 @@ class ContentTypeFactory
     /**
      * Return all ContentTypes registered with this factory.
      *
-     * @return array
+     * @return array|\Tapestry\Entities\ContentType[]
      */
     public function all()
     {
