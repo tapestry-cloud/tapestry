@@ -3,7 +3,6 @@
 namespace Tapestry\Console;
 
 use Tapestry\Tapestry;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Application as ConsoleApplication;
 
 class Application extends ConsoleApplication
@@ -22,15 +21,13 @@ class Application extends ConsoleApplication
     public function __construct(Tapestry $tapestry, array $commands = [])
     {
         parent::__construct('Tapestry', $tapestry::VERSION);
-        $this->getDefinition()->addOptions(
-            [
-                new InputOption('--site-dir', null, InputOption::VALUE_REQUIRED, 'The site directory', getcwd()),
-                new InputOption('--env', 'e', InputOption::VALUE_REQUIRED, 'Site environment', 'local'),
-                new InputOption('--stopwatch', 's', InputOption::VALUE_NONE, 'Time how long the build took'),
-            ]
-        );
         $this->tapestry = $tapestry;
         $this->addCommands($commands);
+    }
+
+    protected function getDefaultInputDefinition()
+    {
+        return new DefaultInputDefinition();
     }
 
     /**

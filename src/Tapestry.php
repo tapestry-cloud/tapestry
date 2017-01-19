@@ -7,9 +7,11 @@ use League\Event\Emitter;
 use League\Container\Container;
 use League\Container\ContainerInterface;
 use League\Container\ReflectionContainer;
-use Symfony\Component\Console\Input\Input;
 use League\Container\ContainerAwareInterface;
+use Symfony\Component\Console\Input\InputInterface;
+use Tapestry\Exceptions\InvalidConsoleInputException;
 use League\Container\ServiceProvider\ServiceProviderInterface;
+use Tapestry\Exceptions\InvalidCurrentWorkingDirectoryException;
 
 class Tapestry implements ContainerAwareInterface, ArrayAccess
 {
@@ -35,24 +37,63 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
     /**
      * Tapestry constructor.
      *
-     * @param Input $arguments
+     * InputInterface need only contain the command line options; this is because some of the service providers need to
+     * know options such as --site-dir but do not need to know command arguments.
+     *
+     * @param InputInterface $input
      */
-    public function __construct(Input $arguments)
+    public function __construct(InputInterface $input)
     {
+        $this->setInput($input);
+        $this['events'] = new Emitter();
+        $this->boot();
+    }
+
+    /**
+     * @param array $options
+     */
+    private function parseOptions(array $options = [])
+    {
+        $this['cmd_options'] = $options;
         $this['environment'] = 'local';
         $this['currentWorkingDirectory'] = getcwd();
 
-        if ($env = $arguments->getParameterOption('--env')) {
-            $this['environment'] = $env;
+        if (isset($options['env'])) {
+            $this['environment'] = $options['env'];
         }
 
-        if ($cwd = $arguments->getParameterOption('--site-dir')) {
-            $this['currentWorkingDirectory'] = $cwd;
+        if (isset($options['site-dir'])) {
+            $this['currentWorkingDirectory'] = $options['site-dir'];
         }
 
-        $this['events'] = new Emitter();
+        $this['destinationDirectory'] = $this['currentWorkingDirectory'].DIRECTORY_SEPARATOR.'build_'.$this['environment'];
 
-        $this->boot();
+        if (isset($options['dist-dir'])) {
+            $this['destinationDirectory'] = $options['dist-dir'];
+        }
+    }
+
+    /**
+     * @throws InvalidConsoleInputException
+     */
+    public function validateInput()
+    {
+        if (! file_exists($this['currentWorkingDirectory'])) {
+            throw new InvalidCurrentWorkingDirectoryException('The site directory ['.$this['currentWorkingDirectory'].'] does not exist.');
+        }
+
+        if (! realpath($this['currentWorkingDirectory'])) {
+            throw new InvalidConsoleInputException('There was an error while identifying the site directory, do you have read/write permissions?');
+        }
+    }
+
+    /**
+     * @param InputInterface $arguments
+     * @throws InvalidConsoleInputException
+     */
+    public function setInput(InputInterface $arguments)
+    {
+        $this->parseOptions($arguments->getOptions());
     }
 
     /**
@@ -64,6 +105,7 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
     {
         $this->register(\Tapestry\Providers\ProjectConfigurationServiceProvider::class);
         $this->register(\Tapestry\Providers\ProjectKernelServiceProvider::class);
+        $this->register(\Tapestry\Providers\ProjectServiceProvider::class);
         $this->register(\Tapestry\Providers\CompileStepsServiceProvider::class);
         $this->register(\Tapestry\Providers\CommandServiceProvider::class);
         $this->register(\Tapestry\Providers\PlatesServiceProvider::class);
