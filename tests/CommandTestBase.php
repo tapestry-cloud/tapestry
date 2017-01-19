@@ -7,7 +7,7 @@ use Symfony\Component\Console\Tester\ApplicationTester;
 use Symfony\Component\Filesystem\Filesystem;
 use Tapestry\Console\Application;
 
-require_once __DIR__.'/../src/bootstrap.php';
+require_once __DIR__ . '/../src/bootstrap.php';
 
 abstract class CommandTestBase extends \PHPUnit_Framework_TestCase
 {
@@ -33,7 +33,7 @@ abstract class CommandTestBase extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-        self::$tmpPath = __DIR__.DIRECTORY_SEPARATOR.'_tmp';
+        self::$tmpPath = __DIR__ . DIRECTORY_SEPARATOR . '_tmp';
         $fileSystem = new Filesystem();
         $fileSystem->mkdir(self::$tmpPath);
         chdir(self::$tmpPath);
@@ -59,8 +59,8 @@ abstract class CommandTestBase extends \PHPUnit_Framework_TestCase
 
     protected function copyDirectory($from, $to)
     {
-        $from = __DIR__.DIRECTORY_SEPARATOR.$from;
-        $to = __DIR__.DIRECTORY_SEPARATOR.$to;
+        $from = __DIR__ . DIRECTORY_SEPARATOR . $from;
+        $to = __DIR__ . DIRECTORY_SEPARATOR . $to;
         $directoryContent = new \RecursiveDirectoryIterator($from, \FilesystemIterator::SKIP_DOTS);
         $files = new \RecursiveIteratorIterator($directoryContent, \RecursiveIteratorIterator::CHILD_FIRST);
         /** @var \SplFileInfo $item */
@@ -80,13 +80,18 @@ abstract class CommandTestBase extends \PHPUnit_Framework_TestCase
      * @param string $expected
      * @param string $actual
      * @param string $message
-     * @param bool   $canonicalize
-     * @param bool   $ignoreCase
+     * @param bool $canonicalize
+     * @param bool $ignoreCase
      *
      * @since  Method available since Release 3.2.14
      */
-    public static function assertFileEquals($expected, $actual, $message = '', $canonicalize = false, $ignoreCase = false)
-    {
+    public static function assertFileEquals(
+        $expected,
+        $actual,
+        $message = '',
+        $canonicalize = false,
+        $ignoreCase = false
+    ) {
         self::assertFileExists($expected, $message);
         self::assertFileExists($actual, $message);
         self::assertEquals(
@@ -104,7 +109,7 @@ abstract class CommandTestBase extends \PHPUnit_Framework_TestCase
      * Using the cli application itself, execute a command that already exists.
      *
      * @param string $command
-     * @param array  $arguments
+     * @param array $arguments
      *
      * @return ApplicationTester
      */
@@ -126,8 +131,17 @@ abstract class CommandTestBase extends \PHPUnit_Framework_TestCase
     {
         $definitions = new \Tapestry\Console\DefaultInputDefinition();
         $definitions->setArguments();
+        $argvInput = [];
 
-        $tapestry = new \Tapestry\Tapestry(new ArrayInput($arguments, $definitions));
+        foreach ($arguments as $key => $value) {
+            if (is_numeric($key)){
+                $argvInput[$value] = true;
+                continue;
+            }
+            $argvInput[$key] = $value;
+        }
+
+        $tapestry = new \Tapestry\Tapestry(new ArrayInput($argvInput, $definitions));
 
         /** @var Application $cli */
         $cli = $tapestry[Application::class];
