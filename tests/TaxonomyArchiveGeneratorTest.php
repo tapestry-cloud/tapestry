@@ -20,7 +20,6 @@ class TaxonomyArchiveGeneratorTest extends CommandTestBase
 
         // <Bootstrap Tapestry>
         $definitions = new DefaultInputDefinition();
-        $definitions->setArguments();
 
         $tapestry = new Tapestry(new ArrayInput([
             '--site-dir' => __DIR__ . DIRECTORY_SEPARATOR . '_tmp',

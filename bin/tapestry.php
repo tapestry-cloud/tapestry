@@ -10,8 +10,6 @@ if (isset($include)) {
 }
 
 $definitions = new \Tapestry\Console\DefaultInputDefinition();
-$definitions->setArguments();
-
 $tapestry = new Tapestry\Tapestry(new ArgvInput(null, $definitions));
 
 /** @var Application $cli */
