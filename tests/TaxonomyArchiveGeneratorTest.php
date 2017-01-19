@@ -18,13 +18,15 @@ class TaxonomyArchiveGeneratorTest extends CommandTestBase
         $this->copyDirectory('assets/build_test_23/src', '_tmp');
 
         // <Bootstrap Tapestry>
-        $tapestry = new Tapestry(new ArrayInput([]));
+        $tapestry = new Tapestry(new ArrayInput([
+            '--site-dir' => __DIR__ . DIRECTORY_SEPARATOR . '_tmp',
+            '--env' => 'testing'
+        ]));
         $generator = new Generator($tapestry->getContainer()->get('Compile.Steps'), $tapestry);
-        $project = new Project(__DIR__ . DIRECTORY_SEPARATOR . '_tmp', 'testing');
 
+        /** @var Project $project */
+        $project = $tapestry->getContainer()->get(Project::class);
         $project->set('cmd_options', []);
-
-        $tapestry->getContainer()->add(Project::class, $project);
         $generator->generate($project, new NullOutput);
         // </Bootstrap Tapestry>
 
