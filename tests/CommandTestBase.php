@@ -124,7 +124,10 @@ abstract class CommandTestBase extends \PHPUnit_Framework_TestCase
      */
     private function getCli(array $arguments = [])
     {
-        $tapestry = new \Tapestry\Tapestry(new ArrayInput($arguments));
+        $definitions = new \Tapestry\Console\DefaultInputDefinition();
+        $definitions->setArguments();
+
+        $tapestry = new \Tapestry\Tapestry(new ArrayInput($arguments, $definitions));
 
         /** @var Application $cli */
         $cli = $tapestry[Application::class];
