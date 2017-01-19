@@ -35,36 +35,37 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
     /**
      * Tapestry constructor.
      *
-     * @param InputInterface $arguments
+     * @param InputInterface $input
      */
-    public function __construct(InputInterface $arguments)
+    public function __construct(InputInterface $input)
     {
-        $this->parseInput($arguments);
+        $this->parseOptions($input->getOptions());
         $this['events'] = new Emitter();
         $this->boot();
     }
 
     /**
-     * @param InputInterface $arguments
+     * @param array $options
      */
-    private function parseInput(InputInterface $arguments)
+    private function parseOptions(array $options = [])
     {
+        $this['cmd_options'] = $options;
         $this['environment'] = 'local';
         $this['currentWorkingDirectory'] = getcwd();
 
-        if ($env = $arguments->getParameterOption('--env')) {
-            $this['environment'] = $env;
+        if (isset($options['env'])) {
+            $this['environment'] = $options['env'];
         }
 
-        if ($cwd = $arguments->getParameterOption('--site-dir')) {
-            $this['currentWorkingDirectory'] = $cwd;
+        if (isset($options['site-dir'])) {
+            $this['currentWorkingDirectory'] = $options['site-dir'];
         }
 
         // @todo have this implemented for #82
         $this['destinationDirectory'] = $this['currentWorkingDirectory'] . DIRECTORY_SEPARATOR . 'build_' . $this['environment'];
 
-        if ($dist = $arguments->getParameterOption('--dist-dir')) {
-            $this['destinationDirectory'] = $dist;
+        if (isset($options['dist-dir'])) {
+            $this['destinationDirectory'] = $options['dist-dir'];
         }
     }
 
@@ -73,7 +74,7 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
      */
     public function setInput(InputInterface $arguments)
     {
-        $this->parseInput($arguments);
+        $this->parseOptions($arguments->getOptions());
     }
 
     /**
