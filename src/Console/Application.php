@@ -3,7 +3,6 @@
 namespace Tapestry\Console;
 
 use Tapestry\Tapestry;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Application as ConsoleApplication;
 
 class Application extends ConsoleApplication
