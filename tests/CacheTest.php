@@ -135,7 +135,7 @@ class CacheTest extends CommandTestBase
         $this->copyDirectory('/assets/build_test_21/src', '/_tmp');
 
         $module = new ReadCache(new Finder());
-        $project = new Project(__DIR__ . '/_tmp', 'test');
+        $project = new Project(__DIR__ . '/_tmp', __DIR__ . '/_tmp/build_test', 'test');
 
         $this->assertEquals(false, $project->has('cache'));
 
@@ -154,7 +154,7 @@ class CacheTest extends CommandTestBase
 
         unset($module, $project);
         $module = new ReadCache(new Finder());
-        $project = new Project(__DIR__ . '/_tmp', 'test');
+        $project = new Project(__DIR__ . '/_tmp', __DIR__ . '/_tmp/build_test', 'test');
         $module->__invoke($project, new NullOutput());
         $this->assertEquals(2, $project->get('cache')->count());
         $this->assertEquals('B', $project->get('cache')->getItem('A'));
@@ -176,7 +176,7 @@ class CacheTest extends CommandTestBase
         );
 
         $module = new ReadCache(new Finder());
-        $project = new Project(__DIR__ . '/_tmp', 'test');
+        $project = new Project(__DIR__ . '/_tmp', __DIR__ . '/_tmp/build_test', 'test');
         $module->__invoke($project, new NullOutput());
         $this->assertEquals(0, $project->get('cache')->count());
     }

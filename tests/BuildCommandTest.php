@@ -88,6 +88,19 @@ class BuildCommandTest extends CommandTestBase
         );
     }
 
+    public function testSiteDistOption()
+    {
+        $this->copyDirectory('assets/build_test_3/src', '_tmp');
+        $output = $this->runCommand('build', ['--quiet', '--dist-dir' => __DIR__ . '/_tmp/test_dist_dir']);
+
+        $this->assertEquals('', trim($output->getDisplay()));
+        $this->assertEquals(0, $output->getStatusCode());
+
+        $this->assertFileExists(__DIR__.'/_tmp/test_dist_dir/index.html');
+        $this->assertFileExists(__DIR__.'/_tmp/test_dist_dir/about/index.html');
+        $this->assertFileExists(__DIR__.'/_tmp/test_dist_dir/not-pretty.html');
+    }
+
 //
     //public function testFilterFunctionality()
     //{

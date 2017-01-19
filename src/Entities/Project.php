@@ -31,15 +31,16 @@ class Project extends ArrayContainer
     /**
      * Project constructor.
      *
-     * @param $currentWorkingDirectory
-     * @param $environment
+     * @param string $cwd
+     * @param string $dist
+     * @param string $environment
      */
-    public function __construct($currentWorkingDirectory, $environment)
+    public function __construct($cwd, $dist, $environment)
     {
-        $this->sourceDirectory = $currentWorkingDirectory.DIRECTORY_SEPARATOR.'source';
-        $this->destinationDirectory = $currentWorkingDirectory.DIRECTORY_SEPARATOR.'build_'.$environment;
+        $this->sourceDirectory = $cwd.DIRECTORY_SEPARATOR.'source';
+        $this->destinationDirectory = $dist;
 
-        $this->currentWorkingDirectory = $currentWorkingDirectory;
+        $this->currentWorkingDirectory = $cwd;
         $this->environment = $environment;
 
         parent::__construct(
