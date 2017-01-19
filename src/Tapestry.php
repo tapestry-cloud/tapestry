@@ -8,9 +8,9 @@ use League\Container\Container;
 use League\Container\ContainerInterface;
 use League\Container\ReflectionContainer;
 use League\Container\ContainerAwareInterface;
-use League\Container\ServiceProvider\ServiceProviderInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Tapestry\Exceptions\InvalidConsoleInputException;
+use League\Container\ServiceProvider\ServiceProviderInterface;
 use Tapestry\Exceptions\InvalidCurrentWorkingDirectoryException;
 
 class Tapestry implements ContainerAwareInterface, ArrayAccess
@@ -66,7 +66,7 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
             $this['currentWorkingDirectory'] = $options['site-dir'];
         }
 
-        $this['destinationDirectory'] = $this['currentWorkingDirectory'] . DIRECTORY_SEPARATOR . 'build_' . $this['environment'];
+        $this['destinationDirectory'] = $this['currentWorkingDirectory'].DIRECTORY_SEPARATOR.'build_'.$this['environment'];
 
         if (isset($options['dist-dir'])) {
             $this['destinationDirectory'] = $options['dist-dir'];
@@ -79,7 +79,7 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
     public function validateInput()
     {
         if (! file_exists($this['currentWorkingDirectory'])) {
-            throw new InvalidCurrentWorkingDirectoryException('The site directory ['. $this['currentWorkingDirectory'] .'] does not exist.');
+            throw new InvalidCurrentWorkingDirectoryException('The site directory ['.$this['currentWorkingDirectory'].'] does not exist.');
         }
 
         if (! realpath($this['currentWorkingDirectory'])) {
@@ -133,7 +133,7 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
      */
     public function getContainer()
     {
-        if (!isset($this->container)) {
+        if (! isset($this->container)) {
             $this->setContainer(new Container());
         }
 
