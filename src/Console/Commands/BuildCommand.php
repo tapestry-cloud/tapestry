@@ -2,11 +2,11 @@
 
 namespace Tapestry\Console\Commands;
 
-use Tapestry\Exceptions\InvalidConsoleInputException;
 use Tapestry\Tapestry;
 use Tapestry\Generator;
 use Tapestry\Entities\Project;
 use Symfony\Component\Console\Input\InputOption;
+use Tapestry\Exceptions\InvalidConsoleInputException;
 
 class BuildCommand extends Command
 {
@@ -53,8 +53,9 @@ class BuildCommand extends Command
         try {
             $this->tapestry->setInput($this->input);
             $this->tapestry->validateInput();
-        } catch (InvalidConsoleInputException $e){
-            $this->output->writeln('<error>[!]</error> '. $e->getMessage() .' Doing nothing and exiting.');
+        } catch (InvalidConsoleInputException $e) {
+            $this->output->writeln('<error>[!]</error> '.$e->getMessage().' Doing nothing and exiting.');
+
             return 1;
         }
 

@@ -24,9 +24,10 @@ class ProjectServiceProvider extends AbstractServiceProvider
     public function register()
     {
         $container = $this->getContainer();
-        $container->share(Project::class, function() use ($container) {
+        $container->share(Project::class, function () use ($container) {
             $project = new Project($container->get('currentWorkingDirectory'), $container->get('destinationDirectory'), $container->get('environment'));
             $project->set('cmd_options', $container->get('cmd_options'));
+
             return $project;
         });
     }

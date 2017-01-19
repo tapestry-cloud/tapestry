@@ -2,11 +2,12 @@
 
 namespace Tapestry\Console;
 
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
-use Symfony\Component\Console\Input\InputOption;
 
-class DefaultInputDefinition extends InputDefinition {
+class DefaultInputDefinition extends InputDefinition
+{
     public function __construct(array $definition = [])
     {
         $definition = array_merge($definition, [
