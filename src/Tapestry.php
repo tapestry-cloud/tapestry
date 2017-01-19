@@ -66,7 +66,6 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
             $this['currentWorkingDirectory'] = $options['site-dir'];
         }
 
-        // @todo have this implemented for #82
         $this['destinationDirectory'] = $this['currentWorkingDirectory'] . DIRECTORY_SEPARATOR . 'build_' . $this['environment'];
 
         if (isset($options['dist-dir'])) {
