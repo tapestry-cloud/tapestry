@@ -8,7 +8,11 @@ if (isset($include)) {
 } else {
     require_once __DIR__.'/../src/bootstrap.php';
 }
-$tapestry = new Tapestry\Tapestry(new ArgvInput());
+
+$definitions = new \Tapestry\Console\DefaultInputDefinition();
+$definitions->setArguments();
+
+$tapestry = new Tapestry\Tapestry(new ArgvInput(null, $definitions));
 
 /** @var Application $cli */
 $cli = $tapestry[Application::class];
