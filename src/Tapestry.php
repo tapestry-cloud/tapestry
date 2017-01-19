@@ -10,6 +10,8 @@ use League\Container\ReflectionContainer;
 use League\Container\ContainerAwareInterface;
 use League\Container\ServiceProvider\ServiceProviderInterface;
 use Symfony\Component\Console\Input\InputInterface;
+use Tapestry\Exceptions\InvalidConsoleInputException;
+use Tapestry\Exceptions\InvalidCurrentWorkingDirectoryException;
 
 class Tapestry implements ContainerAwareInterface, ArrayAccess
 {
@@ -39,7 +41,7 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
      */
     public function __construct(InputInterface $input)
     {
-        $this->parseOptions($input->getOptions());
+        $this->setInput($input);
         $this['events'] = new Emitter();
         $this->boot();
     }
@@ -70,7 +72,22 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
     }
 
     /**
+     * @throws InvalidConsoleInputException
+     */
+    public function validateInput()
+    {
+        if (! file_exists($this['currentWorkingDirectory'])) {
+            throw new InvalidCurrentWorkingDirectoryException('The site directory ['. $this['currentWorkingDirectory'] .'] does not exist.');
+        }
+
+        if (! realpath($this['currentWorkingDirectory'])) {
+            throw new InvalidConsoleInputException('There was an error while identifying the site directory, do you have read/write permissions?');
+        }
+    }
+
+    /**
      * @param InputInterface $arguments
+     * @throws InvalidConsoleInputException
      */
     public function setInput(InputInterface $arguments)
     {
