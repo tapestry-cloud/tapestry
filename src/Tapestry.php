@@ -37,6 +37,9 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
     /**
      * Tapestry constructor.
      *
+     * InputInterface need only contain the command line options; this is because some of the service providers need to
+     * know options such as --site-dir but do not need to know command arguments.
+     *
      * @param InputInterface $input
      */
     public function __construct(InputInterface $input)
