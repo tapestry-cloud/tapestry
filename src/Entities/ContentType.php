@@ -130,12 +130,19 @@ class ContentType
 
     /**
      * @param string $name
-     *
      * @return Taxonomy
      */
     public function getTaxonomy($name)
     {
         return $this->taxonomies[$name];
+    }
+
+    /**
+     * @return array|Taxonomy[]
+     */
+    public function getTaxonomies()
+    {
+        return $this->taxonomies;
     }
 
     /**
