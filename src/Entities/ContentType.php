@@ -114,6 +114,7 @@ class ContentType
 
     public function addFile(File $file)
     {
+        $file->setData(['contentType' => $this->name]);
         $this->itemsOrderCache = null;
         $this->items->set($file->getUid(), $file->getData('date')->getTimestamp());
 
