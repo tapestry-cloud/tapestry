@@ -128,8 +128,14 @@ class ContentTypeFactory
      */
     public function arrayAccessByKey($key)
     {
+        if (!isset($this->nameLookupTable[$key])) {
+            return null;
+        }
+
         if (isset($this->items[$this->nameLookupTable[$key]])) {
             return $this->items[$this->nameLookupTable[$key]];
         }
+
+        return null;
     }
 }
