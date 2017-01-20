@@ -107,6 +107,11 @@ class ContentType
         return $this->template;
     }
 
+    public function isEnabled()
+    {
+        return boolval($this->enabled);
+    }
+
     public function addFile(File $file)
     {
         $this->itemsOrderCache = null;
