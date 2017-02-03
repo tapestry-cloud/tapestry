@@ -42,14 +42,11 @@ class CommandServiceProvider extends AbstractServiceProvider
                 $this->getContainer()->get('Compile.Steps'),
             ]);
 
-        // SelfUpdateCommand depends upon argv existing; if it doesn't then do not load it.
-        if (isset($_SERVER['argv'])) {
-            $container->add(SelfUpdateCommand::class)
-                ->withArguments([
-                    \Symfony\Component\Filesystem\Filesystem::class,
-                    \Symfony\Component\Finder\Finder::class,
-                ]);
-        }
+        $container->add(SelfUpdateCommand::class)
+            ->withArguments([
+                \Symfony\Component\Filesystem\Filesystem::class,
+                \Symfony\Component\Finder\Finder::class,
+            ]);
 
         $container->add(Application::class)
             ->withArguments([
