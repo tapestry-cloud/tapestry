@@ -101,6 +101,15 @@ class BuildCommandTest extends CommandTestBase
         $this->assertFileExists(__DIR__.'/_tmp/test_dist_dir/not-pretty.html');
     }
 
+    public function testFrontmatterDataParsing()
+    {
+        $this->copyDirectory('assets/build_test_24/src', '_tmp');
+        $output = $this->runCommand('build', ['--quiet', '--dist-dir' => __DIR__ . '/_tmp/test_dist_dir']);
+
+        $this->assertEquals('', trim($output->getDisplay()));
+        $this->assertEquals(0, $output->getStatusCode());
+    }
+
 //
     //public function testFilterFunctionality()
     //{
