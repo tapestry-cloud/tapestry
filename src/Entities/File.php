@@ -267,9 +267,20 @@ class File implements ProjectFileInterface
      * Set this files data (via frontmatter or other source).
      *
      * @param array $data
+     * @throws \Exception
      */
     public function setData(array $data)
     {
+        if (isset($data['date']) && ! ($data['date'] instanceof DateTime)) {
+            $date = new DateTime();
+            if (! $unix = strtotime($data['date'])) {
+                if (! $unix = strtotime('@'.$data['date'])) {
+                    throw new \Exception('The date ['.$data['date'].'] is in a format not supported by Tapestry.');
+                }
+            }
+            $data['date'] = $date->createFromFormat('U', $unix);
+        }
+
         $this->data = array_merge($this->data, $data);
 
         if ($permalink = $this->getData('permalink')) {
