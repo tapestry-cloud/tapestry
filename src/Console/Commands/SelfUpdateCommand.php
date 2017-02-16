@@ -43,8 +43,9 @@ class SelfUpdateCommand extends Command
     public function __construct(Filesystem $filesystem, Finder $finder)
     {
         parent::__construct();
-        if (! isset($_SERVER['argv'])){
+        if (! isset($_SERVER['argv'])) {
             $this->canExecute = false;
+
             return;
         }
         $this->filesystem = $filesystem;
