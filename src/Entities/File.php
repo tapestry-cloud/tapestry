@@ -271,11 +271,11 @@ class File implements ProjectFileInterface
      */
     public function setData(array $data)
     {
-        if (isset($data['date']) && !($data['date'] instanceof DateTime)) {
+        if (isset($data['date']) && ! ($data['date'] instanceof DateTime)) {
             $date = new DateTime();
-            if (!$unix = strtotime($data['date'])) {
-                if (!$unix = strtotime('@' . $data['date'])) {
-                    throw new \Exception('The date [' . $data['date'] . '] is in a format not supported by Tapestry.');
+            if (! $unix = strtotime($data['date'])) {
+                if (! $unix = strtotime('@'.$data['date'])) {
+                    throw new \Exception('The date ['.$data['date'].'] is in a format not supported by Tapestry.');
                 }
             }
             $data['date'] = $date->createFromFormat('U', $unix);
