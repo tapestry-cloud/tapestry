@@ -152,6 +152,14 @@ class ContentType
     }
 
     /**
+     * @return mixed|string
+     */
+    public function getPermalink()
+    {
+        return $this->permalink;
+    }
+
+    /**
      * Returns an ordered list of the file uid's that have been bucketed into this content type. The list is ordered by
      * the files date.
      *
