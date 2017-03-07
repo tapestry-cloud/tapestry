@@ -43,7 +43,19 @@ class ConfigurationTest extends CommandTestBase
      */
     public function testYAMLConfigurationDefault()
     {
-        // @todo
+        $this->copyDirectory('assets/build_test_26/src', '_tmp');
+
+        $output = $this->runCommand('build', ['--quiet']);
+
+        $this->assertEquals('', trim($output->getDisplay()));
+        $this->assertEquals(0, $output->getStatusCode());
+
+        $this->assertFileEquals(
+            __DIR__.'/assets/build_test_26/check/index.html',
+            __DIR__.'/_tmp/build_local/index.html',
+            '',
+            true
+        );
     }
 
     /**
@@ -51,7 +63,19 @@ class ConfigurationTest extends CommandTestBase
      */
     public function testYAMLEnvironmentConfigurationWithEnvSet()
     {
-        // @todo
+        $this->copyDirectory('assets/build_test_26/src', '_tmp');
+
+        $output = $this->runCommand('build', ['--quiet', '--env' => 'development']);
+
+        $this->assertEquals('', trim($output->getDisplay()));
+        $this->assertEquals(0, $output->getStatusCode());
+
+        $this->assertFileEquals(
+            __DIR__.'/assets/build_test_26/check/development_index.html',
+            __DIR__.'/_tmp/build_development/index.html',
+            '',
+            true
+        );
     }
 
     /**
@@ -60,6 +84,15 @@ class ConfigurationTest extends CommandTestBase
      */
     public function testYAMLandPHPConfigurationThrowsError()
     {
-        // @todo
+        $this->copyDirectory('assets/build_test_27/src', '_tmp');
+        $output = $this->runCommand('build', ['--quiet']);
+        $this->assertEquals(1, $output->getStatusCode());
+    }
+
+    public function testYAMLandPHPConfigurationWithEnvSetThrowsError()
+    {
+        $this->copyDirectory('assets/build_test_27/src', '_tmp');
+        $output = $this->runCommand('build', ['--quiet', '--env' => 'development']);
+        $this->assertEquals(1, $output->getStatusCode());
     }
 }
