@@ -2,8 +2,8 @@
 
 namespace Tapestry\Providers;
 
-use Symfony\Component\Yaml\Yaml;
 use Tapestry\Tapestry;
+use Symfony\Component\Yaml\Yaml;
 use Tapestry\Entities\Configuration;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
@@ -42,10 +42,11 @@ class ProjectConfigurationServiceProvider extends AbstractServiceProvider
         $container->share(Configuration::class, $configuration);
     }
 
-    private function identifyConfigurationPath($configPath, $env = null) {
-        $basePath = $configPath . DIRECTORY_SEPARATOR . 'config'. (is_null($env) ? '' : ('-' . $env));
-        $PHPPath = $basePath . '.php';
-        $YAMLPath = $basePath . '.yaml';
+    private function identifyConfigurationPath($configPath, $env = null)
+    {
+        $basePath = $configPath.DIRECTORY_SEPARATOR.'config'.(is_null($env) ? '' : ('-'.$env));
+        $PHPPath = $basePath.'.php';
+        $YAMLPath = $basePath.'.yaml';
         $configPHPExists = file_exists($PHPPath);
         $configYAMLExists = file_exists($YAMLPath);
         if ($configPHPExists && $configYAMLExists) {
@@ -57,12 +58,14 @@ class ProjectConfigurationServiceProvider extends AbstractServiceProvider
         if ($configYAMLExists) {
             return $YAMLPath;
         }
+
         return null;
     }
 
-    private function getConfigurationFromPath($path) {
+    private function getConfigurationFromPath($path)
+    {
         if (strpos($path, 'php') !== false) {
-            return include($path);
+            return include $path;
         }
         if (strpos($path, 'yaml') !== false) {
             return Yaml::parse(file_get_contents($path));
