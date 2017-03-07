@@ -81,18 +81,21 @@ class ConfigurationTest extends CommandTestBase
     /**
      * If both a YAML and a PHP array configuration file exist within the workspace then Tapestry should exit with an
      * error code and appropriate message.
+     *
+     * @expectedException \Exception
      */
     public function testYAMLandPHPConfigurationThrowsError()
     {
         $this->copyDirectory('assets/build_test_27/src', '_tmp');
-        $output = $this->runCommand('build', ['--quiet']);
-        $this->assertEquals(1, $output->getStatusCode());
+        $this->runCommand('build', ['--quiet']);
     }
 
+    /**
+     * @expectedException \Exception
+     */
     public function testYAMLandPHPConfigurationWithEnvSetThrowsError()
     {
         $this->copyDirectory('assets/build_test_27/src', '_tmp');
-        $output = $this->runCommand('build', ['--quiet', '--env' => 'development']);
-        $this->assertEquals(1, $output->getStatusCode());
+        $this->runCommand('build', ['--quiet', '--env' => 'development']);
     }
 }
