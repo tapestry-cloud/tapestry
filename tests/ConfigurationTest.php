@@ -37,4 +37,29 @@ class ConfigurationTest extends CommandTestBase
             true
         );
     }
+
+    /**
+     * Test that YAML configuration is loaded.
+     */
+    public function testYAMLConfigurationDefault()
+    {
+        // @todo
+    }
+
+    /**
+     * Test that the correct YAML file gets parsed when the --env attribute is filled
+     */
+    public function testYAMLEnvironmentConfigurationWithEnvSet()
+    {
+        // @todo
+    }
+
+    /**
+     * If both a YAML and a PHP array configuration file exist within the workspace then Tapestry should exit with an
+     * error code and appropriate message.
+     */
+    public function testYAMLandPHPConfigurationThrowsError()
+    {
+        // @todo
+    }
 }
