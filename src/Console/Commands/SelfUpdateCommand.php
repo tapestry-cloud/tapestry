@@ -45,6 +45,7 @@ class SelfUpdateCommand extends Command
         parent::__construct();
         if (! isset($_SERVER['argv'])) {
             $this->canExecute = false;
+
             return;
         }
         $this->filesystem = $filesystem;
