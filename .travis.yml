@@ -2,14 +2,14 @@ language: php
 
 sudo: false
 
-php:
-  - 5.6
-  - 7.0
-  - 7.1
-  - nightly
-  - hhvm
-
 matrix:
+  include:
+    - php: 5.6
+    - php: 7.0
+    - php: 7.1
+      env: WITH_COVERAGE=true
+    - php: nightly
+    - php: hhvm
   allow_failures:
     - php: nightly
     - php: hhvm
@@ -20,6 +20,8 @@ cache:
     - $HOME/.composer/cache
 
 before_install:
+  - source .travis/travis.sh
+  - xdebug-disable
   - travis_retry composer self-update
 
 install:
@@ -27,7 +29,8 @@ install:
 
 script:
   - mkdir -p build/logs
-  - vendor/bin/phpunit
+  - run-tests
 
 after_success:
-  - vendor/bin/test-reporter
+  - if [[ "$WITH_COVERAGE" == "true" ]]; then vendor/bin/test-reporter; fi
+
