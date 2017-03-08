@@ -2,36 +2,17 @@
 
 namespace Tapestry\Entities\Filesystem;
 
-use Tapestry\Entities\File;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class FileWriter implements FilesystemInterface
+class FileWriter extends FileAction implements FilesystemInterface
 {
     /**
-     * @var File
+     * @param Filesystem      $filesystem
+     * @param OutputInterface $output
+     *
+     * @return void
      */
-    private $file;
-
-    /**
-     * @var string
-     */
-    private $destinationPath;
-
-    public function __construct(File $file, $destinationPath)
-    {
-        $this->file = $file;
-        $this->destinationPath = $destinationPath;
-    }
-
-    /**
-     * @return File
-     */
-    public function getFile()
-    {
-        return $this->file;
-    }
-
     public function __invoke(Filesystem $filesystem, OutputInterface $output)
     {
         $outputPath = $this->file->getCompiledPermalink();
