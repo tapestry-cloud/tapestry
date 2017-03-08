@@ -53,6 +53,10 @@ class ContentTypeTest extends CommandTestBase
         );
     }
 
+    /**
+     * Added for issue 88
+     * @see https://github.com/carbontwelve/tapestry/issues/88
+     */
     public function testAddFileMutatesFileDataWithContentTypeName()
     {
         $contentType = new ContentType('Test', ['enabled' => true]);
