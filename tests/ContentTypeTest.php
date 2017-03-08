@@ -3,7 +3,6 @@
 namespace Tapestry\Tests;
 
 use Symfony\Component\Finder\SplFileInfo;
-use Symfony\Component\Finder\Tests\Iterator\MockSplFileInfo;
 use Tapestry\Entities\ContentType;
 use Tapestry\Entities\File;
 
