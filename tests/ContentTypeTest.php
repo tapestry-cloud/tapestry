@@ -48,4 +48,13 @@ class ContentTypeTest extends CommandTestBase
             true
         );
     }
+
+    /**
+     * Added for issue 87
+     * @see https://github.com/carbontwelve/tapestry/issues/87
+     */
+    public function testContentTypeFactoryArrayAccessByKey()
+    {
+        // ...
+    }
 }
