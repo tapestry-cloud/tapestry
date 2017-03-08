@@ -43,7 +43,7 @@ class WriteFiles implements Step
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
-        if (isset($project['cmd_options']['no-write']) && $project['cmd_options']['no-write'] === false) {
+        if ($project->get('cmd_options.no-write') === true) {
             return true;
         }
 
