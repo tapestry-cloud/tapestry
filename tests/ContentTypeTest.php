@@ -2,6 +2,11 @@
 
 namespace Tapestry\Tests;
 
+use Symfony\Component\Finder\SplFileInfo;
+use Symfony\Component\Finder\Tests\Iterator\MockSplFileInfo;
+use Tapestry\Entities\ContentType;
+use Tapestry\Entities\File;
+
 class ContentTypeTest extends CommandTestBase
 {
     public function testContentTypeTaxonomyDefaultsSetOnFiles()
@@ -47,5 +52,14 @@ class ContentTypeTest extends CommandTestBase
             '',
             true
         );
+    }
+
+    public function testAddFileMutatesFileDataWithContentTypeName()
+    {
+        $contentType = new ContentType('Test', ['enabled' => true]);
+        $file = new File(new SplFileInfo(__DIR__ . '/mocks/TestFile.md', '', ''));
+        $this->assertFalse($file->hasData('contentType'));
+        $contentType->addFile($file);
+        $this->assertTrue($file->hasData('contentType'));
     }
 }
