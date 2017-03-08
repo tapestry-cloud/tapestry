@@ -3,6 +3,7 @@
 namespace Tapestry\Tests;
 
 use Tapestry\Entities\ContentType;
+use Tapestry\Modules\ContentTypes\ContentTypeFactory;
 
 class ContentTypeTest extends CommandTestBase
 {
@@ -51,6 +52,21 @@ class ContentTypeTest extends CommandTestBase
         );
     }
 
+    /**
+     * Added for issue 87
+     * @see https://github.com/carbontwelve/tapestry/issues/87
+     */
+    public function testContentTypeFactoryArrayAccessByKey()
+    {
+        $contentType = new ContentType('Test', ['enabled' => true]);
+        $contentTypeFactory = new ContentTypeFactory([
+            $contentType
+        ]);
+        $this->assertTrue($contentTypeFactory->has('_Test'));
+        $this->assertEquals($contentType, $contentTypeFactory->arrayAccessByKey('Test'));
+        $this->assertEquals(null, $contentTypeFactory->arrayAccessByKey('NonExistant'));
+    }
+  
     /**
      * Added for issue 86
      * @see https://github.com/carbontwelve/tapestry/issues/86
