@@ -27,7 +27,7 @@ function xdebug-enable() {
 function run-tests() {
     if [[ "$WITH_COVERAGE" == "true" ]]; then
         xdebug-enable
-        vendor/bin/phpunit --coverage-clover=build/logs/clover.xml
+        vendor/bin/phpunit --coverage-clover=$TRAVIS_BUILD_DIR/build/logs/clover.xml
         xdebug-disable
     else
        vendor/bin/phpunit
