@@ -66,4 +66,16 @@ class ContentTypeTest extends CommandTestBase
         $this->assertEquals($contentType, $contentTypeFactory->arrayAccessByKey('Test'));
         $this->assertEquals(null, $contentTypeFactory->arrayAccessByKey('NonExistant'));
     }
+  
+    /**
+     * Added for issue 86
+     * @see https://github.com/carbontwelve/tapestry/issues/86
+     */
+    public function testContentTypeEnabled()
+    {
+        $contentType = new ContentType('Test', []);
+        $this->assertFalse($contentType->isEnabled());
+        $contentType = new ContentType('Test', ['enabled' => true]);
+        $this->assertTrue($contentType->isEnabled());
+    }
 }
