@@ -2,6 +2,9 @@
 
 namespace Tapestry\Tests;
 
+use Tapestry\Entities\ContentType;
+use Tapestry\Modules\ContentTypes\ContentTypeFactory;
+
 class ContentTypeTest extends CommandTestBase
 {
     public function testContentTypeTaxonomyDefaultsSetOnFiles()
@@ -55,6 +58,12 @@ class ContentTypeTest extends CommandTestBase
      */
     public function testContentTypeFactoryArrayAccessByKey()
     {
-        // ...
+        $contentType = new ContentType('Test', ['enabled' => true]);
+        $contentTypeFactory = new ContentTypeFactory([
+            $contentType
+        ]);
+        $this->assertTrue($contentTypeFactory->has('_Test'));
+        $this->assertEquals($contentType, $contentTypeFactory->arrayAccessByKey('Test'));
+        $this->assertEquals(null, $contentTypeFactory->arrayAccessByKey('NonExistant'));
     }
 }
