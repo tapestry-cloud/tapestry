@@ -6,6 +6,7 @@ use Tapestry\Tapestry;
 use Tapestry\Generator;
 use Tapestry\Entities\Project;
 use Symfony\Component\Console\Input\InputOption;
+use Tapestry\Exceptions\InvalidConsoleInputException;
 
 class BuildCommand extends Command
 {
@@ -49,26 +50,19 @@ class BuildCommand extends Command
 
     protected function fire()
     {
-        $currentWorkingDirectory = $this->input->getOption('site-dir');
-        $environment = $this->input->getOption('env');
+        try {
+            $this->tapestry->setInput($this->input);
+            $this->tapestry->validateInput();
+        } catch (InvalidConsoleInputException $e) {
+            $this->output->writeln('<error>[!]</error> '.$e->getMessage().' Doing nothing and exiting.');
 
-        if (! file_exists($currentWorkingDirectory)) {
-            $this->output->writeln('<error>[!]</error> The site directory ['.$currentWorkingDirectory.'] does not exist. Doing nothing and exiting.');
-            exit(1);
-        }
-
-        // Lets use full paths.
-        if (! $currentWorkingDirectory = realpath($currentWorkingDirectory)) {
-            $this->output->writeln('<error>[!]</error> Sorry there has been an error identifying the site directory. Doing nothing and exiting.');
-            exit(1);
+            return 1;
         }
 
         $generator = new Generator($this->steps, $this->tapestry);
-        $project = new Project($currentWorkingDirectory, $environment);
 
-        $project->set('cmd_options', $this->input->getOptions());
-
-        $this->tapestry->getContainer()->add(Project::class, $project);
+        /** @var Project $project */
+        $project = $this->tapestry->getContainer()->get(Project::class);
         $generator->generate($project, $this->output);
 
         return 0;

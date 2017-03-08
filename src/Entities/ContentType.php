@@ -107,8 +107,14 @@ class ContentType
         return $this->template;
     }
 
+    public function isEnabled()
+    {
+        return boolval($this->enabled);
+    }
+
     public function addFile(File $file)
     {
+        $file->setData(['contentType' => $this->name]);
         $this->itemsOrderCache = null;
         $this->items->set($file->getUid(), $file->getData('date')->getTimestamp());
 
@@ -130,12 +136,27 @@ class ContentType
 
     /**
      * @param string $name
-     *
      * @return Taxonomy
      */
     public function getTaxonomy($name)
     {
         return $this->taxonomies[$name];
+    }
+
+    /**
+     * @return array|Taxonomy[]
+     */
+    public function getTaxonomies()
+    {
+        return $this->taxonomies;
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function getPermalink()
+    {
+        return $this->permalink;
     }
 
     /**

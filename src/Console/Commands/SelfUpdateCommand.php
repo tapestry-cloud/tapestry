@@ -32,6 +32,8 @@ class SelfUpdateCommand extends Command
 
     private $pharExists = false;
 
+    private $canExecute = true;
+
     /**
      * InitCommand constructor.
      *
@@ -41,6 +43,11 @@ class SelfUpdateCommand extends Command
     public function __construct(Filesystem $filesystem, Finder $finder)
     {
         parent::__construct();
+        if (! isset($_SERVER['argv'])) {
+            $this->canExecute = false;
+
+            return;
+        }
         $this->filesystem = $filesystem;
         $this->finder = $finder;
         $this->currentPharFileName = realpath($_SERVER['argv'][0]) ?: $_SERVER['argv'][0];
@@ -69,6 +76,10 @@ class SelfUpdateCommand extends Command
 
     protected function fire()
     {
+        if (! $this->canExecute) {
+            return 0;
+        }
+
         if (! $this->input->getOption('test') && $this->pharExists === false) {
             $this->output->writeln('[!] Self-Update only works on phar archives.');
 

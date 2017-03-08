@@ -8,8 +8,10 @@ use League\Container\Container;
 use League\Container\ContainerInterface;
 use League\Container\ReflectionContainer;
 use League\Container\ContainerAwareInterface;
-use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\InputInterface;
+use Tapestry\Exceptions\InvalidConsoleInputException;
 use League\Container\ServiceProvider\ServiceProviderInterface;
+use Tapestry\Exceptions\InvalidCurrentWorkingDirectoryException;
 
 class Tapestry implements ContainerAwareInterface, ArrayAccess
 {
@@ -30,30 +32,68 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
      *
      * @var string
      */
-    const VERSION = '1.0.5';
+    const VERSION = '1.0.6-dev';
 
     /**
      * Tapestry constructor.
      *
-     * @param array $arguments
+     * InputInterface need only contain the command line options; this is because some of the service providers need to
+     * know options such as --site-dir but do not need to know command arguments.
+     *
+     * @param InputInterface $input
      */
-    public function __construct($arguments = [])
+    public function __construct(InputInterface $input)
     {
-        //if (php_sapi_name() === 'cli') {
-            $input = new ArgvInput();
-        if ((! $siteEnvironment = $input->getParameterOption('--env')) && (! $siteEnvironment = $input->getParameterOption('-e'))) {
-            $siteEnvironment = (isset($arguments['--env'])) ? $arguments['--env'] : 'local';
-        }
-        if (! $siteDirectory = $input->getParameterOption('--site-dir')) {
-            $siteDirectory = (isset($arguments['--site-dir'])) ? $arguments['--site-dir'] : getcwd();
-        }
-        //}
-
-        $this['environment'] = $siteEnvironment;
-        $this['currentWorkingDirectory'] = $siteDirectory;
+        $this->setInput($input);
         $this['events'] = new Emitter();
-
         $this->boot();
+    }
+
+    /**
+     * @param array $options
+     */
+    private function parseOptions(array $options = [])
+    {
+        $this['cmd_options'] = $options;
+        $this['environment'] = 'local';
+        $this['currentWorkingDirectory'] = getcwd();
+
+        if (isset($options['env'])) {
+            $this['environment'] = $options['env'];
+        }
+
+        if (isset($options['site-dir'])) {
+            $this['currentWorkingDirectory'] = $options['site-dir'];
+        }
+
+        $this['destinationDirectory'] = $this['currentWorkingDirectory'].DIRECTORY_SEPARATOR.'build_'.$this['environment'];
+
+        if (isset($options['dist-dir'])) {
+            $this['destinationDirectory'] = $options['dist-dir'];
+        }
+    }
+
+    /**
+     * @throws InvalidConsoleInputException
+     */
+    public function validateInput()
+    {
+        if (! file_exists($this['currentWorkingDirectory'])) {
+            throw new InvalidCurrentWorkingDirectoryException('The site directory ['.$this['currentWorkingDirectory'].'] does not exist.');
+        }
+
+        if (! realpath($this['currentWorkingDirectory'])) {
+            throw new InvalidConsoleInputException('There was an error while identifying the site directory, do you have read/write permissions?');
+        }
+    }
+
+    /**
+     * @param InputInterface $arguments
+     * @throws InvalidConsoleInputException
+     */
+    public function setInput(InputInterface $arguments)
+    {
+        $this->parseOptions($arguments->getOptions());
     }
 
     /**
@@ -65,6 +105,7 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
     {
         $this->register(\Tapestry\Providers\ProjectConfigurationServiceProvider::class);
         $this->register(\Tapestry\Providers\ProjectKernelServiceProvider::class);
+        $this->register(\Tapestry\Providers\ProjectServiceProvider::class);
         $this->register(\Tapestry\Providers\CompileStepsServiceProvider::class);
         $this->register(\Tapestry\Providers\CommandServiceProvider::class);
         $this->register(\Tapestry\Providers\PlatesServiceProvider::class);
