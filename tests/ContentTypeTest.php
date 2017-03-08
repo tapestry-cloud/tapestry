@@ -2,7 +2,9 @@
 
 namespace Tapestry\Tests;
 
+use Symfony\Component\Finder\SplFileInfo;
 use Tapestry\Entities\ContentType;
+use Tapestry\Entities\File;
 use Tapestry\Modules\ContentTypes\ContentTypeFactory;
 
 class ContentTypeTest extends CommandTestBase
@@ -52,6 +54,19 @@ class ContentTypeTest extends CommandTestBase
         );
     }
 
+    /**
+     * Added for issue 88
+     * @see https://github.com/carbontwelve/tapestry/issues/88
+     */
+    public function testAddFileMutatesFileDataWithContentTypeName()
+    {
+        $contentType = new ContentType('Test', ['enabled' => true]);
+        $file = new File(new SplFileInfo(__DIR__ . '/mocks/TestFile.md', '', ''));
+        $this->assertFalse($file->hasData('contentType'));
+        $contentType->addFile($file);
+        $this->assertTrue($file->hasData('contentType'));
+    }
+    
     /**
      * Added for issue 87
      * @see https://github.com/carbontwelve/tapestry/issues/87
