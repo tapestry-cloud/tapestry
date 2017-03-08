@@ -27,7 +27,7 @@ install:
 
 script:
   - mkdir -p build/logs
-  - vendor/bin/phpunit --coverage-clover=build/logs/clover.xml
+  - vendor/bin/phpunit --coverage-clover=./build/logs/clover.xml
 
 after_success:
   - vendor/bin/test-reporter
