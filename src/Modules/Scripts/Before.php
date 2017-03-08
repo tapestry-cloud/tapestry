@@ -3,27 +3,11 @@
 namespace Tapestry\Modules\Scripts;
 
 use Tapestry\Step;
-use Tapestry\Tapestry;
 use Tapestry\Entities\Project;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Before implements Step
+class Before extends Script implements Step
 {
-    /**
-     * @var Tapestry
-     */
-    private $tapestry;
-
-    /**
-     * Before constructor.
-     *
-     * @param Tapestry $tapestry
-     */
-    public function __construct(Tapestry $tapestry)
-    {
-        $this->tapestry = $tapestry;
-    }
-
     /**
      * Process the Project at current.
      *
