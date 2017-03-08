@@ -19,6 +19,7 @@ class After extends Script implements Step
     public function __invoke(Project $project, OutputInterface $output)
     {
         $this->tapestry->getEventEmitter()->emit('scripts.after');
+
         return true;
     }
 }

@@ -19,6 +19,7 @@ class Before extends Script implements Step
     public function __invoke(Project $project, OutputInterface $output)
     {
         $this->tapestry->getEventEmitter()->emit('scripts.before');
+
         return true;
     }
 }
