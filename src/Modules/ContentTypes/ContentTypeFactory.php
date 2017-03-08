@@ -73,7 +73,7 @@ class ContentTypeFactory
     /**
      * Return all ContentTypes registered with this factory.
      *
-     * @return array
+     * @return array|\Tapestry\Entities\ContentType[]
      */
     public function all()
     {
@@ -128,8 +128,14 @@ class ContentTypeFactory
      */
     public function arrayAccessByKey($key)
     {
+        if (! isset($this->nameLookupTable[$key])) {
+            return null;
+        }
+
         if (isset($this->items[$this->nameLookupTable[$key]])) {
             return $this->items[$this->nameLookupTable[$key]];
         }
+
+        return null;
     }
 }

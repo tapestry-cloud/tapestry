@@ -48,9 +48,11 @@ class ProjectKernelServiceProvider extends AbstractServiceProvider implements Bo
         $kernelPath = $tapestry['currentWorkingDirectory'].DIRECTORY_SEPARATOR.'kernel.php';
 
         if (file_exists($kernelPath)) {
-            include $kernelPath;
-
             $kernelClassName = $configuration->get('kernel', DefaultKernel::class);
+
+            if (! class_exists($kernelClassName)) {
+                include $kernelPath;
+            }
 
             if (! class_exists($kernelClassName)) {
                 throw new Exception('['.$kernelClassName.'] kernel file not found.');
