@@ -2,6 +2,8 @@
 
 namespace Tapestry\Tests;
 
+use Tapestry\Entities\ContentType;
+
 class ContentTypeTest extends CommandTestBase
 {
     public function testContentTypeTaxonomyDefaultsSetOnFiles()
@@ -47,5 +49,17 @@ class ContentTypeTest extends CommandTestBase
             '',
             true
         );
+    }
+
+    /**
+     * Added for issue 86
+     * @see https://github.com/carbontwelve/tapestry/issues/86
+     */
+    public function testContentTypeEnabled()
+    {
+        $contentType = new ContentType('Test', []);
+        $this->assertFalse($contentType->isEnabled());
+        $contentType = new ContentType('Test', ['enabled' => true]);
+        $this->assertTrue($contentType->isEnabled());
     }
 }
