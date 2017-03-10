@@ -125,14 +125,13 @@ abstract class CommandTestBase extends \PHPUnit_Framework_TestCase
      * Obtain the cli application for testing.
      *
      * @param array $arguments
-     * @param array $definition
      * @return Application
      */
-    private function getCli(array $arguments = [], array $definition = [])
+    private function getCli(array $arguments = [])
     {
         $input = new \Tapestry\Console\Input(
             $arguments,
-            new \Tapestry\Console\DefaultInputDefinition($definition)
+            new \Tapestry\Console\DefaultInputDefinition()
         );
         $tapestry = new \Tapestry\Tapestry($input);
 
