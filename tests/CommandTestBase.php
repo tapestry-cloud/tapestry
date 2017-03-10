@@ -2,7 +2,6 @@
 
 namespace Tapestry\Tests;
 
-use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Tester\ApplicationTester;
 use Symfony\Component\Filesystem\Filesystem;
 use Tapestry\Console\Application;
@@ -115,8 +114,8 @@ abstract class CommandTestBase extends \PHPUnit_Framework_TestCase
      */
     protected function runCommand($command, array $arguments = [])
     {
-        $applicationTester = new ApplicationTester($this->getCli($arguments));
         $arguments = array_merge(['command' => $command], $arguments);
+        $applicationTester = new ApplicationTester($this->getCli($arguments));
         $applicationTester->run($arguments);
 
         return $applicationTester;
@@ -125,23 +124,17 @@ abstract class CommandTestBase extends \PHPUnit_Framework_TestCase
     /**
      * Obtain the cli application for testing.
      *
+     * @param array $arguments
+     * @param array $definition
      * @return Application
      */
-    private function getCli(array $arguments = [])
+    private function getCli(array $arguments = [], array $definition = [])
     {
-        $definitions = new \Tapestry\Console\DefaultInputDefinition();
-        $definitions->setArguments();
-        $argvInput = [];
-
-        foreach ($arguments as $key => $value) {
-            if (is_numeric($key)){
-                $argvInput[$value] = true;
-                continue;
-            }
-            $argvInput[$key] = $value;
-        }
-
-        $tapestry = new \Tapestry\Tapestry(new ArgvInput($argvInput, new \Tapestry\Console\DefaultInputDefinition()));
+        $input = new \Tapestry\Console\Input(
+            $arguments,
+            new \Tapestry\Console\DefaultInputDefinition($definition)
+        );
+        $tapestry = new \Tapestry\Tapestry($input);
 
         /** @var Application $cli */
         $cli = $tapestry[Application::class];

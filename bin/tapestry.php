@@ -9,13 +9,12 @@ if (isset($include)) {
     require_once __DIR__.'/../src/bootstrap.php';
 }
 
-//
-// Because Tapestry only needs to know about options passed via argv we filter everything else out.
-//
-$argvInput = new ArgvInput(array_filter($_SERVER['argv'], function ($value) {
-    return strpos($value, '-') !== false;
-}), new \Tapestry\Console\DefaultInputDefinition());
-$tapestry = new Tapestry\Tapestry($argvInput);
+$tapestry = new Tapestry\Tapestry(
+    new \Tapestry\Console\Input(
+        $_SERVER['argv'],
+        new \Tapestry\Console\DefaultInputDefinition()
+    )
+);
 
 /** @var Application $cli */
 $cli = $tapestry[Application::class];
