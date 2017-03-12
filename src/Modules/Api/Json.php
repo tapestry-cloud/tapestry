@@ -24,5 +24,6 @@ class Json implements Step
         }
 
         $output->writeln('[+] Exporting JSON Blob');
+
     }
 }
