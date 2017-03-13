@@ -45,7 +45,7 @@ class BuildCommand extends Command
             [
                 new InputOption('--clear', null, InputOption::VALUE_NONE, 'Clear the destination path and disable caching.'),
                 new InputOption('--json', false, InputOption::VALUE_NONE, 'Output a json file containing the current build state.'),
-                new InputOption('--no-write', false, InputOption::VALUE_NONE, 'When set Tapestry will build the state but not commit to the file system.')
+                new InputOption('--no-write', false, InputOption::VALUE_NONE, 'When set Tapestry will build the state but not commit to the file system.'),
             ]
         );
     }
