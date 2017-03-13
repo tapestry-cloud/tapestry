@@ -2,6 +2,7 @@
 
 namespace Tapestry\Tests;
 
+use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Tester\ApplicationTester;
 use Symfony\Component\Filesystem\Filesystem;
 use Tapestry\Console\Application;
@@ -112,10 +113,24 @@ abstract class CommandTestBase extends \PHPUnit_Framework_TestCase
      *
      * @return ApplicationTester
      */
-    protected function runCommand($command, array $arguments = [])
+    protected function runCommand($command, $argv = '')
     {
-        $arguments = array_merge(['command' => $command], $arguments);
-        $applicationTester = new ApplicationTester($this->getCli($arguments));
+        $argv = explode(' ', $argv);
+        $arguments = ['command' => $command];
+        foreach ($argv as $value) {
+            if (strpos($value, '=') !== false) {
+                $tmp = explode('=', $value);
+                $arguments[$tmp[0]] = $tmp[1];
+                continue;
+            }
+            array_push($arguments, $value);
+        } unset($tmp, $value);
+        array_unshift($argv, $command);
+
+        //
+        // $argv should now be identical to the input expected by Tapestry from $_SERVER['argv']
+        //
+        $applicationTester = new ApplicationTester($this->getCli($argv));
         $applicationTester->run($arguments);
 
         return $applicationTester;
@@ -129,6 +144,8 @@ abstract class CommandTestBase extends \PHPUnit_Framework_TestCase
      */
     private function getCli(array $arguments = [])
     {
+        unset($arguments['command']);
+
         $input = new \Tapestry\Console\Input(
             $arguments,
             new \Tapestry\Console\DefaultInputDefinition()

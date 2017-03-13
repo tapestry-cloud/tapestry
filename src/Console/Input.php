@@ -6,7 +6,7 @@ use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputDefinition;
 
 /**
- * Class Input
+ * Class Input.
  *
  * The purpose of this extension to ArgvInput exists to pass Argv input to Tapestry on construction. Because Tapestry
  * requires knowledge of certain command line properties as defined in DefaultInputDefinition but isn't aware until
@@ -18,71 +18,99 @@ use Symfony\Component\Console\Input\InputDefinition;
  * Application.
  *
  * BuildCommand and any subsequent command should upon firing pass along its Input to Tapestry via the setInput method.
- *
- * @package Tapestry\Console
  */
 class Input extends ArgvInput
 {
-    private $tokens;
+    /**
+     * Filtered input tokens: this array will only contain input that matches the InputDefinition.
+     * @var array
+     */
+    private $filtered = [];
 
     /**
      * Input constructor.
-     * @param array $input
-     * @param InputDefinition|null $definition
+     * @param array $argv
+     * @param InputDefinition $definition
      */
-    public function __construct(array $input = [], InputDefinition $definition = null)
+    public function __construct(array $argv, InputDefinition $definition)
     {
-        parent::__construct($input);
+        array_shift($argv);
 
-        if (strpos($input[0], '.php')) {
-            array_shift($input);
-        }
-
-        $this->tokens = $input;
-
-        if (! is_null($definition)) {
-            $this->bind($definition);
-        }
-
-        // foreach ($input as $key => $value) {
-        //     if ($key === 'command') {
-        //         continue; // we dont care about the command
-        //     } else if (is_numeric($key)) {
-        //         if (substr($value, 0, 2) === '--') {
-        //             $value = substr($value, 2);
-        //         }
-        //         $this->options[$value] = true;
-        //     } else {
-        //         if (substr($key, 0, 2) === '--') {
-        //             $key = substr($key, 2);
-        //         }
-        //         $this->options[$key] = $value;
-        //     }
-        // } unset($key, $value);
+        $this->definition = $definition;
+        $this->filter($argv);
+        $this->setTokens($this->filtered);
+        $this->bind($definition);
+        $this->validate();
     }
 
-    protected function parse()
+    private function filter(array $input)
     {
-        foreach ($this->tokens as $key => $value) {
-            if ($key === 'command') {
-                continue; // we dont care about the command
+        $parseOptions = true;
+        while (null !== $token = array_shift($input)) {
+            if ($parseOptions && '' == $token) {
+                $this->checkArgument($token);
+            } elseif ($parseOptions && '--' == $token) {
+                $parseOptions = false;
+            } elseif ($parseOptions && 0 === strpos($token, '--')) {
+                $this->checkLongOption($token);
+            } elseif ($parseOptions && '-' === $token[0] && '-' !== $token) {
+                $this->checkShortOption($token);
+            } else {
+                $this->checkArgument($token);
             }
-
-            // Is $this->input in the form expected from ArgvInput?
-            if (is_integer($key) && strpos($value, '=') !== false) {
-                $value = explode('=', $value);
-                $key = $value[0];
-                $value = isset($value[1]) ? $value[1] : '';
-            }
-
-            if (is_numeric($key)) {
-                if (substr($value, 0, 2) === '--') {
-                    $value = substr($value, 2);
-                    $this->options[$value] = true;
-                } else if (substr($value, 0, 2) === '--') {
-            }
-
         }
-        //parent::parse();
+    }
+
+    private function checkArgument($token)
+    {
+        if ($this->definition->hasArgument($token)) {
+            array_push($this->filtered, $token);
+        }
+    }
+
+    private function checkLongOption($token)
+    {
+        $name = substr($token, 2);
+        if (false !== $pos = strpos($name, '=')) {
+            if (0 === strlen($value = substr($name, $pos + 1))) {
+                array_unshift($this->filtered, null);
+            }
+            $this->checkHasOption(substr($name, 0, $pos), $token);
+        } else {
+            $this->checkHasOption($name, $token);
+        }
+    }
+
+    private function checkHasOption($name, $token)
+    {
+        if ($this->definition->hasOption($name)) {
+            array_push($this->filtered, $token);
+        }
+    }
+
+    private function checkShortOption($token)
+    {
+        $name = substr($token, 1);
+
+        if (strlen($name) > 1) {
+            if ($this->definition->hasShortcut($name[0]) && $this->definition->getOptionForShortcut($name[0])->acceptValue()) {
+                // an option with a value (with no space)
+                $this->checkHasShortcut($name[0], $token);
+            } else {
+                $len = strlen($name);
+                for ($i = 0; $i < $len; ++$i) {
+                    $this->checkHasShortcut($name[$i], $token);
+                }
+            }
+        } else {
+            $this->checkHasShortcut($name, $token);
+        }
+    }
+
+    private function checkHasShortcut($name, $token)
+    {
+        if ($this->definition->hasShortcut($name)) {
+            array_push($this->filtered, $token);
+        }
     }
 }
