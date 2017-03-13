@@ -6,7 +6,7 @@ use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputDefinition;
 
 /**
- * Class Input
+ * Class Input.
  *
  * The purpose of this extension to ArgvInput exists to pass Argv input to Tapestry on construction. Because Tapestry
  * requires knowledge of certain command line properties as defined in DefaultInputDefinition but isn't aware until
@@ -18,13 +18,11 @@ use Symfony\Component\Console\Input\InputDefinition;
  * Application.
  *
  * BuildCommand and any subsequent command should upon firing pass along its Input to Tapestry via the setInput method.
- *
- * @package Tapestry\Console
  */
 class Input extends ArgvInput
 {
     /**
-     * Filtered input tokens: this array will only contain input that matches the InputDefinition
+     * Filtered input tokens: this array will only contain input that matches the InputDefinition.
      * @var array
      */
     private $filtered = [];
@@ -34,7 +32,7 @@ class Input extends ArgvInput
      * @param array $argv
      * @param InputDefinition $definition
      */
-    public function __construct(array $argv = [], InputDefinition $definition)
+    public function __construct(array $argv, InputDefinition $definition)
     {
         array_shift($argv);
 
@@ -45,7 +43,8 @@ class Input extends ArgvInput
         $this->validate();
     }
 
-    private function filter(array $input) {
+    private function filter(array $input)
+    {
         $parseOptions = true;
         while (null !== $token = array_shift($input)) {
             if ($parseOptions && '' == $token) {
@@ -60,16 +59,17 @@ class Input extends ArgvInput
                 $this->checkArgument($token);
             }
         }
-
     }
 
-    private function checkArgument($token) {
+    private function checkArgument($token)
+    {
         if ($this->definition->hasArgument($token)) {
             array_push($this->filtered, $token);
         }
     }
 
-    private function checkLongOption($token) {
+    private function checkLongOption($token)
+    {
         $name = substr($token, 2);
         if (false !== $pos = strpos($name, '=')) {
             if (0 === strlen($value = substr($name, $pos + 1))) {
@@ -81,13 +81,15 @@ class Input extends ArgvInput
         }
     }
 
-    private function checkHasOption($name, $token) {
+    private function checkHasOption($name, $token)
+    {
         if ($this->definition->hasOption($name)) {
             array_push($this->filtered, $token);
         }
     }
 
-    private function checkShortOption($token) {
+    private function checkShortOption($token)
+    {
         $name = substr($token, 1);
 
         if (strlen($name) > 1) {
@@ -105,7 +107,8 @@ class Input extends ArgvInput
         }
     }
 
-    private function checkHasShortcut($name, $token) {
+    private function checkHasShortcut($name, $token)
+    {
         if ($this->definition->hasShortcut($name)) {
             array_push($this->filtered, $token);
         }
