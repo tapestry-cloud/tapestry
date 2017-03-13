@@ -8,7 +8,7 @@ class ConfigurationTest extends CommandTestBase
     {
         $this->copyDirectory('assets/build_test_14/src', '_tmp');
 
-        $output = $this->runCommand('build', ['--quiet']);
+        $output = $this->runCommand('build', '--quiet');
 
         $this->assertEquals('', trim($output->getDisplay()));
         $this->assertEquals(0, $output->getStatusCode());
@@ -25,7 +25,7 @@ class ConfigurationTest extends CommandTestBase
     {
         $this->copyDirectory('assets/build_test_14/src', '_tmp');
 
-        $output = $this->runCommand('build', ['--quiet', '--env' => 'development']);
+        $output = $this->runCommand('build', '--quiet --env=development');
 
         $this->assertEquals('', trim($output->getDisplay()));
         $this->assertEquals(0, $output->getStatusCode());
@@ -45,7 +45,7 @@ class ConfigurationTest extends CommandTestBase
     {
         $this->copyDirectory('assets/build_test_26/src', '_tmp');
 
-        $output = $this->runCommand('build', ['--quiet']);
+        $output = $this->runCommand('build', '--quiet');
 
         $this->assertEquals('', trim($output->getDisplay()));
         $this->assertEquals(0, $output->getStatusCode());
@@ -65,7 +65,7 @@ class ConfigurationTest extends CommandTestBase
     {
         $this->copyDirectory('assets/build_test_26/src', '_tmp');
 
-        $output = $this->runCommand('build', ['--quiet', '--env' => 'development']);
+        $output = $this->runCommand('build', '--quiet --env=development');
 
         $this->assertEquals('', trim($output->getDisplay()));
         $this->assertEquals(0, $output->getStatusCode());
@@ -87,7 +87,7 @@ class ConfigurationTest extends CommandTestBase
     public function testYAMLandPHPConfigurationThrowsError()
     {
         $this->copyDirectory('assets/build_test_27/src', '_tmp');
-        $this->runCommand('build', ['--quiet']);
+        $this->runCommand('build', '--quiet');
     }
 
     /**
@@ -96,6 +96,6 @@ class ConfigurationTest extends CommandTestBase
     public function testYAMLandPHPConfigurationWithEnvSetThrowsError()
     {
         $this->copyDirectory('assets/build_test_27/src', '_tmp');
-        $this->runCommand('build', ['--quiet', '--env' => 'development']);
+        $this->runCommand('build', '--quiet --env=development');
     }
 }

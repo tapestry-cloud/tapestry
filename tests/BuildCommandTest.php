@@ -16,7 +16,7 @@ class BuildCommandTest extends CommandTestBase
     {
         $this->copyDirectory('/assets/build_test_1/src', '/_tmp');
 
-        $output = $this->runCommand('build', ['--quiet']);
+        $output = $this->runCommand('build', '--quiet');
 
         $this->assertEquals('', trim($output->getDisplay()));
         $this->assertEquals(0, $output->getStatusCode());
@@ -44,7 +44,7 @@ class BuildCommandTest extends CommandTestBase
     {
         $this->copyDirectory('assets/build_test_2/src', '_tmp');
 
-        $output = $this->runCommand('build', ['--quiet']);
+        $output = $this->runCommand('build', '--quiet');
 
         $this->assertEquals('', trim($output->getDisplay()));
         $this->assertEquals(0, $output->getStatusCode());
@@ -61,7 +61,7 @@ class BuildCommandTest extends CommandTestBase
     {
         $this->copyDirectory('assets/build_test_3/src', '_tmp');
 
-        $output = $this->runCommand('build', ['--quiet']);
+        $output = $this->runCommand('build', '--quiet');
 
         $this->assertEquals('', trim($output->getDisplay()));
         $this->assertEquals(0, $output->getStatusCode());
@@ -91,7 +91,7 @@ class BuildCommandTest extends CommandTestBase
     public function testSiteDistOption()
     {
         $this->copyDirectory('assets/build_test_3/src', '_tmp');
-        $output = $this->runCommand('build', ['--quiet', '--dist-dir' => __DIR__ . '/_tmp/test_dist_dir']);
+        $output = $this->runCommand('build', '--quiet --dist-dir=' . __DIR__ . '/_tmp/test_dist_dir');
 
         $this->assertEquals('', trim($output->getDisplay()));
         $this->assertEquals(0, $output->getStatusCode());
@@ -108,7 +108,7 @@ class BuildCommandTest extends CommandTestBase
     public function testFrontmatterDataParsingSucceeds()
     {
         $this->copyDirectory('assets/build_test_24/src', '_tmp');
-        $output = $this->runCommand('build', ['--quiet', '--dist-dir' => __DIR__ . '/_tmp/test_dist_dir']);
+        $output = $this->runCommand('build', '--quiet --dist-dir=' . __DIR__ . '/_tmp/test_dist_dir');
 
         $this->assertEquals('', trim($output->getDisplay()));
         $this->assertEquals(0, $output->getStatusCode());
@@ -121,7 +121,7 @@ class BuildCommandTest extends CommandTestBase
     public function testFrontmatterDataParsingFails()
     {
         $this->copyDirectory('assets/build_test_25/src', '_tmp');
-        $output = $this->runCommand('build', ['--quiet', '--dist-dir' => __DIR__ . '/_tmp/test_dist_dir']);
+        $output = $this->runCommand('build', '--quiet --dist-dir=' . __DIR__ . '/_tmp/test_dist_dir');
 
         $this->assertContains('[Exception]', trim($output->getDisplay()));
         $this->assertContains('The date [abc] is in a format not supported by Tapestry', trim($output->getDisplay()));
