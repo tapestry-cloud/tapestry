@@ -34,7 +34,7 @@ class Input extends ArgvInput
      * @param array $argv
      * @param InputDefinition $definition
      */
-    public function __construct($argv = [], InputDefinition $definition)
+    public function __construct(array $argv = [], InputDefinition $definition)
     {
         array_shift($argv);
 
