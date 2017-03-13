@@ -8,7 +8,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Json implements Step
 {
-
     /**
      * Process the Project at current.
      *
