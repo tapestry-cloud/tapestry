@@ -123,7 +123,7 @@ abstract class CommandTestBase extends \PHPUnit_Framework_TestCase
                 $arguments[$tmp[0]] = $tmp[1];
                 continue;
             }
-            array_push($arguments, $value);
+            $arguments[$value] = true;
         } unset($tmp, $value);
         array_unshift($argv, $command);
 
