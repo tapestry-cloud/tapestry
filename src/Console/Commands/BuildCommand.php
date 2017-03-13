@@ -65,8 +65,6 @@ class BuildCommand extends Command
 
         /** @var Project $project */
         $project = $this->tapestry->getContainer()->get(Project::class);
-        $generator->generate($project, $this->output);
-
-        return 0;
+        return $generator->generate($project, $this->output);
     }
 }
