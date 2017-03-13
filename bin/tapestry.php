@@ -1,7 +1,6 @@
 <?php
 
 use Tapestry\Console\Application;
-use Symfony\Component\Console\Input\ArgvInput;
 
 if (isset($include)) {
     require_once $include.'/src/bootstrap.php';
