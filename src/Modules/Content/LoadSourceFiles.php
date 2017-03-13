@@ -30,6 +30,9 @@ class LoadSourceFiles implements Step
      */
     private $prettyPermalink = true;
 
+    /**
+     * @var bool
+     */
     private $publishDrafts = false;
 
     /**
