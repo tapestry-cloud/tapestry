@@ -7,7 +7,7 @@ class MarkdownLayoutTest extends CommandTestBase
     public function testMarkdownFilesGetRenderedInLayouts()
     {
         $this->copyDirectory('assets/build_test_19/src', '_tmp');
-        $output = $this->runCommand('build', ['--quiet']);
+        $output = $this->runCommand('build', '--quiet');
         $this->assertEquals(0, $output->getStatusCode());
 
         $this->assertFileEquals(
@@ -21,7 +21,7 @@ class MarkdownLayoutTest extends CommandTestBase
     public function testMarkdownFilesGetRenderedInChildLayouts()
     {
         $this->copyDirectory('assets/build_test_20/src', '_tmp');
-        $output = $this->runCommand('build', ['--quiet']);
+        $output = $this->runCommand('build', '--quiet');
         $this->assertEquals(0, $output->getStatusCode());
 
         $this->assertFileEquals(

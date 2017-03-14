@@ -70,5 +70,7 @@ class ProjectConfigurationServiceProvider extends AbstractServiceProvider
         if (strpos($path, 'yaml') !== false) {
             return Yaml::parse(file_get_contents($path));
         }
+
+        return [];
     }
 }
