@@ -2,14 +2,14 @@
 
 namespace Tapestry\Modules\Api;
 
-use Symfony\Component\Filesystem\Filesystem;
-use Tapestry\Entities\ContentType;
-use Tapestry\Entities\File;
-use Tapestry\Entities\Taxonomy;
-use Tapestry\Modules\ContentTypes\ContentTypeFactory;
 use Tapestry\Step;
+use Tapestry\Entities\File;
 use Tapestry\Entities\Project;
+use Tapestry\Entities\Taxonomy;
+use Tapestry\Entities\ContentType;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Console\Output\OutputInterface;
+use Tapestry\Modules\ContentTypes\ContentTypeFactory;
 
 class Json implements Step
 {
@@ -50,11 +50,11 @@ class Json implements Step
         $json = [
             'exported' => date('c'),
             'files' => [],
-            'content_types' => []
+            'content_types' => [],
         ];
 
         /**
-         * @var string $id
+         * @var string
          * @var File $file
          */
         foreach ($project->get('files') as $id => $file) {
@@ -64,7 +64,7 @@ class Json implements Step
                 'data' => $file->getData(),
                 'content' => $file->getFileContent(),
                 'modified' => $file->getLastModified(),
-                'path' => $file->getPath()
+                'path' => $file->getPath(),
             ];
         }
 
@@ -72,15 +72,15 @@ class Json implements Step
         $contentTypes = $project->get('content_types');
 
         /**
-         * @var string $id
+         * @var string
          * @var ContentType $contentType
          */
-        foreach($contentTypes->all() as $id => $contentType) {
+        foreach ($contentTypes->all() as $id => $contentType) {
             $json['content_types'][$contentType->getName()] = [
                 'name' => $contentType->getName(),
                 'path' => $contentType->getPath(),
                 'permalink' => $contentType->getPermalink(),
-                'taxonomies' => []
+                'taxonomies' => [],
             ];
 
             /** @var Taxonomy $taxonomy */
@@ -90,6 +90,7 @@ class Json implements Step
         }
 
         $this->filesystem->dumpFile($project->currentWorkingDirectory.DIRECTORY_SEPARATOR.'db.json', json_encode($json));
+
         return $this->filesystem->exists($project->currentWorkingDirectory.DIRECTORY_SEPARATOR.'db.json');
     }
 }
