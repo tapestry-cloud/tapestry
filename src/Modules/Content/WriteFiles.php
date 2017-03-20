@@ -43,6 +43,10 @@ class WriteFiles implements Step
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
+        if ($project->get('cmd_options.no-write') === true) {
+            return true;
+        }
+
         /** @var FilesystemInterface $file */
         foreach ($project['compiled']->all() as $file) {
             $file->__invoke($this->filesystem, $output);

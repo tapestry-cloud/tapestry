@@ -12,7 +12,7 @@ class ContentTypeTest extends CommandTestBase
     public function testContentTypeTaxonomyDefaultsSetOnFiles()
     {
         $this->copyDirectory('assets/build_test_16/src', '_tmp');
-        $output = $this->runCommand('build', ['--quiet']);
+        $output = $this->runCommand('build', '--quiet');
         $this->assertEquals(0, $output->getStatusCode());
 
         $this->assertFileEquals(
@@ -25,7 +25,7 @@ class ContentTypeTest extends CommandTestBase
 
     public function testPreviousNextOrder(){
         $this->copyDirectory('assets/build_test_18/src', '_tmp');
-        $output = $this->runCommand('build', ['--quiet']);
+        $output = $this->runCommand('build', '--quiet');
         $this->assertEquals(0, $output->getStatusCode());
 
         $this->assertFileEquals(
