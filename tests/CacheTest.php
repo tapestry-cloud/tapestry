@@ -184,7 +184,7 @@ class CacheTest extends CommandTestBase
     public function testTemplateModificationInvalidateCacheViaFrontMatter()
     {
         $this->copyDirectory('/assets/build_test_22/src', '/_tmp');
-        $output = $this->runCommand('build', ['--quiet']);
+        $output = $this->runCommand('build', '--quiet');
         $this->assertEquals('', trim($output->getDisplay()));
         $this->assertEquals(0, $output->getStatusCode());
 
@@ -201,7 +201,7 @@ class CacheTest extends CommandTestBase
             true
         );
 
-        $output = $this->runCommand('build', ['--quiet']);
+        $output = $this->runCommand('build', '--quiet');
         $this->assertEquals(0, $output->getStatusCode());
 
         $this->assertFileEquals(
@@ -215,7 +215,7 @@ class CacheTest extends CommandTestBase
     public function testTemplateModificationInvalidateCacheViaPlates()
     {
         $this->copyDirectory('/assets/build_test_22/src', '/_tmp');
-        $output = $this->runCommand('build', ['--quiet']);
+        $output = $this->runCommand('build', '--quiet');
         $this->assertEquals('', trim($output->getDisplay()));
         $this->assertEquals(0, $output->getStatusCode());
 
@@ -225,7 +225,7 @@ class CacheTest extends CommandTestBase
             true
         );
 
-        $output = $this->runCommand('build', ['--quiet']);
+        $output = $this->runCommand('build', '--quiet');
         $this->assertEquals(0, $output->getStatusCode());
 
         $this->assertFileEquals(

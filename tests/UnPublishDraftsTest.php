@@ -11,7 +11,7 @@ class UnPublishDraftsTest extends CommandTestBase
     {
         $this->copyDirectory('assets/build_test_12/src', '_tmp');
 
-        $output = $this->runCommand('build', ['--quiet']);
+        $output = $this->runCommand('build', '--quiet');
 
         $this->assertEquals('', trim($output->getDisplay()));
         $this->assertEquals(0, $output->getStatusCode());
@@ -32,7 +32,7 @@ class UnPublishDraftsTest extends CommandTestBase
     {
         $this->copyDirectory('assets/build_test_13/src', '_tmp');
 
-        $output = $this->runCommand('build', ['--quiet']);
+        $output = $this->runCommand('build', '--quiet');
 
         $this->assertEquals('', trim($output->getDisplay()));
         $this->assertEquals(0, $output->getStatusCode());
