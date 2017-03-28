@@ -153,6 +153,26 @@ class BuildCommandTest extends CommandTestBase
         $this->assertFileEquals(__DIR__ .'/assets/build_test_4/src/source/assets/js/something_else/b.js', __DIR__ . '/_tmp/build_local/assets/js/something_else/b.js');
     }
 
+    /**
+     * Written for issue #123
+     * @link https://github.com/carbontwelve/tapestry/issues/123
+     */
+    public function testPHPAsPHTML()
+    {
+        $this->copyDirectory('assets/build_test_29/src', '_tmp');
+        $output = $this->runCommand('build', '--quiet');
+
+        $this->assertEquals('', trim($output->getDisplay()));
+        $this->assertEquals(0, $output->getStatusCode());
+
+        $this->assertFileEquals(
+            __DIR__.'/assets/build_test_29/check/index.html',
+            __DIR__.'/_tmp/build_local/index.html',
+            '',
+            true
+        );
+    }
+
     //public function testComplexBaseBuild()
     //{
     //    $this->copyDirectory('assets/build_test_5/src', '_tmp');
