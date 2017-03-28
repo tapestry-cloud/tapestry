@@ -2,11 +2,11 @@
 
 return [
     'ignore' => [
-        'ignored_folder\/(.*?)',
-        //'assets\/(.*?)',
+        'ignored_folder',
+        'assets',
     ],
 
     'copy' => [
-        //'assets\/(.*?)',
+        'assets',
     ],
 ];

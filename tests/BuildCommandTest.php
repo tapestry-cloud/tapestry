@@ -128,6 +128,10 @@ class BuildCommandTest extends CommandTestBase
         $this->assertEquals(1, $output->getStatusCode());
     }
 
+    /**
+     * Written for issue 121
+     * @link https://github.com/carbontwelve/tapestry/issues/121
+     */
     public function testFilterFunctionality()
     {
         $this->copyDirectory('assets/build_test_4/src', '_tmp');
@@ -136,8 +140,13 @@ class BuildCommandTest extends CommandTestBase
         $this->assertEquals('', trim($output->getDisplay()));
         $this->assertEquals(0, $output->getStatusCode());
 
+        // Folders prefixed with a underscore should be ignored by default.
         $this->assertFileNotExists(__DIR__ . '/_tmp/build_local/_templates');
+
+        // Folders set to be ignored, should be ignored.
         $this->assertFileNotExists(__DIR__ . '/_tmp/build_local/ignored_folder');
+
+        // Unless they are set to be copied.
         $this->assertfileExists(__DIR__ . '/_tmp/build_local/assets');
         $this->assertFileEquals(__DIR__ .'/assets/build_test_4/src/source/assets/js/app.js', __DIR__ . '/_tmp/build_local/assets/js/app.js');
         $this->assertFileEquals(__DIR__ .'/assets/build_test_4/src/source/assets/js/something_else/a.js', __DIR__ . '/_tmp/build_local/assets/js/something_else/a.js');
