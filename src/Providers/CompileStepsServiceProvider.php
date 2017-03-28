@@ -3,6 +3,7 @@
 namespace Tapestry\Providers;
 
 use Tapestry\Modules\Api\Json;
+use Tapestry\Modules\Content\Copy;
 use Tapestry\Modules\Content\Clean;
 use Tapestry\Modules\Content\Clear;
 use Tapestry\Modules\Scripts\After;
@@ -51,6 +52,7 @@ class CompileStepsServiceProvider extends AbstractServiceProvider
             Compile::class,
             WriteFiles::class,
             WriteCache::class,
+            Copy::class,
             Clean::class,
             After::class,
         ];

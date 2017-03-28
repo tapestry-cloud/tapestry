@@ -55,7 +55,6 @@ return [
 
     /*
      * Paths to ignore and not parse, any path matching those listed here will not be loaded.
-     * Note: Must be valid regex.
      */
     'ignore' => [
         '_assets',
@@ -65,7 +64,7 @@ return [
      * Paths that have been ignored, but which should be copied 1-to-1 from source to destination. This is useful for
      * ensuring that assets are copied, but are not parsed (which would slow things down with many files.)
      *
-     * Note: Must be valid regex, and items within the copy array must exist within the ignore array otherwise
+     * Note: Items within the copy array must exist within the ignore array otherwise
      * they will be ignored.
      */
     'copy' => [],
