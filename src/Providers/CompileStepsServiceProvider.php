@@ -3,9 +3,9 @@
 namespace Tapestry\Providers;
 
 use Tapestry\Modules\Api\Json;
+use Tapestry\Modules\Content\Copy;
 use Tapestry\Modules\Content\Clean;
 use Tapestry\Modules\Content\Clear;
-use Tapestry\Modules\Content\Copy;
 use Tapestry\Modules\Scripts\After;
 use Tapestry\Modules\Scripts\Before;
 use Tapestry\Modules\Content\Compile;
