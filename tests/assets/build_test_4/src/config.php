@@ -3,10 +3,10 @@
 return [
     'ignore' => [
         'ignored_folder\/(.*?)',
-        'assets\/(.*?)',
+        //'assets\/(.*?)',
     ],
 
     'copy' => [
-        'assets\/(.*?)',
+        //'assets\/(.*?)',
     ],
 ];

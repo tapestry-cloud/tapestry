@@ -128,24 +128,22 @@ class BuildCommandTest extends CommandTestBase
         $this->assertEquals(1, $output->getStatusCode());
     }
 
-//
-    //public function testFilterFunctionality()
-    //{
-    //    $this->copyDirectory('assets/build_test_4/src', '_tmp');
-//
-    //    $output = $this->runCommand('build');
-//
-    //    $this->assertEquals('Site successfully built.', trim($output->getDisplay()));
-    //    $this->assertEquals(0, $output->getStatusCode());
-//
-    //    $this->assertFileNotExists(__DIR__ . '/_tmp/build_local/_templates');
-    //    $this->assertFileNotExists(__DIR__ . '/_tmp/build_local/_ignored_folder');
-    //    $this->assertfileExists(__DIR__ . '/_tmp/build_local/assets');
-    //    $this->assertFileEquals(__DIR__ .'/assets/build_test_4/src/source/assets/js/app.js', __DIR__ . '/_tmp/build_local/assets/js/app.js');
-    //    $this->assertFileEquals(__DIR__ .'/assets/build_test_4/src/source/assets/js/something_else/a.js', __DIR__ . '/_tmp/build_local/assets/js/something_else/a.js');
-    //    $this->assertFileEquals(__DIR__ .'/assets/build_test_4/src/source/assets/js/something_else/b.js', __DIR__ . '/_tmp/build_local/assets/js/something_else/b.js');
-    //}
-//
+    public function testFilterFunctionality()
+    {
+        $this->copyDirectory('assets/build_test_4/src', '_tmp');
+        $output = $this->runCommand('build', '--quiet');
+
+        $this->assertEquals('', trim($output->getDisplay()));
+        $this->assertEquals(0, $output->getStatusCode());
+
+        $this->assertFileNotExists(__DIR__ . '/_tmp/build_local/_templates');
+        $this->assertFileNotExists(__DIR__ . '/_tmp/build_local/ignored_folder');
+        $this->assertfileExists(__DIR__ . '/_tmp/build_local/assets');
+        $this->assertFileEquals(__DIR__ .'/assets/build_test_4/src/source/assets/js/app.js', __DIR__ . '/_tmp/build_local/assets/js/app.js');
+        $this->assertFileEquals(__DIR__ .'/assets/build_test_4/src/source/assets/js/something_else/a.js', __DIR__ . '/_tmp/build_local/assets/js/something_else/a.js');
+        $this->assertFileEquals(__DIR__ .'/assets/build_test_4/src/source/assets/js/something_else/b.js', __DIR__ . '/_tmp/build_local/assets/js/something_else/b.js');
+    }
+
     //public function testComplexBaseBuild()
     //{
     //    $this->copyDirectory('assets/build_test_5/src', '_tmp');
