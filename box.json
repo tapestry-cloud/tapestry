@@ -1,0 +1,38 @@
+{
+  "chmod": "0755",
+  "compression": "GZ",
+  "alias": "tapestry.phar",
+  "directories": [
+    "src"
+  ],
+  "compactors": [
+    "Herrera\\Box\\Compactor\\Php"
+  ],
+  "extract": false,
+  "intercept": true,
+  "files": [
+    "LICENSE"
+  ],
+  "finder": [
+    {
+      "name": [
+        "*.php",
+        "*.pem"
+      ],
+      "exclude": [
+        "bin",
+        "tests",
+        "Tests"
+      ],
+      "in": [
+        "vendor"
+      ]
+    }
+  ],
+  "git-version": "package_version",
+  "main": "bin/tapestry.php",
+  "metadata": "Tapestry Static Site Generator",
+  "output": "build/tapestry.phar",
+  "shebang": "#!/usr/bin/env php",
+  "stub": true
+}

@@ -1,5 +1,6 @@
 .idea
-/vendor
 .DS_Store
-/bin/tapestry.phar
-/bin/tapestry.version
+box.phar
+vendor
+bin/tapestry.phar
+bin/tapestry.version
