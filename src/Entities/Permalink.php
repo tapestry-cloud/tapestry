@@ -19,8 +19,17 @@ class Permalink
         $this->setTemplate($template);
     }
 
+    /**
+     *
+     * @param $template
+     */
     public function setTemplate($template)
     {
+        // If you set your permalink to be /about or /abc/123 you expect that to be the url
+        // this means "prettifying" by making the generated file /about/index.html or /abc/123/index.html
+        if (strpos($template, '.') === false){
+            $template .= '/index.{ext}';
+        }
         $this->template = $template;
     }
 
@@ -46,10 +55,11 @@ class Permalink
 
         /** @var \DateTime $date */
         if ($date = $file->getData('date')) {
-            $output = str_replace('{year}', $date->format('Y'), $output);
-            $output = str_replace('{month}', $date->format('m'), $output);
-            $output = str_replace('{day}', $date->format('d'), $output);
+            $output = str_replace('{year}', $file->getData('year', $date->format('Y')), $output);
+            $output = str_replace('{month}', $file->getData('month', $date->format('m')), $output);
+            $output = str_replace('{day}', $file->getData('day', $date->format('d')), $output);
         }
+
 
         /** @var Pagination $pagination */
         if ($pagination = $file->getData('pagination')) {
