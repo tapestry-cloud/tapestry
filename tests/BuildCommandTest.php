@@ -173,23 +173,29 @@ class BuildCommandTest extends CommandTestBase
         );
     }
 
-    //public function testComplexBaseBuild()
-    //{
-    //    $this->copyDirectory('assets/build_test_5/src', '_tmp');
-//
-    //    $output = $this->runCommand('build');
-//
-    //    $this->assertEquals('Site successfully built.', trim($output->getDisplay()));
-    //    $this->assertEquals(0, $output->getStatusCode());
-//
-    //    $this->assertFileExists(__DIR__ . '/_tmp/build_local/a_folder/b_folder/b_file/index.html');
-    //    $this->assertFileExists(__DIR__ . '/_tmp/build_local/a_folder/a_file/index.html');
-    //    $this->assertFileExists(__DIR__ . '/_tmp/build_local/a_folder/another_file/index.html');
-    //    $this->assertFileExists(__DIR__ . '/_tmp/build_local/b_folder/b_file_2/index.html');
-    //    $this->assertFileExists(__DIR__ . '/_tmp/build_local/b_folder/b_file_3.html');
-    //    $this->assertFileExists(__DIR__ . '/_tmp/build_local/about/index.html');
-    //    $this->assertFileExists(__DIR__ . '/_tmp/build_local/index.html');
-    //}
+    /**
+     * Written for issue #130
+     * Originally from a previous incarnation of Tapestry this tests that input files produce the correct output paths.
+     *
+     * @link https://github.com/carbontwelve/tapestry/issues/130
+     */
+    public function testComplexBaseBuild()
+    {
+        $this->copyDirectory('assets/build_test_5/src', '_tmp');
+
+        $output = $this->runCommand('build', '--quiet');
+
+        $this->assertEquals('', trim($output->getDisplay()));
+        $this->assertEquals(0, $output->getStatusCode());
+
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/a_folder/b_folder/b-file/index.html');
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/a_folder/a-file/index.html');
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/a_folder/another-file/index.html');
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/b_folder/b-file-2/index.html');
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/b_folder/b-file-3.html');
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/about/index.html');
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/index.html');
+    }
 //
     //public function testFrontmatterTemplateLoading()
     //{
