@@ -9,7 +9,6 @@ if (isset($include)) {
 }
 
 try {
-
     $tapestry = new Tapestry\Tapestry(
         new \Tapestry\Console\Input(
             $_SERVER['argv'],
@@ -20,9 +19,8 @@ try {
     /** @var Application $cli */
     $cli = $tapestry[Application::class];
     $cli->run();
-
 } catch (\Exception $e) {
-    echo 'Uncaught Exception ' . get_class($e) . ' with message: ' . $e->getMessage() . PHP_EOL;
+    echo 'Uncaught Exception '.get_class($e).' with message: '.$e->getMessage().PHP_EOL;
     echo $e->getTraceAsString();
     exit(1);
 }
