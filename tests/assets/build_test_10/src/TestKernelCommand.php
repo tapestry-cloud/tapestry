@@ -1,8 +1,8 @@
 <?php
 
-namespace SiteEleven;
+namespace SiteTen;
 
-use Tapestry\Console\Command;
+use Tapestry\Console\Commands\Command;
 
 class TestKernelCommand extends Command
 {

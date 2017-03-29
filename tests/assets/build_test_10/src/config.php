@@ -2,5 +2,5 @@
 
 return [
     'debug'  => false,
-    'kernel' => \SiteEleven\SiteKernel::class,
+    'kernel' => \SiteTen\Kernel::class,
 ];
