@@ -173,6 +173,12 @@ class BuildCommandTest extends CommandTestBase
         );
     }
 
+    /**
+     * Written for issue #130
+     * Originally from a previous incarnation of Tapestry this tests that input files produce the correct output paths.
+     *
+     * @link https://github.com/carbontwelve/tapestry/issues/130
+     */
     public function testComplexBaseBuild()
     {
         $this->copyDirectory('assets/build_test_5/src', '_tmp');
@@ -186,7 +192,7 @@ class BuildCommandTest extends CommandTestBase
         $this->assertFileExists(__DIR__ . '/_tmp/build_local/a_folder/a-file/index.html');
         $this->assertFileExists(__DIR__ . '/_tmp/build_local/a_folder/another-file/index.html');
         $this->assertFileExists(__DIR__ . '/_tmp/build_local/b_folder/b-file-2/index.html');
-        $this->assertFileExists(__DIR__ . '/_tmp/build_local/b_folder/b_file_3.html');
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/b_folder/b-file-3.html');
         $this->assertFileExists(__DIR__ . '/_tmp/build_local/about/index.html');
         $this->assertFileExists(__DIR__ . '/_tmp/build_local/index.html');
     }
