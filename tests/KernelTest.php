@@ -24,4 +24,17 @@ class KernelTest extends CommandTestBase
             true
         );
     }
+
+    /**
+     * Written for issue #135
+     * @link https://github.com/carbontwelve/tapestry/issues/135
+     */
+    public function testLoadingCommandViaSiteKernelBoot()
+    {
+        $this->copyDirectory('assets/build_test_10/src', '_tmp');
+        $output = $this->runCommand('hello');
+
+        $this->assertEquals('Hello world! This command was loaded via a site Kernel.', trim($output->getDisplay()));
+        $this->assertEquals(0, $output->getStatusCode());
+    }
 }
