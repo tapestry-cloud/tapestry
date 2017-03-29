@@ -188,11 +188,11 @@ class BuildCommandTest extends CommandTestBase
         $this->assertEquals('', trim($output->getDisplay()));
         $this->assertEquals(0, $output->getStatusCode());
 
-        $this->assertFileExists(__DIR__ . '/_tmp/build_local/a-folder/b-folder/b-file/index.html');
-        $this->assertFileExists(__DIR__ . '/_tmp/build_local/a-folder/a-file/index.html');
-        $this->assertFileExists(__DIR__ . '/_tmp/build_local/a-folder/another-file/index.html');
-        $this->assertFileExists(__DIR__ . '/_tmp/build_local/b-folder/b-file-2/index.html');
-        $this->assertFileExists(__DIR__ . '/_tmp/build_local/b-folder/b-file-3.html');
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/a_folder/b_folder/b-file/index.html');
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/a_folder/a-file/index.html');
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/a_folder/another-file/index.html');
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/b_folder/b-file-2/index.html');
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/b_folder/b-file-3.html');
         $this->assertFileExists(__DIR__ . '/_tmp/build_local/about/index.html');
         $this->assertFileExists(__DIR__ . '/_tmp/build_local/index.html');
     }
