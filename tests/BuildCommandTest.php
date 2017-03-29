@@ -197,6 +197,10 @@ class BuildCommandTest extends CommandTestBase
         $this->assertFileExists(__DIR__ . '/_tmp/build_local/index.html');
     }
 
+    /**
+     * Written for issue #131
+     * @link https://github.com/carbontwelve/tapestry/issues/131
+     */
     public function testFrontmatterTemplateLoading()
     {
         $this->copyDirectory('assets/build_test_6/src', '_tmp');
@@ -209,6 +213,10 @@ class BuildCommandTest extends CommandTestBase
         $this->assertFileEquals(__DIR__ .'/assets/build_test_6/check/index.html', __DIR__ . '/_tmp/build_local/index.html');
     }
 
+    /**
+     * Written for issue #132
+     * @link https://github.com/carbontwelve/tapestry/issues/132
+     */
     public function testFontmatterPermalinks()
     {
         $this->copyDirectory('assets/build_test_7/src', '_tmp');
