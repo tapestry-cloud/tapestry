@@ -208,21 +208,21 @@ class BuildCommandTest extends CommandTestBase
 
         $this->assertFileEquals(__DIR__ .'/assets/build_test_6/check/index.html', __DIR__ . '/_tmp/build_local/index.html');
     }
-//
-    //public function testFontmatterPermalinks()
-    //{
-    //    $this->copyDirectory('assets/build_test_7/src', '_tmp');
-//
-    //    $output = $this->runCommand('build');
-//
-    //    $this->assertEquals('Site successfully built.', trim($output->getDisplay()));
-    //    $this->assertEquals(0, $output->getStatusCode());
-//
-    //    $this->assertFileExists(__DIR__ . '/_tmp/build_local/abc/123/file.html');
-    //    $this->assertFileExists(__DIR__ . '/_tmp/build_local/123/abc/file.xml');
-    //    $this->assertFileExists(__DIR__ . '/_tmp/build_local/rah.html');
-    //    $this->assertFileExists(__DIR__ . '/_tmp/build_local/about/index.html');
-    //    $this->assertFileExists(__DIR__ . '/_tmp/build_local/test/testing/testy/index.html');
-    //    $this->assertFileExists(__DIR__ . '/_tmp/build_local/blog/2016/02/test.html');
-    //}
+
+    public function testFontmatterPermalinks()
+    {
+        $this->copyDirectory('assets/build_test_7/src', '_tmp');
+
+        $output = $this->runCommand('build', '--quiet');
+
+        $this->assertEquals('', trim($output->getDisplay()));
+        $this->assertEquals(0, $output->getStatusCode());
+
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/abc/123/file.html');
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/123/abc/file.xml');
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/rah.html');
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/about/index.html');
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/test/testing/testy/index.html');
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/blog/2016/02/test.html');
+    }
 }
