@@ -233,4 +233,32 @@ class BuildCommandTest extends CommandTestBase
         $this->assertFileExists(__DIR__ . '/_tmp/build_local/test/testing/testy/index.html');
         $this->assertFileExists(__DIR__ . '/_tmp/build_local/blog/2016/02/test.html');
     }
+
+    /**
+     * Written for issue #136
+     * @link https://github.com/carbontwelve/tapestry/issues/136
+     */
+    public function testBlogPostBuild()
+    {
+        $this->copyDirectory('assets/build_test_11/src', '_tmp');
+
+        $output = $this->runCommand('build', '--quiet');
+
+        $this->assertEquals('', trim($output->getDisplay()));
+        $this->assertEquals(0, $output->getStatusCode());
+
+        $this->assertFileEquals(
+            __DIR__.'/assets/build_test_11/check/blog/2016/test-blog-entry.html',
+            __DIR__.'/_tmp/build_local/blog/2016/test-blog-entry/index.html',
+            '',
+            true
+        );
+
+        $this->assertFileEquals(
+            __DIR__.'/assets/build_test_11/check/blog/2016/test-blog-entry-two.html',
+            __DIR__.'/_tmp/build_local/blog/2016/test-blog-entry-two/index.html',
+            '',
+            true
+        );
+    }
 }
