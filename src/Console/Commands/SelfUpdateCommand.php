@@ -53,10 +53,6 @@ class SelfUpdateCommand extends Command
         $this->currentPharFileName = realpath($_SERVER['argv'][0]) ?: $_SERVER['argv'][0];
         $this->scratchDirectoryPath = dirname($this->currentPharFileName).DIRECTORY_SEPARATOR.'tmp';
         $this->pharExists = (pathinfo($this->currentPharFileName, PATHINFO_EXTENSION) === 'phar');
-
-        if (! $filesystem->exists($this->scratchDirectoryPath)) {
-            $filesystem->mkdir($this->scratchDirectoryPath);
-        }
     }
 
     /**
@@ -88,6 +84,10 @@ class SelfUpdateCommand extends Command
 
         if ($this->input->getOption('rollback')) {
             return $this->rollback();
+        }
+
+        if (! $this->filesystem->exists($this->scratchDirectoryPath)) {
+            $this->filesystem->mkdir($this->scratchDirectoryPath);
         }
 
         $jsonPathName = $this->scratchDirectoryPath.DIRECTORY_SEPARATOR.'release.json';
