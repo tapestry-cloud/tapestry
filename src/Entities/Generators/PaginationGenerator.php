@@ -29,7 +29,7 @@ class PaginationGenerator extends FileGenerator
 
         $defaultConfiguration = [
             'perPage' => 5,
-            'skip' => 0
+            'skip' => 0,
         ];
 
         $configuration = array_merge($defaultConfiguration, $configuration);
