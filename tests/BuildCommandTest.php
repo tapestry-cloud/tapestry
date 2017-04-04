@@ -261,4 +261,22 @@ class BuildCommandTest extends CommandTestBase
             true
         );
     }
+
+    /**
+     * Written for issuer #152
+     * @link https://github.com/carbontwelve/tapestry/issues/152
+     */
+    public function testIgnoreUnderscorePaths()
+    {
+        $this->copyDirectory('assets/build_test_30/src', '_tmp');
+
+        $output = $this->runCommand('build', '--quiet');
+
+        $this->assertEquals('', trim($output->getDisplay()));
+        $this->assertEquals(0, $output->getStatusCode());
+
+        $this->assertFileNotExists(__DIR__ . '/_tmp/build_local/_should-not-exist/index.html');
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/should-exist/index.html');
+        $this->assertFileNotExists(__DIR__ . '/_tmp/build_local/should-exist/_should-not-exist/index.html');
+    }
 }
