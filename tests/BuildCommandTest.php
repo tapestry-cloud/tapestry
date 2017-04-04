@@ -277,5 +277,6 @@ class BuildCommandTest extends CommandTestBase
 
         $this->assertFileNotExists(__DIR__ . '/_tmp/build_local/_should-not-exist/index.html');
         $this->assertFileExists(__DIR__ . '/_tmp/build_local/should-exist/index.html');
+        $this->assertFileNotExists(__DIR__ . '/_tmp/build_local/should-exist/_should-not-exist/index.html');
     }
 }
