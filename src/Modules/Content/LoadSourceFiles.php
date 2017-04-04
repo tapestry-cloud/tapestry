@@ -63,6 +63,7 @@ class LoadSourceFiles implements Step
 
         if (! file_exists($sourcePath)) {
             $output->writeln('[!] The project source path could not be opened at ['.$sourcePath.']');
+
             return false;
         }
 

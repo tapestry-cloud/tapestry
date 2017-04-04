@@ -2,9 +2,9 @@
 
 namespace Tapestry\Entities\Collections;
 
-use Symfony\Component\Finder\SplFileInfo;
 use Tapestry\ArrayContainer;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 class ExcludedFilesCollection extends ArrayContainer
 {
@@ -47,6 +47,7 @@ class ExcludedFilesCollection extends ArrayContainer
                     return false;
                 }
             }
+
             return true;
         });
     }
