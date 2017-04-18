@@ -3,10 +3,10 @@
 namespace Tapestry\Plates;
 
 use Exception;
+use Throwable;
 use LogicException;
 use Tapestry\Entities\File;
 use League\Plates\Template\Template as PlatesTemplate;
-use Throwable;
 
 /**
  * Class Template.
@@ -144,15 +144,15 @@ class Template extends PlatesTemplate
      * @throws \Exception
      * @return string
      */
-    public function render(array $data = array())
+    public function render(array $data = [])
     {
         $this->data($data);
         unset($data);
         extract($this->data);
 
-        if (!$this->exists()) {
+        if (! $this->exists()) {
             throw new LogicException(
-                'The template "' . $this->name->getName() . '" could not be found at "' . $this->path() . '".'
+                'The template "'.$this->name->getName().'" could not be found at "'.$this->path().'".'
             );
         }
 
@@ -167,7 +167,7 @@ class Template extends PlatesTemplate
             if (isset($this->layoutName)) {
                 $layout = $this->engine->make($this->layoutName);
                 $layout->setFile($this->file);
-                $layout->sections = array_merge($this->sections, array('content' => $content));
+                $layout->sections = array_merge($this->sections, ['content' => $content]);
                 $content = $layout->render($this->layoutData);
             }
 
