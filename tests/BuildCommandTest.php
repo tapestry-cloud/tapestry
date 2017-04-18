@@ -306,5 +306,12 @@ class BuildCommandTest extends CommandTestBase
             '',
             true
         );
+
+        $this->assertFileEquals(
+            __DIR__.'/assets/build_test_31/check/blog.html',
+            __DIR__.'/_tmp/build_local/blog/2016/test/index.html',
+            '',
+            true
+        );
     }
 }
