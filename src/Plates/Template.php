@@ -2,9 +2,11 @@
 
 namespace Tapestry\Plates;
 
+use Exception;
 use LogicException;
 use Tapestry\Entities\File;
 use League\Plates\Template\Template as PlatesTemplate;
+use Throwable;
 
 /**
  * Class Template.
@@ -71,11 +73,16 @@ class Template extends PlatesTemplate
      * Render the File.
      *
      * @param File $file
-     * @throws \Exception
+     * @param array $data
      * @return string
+     * @throws Exception
+     * @throws Throwable
      */
-    public function renderFile(File $file)
+    public function renderFile(File $file, array $data = [])
     {
+        $this->data($data);
+        unset($data);
+
         $this->file = $file;
         $tmpDirectory = $this->engine->getProject()->currentWorkingDirectory.DIRECTORY_SEPARATOR.'.tmp';
 
@@ -102,10 +109,9 @@ class Template extends PlatesTemplate
 
             extract($this->data);
 
+            $level = ob_get_level();
             ob_start();
-
             include $tmpPathName;
-
             $content = ob_get_clean();
 
             if (isset($this->layoutName)) {
@@ -116,8 +122,64 @@ class Template extends PlatesTemplate
             }
 
             return $content;
-        } catch (LogicException $e) {
-            if (ob_get_length() > 0) {
+        } catch (Throwable $e) {
+            while (ob_get_level() > $level) {
+                ob_end_clean();
+            }
+
+            throw $e;
+        } catch (Exception $e) {
+            while (ob_get_level() > $level) {
+                ob_end_clean();
+            }
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Render the template and layout.
+     * @param  array  $data
+     * @throws \Throwable
+     * @throws \Exception
+     * @return string
+     */
+    public function render(array $data = array())
+    {
+        $this->data($data);
+        unset($data);
+        extract($this->data);
+
+        if (!$this->exists()) {
+            throw new LogicException(
+                'The template "' . $this->name->getName() . '" could not be found at "' . $this->path() . '".'
+            );
+        }
+
+        try {
+            $level = ob_get_level();
+            ob_start();
+
+            include $this->path();
+
+            $content = ob_get_clean();
+
+            if (isset($this->layoutName)) {
+                $layout = $this->engine->make($this->layoutName);
+                $layout->setFile($this->file);
+                $layout->sections = array_merge($this->sections, array('content' => $content));
+                $content = $layout->render($this->layoutData);
+            }
+
+            return $content;
+        } catch (Throwable $e) {
+            while (ob_get_level() > $level) {
+                ob_end_clean();
+            }
+
+            throw $e;
+        } catch (Exception $e) {
+            while (ob_get_level() > $level) {
                 ob_end_clean();
             }
 
