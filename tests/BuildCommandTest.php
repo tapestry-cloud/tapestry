@@ -263,7 +263,7 @@ class BuildCommandTest extends CommandTestBase
     }
 
     /**
-     * Written for issuer #152
+     * Written for issue #152
      * @link https://github.com/carbontwelve/tapestry/issues/152
      */
     public function testIgnoreUnderscorePaths()
@@ -278,5 +278,54 @@ class BuildCommandTest extends CommandTestBase
         $this->assertFileNotExists(__DIR__ . '/_tmp/build_local/_should-not-exist/index.html');
         $this->assertFileExists(__DIR__ . '/_tmp/build_local/should-exist/index.html');
         $this->assertFileNotExists(__DIR__ . '/_tmp/build_local/should-exist/_should-not-exist/index.html');
+    }
+
+    /**
+     * Written for issue #158
+     * @link https://github.com/carbontwelve/tapestry/issues/158
+     */
+    public function testFileTemplatePassthrough()
+    {
+        $this->copyDirectory('assets/build_test_31/src', '_tmp');
+
+        $output = $this->runCommand('build', '--quiet');
+
+        $this->assertEquals('', trim($output->getDisplay()));
+        $this->assertEquals(0, $output->getStatusCode());
+
+        $this->assertFileEquals(
+            __DIR__.'/assets/build_test_31/check/single.html',
+            __DIR__.'/_tmp/build_local/single/index.html',
+            '',
+            true
+        );
+
+        $this->assertFileEquals(
+            __DIR__.'/assets/build_test_31/check/base.html',
+            __DIR__.'/_tmp/build_local/base/index.html',
+            '',
+            true
+        );
+
+        $this->assertFileEquals(
+            __DIR__.'/assets/build_test_31/check/blog.html',
+            __DIR__.'/_tmp/build_local/blog/2016/test/index.html',
+            '',
+            true
+        );
+
+        $this->assertFileEquals(
+            __DIR__.'/assets/build_test_31/check/page.html',
+            __DIR__.'/_tmp/build_local/page/index.html',
+            '',
+            true
+        );
+
+        $this->assertFileEquals(
+            __DIR__.'/assets/build_test_31/check/page-multi.html',
+            __DIR__.'/_tmp/build_local/page-multi/index.html',
+            '',
+            true
+        );
     }
 }
