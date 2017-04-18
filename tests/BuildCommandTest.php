@@ -313,5 +313,19 @@ class BuildCommandTest extends CommandTestBase
             '',
             true
         );
+
+        $this->assertFileEquals(
+            __DIR__.'/assets/build_test_31/check/page.html',
+            __DIR__.'/_tmp/build_local/page/index.html',
+            '',
+            true
+        );
+
+        $this->assertFileEquals(
+            __DIR__.'/assets/build_test_31/check/page-multi.html',
+            __DIR__.'/_tmp/build_local/page-multi/index.html',
+            '',
+            true
+        );
     }
 }
