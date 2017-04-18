@@ -1,0 +1,13 @@
+<?php
+/**
+ * @var stdClass $previous_next
+ * @var string $title
+ * @var string $content
+ * @var \Tapestry\Entities\ViewFileTrait|\Tapestry\Plates\Template $this
+ */
+$this->layout('_templates/default');
+?>
+!!! page.phtml
+<?= (is_null($this->getFile()) ? 'null' : $this->getFile()->getUid()) . "\n" ?>
+!!! ./page.phtml
+<?= $this->section('content') ?>
