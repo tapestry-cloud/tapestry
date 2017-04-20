@@ -84,6 +84,29 @@ trait ViewFileTrait
     }
 
     /**
+     * Method written for #161, this adds the ability to get an excerpt of the files content.
+     *
+     * @link https://github.com/carbontwelve/tapestry/issues/161
+     * @param int $limit
+     * @param string $more
+     * @return string
+     */
+    public function getExcerpt($limit = 50, $more= "&hellip;") {
+        $content = strip_tags($this->getContent());
+        if (strlen($content) <= $limit) {
+            return $content;
+        }
+
+        $content = mb_substr($content, 0, $limit);
+        $content = mb_substr($content, 0, mb_strrpos($content, ' '));
+
+        if (!empty($more)) {
+            $content .= $more;
+        }
+        return $content;
+    }
+
+    /**
      * Returns true if the page has $pagination set to an instance of Pagination.
      *
      * @return bool
