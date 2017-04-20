@@ -91,7 +91,8 @@ trait ViewFileTrait
      * @param string $more
      * @return string
      */
-    public function getExcerpt($limit = 50, $more= "&hellip;") {
+    public function getExcerpt($limit = 50, $more = '&hellip;')
+    {
         $content = strip_tags($this->getContent());
         if (strlen($content) <= $limit) {
             return $content;
@@ -100,9 +101,10 @@ trait ViewFileTrait
         $content = mb_substr($content, 0, $limit);
         $content = mb_substr($content, 0, mb_strrpos($content, ' '));
 
-        if (!empty($more)) {
+        if (! empty($more)) {
             $content .= $more;
         }
+
         return $content;
     }
 
