@@ -37,10 +37,6 @@ class ViewFileTraitTest extends CommandTestBase
      */
     public function testExtractHelper()
     {
-        // $this->copyDirectory('assets/build_test_32/src', '_tmp');
-        // $output = $this->runCommand('build', '--quiet');
-        // $this->assertEquals(0, $output->getStatusCode());
-
         $project = new Project('', '', 'test');
 
         $file = new File(new SplFileInfo(__DIR__ . '/mocks/TestExcerptFile.md', '', ''));
@@ -48,11 +44,18 @@ class ViewFileTraitTest extends CommandTestBase
         $file->setData($frontMatter->getData());
         $file->setContent($frontMatter->getContent());
 
+        $project->set('compiled', [
+            $file->getUid() => $file,
+        ]);
+
         $viewFile = new ViewFile($project, $file->getUid());
 
-        $n = $viewFile->getExcerpt();
-        $n = $viewFile->getExcerpt(10);
-        $n = $viewFile->getExcerpt(10, '123');
-        $n = 1;
+        $this->assertEquals('Lorem ipsum dolor sit amet, consectetur&hellip;', $viewFile->getExcerpt());
+        $this->assertEquals('Lorem ipsum dolor sit amet, consectetur', $viewFile->getExcerpt(50, ''));
+        $this->assertEquals('Lorem ipsum dolor sit amet, consectetur', $viewFile->getExcerpt(50, null));
+        $this->assertEquals('Lorem&hellip;', $viewFile->getExcerpt(10));
+        $this->assertEquals('Lorem123', $viewFile->getExcerpt(10, '123'));
+        $this->assertEquals('Lorem', $viewFile->getExcerpt(10, ''));
+        $this->assertEquals('Lorem', $viewFile->getExcerpt(10, null));
     }
 }
