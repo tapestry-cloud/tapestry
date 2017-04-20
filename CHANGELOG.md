@@ -6,10 +6,12 @@
 - #96 phine/phar is replaced by box-project/box2 for generating the .phar
 - #119 Added missing tests
 - #151 Self update command no longer creates a tmp folder on construct
+- #158 `$this->getUrl()` on null due to Blade extension not passing `File` on render method
 
 ## Enhancements
 - #147 Skip functionality added to paginator 
 - #152 Directories prefixed with an underscore are now ignored
+- #161 Added `getExcerpt()` helper
 
 # 1.0.6
 ## Bugfixes
