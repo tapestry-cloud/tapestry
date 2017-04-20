@@ -4,3 +4,4 @@ box.phar
 vendor
 bin/tapestry.phar
 bin/tapestry.version
+src/build.json

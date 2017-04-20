@@ -4,6 +4,7 @@ namespace Tapestry\Console;
 
 use Tapestry\Tapestry;
 use Symfony\Component\Console\Application as ConsoleApplication;
+use Tapestry\Version;
 
 class Application extends ConsoleApplication
 {
@@ -20,7 +21,7 @@ class Application extends ConsoleApplication
      */
     public function __construct(Tapestry $tapestry, array $commands = [])
     {
-        parent::__construct('Tapestry', $tapestry::VERSION);
+        parent::__construct('Tapestry', Version::build());
         $this->tapestry = $tapestry;
         $this->addCommands($commands);
     }
