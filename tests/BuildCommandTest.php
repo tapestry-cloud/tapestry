@@ -128,68 +128,204 @@ class BuildCommandTest extends CommandTestBase
         $this->assertEquals(1, $output->getStatusCode());
     }
 
-//
-    //public function testFilterFunctionality()
-    //{
-    //    $this->copyDirectory('assets/build_test_4/src', '_tmp');
-//
-    //    $output = $this->runCommand('build');
-//
-    //    $this->assertEquals('Site successfully built.', trim($output->getDisplay()));
-    //    $this->assertEquals(0, $output->getStatusCode());
-//
-    //    $this->assertFileNotExists(__DIR__ . '/_tmp/build_local/_templates');
-    //    $this->assertFileNotExists(__DIR__ . '/_tmp/build_local/_ignored_folder');
-    //    $this->assertfileExists(__DIR__ . '/_tmp/build_local/assets');
-    //    $this->assertFileEquals(__DIR__ .'/assets/build_test_4/src/source/assets/js/app.js', __DIR__ . '/_tmp/build_local/assets/js/app.js');
-    //    $this->assertFileEquals(__DIR__ .'/assets/build_test_4/src/source/assets/js/something_else/a.js', __DIR__ . '/_tmp/build_local/assets/js/something_else/a.js');
-    //    $this->assertFileEquals(__DIR__ .'/assets/build_test_4/src/source/assets/js/something_else/b.js', __DIR__ . '/_tmp/build_local/assets/js/something_else/b.js');
-    //}
-//
-    //public function testComplexBaseBuild()
-    //{
-    //    $this->copyDirectory('assets/build_test_5/src', '_tmp');
-//
-    //    $output = $this->runCommand('build');
-//
-    //    $this->assertEquals('Site successfully built.', trim($output->getDisplay()));
-    //    $this->assertEquals(0, $output->getStatusCode());
-//
-    //    $this->assertFileExists(__DIR__ . '/_tmp/build_local/a_folder/b_folder/b_file/index.html');
-    //    $this->assertFileExists(__DIR__ . '/_tmp/build_local/a_folder/a_file/index.html');
-    //    $this->assertFileExists(__DIR__ . '/_tmp/build_local/a_folder/another_file/index.html');
-    //    $this->assertFileExists(__DIR__ . '/_tmp/build_local/b_folder/b_file_2/index.html');
-    //    $this->assertFileExists(__DIR__ . '/_tmp/build_local/b_folder/b_file_3.html');
-    //    $this->assertFileExists(__DIR__ . '/_tmp/build_local/about/index.html');
-    //    $this->assertFileExists(__DIR__ . '/_tmp/build_local/index.html');
-    //}
-//
-    //public function testFrontmatterTemplateLoading()
-    //{
-    //    $this->copyDirectory('assets/build_test_6/src', '_tmp');
-//
-    //    $output = $this->runCommand('build');
-//
-    //    $this->assertEquals('Site successfully built.', trim($output->getDisplay()));
-    //    $this->assertEquals(0, $output->getStatusCode());
-//
-    //    $this->assertFileEquals(__DIR__ .'/assets/build_test_6/check/index.html', __DIR__ . '/_tmp/build_local/index.html');
-    //}
-//
-    //public function testFontmatterPermalinks()
-    //{
-    //    $this->copyDirectory('assets/build_test_7/src', '_tmp');
-//
-    //    $output = $this->runCommand('build');
-//
-    //    $this->assertEquals('Site successfully built.', trim($output->getDisplay()));
-    //    $this->assertEquals(0, $output->getStatusCode());
-//
-    //    $this->assertFileExists(__DIR__ . '/_tmp/build_local/abc/123/file.html');
-    //    $this->assertFileExists(__DIR__ . '/_tmp/build_local/123/abc/file.xml');
-    //    $this->assertFileExists(__DIR__ . '/_tmp/build_local/rah.html');
-    //    $this->assertFileExists(__DIR__ . '/_tmp/build_local/about/index.html');
-    //    $this->assertFileExists(__DIR__ . '/_tmp/build_local/test/testing/testy/index.html');
-    //    $this->assertFileExists(__DIR__ . '/_tmp/build_local/blog/2016/02/test.html');
-    //}
+    /**
+     * Written for issue 121
+     * @link https://github.com/carbontwelve/tapestry/issues/121
+     */
+    public function testFilterFunctionality()
+    {
+        $this->copyDirectory('assets/build_test_4/src', '_tmp');
+        $output = $this->runCommand('build', '--quiet');
+
+        $this->assertEquals('', trim($output->getDisplay()));
+        $this->assertEquals(0, $output->getStatusCode());
+
+        // Folders prefixed with a underscore should be ignored by default.
+        $this->assertFileNotExists(__DIR__ . '/_tmp/build_local/_templates');
+
+        // Folders set to be ignored, should be ignored.
+        $this->assertFileNotExists(__DIR__ . '/_tmp/build_local/ignored_folder');
+
+        // Unless they are set to be copied.
+        $this->assertfileExists(__DIR__ . '/_tmp/build_local/assets');
+        $this->assertFileEquals(__DIR__ .'/assets/build_test_4/src/source/assets/js/app.js', __DIR__ . '/_tmp/build_local/assets/js/app.js');
+        $this->assertFileEquals(__DIR__ .'/assets/build_test_4/src/source/assets/js/something_else/a.js', __DIR__ . '/_tmp/build_local/assets/js/something_else/a.js');
+        $this->assertFileEquals(__DIR__ .'/assets/build_test_4/src/source/assets/js/something_else/b.js', __DIR__ . '/_tmp/build_local/assets/js/something_else/b.js');
+    }
+
+    /**
+     * Written for issue #123
+     * @link https://github.com/carbontwelve/tapestry/issues/123
+     */
+    public function testPHPAsPHTML()
+    {
+        $this->copyDirectory('assets/build_test_29/src', '_tmp');
+        $output = $this->runCommand('build', '--quiet');
+
+        $this->assertEquals('', trim($output->getDisplay()));
+        $this->assertEquals(0, $output->getStatusCode());
+
+        $this->assertFileEquals(
+            __DIR__.'/assets/build_test_29/check/index.html',
+            __DIR__.'/_tmp/build_local/index.html',
+            '',
+            true
+        );
+    }
+
+    /**
+     * Written for issue #130
+     * Originally from a previous incarnation of Tapestry this tests that input files produce the correct output paths.
+     *
+     * @link https://github.com/carbontwelve/tapestry/issues/130
+     */
+    public function testComplexBaseBuild()
+    {
+        $this->copyDirectory('assets/build_test_5/src', '_tmp');
+
+        $output = $this->runCommand('build', '--quiet');
+
+        $this->assertEquals('', trim($output->getDisplay()));
+        $this->assertEquals(0, $output->getStatusCode());
+
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/a_folder/b_folder/b-file/index.html');
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/a_folder/a-file/index.html');
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/a_folder/another-file/index.html');
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/b_folder/b-file-2/index.html');
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/b_folder/b-file-3.html');
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/about/index.html');
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/index.html');
+    }
+
+    /**
+     * Written for issue #131
+     * @link https://github.com/carbontwelve/tapestry/issues/131
+     */
+    public function testFrontmatterTemplateLoading()
+    {
+        $this->copyDirectory('assets/build_test_6/src', '_tmp');
+
+        $output = $this->runCommand('build', '--quiet');
+
+        $this->assertEquals('', trim($output->getDisplay()));
+        $this->assertEquals(0, $output->getStatusCode());
+
+        $this->assertFileEquals(__DIR__ .'/assets/build_test_6/check/index.html', __DIR__ . '/_tmp/build_local/index.html');
+    }
+
+    /**
+     * Written for issue #132
+     * @link https://github.com/carbontwelve/tapestry/issues/132
+     */
+    public function testFontmatterPermalinks()
+    {
+        $this->copyDirectory('assets/build_test_7/src', '_tmp');
+
+        $output = $this->runCommand('build', '--quiet');
+
+        $this->assertEquals('', trim($output->getDisplay()));
+        $this->assertEquals(0, $output->getStatusCode());
+
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/abc/123/file.html');
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/123/abc/file.xml');
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/rah.html');
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/about/index.html');
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/test/testing/testy/index.html');
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/blog/2016/02/test.html');
+    }
+
+    /**
+     * Written for issue #136
+     * @link https://github.com/carbontwelve/tapestry/issues/136
+     */
+    public function testBlogPostBuild()
+    {
+        $this->copyDirectory('assets/build_test_11/src', '_tmp');
+
+        $output = $this->runCommand('build', '--quiet');
+
+        $this->assertEquals('', trim($output->getDisplay()));
+        $this->assertEquals(0, $output->getStatusCode());
+
+        $this->assertFileEquals(
+            __DIR__.'/assets/build_test_11/check/blog/2016/test-blog-entry.html',
+            __DIR__.'/_tmp/build_local/blog/2016/test-blog-entry/index.html',
+            '',
+            true
+        );
+
+        $this->assertFileEquals(
+            __DIR__.'/assets/build_test_11/check/blog/2016/test-blog-entry-two.html',
+            __DIR__.'/_tmp/build_local/blog/2016/test-blog-entry-two/index.html',
+            '',
+            true
+        );
+    }
+
+    /**
+     * Written for issue #152
+     * @link https://github.com/carbontwelve/tapestry/issues/152
+     */
+    public function testIgnoreUnderscorePaths()
+    {
+        $this->copyDirectory('assets/build_test_30/src', '_tmp');
+
+        $output = $this->runCommand('build', '--quiet');
+
+        $this->assertEquals('', trim($output->getDisplay()));
+        $this->assertEquals(0, $output->getStatusCode());
+
+        $this->assertFileNotExists(__DIR__ . '/_tmp/build_local/_should-not-exist/index.html');
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/should-exist/index.html');
+        $this->assertFileNotExists(__DIR__ . '/_tmp/build_local/should-exist/_should-not-exist/index.html');
+    }
+
+    /**
+     * Written for issue #158
+     * @link https://github.com/carbontwelve/tapestry/issues/158
+     */
+    public function testFileTemplatePassthrough()
+    {
+        $this->copyDirectory('assets/build_test_31/src', '_tmp');
+
+        $output = $this->runCommand('build', '--quiet');
+
+        $this->assertEquals('', trim($output->getDisplay()));
+        $this->assertEquals(0, $output->getStatusCode());
+
+        $this->assertFileEquals(
+            __DIR__.'/assets/build_test_31/check/single.html',
+            __DIR__.'/_tmp/build_local/single/index.html',
+            '',
+            true
+        );
+
+        $this->assertFileEquals(
+            __DIR__.'/assets/build_test_31/check/base.html',
+            __DIR__.'/_tmp/build_local/base/index.html',
+            '',
+            true
+        );
+
+        $this->assertFileEquals(
+            __DIR__.'/assets/build_test_31/check/blog.html',
+            __DIR__.'/_tmp/build_local/blog/2016/test/index.html',
+            '',
+            true
+        );
+
+        $this->assertFileEquals(
+            __DIR__.'/assets/build_test_31/check/page.html',
+            __DIR__.'/_tmp/build_local/page/index.html',
+            '',
+            true
+        );
+
+        $this->assertFileEquals(
+            __DIR__.'/assets/build_test_31/check/page-multi.html',
+            __DIR__.'/_tmp/build_local/page-multi/index.html',
+            '',
+            true
+        );
+    }
 }

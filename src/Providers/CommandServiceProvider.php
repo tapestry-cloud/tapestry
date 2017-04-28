@@ -48,7 +48,7 @@ class CommandServiceProvider extends AbstractServiceProvider
                 \Symfony\Component\Finder\Finder::class,
             ]);
 
-        $container->add(Application::class)
+        $container->share(Application::class)
             ->withArguments([
                 Tapestry::class,
                 [
