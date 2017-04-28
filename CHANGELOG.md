@@ -3,6 +3,7 @@
 
 ## Enhancements
 - #168 Tapestry now warns on a copy source missing rather than failing
+- #165 Added {category} permalink template tag
 
 # 1.0.7
 ## Bugfixes
