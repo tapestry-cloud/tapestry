@@ -1,0 +1,4 @@
+!!! default.phtml
+<?= (is_null($this->getFile()) ? 'null' : $this->getFile()->getUid()) . "\n" ?>
+!!! ./default.phtml
+<?= $this->section('content') ?>

@@ -1,0 +1,7 @@
+---
+layout: default
+---
+!!! blog.phtml
+<?= (is_null($this->getFile()) ? 'null' : $this->getFile()->getUid()) . "\n" ?>
+<?= $this->getContent() ?>
+!!! ./blog.phtml
