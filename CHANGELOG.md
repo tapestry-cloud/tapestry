@@ -1,3 +1,9 @@
+# 1.0.8
+## Bugfixes
+
+## Enhancements
+- #168 Tapestry now warns on a copy source missing rather than failing
+
 # 1.0.7
 ## Bugfixes
 - #118 Fixed ability to extend Tapestry Plates extension
