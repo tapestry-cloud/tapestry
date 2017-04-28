@@ -73,12 +73,12 @@ class Permalink
 
         if ($categories = $file->getData('categories')) {
             $categoryText = '';
-            if (is_array($categories)){
-                foreach ($categories as $category){
-                    $categoryText .= $this->sluggify($category) . '/';
+            if (is_array($categories)) {
+                foreach ($categories as $category) {
+                    $categoryText .= $this->sluggify($category).'/';
                 }
             } else {
-                $categoryText = $this->sluggify($categories) . '/';
+                $categoryText = $this->sluggify($categories).'/';
             }
             if (substr($categoryText, -1, 1) === '/') {
                 $categoryText = substr($categoryText, 0, -1);
