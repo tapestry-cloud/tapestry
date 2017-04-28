@@ -44,8 +44,15 @@ class Copy implements Step
     {
         foreach ($this->configuration->get('copy') as $path) {
             $finder = new Finder();
+            $basePath = $project->sourceDirectory.DIRECTORY_SEPARATOR.$path;
+
+            if (! $this->filesystem->exists($basePath)) {
+                $output->writeln('<error>[!]</error> Copy Path ['.$basePath.'] does not exist!');
+                continue;
+            }
+
             /** @var SplFileInfo $file */
-            foreach ($finder->files()->in($project->sourceDirectory.DIRECTORY_SEPARATOR.$path) as $file) {
+            foreach ($finder->files()->in($basePath) as $file) {
                 $inputPath = $project->sourceDirectory.
                     DIRECTORY_SEPARATOR.
                     $path.
