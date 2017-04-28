@@ -1,6 +1,7 @@
 .idea
-/vendor
 .DS_Store
-composer.lock
-/bin/tapestry.phar
-/bin/tapestry.version
+box.phar
+vendor
+bin/tapestry.phar
+bin/tapestry.version
+src/build.json

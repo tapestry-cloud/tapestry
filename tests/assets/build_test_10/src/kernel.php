@@ -1,11 +1,11 @@
 <?php
 
-namespace SiteEleven;
+namespace SiteTen;
 
-use Interop\Container\ContainerInterface;
+use Tapestry\Modules\Kernel\KernelInterface;
 use Tapestry\Tapestry;
 
-class kernel implements \Tapestry\Kernel\KernelInterface
+class kernel implements KernelInterface
 {
     /**
      * @var Tapestry
@@ -19,19 +19,16 @@ class kernel implements \Tapestry\Kernel\KernelInterface
 
     public function register()
     {
-        // ...
-    }
-
-    /**
-     * @param ContainerInterface $container
-     */
-    public function boot(ContainerInterface $container)
-    {
-        // Not the ideal way of adding the file, but this a test so autoloading is not required :)
+        // Not the ideal way of adding the file, but this a test so auto-loading is not necessary :)
         include __DIR__.'/TestKernelCommand.php';
 
         /** @var \Tapestry\Console\Application $cliApplication */
-        $cliApplication = $container->get(\Tapestry\Console\Application::class);
-        $cliApplication->add(new \SiteEleven\TestKernelCommand());
+        $cliApplication = $this->tapestry->getContainer()->get(\Tapestry\Console\Application::class);
+        $cliApplication->add(new TestKernelCommand());
+    }
+
+    public function boot()
+    {
+        // ...
     }
 }

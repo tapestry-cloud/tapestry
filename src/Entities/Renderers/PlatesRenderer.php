@@ -11,7 +11,7 @@ class PlatesRenderer implements RendererInterface
     /**
      * @var array File extensions that this renderer supports
      */
-    private $extensions = ['phtml'];
+    private $extensions = ['phtml', 'php'];
 
     /**
      * @var Engine

@@ -115,8 +115,9 @@ abstract class CommandTestBase extends \PHPUnit_Framework_TestCase
      */
     protected function runCommand($command, $argv = '')
     {
-        $argv = explode(' ', $argv);
         $arguments = ['command' => $command];
+        $argv = (strlen($argv) > 0) ? explode(' ', $argv) : [];
+
         foreach ($argv as $value) {
             if (strpos($value, '=') !== false) {
                 $tmp = explode('=', $value);
@@ -124,7 +125,8 @@ abstract class CommandTestBase extends \PHPUnit_Framework_TestCase
                 continue;
             }
             $arguments[$value] = true;
-        } unset($tmp, $value);
+        }
+        unset($tmp, $value);
         array_unshift($argv, $command);
 
         //
