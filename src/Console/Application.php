@@ -2,9 +2,9 @@
 
 namespace Tapestry\Console;
 
+use Tapestry\Version;
 use Tapestry\Tapestry;
 use Symfony\Component\Console\Application as ConsoleApplication;
-use Tapestry\Version;
 
 class Application extends ConsoleApplication
 {
