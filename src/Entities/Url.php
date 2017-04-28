@@ -58,6 +58,7 @@ class Url
         if (substr($text, 0, 1) === '/') {
             $text = substr($text, 1);
         }
+
         return ($text === false) ? '' : $text;
     }
 }
