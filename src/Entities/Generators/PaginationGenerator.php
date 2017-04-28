@@ -29,6 +29,7 @@ class PaginationGenerator extends FileGenerator
 
         $defaultConfiguration = [
             'perPage' => 5,
+            'skip' => 0,
         ];
 
         $configuration = array_merge($defaultConfiguration, $configuration);
@@ -55,6 +56,12 @@ class PaginationGenerator extends FileGenerator
         }
 
         $generatedFiles = [];
+
+        // Skip functionality for #147
+        // @link https://github.com/carbontwelve/tapestry/issues/147
+        if ($configuration['skip'] > 0) {
+            $paginationItems = array_slice($paginationItems, $configuration['skip'], null, true);
+        }
 
         $currentPage = 0;
         foreach (array_chunk($paginationItems, $configuration['perPage'], true) as $pageItems) {

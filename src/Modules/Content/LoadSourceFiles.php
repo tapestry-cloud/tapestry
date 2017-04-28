@@ -44,7 +44,7 @@ class LoadSourceFiles implements Step
     public function __construct(Tapestry $tapestry, Configuration $configuration)
     {
         $this->tapestry = $tapestry;
-        $this->excluded = new ExcludedFilesCollection($configuration->get('ignore'));
+        $this->excluded = new ExcludedFilesCollection(array_merge($configuration->get('ignore'), ['_views', '_templates']));
         $this->prettyPermalink = boolval($configuration->get('pretty_permalink', true));
         $this->publishDrafts = boolval($configuration->get('publish_drafts', false));
     }
@@ -70,6 +70,11 @@ class LoadSourceFiles implements Step
         /** @var ContentTypeFactory $contentTypes */
         $contentTypes = $project->get('content_types');
 
+        foreach ($contentTypes->all() as $contentType) {
+            $this->excluded->addUnderscoreException($contentType->getPath());
+        }
+        unset($contentType);
+
         /** @var ContentRendererFactory $contentRenderers */
         $contentRenderers = $project->get('content_renderers');
 
@@ -77,7 +82,6 @@ class LoadSourceFiles implements Step
         $finder->files()
             ->followLinks()
             ->in($project->sourceDirectory)
-            ->exclude(['_views', '_templates'])
             ->ignoreDotFiles(true);
 
         $this->excluded->excludeFromFinder($finder);
