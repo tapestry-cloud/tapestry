@@ -33,7 +33,14 @@ class PermalinkTest extends CommandTestBase
      */
     public function testCategoryPermalinkTag()
     {
+        // Synthetic Test
         $this->assertEquals('/category1/category2/category3/test-md-post/index.html', $this->setupPermalinks(__DIR__ . '/mocks/TestCategoryPermalinkTag.md'));
+
+        // Full Test
+        $this->copyDirectory('assets/build_test_33/src', '_tmp');
+        $output = $this->runCommand('build', '--quiet --json');
+        $this->assertEquals(0, $output->getStatusCode());
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/blog/2016/category-1/category-two/category-iii/test/index.html');
     }
 
     public function testPrettyPermalink()
