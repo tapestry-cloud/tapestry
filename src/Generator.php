@@ -31,9 +31,10 @@ class Generator
     public function generate(Project $project, OutputInterface $output)
     {
         $output->writeln('Generating site from <comment>'.$project->sourceDirectory.'</comment> to <comment>'.$project->destinationDirectory.'</comment>');
+        $stopwatch = $project->get('cmd_options.stopwatch', false);
 
         foreach ($this->steps as $step) {
-            if ($project->get('cmd_options.stopwatch', false)) {
+            if ($stopwatch) {
                 Tapestry::addProfile(class_basename($step). '_START');
             }
             /** @var Step $step */
@@ -42,7 +43,7 @@ class Generator
             if (! $step->__invoke($project, $output)) {
                 return 1;
             }
-            if ($project->get('cmd_options.stopwatch', false)) {
+            if ($stopwatch) {
                 Tapestry::addProfile(class_basename($step) . '_FINISH');
             }
         }
