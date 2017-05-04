@@ -2,9 +2,11 @@
 
 namespace Tapestry\Console\Commands;
 
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
+use Tapestry\Tapestry;
 
 abstract class Command extends SymfonyCommand
 {
@@ -28,6 +30,14 @@ abstract class Command extends SymfonyCommand
         if (defined('TAPESTRY_START') === true && $this->input->getOption('stopwatch')) {
             $stopwatch = round((microtime(true) - TAPESTRY_START), 3);
             $this->output->writeln('Task complete in: '.$stopwatch.'s ['.file_size_convert(memory_get_usage(true)).'/'.file_size_convert(memory_get_peak_usage(true)).']');
+
+            $this->output->writeln('=== Breakdown by Step ===');
+            $table = new Table();
+            $table->setHeaders(['Name', 'Time (s)', 'Memory Use', 'Memory Peak']);
+            foreach(Tapestry::$profile as $clock) {
+                $table->addRow($clock);
+            }
+            $table->render();
         }
 
         return $result;
