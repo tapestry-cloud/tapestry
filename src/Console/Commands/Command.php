@@ -32,7 +32,7 @@ abstract class Command extends SymfonyCommand
             $this->output->writeln('Task complete in: '.$stopwatch.'s ['.file_size_convert(memory_get_usage(true)).'/'.file_size_convert(memory_get_peak_usage(true)).']');
 
             $this->output->writeln('=== Breakdown by Step ===');
-            $table = new Table();
+            $table = new Table($output);
             $table->setHeaders(['Name', 'Time (s)', 'Memory Use', 'Memory Peak']);
             foreach(Tapestry::$profile as $clock) {
                 $table->addRow($clock);
