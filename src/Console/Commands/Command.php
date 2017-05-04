@@ -28,19 +28,43 @@ abstract class Command extends SymfonyCommand
         $result = (int) $this->fire();
 
         if (defined('TAPESTRY_START') === true && $this->input->getOption('stopwatch')) {
-            $stopwatch = round((microtime(true) - TAPESTRY_START), 3);
-            $this->output->writeln('Task complete in: '.$stopwatch.'s ['.file_size_convert(memory_get_usage(true)).'/'.file_size_convert(memory_get_peak_usage(true)).']');
-
-            $this->output->writeln('=== Breakdown by Step ===');
-            $table = new Table($output);
-            $table->setHeaders(['Name', 'Time (s)', 'Memory Use', 'Memory Peak']);
-            foreach(Tapestry::$profile as $clock) {
-                $table->addRow($clock);
-            }
-            $table->render();
+            $this->renderStopwatchReport($output);
         }
 
         return $result;
+    }
+
+    private function renderStopwatchReport(OutputInterface $output) {
+        $stopwatch = round((microtime(true) - TAPESTRY_START), 3);
+        $this->output->writeln('Task complete in: '.$stopwatch.'s ['.file_size_convert(memory_get_usage(true)).'/'.file_size_convert(memory_get_peak_usage(true)).']');
+
+        $this->output->writeln('=== Breakdown by Step ===');
+        $table = new Table($output);
+        $table->setHeaders(['Name', 'Time (s)', 'Memory Consumption', 'Memory Use', 'Memory Peak']);
+
+        $start = null;
+
+        foreach(Tapestry::$profile as $clock) {
+            if (strpos($clock['name'], '_START') !== false) {
+                $start = $clock;
+                continue;
+            }
+            if (strpos($clock['name'], '_FINISH') !== false) {
+                $startName = explode('_', $start['name']);
+                $endName = explode('_', $clock['name']);
+                if ($startName[0] !== $endName[0]) {
+                    continue;
+                }
+                $table->addRow([
+                    $endName[0],
+                    round(($clock['time'] - $start['time']), 3),
+                    file_size_convert($clock['memory_use']-$start['memory_use']),
+                    file_size_convert($clock['memory_use']),
+                    file_size_convert($clock['memory_peak'])
+                ]);
+            }
+        }
+        $table->render();
     }
 
     protected function info($string)
