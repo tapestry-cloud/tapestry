@@ -17,7 +17,7 @@ $versions = GitVersionCollection::create($dir)
     ->add('master', 'master branch');
 
 return new Sami($iterator, array(
-    'theme' => 'symfony',
+    //'theme' => 'symfony',
     'versions' => $versions,
     'title' => 'Tapestry API',
     'build_dir' => __DIR__ . '/build/docs/%version%',
