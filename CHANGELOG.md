@@ -1,5 +1,6 @@
 # 1.0.8
 ## Bugfixes
+- #186 Removed dead code in File class
 
 ## Enhancements
 - #168 Tapestry now warns on a copy source missing rather than failing
