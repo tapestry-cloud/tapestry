@@ -2,6 +2,8 @@
 
 namespace Tapestry\Console\Commands;
 
+use Tapestry\Tapestry;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
@@ -26,11 +28,31 @@ abstract class Command extends SymfonyCommand
         $result = (int) $this->fire();
 
         if (defined('TAPESTRY_START') === true && $this->input->getOption('stopwatch')) {
-            $stopwatch = round((microtime(true) - TAPESTRY_START), 3);
-            $this->output->writeln('Task complete in: '.$stopwatch.'s ['.file_size_convert(memory_get_usage(true)).'/'.file_size_convert(memory_get_peak_usage(true)).']');
+            $this->renderStopwatchReport($output);
         }
 
         return $result;
+    }
+
+    private function renderStopwatchReport(OutputInterface $output)
+    {
+        $stopwatch = round((microtime(true) - TAPESTRY_START), 3);
+        $this->output->writeln('Task complete in: '.$stopwatch.'s ['.file_size_convert(memory_get_usage(true)).'/'.file_size_convert(memory_get_peak_usage(true)).']');
+
+        $this->output->writeln('=== Breakdown by Step ===');
+        $table = new Table($output);
+        $table->setHeaders(['Name', 'Time (s)', 'Memory Consumption', 'Memory Use', 'Memory Peak']);
+
+        foreach (Tapestry::$profiler->report() as $name => $clock) {
+            $table->addRow([
+                $name,
+                $clock['execution_time'],
+                file_size_convert($clock['memory_consumption']),
+                file_size_convert($clock['memory_use']),
+                file_size_convert($clock['memory_peak']),
+            ]);
+        }
+        $table->render();
     }
 
     protected function info($string)

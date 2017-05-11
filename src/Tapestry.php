@@ -35,6 +35,13 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
     const VERSION = '1.0.8-dev';
 
     /**
+     * Storage of data used by --stopwatch flag.
+     *
+     * @var Profiler
+     */
+    public static $profiler;
+
+    /**
      * Tapestry constructor.
      *
      * InputInterface need only contain the command line options; this is because some of the service providers need to
@@ -44,6 +51,8 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
      */
     public function __construct(InputInterface $input)
     {
+        static::$profiler = new Profiler();
+
         $this->setInput($input);
         $this['events'] = new Emitter();
         $this->boot();
@@ -166,6 +175,11 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
     public static function setInstance(Tapestry $tapestry)
     {
         static::$instance = $tapestry;
+    }
+
+    public static function addProfile($name)
+    {
+        static::$profiler->addItem($name);
     }
 
     /**
