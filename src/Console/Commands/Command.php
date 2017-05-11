@@ -42,9 +42,9 @@ abstract class Command extends SymfonyCommand
         $table = new Table($output);
         $table->setHeaders(['Name', 'Time (s)', 'Memory Consumption', 'Memory Use', 'Memory Peak']);
 
-        foreach(Tapestry::$profiler->report() as $clock) {
+        foreach(Tapestry::$profiler->report() as $name => $clock) {
             $table->addRow([
-                $clock['name'],
+                $name,
                 $clock['execution_time'],
                 file_size_convert($clock['memory_consumption']),
                 file_size_convert($clock['memory_use']),
