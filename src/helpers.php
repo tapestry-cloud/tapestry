@@ -115,6 +115,7 @@ if (! function_exists('file_size_convert')) {
             return '0 b';
         }
         $unit = ['b', 'kb', 'mb', 'gb', 'tb', 'pb'];
+
         return round($size / pow(1024, ($i = floor(log($size, 1024)))), 2).' '.$unit[intval($i)];
     }
 }
