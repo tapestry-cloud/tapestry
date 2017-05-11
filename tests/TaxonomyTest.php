@@ -45,6 +45,10 @@ class TaxonomyTest extends CommandTestBase
         return $file;
     }
 
+    /**
+     * Written for issue #180
+     * @link https://github.com/carbontwelve/tapestry/issues/180
+     */
     public function testTaxonomyClassNameCapitalisation()
     {
         // Taxonomy should normalise its name to lower case
@@ -58,6 +62,10 @@ class TaxonomyTest extends CommandTestBase
         $this->assertEquals('test', $taxonomy->getName());
     }
 
+    /**
+     * Written for issue #180
+     * @link https://github.com/carbontwelve/tapestry/issues/180
+     */
     public function testTaxonomyNameCharacters()
     {
         // Taxonomy should normalise name by filtering out spaces
@@ -83,6 +91,11 @@ class TaxonomyTest extends CommandTestBase
         $this->assertEquals('test-123', $taxonomy->getName());
     }
 
+    /**
+     * Written for issue #180, #182
+     * @link https://github.com/carbontwelve/tapestry/issues/180
+     * @link https://github.com/carbontwelve/tapestry/issues/182
+     */
     public function testTaxonomyClassClassificationCapitalisation()
     {
         // Taxonomy should normalise classifications to lower case
@@ -96,6 +109,14 @@ class TaxonomyTest extends CommandTestBase
         $this->assertEquals(['classification'], array_keys($taxonomy->getFileList()));
     }
 
+    /**
+     * Written for issue #180
+     * @link https://github.com/carbontwelve/tapestry/issues/180
+     * Note: When you run getFileList on the same instance of Taxonomy twice it will order over the previous order.
+     *       this is not a problem when each item has a different timestamp, however when two items have the same they
+     *       will swap positions when the same getFileList method is called twice. For testing purposes a new instance
+     *       of Taxonomy is created so that swapping doesn't happen.
+     */
     public function testTaxonomyClassClassificationCharacters()
     {
         // Taxonomy should normalise classifications by filtering out spaces
@@ -105,6 +126,8 @@ class TaxonomyTest extends CommandTestBase
         $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-03-c.md'), 'CLASSIFICATION  123');
         $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-04-d.md'), '  CLASSIFICATION 123');
         $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-05-e.md'), 'ClassificatioN 123 ');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-05-f.md'), '  ClassificatioN 123 ');
+
 
         $this->assertEquals(['classification-123'], array_keys($taxonomy->getFileList()));
     }
@@ -117,29 +140,49 @@ class TaxonomyTest extends CommandTestBase
         $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-03-c.md'), 'CLASSIFICATION  123');
         $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-04-d.md'), '  CLASSIFICATION 123');
         $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-05-e.md'), 'ClassificatioN 123 ');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-05-f.md'), '   ClassificatioN 123 ');
 
         $this->assertEquals([
             '_mocks_TaxonomyMocks_2016-01-05-e_md',
+            '_mocks_TaxonomyMocks_2016-01-05-f_md',
             '_mocks_TaxonomyMocks_2016-01-04-d_md',
             '_mocks_TaxonomyMocks_2016-01-03-c_md',
             '_mocks_TaxonomyMocks_2016-01-02-b_md',
-            '_mocks_TaxonomyMocks_2016-01-01-a_md'
+            '_mocks_TaxonomyMocks_2016-01-01-a_md',
         ], array_keys($taxonomy->getFileList()['classification-123']));
 
+        $taxonomy = new Taxonomy('test');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-01-a.md'), 'Classification 123');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-02-b.md'), 'classification-123');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-03-c.md'), 'CLASSIFICATION  123');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-04-d.md'), '  CLASSIFICATION 123');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-05-e.md'), 'ClassificatioN 123 ');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-05-f.md'), '   ClassificatioN 123 ');
+
         $this->assertEquals([
             '_mocks_TaxonomyMocks_2016-01-05-e_md',
+            '_mocks_TaxonomyMocks_2016-01-05-f_md',
             '_mocks_TaxonomyMocks_2016-01-04-d_md',
             '_mocks_TaxonomyMocks_2016-01-03-c_md',
             '_mocks_TaxonomyMocks_2016-01-02-b_md',
-            '_mocks_TaxonomyMocks_2016-01-01-a_md'
+            '_mocks_TaxonomyMocks_2016-01-01-a_md',
         ], array_keys($taxonomy->getFileList('DESC')['classification-123']));
+
+        $taxonomy = new Taxonomy('test');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-01-a.md'), 'Classification 123');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-02-b.md'), 'classification-123');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-03-c.md'), 'CLASSIFICATION  123');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-04-d.md'), '  CLASSIFICATION 123');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-05-e.md'), 'ClassificatioN 123 ');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-05-f.md'), '   ClassificatioN 123 ');
 
         $this->assertEquals([
             '_mocks_TaxonomyMocks_2016-01-01-a_md',
             '_mocks_TaxonomyMocks_2016-01-02-b_md',
             '_mocks_TaxonomyMocks_2016-01-03-c_md',
             '_mocks_TaxonomyMocks_2016-01-04-d_md',
-            '_mocks_TaxonomyMocks_2016-01-05-e_md'
+            '_mocks_TaxonomyMocks_2016-01-05-f_md',
+            '_mocks_TaxonomyMocks_2016-01-05-e_md',
         ], array_keys($taxonomy->getFileList('ASC')['classification-123']));
     }
 }
