@@ -58,6 +58,8 @@ class Compile implements Step
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
+        $stopwatch = $project->get('cmd_options.stopwatch', false);
+
         $this->tapestry->getEventEmitter()->emit('compile.before');
 
         /** @var ContentTypeFactory $contentTypes */
@@ -69,13 +71,41 @@ class Compile implements Step
         /** @var Cache $cache */
         $cache = $project->get('cache');
 
+        if ($stopwatch) {
+            Tapestry::addProfile('Compile.iterateProjectContentTypes_START');
+        }
         $this->iterateProjectContentTypes($contentTypes, $project, $output);
+        if ($stopwatch) {
+            Tapestry::addProfile('Compile.iterateProjectContentTypes_FINISH');
+        }
+
+        if ($stopwatch) {
+            Tapestry::addProfile('Compile.collectProjectFilesUseData_START');
+        }
         $this->collectProjectFilesUseData($project);
+        if ($stopwatch) {
+            Tapestry::addProfile('Compile.collectProjectFilesUseData_FINISH');
+        }
+
         if (! $this->checkForFileGeneratorError($output)) {
             return false;
         }
+
+        if ($stopwatch) {
+            Tapestry::addProfile('Compile.executeContentRenderers_START');
+        }
         $this->executeContentRenderers($contentRenderers);
+        if ($stopwatch) {
+            Tapestry::addProfile('Compile.executeContentRenderers_FINISH');
+        }
+
+        if ($stopwatch) {
+            Tapestry::addProfile('Compile.mutateFilesToFilesystemInterfaces_START');
+        }
         $this->mutateFilesToFilesystemInterfaces($project, $cache);
+        if ($stopwatch) {
+            Tapestry::addProfile('Compile.mutateFilesToFilesystemInterfaces_FINISH');
+        }
 
         $project->set('compiled', new FlatCollection($this->files));
         $this->tapestry->getEventEmitter()->emit('compile.after');
