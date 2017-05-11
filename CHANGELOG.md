@@ -6,6 +6,7 @@
 ## Enhancements
 - #168 Tapestry now warns on a copy source missing rather than failing
 - #165 Added {category} permalink template tag
+- #175 100% Test Coverage of Url Entity
 - #178 Added test coverage for ViewFile Trait
 - #185 Added post scheduling
 - #180 Increased test coverage of Taxonomy class
