@@ -2,6 +2,7 @@
 ## Bugfixes
 - #186 Removed dead code in File class
 - #182 Different capitalisation of taxonomy classifications no longer results in duplicate classifications
+- #193 Url class now correctly encodes as according to [RFC 3986](http://www.faqs.org/rfcs/rfc3986.html) 
 
 ## Enhancements
 - #168 Tapestry now warns on a copy source missing rather than failing
