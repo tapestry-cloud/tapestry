@@ -35,7 +35,7 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
     const VERSION = '1.0.8-dev';
 
     /**
-     * Storage of data used by --stopwatch flag
+     * Storage of data used by --stopwatch flag.
      *
      * @var Profiler
      */
@@ -177,7 +177,8 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
         static::$instance = $tapestry;
     }
 
-    public static function addProfile($name) {
+    public static function addProfile($name)
+    {
         static::$profiler->addItem($name);
     }
 

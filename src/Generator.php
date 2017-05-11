@@ -35,7 +35,7 @@ class Generator
 
         foreach ($this->steps as $step) {
             if ($stopwatch) {
-                Tapestry::addProfile(class_basename($step). '_START');
+                Tapestry::addProfile(class_basename($step).'_START');
             }
             /** @var Step $step */
             $step = $this->tapestry->getContainer()->get($step);
@@ -44,7 +44,7 @@ class Generator
                 return 1;
             }
             if ($stopwatch) {
-                Tapestry::addProfile(class_basename($step) . '_FINISH');
+                Tapestry::addProfile(class_basename($step).'_FINISH');
             }
         }
 
