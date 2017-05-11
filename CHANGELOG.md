@@ -1,5 +1,6 @@
 # 1.0.8
 ## Bugfixes
+- #186 Removed dead code in File class
 - #182 Different capitalisation of taxonomy classifications no longer results in duplicate classifications
 
 ## Enhancements
