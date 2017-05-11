@@ -14,8 +14,6 @@ class TaxonomyTest extends CommandTestBase
      * When you set $base to /website and $path to /website/store/library.php
      * this function will return /store/library.php
      *
-     * Remember: All paths have to start from "/" or "\" this is not Windows compatible.
-     *
      * @param   String   $base   A base path used to construct relative path. For example /website
      * @param   String   $path   A full path to file or directory used to construct relative path. For example /website/store/library.php
      *
@@ -109,5 +107,39 @@ class TaxonomyTest extends CommandTestBase
         $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-05-e.md'), 'ClassificatioN 123 ');
 
         $this->assertEquals(['classification-123'], array_keys($taxonomy->getFileList()));
+    }
+
+    public function testTaxonomyClassOrder()
+    {
+        $taxonomy = new Taxonomy('test');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-01-a.md'), 'Classification 123');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-02-b.md'), 'classification-123');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-03-c.md'), 'CLASSIFICATION  123');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-04-d.md'), '  CLASSIFICATION 123');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-05-e.md'), 'ClassificatioN 123 ');
+
+        $this->assertEquals([
+            '_mocks_TaxonomyMocks_2016-01-05-e_md',
+            '_mocks_TaxonomyMocks_2016-01-04-d_md',
+            '_mocks_TaxonomyMocks_2016-01-03-c_md',
+            '_mocks_TaxonomyMocks_2016-01-02-b_md',
+            '_mocks_TaxonomyMocks_2016-01-01-a_md'
+        ], array_keys($taxonomy->getFileList()['classification-123']));
+
+        $this->assertEquals([
+            '_mocks_TaxonomyMocks_2016-01-05-e_md',
+            '_mocks_TaxonomyMocks_2016-01-04-d_md',
+            '_mocks_TaxonomyMocks_2016-01-03-c_md',
+            '_mocks_TaxonomyMocks_2016-01-02-b_md',
+            '_mocks_TaxonomyMocks_2016-01-01-a_md'
+        ], array_keys($taxonomy->getFileList('DESC')['classification-123']));
+
+        $this->assertEquals([
+            '_mocks_TaxonomyMocks_2016-01-01-a_md',
+            '_mocks_TaxonomyMocks_2016-01-02-b_md',
+            '_mocks_TaxonomyMocks_2016-01-03-c_md',
+            '_mocks_TaxonomyMocks_2016-01-04-d_md',
+            '_mocks_TaxonomyMocks_2016-01-05-e_md'
+        ], array_keys($taxonomy->getFileList('ASC')['classification-123']));
     }
 }
