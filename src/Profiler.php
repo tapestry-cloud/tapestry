@@ -49,8 +49,10 @@ class Profiler
 
             // If a start & finish time are available, then work out the stats
             if (isset($report[$name]['START_time']) && isset($report[$name]['FINISH_time'])) {
-                $report[$name]['execution_time'] = $report[$name]['FINISH_time'] - $report[$name]['START_time'];
+                $report[$name]['execution_time'] = round(($report[$name]['FINISH_time'] - $report[$name]['START_time']),3);
                 $report[$name]['memory_consumption'] = $report[$name]['FINISH_memory_use'] - $report[$name]['START_memory_use'];
+                $report[$name]['memory_use'] = $report[$name]['FINISH_memory_use'];
+                $report[$name]['memory_peak'] = ($report[$name]['START_memory_peak'] < $report[$name]['FINISH_memory_peak']) ? $report[$name]['FINISH_memory_peak'] : $report[$name]['START_memory_peak'];
             }
         }
 
