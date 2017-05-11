@@ -23,6 +23,7 @@ class UnPublishDraftsTest extends CommandTestBase
             true
         );
         self::assertFileNotExists(__DIR__.'/_tmp/build_local/blog/2016/test-blog-entry-two/index.html');
+        self::assertFileNotExists(__DIR__.'/_tmp/build_local/blog/2116/test-blog-entry-three/index.html');
     }
 
     /**
