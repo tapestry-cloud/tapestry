@@ -46,7 +46,7 @@ if (! function_exists('str_slug')) {
      */
     function str_slug($str, $delimiter = '-')
     {
-        return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', $delimiter, $str)));
+        return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', $delimiter, trim($str))));
     }
 }
 
