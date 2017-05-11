@@ -36,10 +36,11 @@ class Url
                 continue;
             }
             $part = rawurlencode($part);
-        }unset($part);
+        }
+        unset($part);
 
-        $parts = array_filter($parts, function($value) {
-            return !is_null($value);
+        $parts = array_filter($parts, function ($value) {
+            return ! is_null($value);
         });
 
         return $this->siteUrl.'/'.implode('/', $parts);
