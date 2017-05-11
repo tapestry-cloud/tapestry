@@ -1,9 +1,11 @@
 # 1.0.8
 ## Bugfixes
+- #182 Different capitalisation of taxonomy classifications no longer results in duplicate classifications
 
 ## Enhancements
 - #168 Tapestry now warns on a copy source missing rather than failing
 - #165 Added {category} permalink template tag
+- #180 Increased test coverage of Taxonomy class
 - #183 Added breakdown by step to --stopwatch output
 
 # 1.0.7

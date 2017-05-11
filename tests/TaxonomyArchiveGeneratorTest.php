@@ -50,7 +50,7 @@ class TaxonomyArchiveGeneratorTest extends CommandTestBase
         $this->assertTrue($miscCategoryFile->hasData('blog_categories_items'));
         $this->assertTrue($miscCategoryFile->hasData('blog_categories'));
 
-        $this->assertEquals(['misc', 'first post'], $miscCategoryFile->getData('blog_categories', []));
+        $this->assertEquals(['misc', 'first-post'], $miscCategoryFile->getData('blog_categories', []));
         $this->assertEquals('misc', $miscCategoryFile->getData('taxonomyName', ''));
 
         /** @var FileWriter $index */
