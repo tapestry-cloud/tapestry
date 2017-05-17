@@ -37,6 +37,7 @@ class LoadContentTypes implements Step
     {
         if (! $contentTypes = $this->configuration->get('content_types', null)) {
             $output->writeln('[!] Your project\'s content types are miss-configured. Doing nothing and exiting.]');
+            return false;
         }
 
         $contentTypeFactory = new ContentTypeFactory([
