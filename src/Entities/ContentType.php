@@ -92,6 +92,17 @@ class ContentType
         $this->items = new FlatCollection();
     }
 
+    public function getHash(Project $project)
+    {
+        $templatePath = $this->getTemplate($project);
+        $hash = sha1($this->path . $this->template . $this->permalink . $this->enabled);
+        if (file_exists($templatePath)) {
+            $hash .= '.' . sha1_file($templatePath);
+        }
+
+        return sha1($hash);
+    }
+
     public function getName()
     {
         return $this->name;
@@ -102,9 +113,9 @@ class ContentType
         return $this->path;
     }
 
-    public function getTemplate()
+    public function getTemplate(Project $project)
     {
-        return $this->template;
+        return $project->sourceDirectory.DIRECTORY_SEPARATOR.'_views'.DIRECTORY_SEPARATOR.$this->template.'.phtml';
     }
 
     public function isEnabled()
@@ -213,7 +224,7 @@ class ContentType
             }
 
             // If we are not a default Content Type
-            $templatePath = $project->sourceDirectory.DIRECTORY_SEPARATOR.'_views'.DIRECTORY_SEPARATOR.$this->template.'.phtml';
+            $templatePath = $this->getTemplate($project);
             if ($this->template !== 'default' && file_exists($templatePath)) {
                 $fileRenderer = $contentRenderers->get($file->getExt());
                 $file->setData(['content' => $fileRenderer->render($file)]);

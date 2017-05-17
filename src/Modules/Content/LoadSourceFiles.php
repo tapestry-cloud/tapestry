@@ -126,8 +126,33 @@ class LoadSourceFiles implements Step
             $output->writeln('[+] File ['.$file->getFileInfo()->getRelativePathname().'] bucketed into content type ['.$contentType->getName().']');
         }
 
+        $this->buildAST($project);
+
         $output->writeln('[+] Discovered ['.$project['files']->count().'] project files');
 
         return true;
+    }
+
+    private function buildAST(Project $project){
+        $tree = [];
+
+        /** @var ContentTypeFactory $contentTypes */
+        $contentTypes = $project->get('content_types');
+        $files = $project['files'];
+
+        foreach ($contentTypes->all() as $contentType) {
+            array_push($tree, [
+                'type' => 'ContentType',
+                'name' => $contentType->getName(),
+                'hash' => $contentType->getHash($project)
+            ]);
+
+            foreach ($contentType->getTaxonomies() as $taxonomy) {
+                $n = $taxonomy->getFileList();
+                $n = 1;
+            }
+        }
+
+        $n = 1;
     }
 }
