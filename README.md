@@ -1,5 +1,5 @@
 # Tapestry
-[![Development Build Status](https://travis-ci.org/carbontwelve/tapestry.svg?branch=development)](https://travis-ci.org/carbontwelve/tapestry)
+[![Development Build Status](https://travis-ci.org/tapestry-cloud/tapestry.svg?branch=development)](https://travis-ci.org/tapestry-cloud/tapestry)
 [![StyleCI](https://styleci.io/repos/73839963/shield?branch=master)](https://styleci.io/repos/73839963)
 [![Code Climate](https://codeclimate.com/github/carbontwelve/tapestry/badges/gpa.svg)](https://codeclimate.com/github/carbontwelve/tapestry)
 [![Test Coverage](https://codeclimate.com/github/carbontwelve/tapestry/badges/coverage.svg)](https://codeclimate.com/github/carbontwelve/tapestry/coverage)
