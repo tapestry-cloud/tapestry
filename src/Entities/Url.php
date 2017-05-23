@@ -29,12 +29,19 @@ class Url
         $this->loadSiteUrl();
         $uri = $this->cleanUri($uri);
 
-        if (strpos($uri, 'index') === false) {
-            return $this->siteUrl.'/'.$uri;
-        }
-
         $parts = explode('/', $uri);
-        array_pop($parts);
+        foreach ($parts as &$part) {
+            if (strpos($part, 'index') !== false) {
+                $part = null;
+                continue;
+            }
+            $part = rawurlencode($part);
+        }
+        unset($part);
+
+        $parts = array_filter($parts, function ($value) {
+            return ! is_null($value);
+        });
 
         return $this->siteUrl.'/'.implode('/', $parts);
     }
@@ -55,13 +62,12 @@ class Url
 
     private function cleanUri($text)
     {
+        $text = trim($text);
+
         if (substr($text, 0, 1) === '/') {
             $text = substr($text, 1);
-            if ($text === false) {
-                $text = '';
-            }
         }
 
-        return $text;
+        return ($text === false) ? '' : $text;
     }
 }
