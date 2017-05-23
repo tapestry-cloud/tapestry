@@ -111,7 +111,7 @@ if (! function_exists('config')) {
 if (! function_exists('file_size_convert')) {
     function file_size_convert($size)
     {
-        if ($size === 0) {
+        if (!is_numeric($size) || $size === 0 || $size < 0) {
             return '0 b';
         }
         $unit = ['b', 'kb', 'mb', 'gb', 'tb', 'pb'];
