@@ -3,48 +3,12 @@
 namespace Tapestry\Tests;
 
 use PHPUnit_Framework_Constraint_IsEqual;
-use Symfony\Component\Finder\SplFileInfo;
-use Tapestry\Entities\File;
 use Tapestry\Entities\Taxonomy;
-use Tapestry\Modules\Content\FrontMatter;
+use Tapestry\Tests\Traits\MockFile;
 
 class TaxonomyTest extends CommandTestBase
 {
-    /**
-     * Return a relative path to a file or directory using base directory.
-     * When you set $base to /website and $path to /website/store/library.php
-     * this function will return /store/library.php
-     *
-     * @param   String   $base   A base path used to construct relative path. For example /website
-     * @param   String   $path   A full path to file or directory used to construct relative path. For example /website/store/library.php
-     *
-     * @return  String
-     */
-    private function getRelativePath($base, $path) {
-        // On windows strip drive letter
-        $base = preg_replace('/^[A-Z]:/i', '', $base);
-        $path = preg_replace('/^[A-Z]:/i', '', $path);
-
-        // Normalise separator
-        $base = str_replace(['/', '\\'], '/', $base);
-        $path = str_replace(['/', '\\'], '/', $path);
-        $separator = '/';
-
-        $base = array_slice(explode($separator, rtrim($base,$separator)),1);
-        $path = array_slice(explode($separator, rtrim($path,$separator)),1);
-
-        return $separator.implode($separator, array_slice($path, count($base)));
-    }
-
-    private function mockFile($filePath)
-    {
-        $file = new File(new SplFileInfo($filePath, $this->getRelativePath(__DIR__, $filePath), $this->getRelativePath(__DIR__, $filePath)));
-        $frontMatter = new FrontMatter($file->getFileContent());
-        $file->setData($frontMatter->getData());
-        $file->setContent($frontMatter->getContent());
-        $file->getUid(); // Force the file to generate its uid
-        return $file;
-    }
+    use MockFile;
 
     /**
      * Written for issue #180
@@ -183,7 +147,7 @@ class TaxonomyTest extends CommandTestBase
         $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-05-e.md'), 'ClassificatioN 123 ');
         $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-05-f.md'), '   ClassificatioN 123 ');
 
-        $this->assertTrue($this->isOr(array_keys($taxonomy->getFileList()['classification-123']), $descArrayA, $descArrayA));
+        $this->assertTrue($this->isOr(array_keys($taxonomy->getFileList()['classification-123']), $descArrayA, $descArrayB));
         $this->assertTrue($this->isOr(array_keys($taxonomy->getFileList('DESC')['classification-123']), $descArrayA, $descArrayB));
         $this->assertTrue($this->isOr(array_keys($taxonomy->getFileList('ASC')['classification-123']), $ascArrayA, $ascArrayB));
     }
