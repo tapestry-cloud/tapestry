@@ -119,12 +119,6 @@ class File implements ProjectFileInterface
             $defaultData['title'] = ucfirst(str_replace('-', ' ', $defaultData['slug']));
         }
         $this->setData($defaultData);
-
-        if (substr($this->fileInfo->getRelativePath(), 0, 1) === '_' || substr($this->fileInfo->getFilename(), 0,
-                1) === '_'
-        ) {
-            $this->deferred = true;
-        }
     }
 
     /**

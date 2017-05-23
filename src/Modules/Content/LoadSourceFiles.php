@@ -36,6 +36,11 @@ class LoadSourceFiles implements Step
     private $publishDrafts = false;
 
     /**
+     * @var \DateTime
+     */
+    private $now;
+
+    /**
      * LoadSourceFiles constructor.
      *
      * @param Tapestry      $tapestry
@@ -44,6 +49,7 @@ class LoadSourceFiles implements Step
     public function __construct(Tapestry $tapestry, Configuration $configuration)
     {
         $this->tapestry = $tapestry;
+        $this->now = new \DateTime();
         $this->excluded = new ExcludedFilesCollection(array_merge($configuration->get('ignore'), ['_views', '_templates']));
         $this->prettyPermalink = boolval($configuration->get('pretty_permalink', true));
         $this->publishDrafts = boolval($configuration->get('publish_drafts', false));
@@ -98,8 +104,12 @@ class LoadSourceFiles implements Step
                 $file->setContent($frontMatter->getContent());
             }
 
+            // Publish Drafts / Scheduled Posts
             if ($this->publishDrafts === false) {
                 if (boolval($file->getData('draft', false)) === true) {
+                    continue;
+                }
+                if ($file->getData('date', new \DateTime()) > $this->now) {
                     continue;
                 }
             }
