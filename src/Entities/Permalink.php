@@ -71,6 +71,22 @@ class Permalink
             }
         }
 
+        if ($categories = $file->getData('categories')) {
+            $categoryText = '';
+            if (is_array($categories)) {
+                foreach ($categories as $category) {
+                    $categoryText .= $this->sluggify($category).'/';
+                }
+            } else {
+                $categoryText = $this->sluggify($categories).'/';
+            }
+            if (substr($categoryText, -1, 1) === '/') {
+                $categoryText = substr($categoryText, 0, -1);
+            }
+
+            $output = str_replace('{category}', $categoryText, $output);
+        }
+
         $output = str_replace('{slug}', $file->getData('slug', $this->sluggify($file->getData('title', $file->getFilename()))), $output);
 
         if (substr($output, 0, 1) !== '/') {

@@ -46,7 +46,7 @@ if (! function_exists('str_slug')) {
      */
     function str_slug($str, $delimiter = '-')
     {
-        return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', $delimiter, $str)));
+        return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', $delimiter, trim($str))));
     }
 }
 
@@ -111,6 +111,9 @@ if (! function_exists('config')) {
 if (! function_exists('file_size_convert')) {
     function file_size_convert($size)
     {
+        if (! is_numeric($size) || $size === 0 || $size < 0) {
+            return '0 b';
+        }
         $unit = ['b', 'kb', 'mb', 'gb', 'tb', 'pb'];
 
         return round($size / pow(1024, ($i = floor(log($size, 1024)))), 2).' '.$unit[intval($i)];
