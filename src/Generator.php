@@ -32,8 +32,10 @@ class Generator
     {
         $output->writeln('Generating site from <comment>'.$project->sourceDirectory.'</comment> to <comment>'.$project->destinationDirectory.'</comment>');
         $stopwatch = $project->get('cmd_options.stopwatch', false);
+        $eventEmitter = $this->tapestry->getEventEmitter();
 
         foreach ($this->steps as $step) {
+            $eventEmitter->emit(strtolower(class_basename($step)) .'.before');
             if ($stopwatch) {
                 Tapestry::addProfile(class_basename($step).'_START');
             }
@@ -46,6 +48,7 @@ class Generator
             if ($stopwatch) {
                 Tapestry::addProfile(class_basename($step).'_FINISH');
             }
+            $eventEmitter->emit(strtolower(class_basename($step)) .'.after');
         }
 
         return 0;
