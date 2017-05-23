@@ -13,6 +13,7 @@
 - #180 Increased test coverage of Taxonomy class
 - #183 Added breakdown by step to --stopwatch output
 - #198 Added Step before and after events
+- #181 Added coverage to HTML Renderer
 
 # 1.0.7
 ## Bugfixes
