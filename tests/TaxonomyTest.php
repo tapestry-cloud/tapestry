@@ -147,7 +147,7 @@ class TaxonomyTest extends CommandTestBase
         $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-05-e.md'), 'ClassificatioN 123 ');
         $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-05-f.md'), '   ClassificatioN 123 ');
 
-        $this->assertTrue($this->isOr(array_keys($taxonomy->getFileList()['classification-123']), $descArrayA, $descArrayA));
+        $this->assertTrue($this->isOr(array_keys($taxonomy->getFileList()['classification-123']), $descArrayA, $descArrayB));
         $this->assertTrue($this->isOr(array_keys($taxonomy->getFileList('DESC')['classification-123']), $descArrayA, $descArrayB));
         $this->assertTrue($this->isOr(array_keys($taxonomy->getFileList('ASC')['classification-123']), $ascArrayA, $ascArrayB));
     }
