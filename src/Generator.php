@@ -35,7 +35,7 @@ class Generator
         $eventEmitter = $this->tapestry->getEventEmitter();
 
         foreach ($this->steps as $step) {
-            $eventEmitter->emit(strtolower(class_basename($step)) .'.before');
+            $eventEmitter->emit(strtolower(class_basename($step)).'.before');
             if ($stopwatch) {
                 Tapestry::addProfile(class_basename($step).'_START');
             }
@@ -48,7 +48,7 @@ class Generator
             if ($stopwatch) {
                 Tapestry::addProfile(class_basename($step).'_FINISH');
             }
-            $eventEmitter->emit(strtolower(class_basename($step)) .'.after');
+            $eventEmitter->emit(strtolower(class_basename($step)).'.after');
         }
 
         return 0;
