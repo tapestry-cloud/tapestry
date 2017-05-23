@@ -27,7 +27,7 @@ class Taxonomy
      */
     public function __construct($name)
     {
-        $this->name = $name;
+        $this->name = str_slug($name);
         $this->items = new Collection();
     }
 
@@ -47,6 +47,7 @@ class Taxonomy
      */
     public function addFile(File $file, $classification)
     {
+        $classification = str_slug($classification);
         if (! $this->items->has($classification)) {
             $this->items->set($classification, []);
         }
@@ -63,6 +64,7 @@ class Taxonomy
      */
     public function getFileList($order = 'desc')
     {
+        $order = strtolower(trim($order));
         // Order Files by date newer to older
         $this->items->sortMultiDimension(function ($a, $b) use ($order) {
             if ($a == $b) {
