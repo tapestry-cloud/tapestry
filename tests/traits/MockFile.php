@@ -33,6 +33,14 @@ trait MockFile {
         return $separator.implode($separator, array_slice($path, count($base)));
     }
 
+    /**
+     * Mock a Tapestry File object.
+     *
+     * @param $filePath
+     * @param string $base
+     *
+     * @return File
+     */
     protected function mockFile($filePath, $base = __DIR__ . '/..')
     {
         $base = realpath($base);
