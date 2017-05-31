@@ -21,7 +21,7 @@ Tapestry is a static site generator that uses the [plates](http://platesphp.com/
 The [Tapestry documentation](https://www.tapestry.cloud/documentation/) provides a thorough insight into the inner workings of Tapestry. Making it as easy as possible to get started generating your sites.
 
 ## Installing Tapestry
-The recomended method for installing Tapestry is to grab the latest [zipped release here](https://github.com/carbontwelve/tapestry/releases) and unzip the contents into your `$PATH` to make it globally available from your command line.
+The recommended method for installing Tapestry is to grab the latest [zipped release here](https://github.com/carbontwelve/tapestry/releases) and unzip the contents into your `$PATH` to make it globally available from your command line.
 
 For Windows environments a `.bat` file is included so that you do not have to type `php tapestry.phar` to run Tapestry; for it to work ensure it is kept in the same folder as the `.phar`.
 
