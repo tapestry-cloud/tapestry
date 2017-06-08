@@ -10,9 +10,6 @@ use League\Plates\Template\Template as PlatesTemplate;
 
 /**
  * Class Template.
- *
- * @todo maybe overload the Template class so that we can filter out frontmatter from phtml files before they are rendered and inject into the files data any front matter
- * The above may get complex if we are talking about data generators... but it may work in a nice, simple, compact way.
  */
 class Template extends PlatesTemplate
 {

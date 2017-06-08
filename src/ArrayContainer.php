@@ -469,7 +469,6 @@ class ArrayContainer implements ArrayAccess, Iterator
      * A 2D array sort, useful for when you need to sort a two dimensional array.
      *
      * @param Closure $callback
-     * @todo is there a way of merging this in with the sort method?
      * @return $this
      */
     public function sortMultiDimension(Closure $callback)
