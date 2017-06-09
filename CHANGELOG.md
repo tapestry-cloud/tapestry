@@ -1,3 +1,7 @@
+# 1.0.9
+## Bugfixes
+- #209 Fix Url helper parsing of Uri with parameters
+
 # 1.0.8
 ## Bugfixes
 - #186 Removed dead code in File class
