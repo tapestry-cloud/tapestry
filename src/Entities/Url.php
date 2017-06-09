@@ -133,16 +133,18 @@ class Url
 
         if (strpos($part, '#') !== false) {
             if (strpos($part, '#') === 0) {
-                if (substr($part, 1,1) === '!'){
+                if (substr($part, 1, 1) === '!') {
                     return '#!'.rawurlencode(substr($part, 2));
                 }
+
                 return '#'.rawurlencode(substr($part, 1));
             }
 
             $pe = explode('#', $part);
-            if (substr($pe[1], 0,1) === '!') {
+            if (substr($pe[1], 0, 1) === '!') {
                 return $pe[0].'/#!'.rawurlencode(substr($pe[1], 1));
             }
+
             return $pe[0].'/#'.rawurlencode($pe[1]);
         }
 
