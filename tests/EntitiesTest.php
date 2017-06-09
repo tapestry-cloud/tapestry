@@ -21,33 +21,58 @@ class EntitiesTest extends CommandTestBase
         $this->assertSame('http://www.example.com/', $url->parse(''));
         $this->assertSame('http://www.example.com/', $url->parse('/'));
 
+        $this->assertSame('http://www.example.com/?abc=123&def=456', $url->parse('?abc=123&def=456'));
+        $this->assertSame('http://www.example.com/?abc=123&def=456', $url->parse('/?abc=123&def=456'));
 
-        $this->assertSame('http://www.example.com/abc', $url->parse('abc'));
-        $this->assertSame('http://www.example.com/abc', $url->parse('/abc'));
+        $this->assertSame('http://www.example.com/#abc-123', $url->parse('#abc-123'));
+        $this->assertSame('http://www.example.com/#abc-123', $url->parse('/#abc-123'));
+
+        $this->assertSame('http://www.example.com/abc/', $url->parse('abc'));
+        $this->assertSame('http://www.example.com/abc/', $url->parse('/abc'));
         $this->assertSame('http://www.example.com/abc/', $url->parse('/abc/'));
 
-        $this->assertSame('http://www.example.com/abc/123', $url->parse('abc/123'));
-        $this->assertSame('http://www.example.com/abc/123', $url->parse('/abc/123'));
+        $this->assertSame('http://www.example.com/abc/#!abc', $url->parse('abc#!abc'));
+        $this->assertSame('http://www.example.com/abc/#!abc', $url->parse('/abc#!abc'));
+        $this->assertSame('http://www.example.com/abc/#!abc', $url->parse('/abc/#!abc'));
+
+        $this->assertSame('http://www.example.com/abc/123/', $url->parse('abc/123'));
+        $this->assertSame('http://www.example.com/abc/123/', $url->parse('/abc/123'));
         $this->assertSame('http://www.example.com/abc/123/', $url->parse('/abc/123/'));
 
-        $this->assertEquals('http://www.example.com/abc', $url->parse('abc/index.html'));
-        $this->assertEquals('http://www.example.com/abc/123', $url->parse('abc/123/index.html'));
+        $this->assertSame('http://www.example.com/abc/123/?abc=123&def=456', $url->parse('abc/123?abc=123&def=456'));
+        $this->assertSame('http://www.example.com/abc/123/?abc=123&def=456', $url->parse('/abc/123?abc=123&def=456'));
+        $this->assertSame('http://www.example.com/abc/123/?abc=123&def=456', $url->parse('/abc/123/?abc=123&def=456'));
+
+        $this->assertSame('http://www.example.com/abc/123/?abc=123+xyz&def=456+abc', $url->parse('abc/123?abc=123 xyz&def=456 abc'));
+        $this->assertSame('http://www.example.com/abc/123/?abc=123+xyz&def=456+abc', $url->parse('/abc/123?abc=123 xyz&def=456 abc'));
+        $this->assertSame('http://www.example.com/abc/123/?abc=123+xyz&def=456+abc', $url->parse('/abc/123/?abc=123 xyz&def=456 abc'));
+
+        $this->assertSame('http://www.example.com/abc/123/#abc-123', $url->parse('abc/123#abc-123'));
+        $this->assertSame('http://www.example.com/abc/123/#abc-123', $url->parse('/abc/123#abc-123'));
+        $this->assertSame('http://www.example.com/abc/123/#abc-123', $url->parse('/abc/123/#abc-123'));
+
+        $this->assertSame('http://www.example.com/abc/123/#abc%20123', $url->parse('abc/123#abc 123'));
+        $this->assertSame('http://www.example.com/abc/123/#abc%20123', $url->parse('/abc/123#abc 123'));
+        $this->assertSame('http://www.example.com/abc/123/#abc%20123', $url->parse('/abc/123/#abc 123'));
+
+        $this->assertEquals('http://www.example.com/abc/', $url->parse('abc/index.html'));
+        $this->assertEquals('http://www.example.com/abc/123/', $url->parse('abc/123/index.html'));
         $this->assertEquals('http://www.example.com/abc/123.html', $url->parse('abc/123.html'));
 
-        $this->assertEquals('http://www.example.com/0', $url->parse(0));
+        $this->assertEquals('http://www.example.com/0/', $url->parse(0));
         $this->assertEquals('http://www.example.com/', $url->parse(null));
-        $this->assertEquals('http://www.example.com/-1', $url->parse(-1));
-        $this->assertEquals('http://www.example.com/3.33', $url->parse(3.33));
+        $this->assertEquals('http://www.example.com/-1/', $url->parse(-1));
+        $this->assertEquals('http://www.example.com/3.33', $url->parse(3.33)); // 3.33 is a file named 3 with the ext 33
 
-        $this->assertSame('http://www.example.com/hello%20world', $url->parse('hello world'));
-        $this->assertSame('http://www.example.com/hello%20world', $url->parse('/hello world'));
+        $this->assertSame('http://www.example.com/hello%20world/', $url->parse('hello world'));
+        $this->assertSame('http://www.example.com/hello%20world/', $url->parse('/hello world'));
         $this->assertSame('http://www.example.com/hello%20world/', $url->parse('/hello world/'));
 
-        $this->assertSame('http://www.example.com/hello%20world/this%20is%20a%20test', $url->parse('hello world/this is a test'));
-        $this->assertSame('http://www.example.com/hello%20world/this%20is%20a%20test', $url->parse('/hello world/this is a test'));
+        $this->assertSame('http://www.example.com/hello%20world/this%20is%20a%20test/', $url->parse('hello world/this is a test'));
+        $this->assertSame('http://www.example.com/hello%20world/this%20is%20a%20test/', $url->parse('/hello world/this is a test'));
         $this->assertSame('http://www.example.com/hello%20world/this%20is%20a%20test/', $url->parse('/hello world/this is a test/'));
 
-        $this->assertSame('http://www.example.com/hello/world', $url->parse('hello/world/index.html'));
+        $this->assertSame('http://www.example.com/hello/world/', $url->parse('hello/world/index.html'));
     }
 
     public function testUrlEntityThrowsException()
