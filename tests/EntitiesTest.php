@@ -31,6 +31,10 @@ class EntitiesTest extends CommandTestBase
         $this->assertSame('http://www.example.com/abc/', $url->parse('/abc'));
         $this->assertSame('http://www.example.com/abc/', $url->parse('/abc/'));
 
+        $this->assertSame('http://www.example.com/abc/#!abc', $url->parse('abc#!abc'));
+        $this->assertSame('http://www.example.com/abc/#!abc', $url->parse('/abc#!abc'));
+        $this->assertSame('http://www.example.com/abc/#!abc', $url->parse('/abc/#!abc'));
+
         $this->assertSame('http://www.example.com/abc/123/', $url->parse('abc/123'));
         $this->assertSame('http://www.example.com/abc/123/', $url->parse('/abc/123'));
         $this->assertSame('http://www.example.com/abc/123/', $url->parse('/abc/123/'));
