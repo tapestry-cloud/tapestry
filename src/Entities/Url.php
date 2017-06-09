@@ -28,6 +28,7 @@ class Url
     {
         $this->loadSiteUrl();
         $uri = $this->cleanUri($uri);
+
         return $this->siteUrl.'/'.$this->encode($uri);
     }
 
@@ -60,7 +61,8 @@ class Url
      * @param string $uri
      * @return array
      */
-    private function encode($uri = '') {
+    private function encode($uri = '')
+    {
         $parts = explode('/', $uri);
         foreach ($parts as &$part) {
             if (strpos($part, 'index') !== false) {
@@ -93,46 +95,51 @@ class Url
     }
 
     /**
-     * Ensures that uri parts containing ? or # get encoded correctly
+     * Ensures that uri parts containing ? or # get encoded correctly.
      *
      * @param string $part
      * @return string
      */
-    private function encodePart($part) {
+    private function encodePart($part)
+    {
         if (strpos($part, '?') !== false) {
             if (strpos($part, '?') === 0) {
                 $output = '?';
                 $part = substr($part, 1);
-            }else {
+            } else {
                 $pe = explode('?', $part);
-                $output = $pe[0] . '/?';
+                $output = $pe[0].'/?';
                 $part = $pe[1];
                 unset($pe);
             }
 
-            if (strpos($part, '&')){
+            if (strpos($part, '&')) {
                 $parts = explode('&', $part);
-            }else{
+            } else {
                 $parts = [$part];
             }
             foreach ($parts as &$p) {
                 if (strpos($p, '=') !== false) {
                     $pe = explode('=', $p);
-                    $p = $pe[0] . '=' . urlencode($pe[1]);
+                    $p = $pe[0].'='.urlencode($pe[1]);
                 }
-            }unset($p, $pe);
+            }
+            unset($p, $pe);
 
             $output .= implode('&', $parts);
+
             return $output;
         }
 
         if (strpos($part, '#') !== false) {
             if (strpos($part, '#') === 0) {
                 $part = substr($part, 1);
-                return '#' . rawurlencode($part);
+
+                return '#'.rawurlencode($part);
             }
             $pe = explode('#', $part);
-            return $pe[0] . '/#' . rawurlencode($pe[1]);
+
+            return $pe[0].'/#'.rawurlencode($pe[1]);
         }
 
         return rawurlencode($part);
