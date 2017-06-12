@@ -1,6 +1,7 @@
 # 1.0.9
 ## Bugfixes
 - #209 Fix Url helper parsing of Uri with parameters
+- #208 File with multiple ext e.g. main.min.css are now compiled as expected rather than hyphenated e.g. main-min.css
 
 # 1.0.8
 ## Bugfixes
