@@ -103,6 +103,12 @@ class File implements ProjectFileInterface
         $this->ext = pathinfo($fileInfo->getBasename(), PATHINFO_EXTENSION);
         $this->path = $fileInfo->getRelativePath();
 
+        if (strpos($this->filename, '.') !== false){
+            $fe = explode('.',$this->filename);
+            $this->filename = array_shift($fe);
+            $this->ext = implode('.', $fe) . '.' . $this->ext;
+        }
+
         $defaultData = array_merge([
             'date'             => DateTime::createFromFormat('U', $fileInfo->getMTime()),
             'pretty_permalink' => true,

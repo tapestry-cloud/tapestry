@@ -341,7 +341,11 @@ class BuildCommandTest extends CommandTestBase
 
         $this->assertEquals('', trim($output->getDisplay()));
         $this->assertEquals(0, $output->getStatusCode());
+
         $this->assertFileNotExists(__DIR__.'/_tmp/build_local/css/main-min.css');
         $this->assertFileExists(__DIR__.'/_tmp/build_local/css/main.min.css');
+
+        $this->assertFileNotExists(__DIR__.'/_tmp/build_local/abc-123-xyz.html');
+        $this->assertFileExists(__DIR__.'/_tmp/build_local/abc.123.xyz.html');
     }
 }
