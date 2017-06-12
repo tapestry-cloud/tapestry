@@ -328,4 +328,20 @@ class BuildCommandTest extends CommandTestBase
             true
         );
     }
+
+    /**
+     * Written for issue #208
+     * @link https://github.com/carbontwelve/tapestry/issues/208
+     */
+    public function testDoubleDotFileExt()
+    {
+        $this->copyDirectory('assets/build_test_35/src', '_tmp');
+
+        $output = $this->runCommand('build', '--quiet');
+
+        $this->assertEquals('', trim($output->getDisplay()));
+        $this->assertEquals(0, $output->getStatusCode());
+        $this->assertFileNotExists(__DIR__.'/_tmp/build_local/css/main-min.css');
+        $this->assertFileExists(__DIR__.'/_tmp/build_local/css/main.min.css');
+    }
 }
