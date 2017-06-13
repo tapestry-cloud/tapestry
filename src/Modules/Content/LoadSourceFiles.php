@@ -36,6 +36,12 @@ class LoadSourceFiles implements Step
     private $publishDrafts = false;
 
     /**
+     * --auto-publish option from cli.
+     * @var bool
+     */
+    private $autoPublish = false;
+
+    /**
      * @var \DateTime
      */
     private $now;
@@ -53,6 +59,7 @@ class LoadSourceFiles implements Step
         $this->excluded = new ExcludedFilesCollection(array_merge($configuration->get('ignore'), ['_views', '_templates']));
         $this->prettyPermalink = boolval($configuration->get('pretty_permalink', true));
         $this->publishDrafts = boolval($configuration->get('publish_drafts', false));
+        $this->autoPublish = (isset($tapestry['cmd_options']['auto-publish']) ? boolval($tapestry['cmd_options']['auto-publish']) : false);
     }
 
     /**
@@ -65,10 +72,8 @@ class LoadSourceFiles implements Step
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
-        $sourcePath = $project->sourceDirectory;
-
-        if (! file_exists($sourcePath)) {
-            $output->writeln('[!] The project source path could not be opened at ['.$sourcePath.']');
+        if (! file_exists($project->sourceDirectory)) {
+            $output->writeln('[!] The project source path could not be opened at ['.$project->sourceDirectory.']');
 
             return false;
         }
@@ -106,9 +111,15 @@ class LoadSourceFiles implements Step
 
             // Publish Drafts / Scheduled Posts
             if ($this->publishDrafts === false) {
-                if (boolval($file->getData('draft', false)) === true) {
+                // If file is a draft and cant auto publish then it remains a draft
+                if (
+                    boolval($file->getData('draft', false)) === true &&
+                    $this->canAutoPublish($file) === false
+                ) {
                     continue;
                 }
+
+                // If file is not a draft, but the date is in the future then it is scheduled
                 if ($file->getData('date', new \DateTime()) > $this->now) {
                     continue;
                 }
@@ -129,5 +140,24 @@ class LoadSourceFiles implements Step
         $output->writeln('[+] Discovered ['.$project['files']->count().'] project files');
 
         return true;
+    }
+
+    /**
+     * If the file is a draft, but auto publish is enabled and the files date is in the past then it should be published.
+     * @param File $file
+     * @version 1.0.9
+     * @return bool
+     */
+    private function canAutoPublish(File $file)
+    {
+        if ($this->autoPublish === false) {
+            return false;
+        }
+
+        if ($file->getData('date', new \DateTime()) <= $this->now) {
+            return true;
+        }
+
+        return false;
     }
 }
