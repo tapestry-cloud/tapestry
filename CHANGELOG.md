@@ -2,6 +2,9 @@
 ## Bugfixes
 - #209 Fix Url helper parsing of Uri with parameters
 
+## Enhancements
+- #146 Added --auto-publish flag to build command, [click here](https://www.tapestry.cloud/documentation/commands/#build-command) for more information
+
 # 1.0.8
 ## Bugfixes
 - #186 Removed dead code in File class
