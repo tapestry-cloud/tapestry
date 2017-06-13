@@ -36,7 +36,7 @@ class LoadSourceFiles implements Step
     private $publishDrafts = false;
 
     /**
-     * --auto-publish option from cli
+     * --auto-publish option from cli.
      * @var bool
      */
     private $autoPublish = false;
@@ -148,7 +148,8 @@ class LoadSourceFiles implements Step
      * @version 1.0.9
      * @return bool
      */
-    private function canAutoPublish(File $file) {
+    private function canAutoPublish(File $file)
+    {
         if ($this->autoPublish === false) {
             return false;
         }
