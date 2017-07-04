@@ -348,4 +348,21 @@ class BuildCommandTest extends CommandTestBase
         $this->assertFileNotExists(__DIR__.'/_tmp/build_local/abc-123-xyz.html');
         $this->assertFileExists(__DIR__.'/_tmp/build_local/abc.123.xyz.html');
     }
+
+    /**
+     * Written for issue #156
+     * @link https://github.com/carbontwelve/tapestry/issues/156
+     */
+    public function testPermalinkClashes()
+    {
+        $this->copyDirectory('assets/build_test_36/src', '_tmp');
+
+        $output = $this->runCommand('build', '--quiet');
+
+        $this->assertEquals('', trim($output->getDisplay()));
+        $this->assertEquals(0, $output->getStatusCode());
+
+        $this->assertFileExists(__DIR__.'/_tmp/build_local/file-clash.html');
+        $this->assertFileExists(__DIR__.'/_tmp/build_local/file-clash-1.html');
+    }
 }
