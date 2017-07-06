@@ -50,7 +50,16 @@ class Permalink
         $output = $this->template;
         $output = str_replace('{ext}', $file->getExt(), $output);
         $output = str_replace('{filename}', $this->sluggify($file->getFilename()), $output);
-        $output = str_replace('{path}', $file->getPath(), $output);
+
+        $filePath = str_replace('\\', '/', $file->getPath());
+        if (substr($filePath, 0, 1) === '/') {
+            $filePath = substr($filePath, 1);
+        }
+        if (substr($filePath, -1, 1) === '/') {
+            $filePath = substr($filePath, 0, -1);
+        }
+        $filePath = preg_replace('!/+!', '/', $filePath);
+        $output = str_replace('{path}', $filePath, $output);
 
         /** @var \DateTime $date */
         if ($date = $file->getData('date')) {
@@ -92,6 +101,9 @@ class Permalink
         if (substr($output, 0, 1) !== '/') {
             $output = '/'.$output;
         }
+
+        // Ensure valid slashes for url
+        $output = str_replace('\\', '/', $output);
 
         if ($pretty === true && $file->getData('pretty_permalink', true)) {
             return $this->prettify($output);
