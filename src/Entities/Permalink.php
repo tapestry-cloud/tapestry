@@ -51,11 +51,11 @@ class Permalink
         $output = str_replace('{ext}', $file->getExt(), $output);
         $output = str_replace('{filename}', $this->sluggify($file->getFilename()), $output);
 
-        $filePath = str_replace('\\','/', $file->getPath());
-        if (substr($filePath, 0, 1) === '/'){
+        $filePath = str_replace('\\', '/', $file->getPath());
+        if (substr($filePath, 0, 1) === '/') {
             $filePath = substr($filePath, 1);
         }
-        if (substr($filePath, -1, 1) === '/'){
+        if (substr($filePath, -1, 1) === '/') {
             $filePath = substr($filePath, 0, -1);
         }
         $filePath = preg_replace('!/+!', '/', $filePath);
@@ -103,7 +103,7 @@ class Permalink
         }
 
         // Ensure valid slashes for url
-        $output = str_replace('\\','/', $output);
+        $output = str_replace('\\', '/', $output);
 
         if ($pretty === true && $file->getData('pretty_permalink', true)) {
             return $this->prettify($output);
