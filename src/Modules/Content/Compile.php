@@ -37,6 +37,11 @@ class Compile implements Step
     private $tapestry;
 
     /**
+     * @var array
+     */
+    private $permalinkTable = [];
+
+    /**
      * Write constructor.
      *
      * @param Filesystem $filesystem
@@ -88,6 +93,10 @@ class Compile implements Step
         }
 
         if (! $this->checkForFileGeneratorError($output)) {
+            return false;
+        }
+
+        if (! $this->checkForPermalinkClashes($project, $output)) {
             return false;
         }
 
@@ -182,6 +191,20 @@ class Compile implements Step
             }
         }
     }
+
+
+    private function checkForPermalinkClashes(Project $project, OutputInterface $output) {
+        /** @var File $file */
+        foreach ($project['compiled'] as $file) {
+            if (isset($this->permalinkTable[sha1($file->getCompiledPermalink())])) {
+                $output->writeln('<error>[!]</error> The permalink ['. $file->getCompiledPermalink() .'] is already in use!');
+                return false;
+            }
+            $this->permalinkTable[sha1($file->getCompiledPermalink())] = $file->getUid();
+        }
+        return true;
+    }
+
 
     private function checkForFileGeneratorError(OutputInterface $output)
     {
