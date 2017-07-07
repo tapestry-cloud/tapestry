@@ -38,7 +38,7 @@ class PaginationTest extends CommandTestBase
     public function testPaginationCoreFunctionality()
     {
         $project = new Project('', '', 'test');
-        $generator = $this->setupPagination($project, __DIR__ . '/mocks/TestPaginatorFile.phtml');
+        $generator = $this->setupPagination($project, __DIR__ . '/Mocks/TestPaginatorFile.phtml');
 
         $generatedFiles = $generator->generate($project);
         $this->assertTrue(is_array($generatedFiles));
@@ -75,7 +75,7 @@ class PaginationTest extends CommandTestBase
     public function testPaginationSkipFunctionality()
     {
         $project = new Project('', '', 'test');
-        $generator = $this->setupPagination($project, __DIR__ . '/mocks/TestPaginatorSkipFile.phtml');
+        $generator = $this->setupPagination($project, __DIR__ . '/Mocks/TestPaginatorSkipFile.phtml');
 
         $generatedFiles = $generator->generate($project);
         $this->assertTrue(is_array($generatedFiles));

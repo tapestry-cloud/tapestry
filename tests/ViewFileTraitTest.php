@@ -59,7 +59,7 @@ class ViewFileTraitTest extends CommandTestBase
      */
     public function testExcerptHelper()
     {
-        $viewFile = $this->mockViewFile(__DIR__ . '/mocks/TestExcerptFile.md');
+        $viewFile = $this->mockViewFile(__DIR__ . '/Mocks/TestExcerptFile.md');
 
         $this->assertEquals('Lorem ipsum dolor sit amet, consectetur&hellip;', $viewFile->getExcerpt());
         $this->assertEquals('Lorem ipsum dolor sit amet, consectetur', $viewFile->getExcerpt(50, ''));
@@ -69,13 +69,13 @@ class ViewFileTraitTest extends CommandTestBase
         $this->assertEquals('Lorem', $viewFile->getExcerpt(10, ''));
         $this->assertEquals('Lorem', $viewFile->getExcerpt(10, null));
 
-        $viewFile = $this->mockViewFile(__DIR__ . '/mocks/TestFile.md');
+        $viewFile = $this->mockViewFile(__DIR__ . '/Mocks/TestFile.md');
         $this->assertEquals('This is a test file...', $viewFile->getExcerpt(50, null));
     }
 
     public function testGetContentHelper()
     {
-        $viewFile = $this->mockViewFile(__DIR__ . '/mocks/TestFile.md');
+        $viewFile = $this->mockViewFile(__DIR__ . '/Mocks/TestFile.md');
         $this->assertEquals('This is a test file...', trim($viewFile->getContent()));
 
         $viewFile->getFile()->setData(['content' => 'TEST test TEST 1234']);
@@ -84,7 +84,7 @@ class ViewFileTraitTest extends CommandTestBase
 
     public function testGetPermalinkHelper()
     {
-        $viewFile = $this->mockViewFile(__DIR__ . '/mocks/TestExcerptFile.md');
+        $viewFile = $this->mockViewFile(__DIR__ . '/Mocks/TestExcerptFile.md');
         $this->assertEquals('/testexcerptfile/index.md', $viewFile->getPermalink()); // this has the extension md becuase its not passed through any renderers
 
         $viewFile->getFile()->setData(['permalink' => '/folder1/folder2/folder3/test.html']);
@@ -94,7 +94,7 @@ class ViewFileTraitTest extends CommandTestBase
     public function testGetUrlHelper()
     {
         $viewFile = $this->mockViewFile(
-            __DIR__ . '/mocks/TestExcerptFile.md', ['site' => ['url' => 'http://www.example.com']]
+            __DIR__ . '/Mocks/TestExcerptFile.md', ['site' => ['url' => 'http://www.example.com']]
         );
 
         $this->assertEquals('http://www.example.com/testexcerptfile/', $viewFile->getUrl());
@@ -106,7 +106,7 @@ class ViewFileTraitTest extends CommandTestBase
     public function testIsPaginatedHelper()
     {
         $viewFile = $this->mockViewFile(
-            __DIR__ . '/mocks/TestExcerptFile.md', ['site' => ['url' => 'http://www.example.com']]
+            __DIR__ . '/Mocks/TestExcerptFile.md', ['site' => ['url' => 'http://www.example.com']]
         );
 
         $this->assertEquals(false, $viewFile->isPaginated());
@@ -121,7 +121,7 @@ class ViewFileTraitTest extends CommandTestBase
     public function testHasPreviousNextHelper()
     {
         $viewFile = $this->mockViewFile(
-            __DIR__ . '/mocks/TestExcerptFile.md', ['site' => ['url' => 'http://www.example.com']]
+            __DIR__ . '/Mocks/TestExcerptFile.md', ['site' => ['url' => 'http://www.example.com']]
         );
 
         $this->assertEquals(false, $viewFile->hasPreviousNext());
@@ -136,7 +136,7 @@ class ViewFileTraitTest extends CommandTestBase
     public function testGetDateHelper()
     {
         $viewFile = $this->mockViewFile(
-            __DIR__ . '/mocks/TestFile.md'
+            __DIR__ . '/Mocks/TestFile.md'
         );
 
         $this->assertInstanceOf(\DateTime::class, $viewFile->getDate());
