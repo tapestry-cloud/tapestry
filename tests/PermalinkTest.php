@@ -15,16 +15,25 @@ use Tapestry\Modules\ContentTypes\ContentTypeFactory;
 class PermalinkTest extends CommandTestBase
 {
     /**
-     * @param $filePath
+     * @param File $file
      * @return Permalink
      */
-    private function setupPermalinks($filePath)
+    private function setupPermalinks(File $file)
+    {
+        return $file->getCompiledPermalink();
+    }
+
+    /**
+     * @param string $filePath
+     * @return File
+     */
+    private function setupFile($filePath)
     {
         $file = new File(new SplFileInfo($filePath, '', ''));
         $frontMatter = new FrontMatter($file->getFileContent());
         $file->setData($frontMatter->getData());
         $file->setContent($frontMatter->getContent());
-        return $file->getCompiledPermalink();
+        return $file;
     }
 
     /**
@@ -34,7 +43,7 @@ class PermalinkTest extends CommandTestBase
     public function testCategoryPermalinkTag()
     {
         // Synthetic Test
-        $this->assertEquals('/category1/category2/category3/test-md-post/index.html', $this->setupPermalinks(__DIR__ . '/mocks/TestCategoryPermalinkTag.md'));
+        $this->assertEquals('/category1/category2/category3/test-md-post/index.html', $this->setupPermalinks($this->setupFile(__DIR__ . '/mocks/TestCategoryPermalinkTag.md')));
 
         // Full Test
         $this->copyDirectory('assets/build_test_33/src', '_tmp');
@@ -45,6 +54,27 @@ class PermalinkTest extends CommandTestBase
 
     public function testPrettyPermalink()
     {
-        $this->assertEquals('/testfile/index.md', $this->setupPermalinks(__DIR__ . '/mocks/TestFile.md'));
+        $this->assertEquals('/testfile/index.md', $this->setupPermalinks($this->setupFile(__DIR__ . '/mocks/TestFile.md')));
+    }
+
+    public function testPermalinkPathSlashes()
+    {
+        $file = $this->setupFile(__DIR__ . '/mocks/TestFile.md');
+
+        $backSlashTest = $file;
+        $backSlashTest->setPath('hello\\world/123');
+        $this->assertEquals('/hello/world/123/testfile/index.md', $this->setupPermalinks($backSlashTest));
+
+        $beginningSlashTest = $file;
+        $beginningSlashTest->setPath('/hello/world/123');
+        $this->assertEquals('/hello/world/123/testfile/index.md', $this->setupPermalinks($beginningSlashTest));
+
+        $endingSlashTest = $file;
+        $endingSlashTest->setPath('/hello/world/123/');
+        $this->assertEquals('/hello/world/123/testfile/index.md', $this->setupPermalinks($endingSlashTest));
+
+        $doubleSlashTest = $file;
+        $doubleSlashTest->setPath('hello//world\\123/');
+        $this->assertEquals('/hello/world/123/testfile/index.md', $this->setupPermalinks($doubleSlashTest));
     }
 }
