@@ -105,6 +105,11 @@ class WorkspaceScaffold
         $this->isComplete = true;
     }
 
+    public function isComplete()
+    {
+        return $this->isComplete;
+    }
+
     /**
      * Reset the step pointer to the beginning of the steps map.
      */
@@ -140,6 +145,11 @@ class WorkspaceScaffold
         $result = $current->__invoke($output, $this);
         if (!is_bool($result)) {
             throw new \Exception('The result of your workspace scaffold step must be boolean.');
+        }
+
+        $keys = array_keys($this->steps);
+        if (end($keys) === $this->step) {
+            $this->isComplete = true;
         }
 
         return $result;
