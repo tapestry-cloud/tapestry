@@ -2,14 +2,14 @@
 
 namespace Tapestry\Entities;
 
-use Symfony\Component\Console\Output\OutputInterface;
 use Tapestry\Entities\WorkspaceScaffold\Step;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class WorkspaceScaffold
 {
     /**
      * Name of the Scaffold, should contain no spaces as this is how the user will
-     * reference the scaffold from the command line via make:scaffold-name
+     * reference the scaffold from the command line via make:scaffold-name.
      *
      * @var string
      */
@@ -33,7 +33,7 @@ class WorkspaceScaffold
     protected $isComplete = false;
 
     /**
-     * Current step pointer, should equal a valid key in the $steps map
+     * Current step pointer, should equal a valid key in the $steps map.
      *
      * @var null|string
      */
@@ -138,12 +138,12 @@ class WorkspaceScaffold
 
         /** @var \Tapestry\Entities\WorkspaceScaffold\Step $current */
         $current = $this->steps[$this->step];
-        if (!is_subclass_of($current, Step::class)) {
+        if (! is_subclass_of($current, Step::class)) {
             throw new \Exception('All workspace scaffold steps must be instances of \Tapestry\Entities\WorkspaceScaffold\Step.');
         }
 
         $result = $current->__invoke($output, $this);
-        if (!is_bool($result)) {
+        if (! is_bool($result)) {
             throw new \Exception('The result of your workspace scaffold step must be boolean.');
         }
 
