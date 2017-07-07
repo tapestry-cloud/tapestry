@@ -6,6 +6,7 @@
 
 ## Enhancements
 - #146 Added --auto-publish flag to build command, [click here](https://www.tapestry.cloud/documentation/commands/#build-command) for more information
+- #156 Added permalink registry for the purpose of identifying when two files have the same permalink and warning the user or resolving the conflict
 
 # 1.0.8
 ## Bugfixes
