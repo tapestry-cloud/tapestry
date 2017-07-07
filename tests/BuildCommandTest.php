@@ -357,12 +357,8 @@ class BuildCommandTest extends CommandTestBase
     {
         $this->copyDirectory('assets/build_test_36/src', '_tmp');
 
-        $output = $this->runCommand('build', '--quiet');
-
-        $this->assertEquals('', trim($output->getDisplay()));
-        $this->assertEquals(0, $output->getStatusCode());
-
-        $this->assertFileExists(__DIR__.'/_tmp/build_local/file-clash.html');
-        $this->assertFileExists(__DIR__.'/_tmp/build_local/file-clash-1.html');
+        $output = $this->runCommand('build', '');
+        $this->assertTrue(strpos(trim($output->getDisplay()), 'The permalink [/file-clash.html] is already in use!') !== false);
+        $this->assertEquals(1, $output->getStatusCode());
     }
 }

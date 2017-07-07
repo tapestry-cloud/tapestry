@@ -2,6 +2,7 @@
 
 namespace Tapestry\Modules\Content;
 
+use Tapestry\Entities\ProjectFileInterface;
 use Tapestry\Step;
 use Tapestry\Tapestry;
 use Tapestry\Entities\File;
@@ -273,7 +274,7 @@ class Compile implements Step
     }
 
     /**
-     * @param File|File[] $files
+     * @param ProjectFileInterface|ProjectFileInterface[]|File|File[] $files
      */
     private function add($files)
     {
