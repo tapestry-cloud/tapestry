@@ -24,7 +24,6 @@ return [
 
     /*
      * Tapestry Content Types
-     * @todo write Collections and Generators that use the below
      */
     'content_types' => [
         'blog' => [

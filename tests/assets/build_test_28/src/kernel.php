@@ -40,6 +40,6 @@ class Kernel implements KernelInterface
      */
     public function boot()
     {
-        // TODO: Implement boot() method.
+        // ...
     }
 }
