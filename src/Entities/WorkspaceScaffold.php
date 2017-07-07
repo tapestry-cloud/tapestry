@@ -70,13 +70,12 @@ class WorkspaceScaffold
      * @param array $model
      * @param array $validator
      */
-    public function __construct($name = '', $description = '', $steps = [], $model = [], $validator = [])
+    public function __construct($name = '', $description = '', $steps = [], $model = [])
     {
         $this->name = $name;
         $this->description = $description;
         $this->steps = $steps;
         $this->initialModel = $model;
-        $this->validator = $validator;
 
         $this->reset();
     }
@@ -94,6 +93,11 @@ class WorkspaceScaffold
     public function getModel()
     {
         return $this->model;
+    }
+
+    public function setModel($model)
+    {
+        $this->model = $model;
     }
 
     public function complete()
@@ -129,11 +133,11 @@ class WorkspaceScaffold
 
         /** @var \Tapestry\Entities\WorkspaceScaffold\Step $current */
         $current = $this->steps[$this->step];
-        if ($current instanceof Step) {
+        if (!is_subclass_of($current, Step::class)) {
             throw new \Exception('All workspace scaffold steps must be instances of \Tapestry\Entities\WorkspaceScaffold\Step.');
         }
 
-        $result = $current($output, $this);
+        $result = $current->__invoke($output, $this);
         if (!is_bool($result)) {
             throw new \Exception('The result of your workspace scaffold step must be boolean.');
         }
