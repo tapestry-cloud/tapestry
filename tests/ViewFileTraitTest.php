@@ -97,7 +97,7 @@ class ViewFileTraitTest extends CommandTestBase
             __DIR__ . '/mocks/TestExcerptFile.md', ['site' => ['url' => 'http://www.example.com']]
         );
 
-        $this->assertEquals('http://www.example.com/testexcerptfile', $viewFile->getUrl());
+        $this->assertEquals('http://www.example.com/testexcerptfile/', $viewFile->getUrl());
 
         $viewFile->getFile()->setData(['permalink' => '/folder1/folder2/folder3/test.html']);
         $this->assertEquals('http://www.example.com/folder1/folder2/folder3/test.html', $viewFile->getUrl());
