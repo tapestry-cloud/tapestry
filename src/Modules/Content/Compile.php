@@ -2,7 +2,6 @@
 
 namespace Tapestry\Modules\Content;
 
-use Tapestry\Entities\ProjectFileInterface;
 use Tapestry\Step;
 use Tapestry\Tapestry;
 use Tapestry\Entities\File;
@@ -11,6 +10,7 @@ use Tapestry\Entities\Project;
 use Tapestry\Entities\ViewFile;
 use Tapestry\Entities\CachedFile;
 use Tapestry\Entities\ContentType;
+use Tapestry\Entities\ProjectFileInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Tapestry\Entities\Filesystem\FileCopier;
 use Tapestry\Entities\Filesystem\FileWriter;
@@ -193,19 +193,20 @@ class Compile implements Step
         }
     }
 
-
-    private function checkForPermalinkClashes(Project $project, OutputInterface $output) {
+    private function checkForPermalinkClashes(Project $project, OutputInterface $output)
+    {
         /** @var File $file */
         foreach ($project['compiled'] as $file) {
             if (isset($this->permalinkTable[sha1($file->getCompiledPermalink())])) {
-                $output->writeln('<error>[!]</error> The permalink ['. $file->getCompiledPermalink() .'] is already in use!');
+                $output->writeln('<error>[!]</error> The permalink ['.$file->getCompiledPermalink().'] is already in use!');
+
                 return false;
             }
             $this->permalinkTable[sha1($file->getCompiledPermalink())] = $file->getUid();
         }
+
         return true;
     }
-
 
     private function checkForFileGeneratorError(OutputInterface $output)
     {
