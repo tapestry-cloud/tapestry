@@ -48,5 +48,6 @@ class WorkspaceScaffoldTest extends CommandTestBase
         $class = new WorkspaceScaffold('Test', 'A Description', $steps, []);
         $this->assertTrue($class->execute(new NullOutput()));
         $this->assertEquals(['hello' => 'world'], $class->getModel());
+        $this->assertTrue($class->isComplete());
     }
 }
