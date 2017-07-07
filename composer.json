@@ -50,9 +50,9 @@
   "scripts": {
     "box": [
       "composer install --no-dev --prefer-dist",
-      "curl -LSs https://box-project.github.io/box2/installer.php | php",
-      "php build/BuildVersion.php",
-      "php box.phar build -v"
+      "@php -r \"file_exists('box.phar') || exec('curl -LSs https://box-project.github.io/box2/installer.php | php');\"",
+      "@php build/BuildVersion.php",
+      "@php box.phar build -v"
     ]
   }
 }
