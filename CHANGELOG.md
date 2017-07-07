@@ -1,3 +1,13 @@
+# 1.0.9
+## Bugfixes
+- #209 Fix Url helper parsing of Uri with parameters
+- #208 File with multiple ext e.g. main.min.css are now compiled as expected rather than hyphenated e.g. main-min.css
+- #219 Fixed permalinks not being valid urls when using the file path on Windows
+
+## Enhancements
+- #146 Added --auto-publish flag to build command, [click here](https://www.tapestry.cloud/documentation/commands/#build-command) for more information
+- #156 Added permalink registry for the purpose of identifying when two files have the same permalink and warning the user or resolving the conflict
+
 # 1.0.8
 ## Bugfixes
 - #186 Removed dead code in File class
