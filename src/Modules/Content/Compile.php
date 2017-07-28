@@ -66,8 +66,6 @@ class Compile implements Step
     {
         $stopwatch = $project->get('cmd_options.stopwatch', false);
 
-        $this->tapestry->getEventEmitter()->emit('compile.before');
-
         /** @var ContentTypeFactory $contentTypes */
         $contentTypes = $project->get('content_types');
 
@@ -118,7 +116,6 @@ class Compile implements Step
         }
 
         $project->set('compiled', new FlatCollection($this->files));
-        $this->tapestry->getEventEmitter()->emit('compile.after');
 
         return true;
     }
