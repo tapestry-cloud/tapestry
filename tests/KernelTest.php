@@ -81,4 +81,19 @@ class KernelTest extends CommandTestBase
         $this->expectExceptionMessage('[SiteThirtySeven\Kernel] kernel file not found.');
         $class->boot();
     }
+
+    /**
+     * Written for issue #235
+     * @link https://github.com/carbontwelve/tapestry/issues/235
+     */
+    public function testKernelCaseLoaded()
+    {
+        $this->copyDirectory('assets/build_test_38/src', '_tmp');
+        $class = new ProjectKernelServiceProvider();
+        $tapestry = $this->mockTapestry(__DIR__ . DIRECTORY_SEPARATOR . '_tmp');
+        $class->setContainer($tapestry->getContainer());
+
+        //$this->expectExceptionMessage('[SiteThirtySeven\Kernel] kernel file not found.');
+        $class->boot();
+    }
 }
