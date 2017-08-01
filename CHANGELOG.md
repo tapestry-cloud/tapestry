@@ -1,3 +1,8 @@
+# 1.0.11
+## Bugfixes
+
+## Enhancements
+
 # 1.0.10
 ## Bugfixes
 - #231 Fixed multiple firing of compile begin/end events
