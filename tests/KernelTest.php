@@ -2,7 +2,6 @@
 
 namespace Tapestry\Tests;
 
-use SiteThirtyEight\Kernel;
 use Tapestry\Modules\Kernel\KernelInterface;
 use Tapestry\Providers\ProjectKernelServiceProvider;
 use Tapestry\Tests\Traits\MockTapestry;
@@ -98,6 +97,6 @@ class KernelTest extends CommandTestBase
 
         $class->boot();
         $kernel = $tapestry->getContainer()->get(KernelInterface::class);
-        $this->assertInstanceOf(Kernel::class, $kernel);
+        $this->assertInstanceOf('\SiteThirtyEight\Kernel', $kernel);
     }
 }

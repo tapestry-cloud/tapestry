@@ -42,10 +42,12 @@ class ProjectKernelServiceProvider extends AbstractServiceProvider implements Bo
 
         /** @var Tapestry $tapestry */
         $tapestry = $container->get(Tapestry::class);
-
         $configuration = $container->get(Configuration::class);
-
         $kernelPath = $tapestry['currentWorkingDirectory'].DIRECTORY_SEPARATOR.'kernel.php';
+
+        if (!file_exists($kernelPath)) {
+            $kernelPath = $tapestry['currentWorkingDirectory'].DIRECTORY_SEPARATOR.'Kernel.php';
+        }
 
         if (file_exists($kernelPath)) {
             $kernelClassName = $configuration->get('kernel', DefaultKernel::class);
