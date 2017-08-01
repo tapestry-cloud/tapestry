@@ -1,3 +1,9 @@
+# 1.0.10
+## Bugfixes
+- #231 Fixed multiple firing of compile begin/end events
+- #234 Fixed incorrect import of Exception when loading site kernel
+- #235 Fixed Kernel service provider working on Windows but not on Linux when site kernel is named Kernel.php
+
 # 1.0.9
 ## Bugfixes
 - #209 Fix Url helper parsing of Uri with parameters
