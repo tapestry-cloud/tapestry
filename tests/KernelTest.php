@@ -70,6 +70,7 @@ class KernelTest extends CommandTestBase
      * Written for issue #234
      * @link https://github.com/carbontwelve/tapestry/issues/234
      * @expectedException \Exception
+     * @expectedExceptionMessage [SiteThirtySeven\Kernel] kernel file not found.
      */
     public function testKernelThrowsException()
     {
