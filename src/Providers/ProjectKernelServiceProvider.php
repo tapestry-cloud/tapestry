@@ -45,7 +45,7 @@ class ProjectKernelServiceProvider extends AbstractServiceProvider implements Bo
         $configuration = $container->get(Configuration::class);
         $kernelPath = $tapestry['currentWorkingDirectory'].DIRECTORY_SEPARATOR.'kernel.php';
 
-        if (!file_exists($kernelPath)) {
+        if (! file_exists($kernelPath)) {
             $kernelPath = $tapestry['currentWorkingDirectory'].DIRECTORY_SEPARATOR.'Kernel.php';
         }
 
