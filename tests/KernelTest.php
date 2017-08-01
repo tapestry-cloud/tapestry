@@ -2,6 +2,8 @@
 
 namespace Tapestry\Tests;
 
+use SiteThirtyEight\Kernel;
+use Tapestry\Modules\Kernel\KernelInterface;
 use Tapestry\Providers\ProjectKernelServiceProvider;
 use Tapestry\Tests\Traits\MockTapestry;
 
@@ -85,6 +87,7 @@ class KernelTest extends CommandTestBase
 
     /**
      * Written for issue #235
+     *
      * @link https://github.com/carbontwelve/tapestry/issues/235
      */
     public function testKernelCaseLoaded()
@@ -94,7 +97,7 @@ class KernelTest extends CommandTestBase
         $tapestry = $this->mockTapestry(__DIR__ . DIRECTORY_SEPARATOR . '_tmp');
         $class->setContainer($tapestry->getContainer());
 
-        //$this->expectExceptionMessage('[SiteThirtySeven\Kernel] kernel file not found.');
         $class->boot();
+        $this->assertInstanceOf(Kernel::class, $tapestry->getContainer()->get(KernelInterface::class));
     }
 }
