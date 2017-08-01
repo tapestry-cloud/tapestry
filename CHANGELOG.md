@@ -1,3 +1,7 @@
+# 1.0.10
+## Bugfixes
+- #231 Fixed multiple firing of compile begin/end events
+
 # 1.0.9
 ## Bugfixes
 - #209 Fix Url helper parsing of Uri with parameters
