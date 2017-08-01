@@ -1,6 +1,7 @@
 # 1.0.10
 ## Bugfixes
 - #231 Fixed multiple firing of compile begin/end events
+- #234 Fixed incorrect import of Exception when loading site kernel
 
 # 1.0.9
 ## Bugfixes

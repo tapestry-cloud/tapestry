@@ -2,8 +2,8 @@
 
 namespace Tapestry\Providers;
 
+use Exception;
 use Tapestry\Tapestry;
-use Phine\Exception\Exception;
 use Tapestry\Entities\Configuration;
 use Tapestry\Modules\Kernel\DefaultKernel;
 use Tapestry\Modules\Kernel\KernelInterface;
@@ -33,8 +33,8 @@ class ProjectKernelServiceProvider extends AbstractServiceProvider implements Bo
     /**
      * Method will be invoked on registration of a service provider implementing
      * this interface. Provides ability for eager loading of Service Providers.
-     *
      * @return void
+     * @throws Exception
      */
     public function boot()
     {
