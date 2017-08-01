@@ -87,7 +87,6 @@ class KernelTest extends CommandTestBase
 
     /**
      * Written for issue #235
-     *
      * @link https://github.com/carbontwelve/tapestry/issues/235
      */
     public function testKernelCaseLoaded()
@@ -98,6 +97,7 @@ class KernelTest extends CommandTestBase
         $class->setContainer($tapestry->getContainer());
 
         $class->boot();
-        $this->assertInstanceOf(Kernel::class, $tapestry->getContainer()->get(KernelInterface::class));
+        $kernel = $tapestry->getContainer()->get(KernelInterface::class);
+        $this->assertInstanceOf(Kernel::class, $kernel);
     }
 }
