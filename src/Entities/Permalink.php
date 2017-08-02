@@ -86,18 +86,18 @@ class Permalink
             $categoryText = '';
             if (is_array($categories)) {
                 $limit = (count($categoryMatches) === 3) ? $categoryMatches[2] : count($categories);
-                for($i = 0; $i < $limit; $i++) {
-                    $categoryText .= $this->sluggify($categories[$i]) . '/';
+                for ($i = 0; $i < $limit; $i++) {
+                    $categoryText .= $this->sluggify($categories[$i]).'/';
                 }
             } else {
-                $categoryText = $this->sluggify($categories) . '/';
+                $categoryText = $this->sluggify($categories).'/';
             }
             if (substr($categoryText, -1, 1) === '/') {
                 $categoryText = substr($categoryText, 0, -1);
             }
 
             $output = preg_replace('({category(,[0-9]+)?})', $categoryText, $output);
-            if (is_null($output)){
+            if (is_null($output)) {
                 throw new \Exception('Error occurred while replacing category permalink string.');
             }
         }
