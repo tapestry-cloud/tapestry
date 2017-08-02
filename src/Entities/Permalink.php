@@ -80,20 +80,26 @@ class Permalink
             }
         }
 
-        if ($categories = $file->getData('categories')) {
+        // Regex: {category(,[0-9]+)?}
+
+        if (preg_match('{category(,)?([0-9]+)?}', $output, $categoryMatches) > 0 && $categories = $file->getData('categories')) {
             $categoryText = '';
             if (is_array($categories)) {
-                foreach ($categories as $category) {
-                    $categoryText .= $this->sluggify($category).'/';
+                $limit = (count($categoryMatches) === 3) ? $categoryMatches[2] : count($categories);
+                for($i = 0; $i < $limit; $i++) {
+                    $categoryText .= $this->sluggify($categories[$i]) . '/';
                 }
             } else {
-                $categoryText = $this->sluggify($categories).'/';
+                $categoryText = $this->sluggify($categories) . '/';
             }
             if (substr($categoryText, -1, 1) === '/') {
                 $categoryText = substr($categoryText, 0, -1);
             }
 
-            $output = str_replace('{category}', $categoryText, $output);
+            $output = preg_replace('({category(,[0-9]+)?})', $categoryText, $output);
+            if (is_null($output)){
+                throw new \Exception('Error occurred while replacing category permalink string.');
+            }
         }
 
         $output = str_replace('{slug}', $file->getData('slug', $this->sluggify($file->getData('title', $file->getFilename()))), $output);
