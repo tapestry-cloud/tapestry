@@ -2,6 +2,7 @@
 ## Bugfixes
 
 ## Enhancements
+- #241 Added optional max argument to permalink category template tag 
 
 # 1.0.10
 ## Bugfixes

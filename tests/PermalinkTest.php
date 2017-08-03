@@ -52,6 +52,16 @@ class PermalinkTest extends CommandTestBase
         $this->assertFileExists(__DIR__ . '/_tmp/build_local/blog/2016/category-1/category-two/category-iii/test/index.html');
     }
 
+    /**
+     * Written for issue #241
+     * @link https://github.com/carbontwelve/tapestry/issues/241
+     */
+    public function testCategoryPermalinkTagWithLimit()
+    {
+        $this->assertEquals('/category1/test-md-post/index.html', $this->setupPermalinks($this->setupFile(__DIR__ . '/mocks/TestCategoryPermalinkTagLimitOne.md')));
+        $this->assertEquals('/category1/category2/test-md-post/index.html', $this->setupPermalinks($this->setupFile(__DIR__ . '/mocks/TestCategoryPermalinkTagLimitTwo.md')));
+    }
+
     public function testPrettyPermalink()
     {
         $this->assertEquals('/testfile/index.md', $this->setupPermalinks($this->setupFile(__DIR__ . '/mocks/TestFile.md')));
