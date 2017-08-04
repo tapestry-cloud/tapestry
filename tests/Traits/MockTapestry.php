@@ -10,13 +10,18 @@ trait MockTapestry {
     /**
      * "Mock" Tapestry.
      *
+     * @param null $siteDir
      * @return Tapestry
      */
-    protected function mockTapestry()
+    protected function mockTapestry($siteDir = null)
     {
+        if (is_null($siteDir)) {
+            $siteDir = __DIR__ . DIRECTORY_SEPARATOR . '_tmp';
+        }
+
         $definitions = new DefaultInputDefinition();
         $tapestry = new Tapestry(new ArrayInput([
-            '--site-dir' => __DIR__ . DIRECTORY_SEPARATOR . '_tmp',
+            '--site-dir' => $siteDir,
             '--env' => 'testing'
         ], $definitions));
 
