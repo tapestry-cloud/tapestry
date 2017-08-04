@@ -68,7 +68,6 @@ class WorkspaceScaffold
      * @param string $description
      * @param array $steps
      * @param array $model
-     * @param array $validator
      */
     public function __construct($name = '', $description = '', $steps = [], $model = [])
     {
