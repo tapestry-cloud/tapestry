@@ -11,6 +11,7 @@ Tapestry currently operates a one month release cycle between releases, see the 
 ### Fixed
 
 ### Added
+- #105 Added workspace scaffolding
 - #241 Added optional max argument to permalink category template tag 
 
 ## [1.0.10] - 2017-08-01
