@@ -5,6 +5,7 @@ namespace Tapestry\Tests;
 use Carbon\Carbon;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Finder\SplFileInfo;
+use Tapestry\Console\Application;
 use Tapestry\Entities\Configuration;
 use Tapestry\Entities\File;
 use Tapestry\Entities\Pagination;
@@ -15,9 +16,12 @@ use Tapestry\Modules\Content\FrontMatter;
 use Tapestry\Tapestry;
 use Tapestry\Tests\Mocks\TestInvalidWorkspaceScaffoldStep;
 use Tapestry\Tests\Mocks\TestWorkspaceScaffoldStep;
+use Tapestry\Tests\Traits\MockTapestry;
 
 class WorkspaceScaffoldTest extends CommandTestBase
 {
+    use MockTapestry;
+
     public function testWorkspaceScaffoldClass()
     {
         $class = new WorkspaceScaffold('Test', 'A Description', [], []);
@@ -49,5 +53,13 @@ class WorkspaceScaffoldTest extends CommandTestBase
         $this->assertTrue($class->execute(new NullOutput()));
         $this->assertEquals(['hello' => 'world'], $class->getModel());
         $this->assertTrue($class->isComplete());
+    }
+
+    public function testMakeCommandExists()
+    {
+        $tapestry = $this->mockTapestry();
+        /** @var Application $application */
+        $application = $tapestry->getContainer()->get(Application::class);
+        $this->assertTrue($application->has('make'));
     }
 }
