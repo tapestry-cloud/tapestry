@@ -39,7 +39,8 @@ class MakeCommand extends Command
     {
         $this->setName('make')
             ->setDescription('Workspace scaffold system.')
-            ->addArgument('name', InputArgument::OPTIONAL, 'Where should we initialise this project?');
+            ->setHelp('This command allows you to run workspace scaffolds as defined by your site kernel.')
+            ->addArgument('name', InputArgument::OPTIONAL, 'Which scaffold should we use?');
     }
 
     protected function fire()
