@@ -85,6 +85,7 @@ class Permalink
         if (preg_match('{category(,)?([0-9]+)?}', $output, $categoryMatches) > 0 && $categories = $file->getData('categories')) {
             $categoryText = '';
             if (is_array($categories)) {
+                sort($categories, SORT_NATURAL | SORT_FLAG_CASE);
                 $limit = (count($categoryMatches) === 3) ? $categoryMatches[2] : count($categories);
                 for ($i = 0; $i < $limit; $i++) {
                     $categoryText .= $this->sluggify($categories[$i]).'/';
