@@ -7,6 +7,7 @@ use Tapestry\Entities\Project;
 use Tapestry\Plates\Extensions\Url;
 use Tapestry\Plates\Extensions\Site;
 use Tapestry\Plates\Extensions\Helpers;
+use Tapestry\Plates\Extensions\Environment;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
 class PlatesServiceProvider extends AbstractServiceProvider
@@ -37,6 +38,7 @@ class PlatesServiceProvider extends AbstractServiceProvider
             $engine->loadExtension($container->get(Site::class));
             $engine->loadExtension($container->get(Url::class));
             $engine->loadExtension($container->get(Helpers::class));
+            $engine->loadExtension($container->get(Environment::class));
 
             return $engine;
         });

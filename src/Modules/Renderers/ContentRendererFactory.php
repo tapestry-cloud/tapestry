@@ -3,6 +3,7 @@
 namespace Tapestry\Modules\Renderers;
 
 use Exception;
+use Tapestry\Entities\File;
 use Tapestry\Entities\Renderers\RendererInterface;
 
 class ContentRendererFactory
@@ -96,5 +97,22 @@ class ContentRendererFactory
         }
 
         return $this->items[$this->lookupTable[$ext]];
+    }
+
+    /**
+     * Identify which Renderer to be used and then execute it upon the file in question.
+     *
+     * @param File $file
+     */
+    public function renderFile(File &$file)
+    {
+        if ($file->isRendered()) {
+            return;
+        }
+        $fileRenderer = $this->get($file->getExt());
+        $file->setContent($fileRenderer->render($file));
+        $file->setExt($fileRenderer->getDestinationExtension($file->getExt()));
+        $file->setRendered(true);
+        $fileRenderer->mutateFile($file);
     }
 }
