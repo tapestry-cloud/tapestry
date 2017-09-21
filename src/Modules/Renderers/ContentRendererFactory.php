@@ -106,7 +106,9 @@ class ContentRendererFactory
      */
     public function renderFile(File &$file)
     {
-        if ($file->isRendered()) { return; }
+        if ($file->isRendered()) {
+            return;
+        }
         $fileRenderer = $this->get($file->getExt());
         $file->setContent($fileRenderer->render($file));
         $file->setExt($fileRenderer->getDestinationExtension($file->getExt()));
