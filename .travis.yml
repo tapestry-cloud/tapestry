@@ -21,6 +21,7 @@ cache:
 
 before_install:
   - source .travis/travis.sh
+  - source .travis/test-reporter.sh
   - xdebug-disable
   - travis_retry composer self-update
 
@@ -31,6 +32,9 @@ script:
   - mkdir -p build/logs
   - run-tests
 
+before_script:
+  - codeclimate-before-build
+
 after_success:
-  - if [[ "$WITH_COVERAGE" == "true" ]]; then vendor/bin/test-reporter; fi
+  - codeclimate-after-build
 
