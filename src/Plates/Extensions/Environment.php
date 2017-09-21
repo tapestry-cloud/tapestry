@@ -3,8 +3,8 @@
 namespace Tapestry\Plates\Extensions;
 
 use League\Plates\Engine;
-use League\Plates\Extension\ExtensionInterface;
 use Tapestry\Entities\Project;
+use League\Plates\Extension\ExtensionInterface;
 
 class Environment implements ExtensionInterface
 {
