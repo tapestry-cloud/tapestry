@@ -235,11 +235,7 @@ class Compile implements Step
                 if ($file->isRendered()) {
                     continue;
                 }
-                $fileRenderer = $contentRenderers->get($file->getExt());
-                $file->setContent($fileRenderer->render($file));
-                $file->setExt($fileRenderer->getDestinationExtension($file->getExt()));
-                $file->setRendered(true);
-                $fileRenderer->mutateFile($file);
+                $contentRenderers->renderFile($file);
             }
             unset($file);
         }

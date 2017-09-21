@@ -49,7 +49,7 @@ class PermalinkTest extends CommandTestBase
         $this->copyDirectory('assets/build_test_33/src', '_tmp');
         $output = $this->runCommand('build', '--quiet --json');
         $this->assertEquals(0, $output->getStatusCode());
-        $this->assertFileExists(__DIR__ . '/_tmp/build_local/blog/2016/category-1/category-two/category-iii/test/index.html');
+        $this->assertFileExists(__DIR__ . '/_tmp/build_local/blog/2016/category-1/category-iii/category-two/test/index.html');
     }
 
     /**
