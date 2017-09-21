@@ -61,7 +61,7 @@ class ContentTypeTest extends CommandTestBase
     public function testAddFileMutatesFileDataWithContentTypeName()
     {
         $contentType = new ContentType('Test', ['enabled' => true]);
-        $file = new File(new SplFileInfo(__DIR__ . '/mocks/TestFile.md', '', ''));
+        $file = new File(new SplFileInfo(__DIR__ . '/Mocks/TestFile.md', '', ''));
         $this->assertFalse($file->hasData('contentType'));
         $contentType->addFile($file);
         $this->assertTrue($file->hasData('contentType'));
