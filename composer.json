@@ -53,5 +53,10 @@
       "@php build/BuildVersion.php",
       "@php box.phar build -v"
     ]
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "develop-1.0.11"
+    }
   }
 }
