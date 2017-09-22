@@ -66,12 +66,17 @@ class DefaultRenderer implements RendererInterface
     }
 
     /**
-     * @param File $file
+     * The default action is to set a File for copying and therefore
+     * disable its pretty permalink output.
      *
+     * @param File $file
      * @return void
      */
     public function mutateFile(File &$file)
     {
         $file->setToCopy(true);
+        $file->setData([
+            'pretty_permalink' => false
+        ]);
     }
 }
