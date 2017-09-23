@@ -35,6 +35,7 @@ return [
                 'tags',
                 'categories',
             ],
+            'scaffold'   => \Tapestry\Entities\WorkspaceScaffold\Blog\BlogPostWorkspaceScaffold::class
         ],
     ],
 

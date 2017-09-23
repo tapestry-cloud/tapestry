@@ -2,6 +2,8 @@
 
 namespace Tapestry\Entities;
 
+use Symfony\Component\Console\Input\InputInterface;
+use Tapestry\Console\Input;
 use Tapestry\Entities\WorkspaceScaffold\Step;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -120,12 +122,14 @@ class WorkspaceScaffold
         $this->step = array_shift($keys);
     }
 
+
     /**
+     * @param InputInterface $input
      * @param OutputInterface $output
      * @return bool
      * @throws \Exception
      */
-    public function execute(OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output)
     {
         if (is_null($this->step)) {
             return false;
@@ -141,7 +145,7 @@ class WorkspaceScaffold
             throw new \Exception('All workspace scaffold steps must be instances of \Tapestry\Entities\WorkspaceScaffold\Step.');
         }
 
-        $result = $current->__invoke($output, $this);
+        $result = $current->__invoke($input, $output, $this);
         if (! is_bool($result)) {
             throw new \Exception('The result of your workspace scaffold step must be boolean.');
         }

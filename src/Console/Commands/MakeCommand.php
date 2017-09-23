@@ -44,6 +44,22 @@ class MakeCommand extends Command
 
     protected function fire()
     {
+
+        if (! $name = $this->identifyScaffoldName()) {
+            return 1;
+        }
+
         return 0;
+    }
+
+    private function identifyScaffoldName()
+    {
+        if (! $scaffold = $this->input->getArgument('name')) {
+            $n =1;
+        }
+
+        // Check $scaffold is valid
+
+        return $scaffold;
     }
 }
