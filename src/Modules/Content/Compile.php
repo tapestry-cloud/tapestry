@@ -196,11 +196,12 @@ class Compile implements Step
         foreach ($project['compiled'] as $file) {
             if (isset($this->permalinkTable[sha1($file->getCompiledPermalink())])) {
                 $output->writeln('<error>[!]</error> The permalink ['.$file->getCompiledPermalink().'] is already in use!');
+
                 return false;
             }
             $this->permalinkTable[sha1($file->getCompiledPermalink())] = [
                 'uid' => $file->getUid(),
-                'permalink' => $file->getCompiledPermalink()
+                'permalink' => $file->getCompiledPermalink(),
             ];
         }
 
