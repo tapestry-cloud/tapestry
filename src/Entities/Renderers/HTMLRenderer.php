@@ -29,6 +29,16 @@ class HTMLRenderer implements RendererInterface
     }
 
     /**
+     * Returns the renderer name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return 'HTMLRenderer';
+    }
+
+    /**
      * Returns an array of the extensions that this renderer will support.
      *
      * @return array

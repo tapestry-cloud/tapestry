@@ -12,6 +12,16 @@ class DefaultRenderer implements RendererInterface
     private $extensions = ['*'];
 
     /**
+     * Returns the renderer name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return 'DefaultRenderer';
+    }
+
+    /**
      * Returns an array of the extensions that this renderer will support.
      *
      * @return array

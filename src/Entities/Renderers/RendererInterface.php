@@ -14,6 +14,13 @@ use Tapestry\Entities\File;
 interface RendererInterface
 {
     /**
+     * Returns the renderer name
+     *
+     * @return string
+     */
+    public function getName();
+
+    /**
      * Returns an array of the extensions that this renderer will support.
      *
      * @return array
