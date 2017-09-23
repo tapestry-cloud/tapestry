@@ -369,11 +369,7 @@ class BuildCommandTest extends CommandTestBase
     public function testPermalinkClashesOnStatic()
     {
         $this->copyDirectory('assets/build_test_39/src', '_tmp');
-
         $output = $this->runCommand('build', '');
-
-        $p = $output->getDisplay(true);
-
         $this->assertEquals(0, $output->getStatusCode());
 
     }
