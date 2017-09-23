@@ -217,10 +217,16 @@ class File implements ProjectFileInterface
         $this->permalink = $permalink;
     }
 
-    public function getCompiledPermalink($pretty = true)
+    /**
+     * Pretty Permalinks are disabled on all files that have their
+     * permalink structure configured via front matter.
+     *
+     * @return mixed|string
+     */
+    public function getCompiledPermalink()
     {
-        // If the permalink is defined by the user via front matter then disable the pretty permalinks
-        if (isset($this->data['permalink'])) {
+        $pretty = $this->getData('pretty_permalink', true);
+        if ($this->hasData('permalink')) {
             $pretty = false;
         }
 

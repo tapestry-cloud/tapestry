@@ -131,6 +131,11 @@ class LoadSourceFiles implements Step
                 $contentType = $contentTypes->get($contentType);
             }
 
+            // Identify if $file belongs to default renderer and therefore should be copied (for issue #255)
+            if ($renderer->getName() === 'DefaultRenderer') {
+                $renderer->mutateFile($file);
+            }
+
             $contentType->addFile($file);
             $project->addFile($file);
 

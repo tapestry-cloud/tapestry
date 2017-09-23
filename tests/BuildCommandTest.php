@@ -361,4 +361,20 @@ class BuildCommandTest extends CommandTestBase
         $this->assertTrue(strpos(trim($output->getDisplay()), 'The permalink [/file-clash.html] is already in use!') !== false);
         $this->assertEquals(1, $output->getStatusCode());
     }
+
+    /**
+     * Written for issue #255
+     * @link https://github.com/tapestry-cloud/tapestry/issues/255
+     */
+    public function testPermalinkClashesOnStatic()
+    {
+        $this->copyDirectory('assets/build_test_39/src', '_tmp');
+
+        $output = $this->runCommand('build', '');
+
+        $p = $output->getDisplay(true);
+
+        $this->assertEquals(0, $output->getStatusCode());
+
+    }
 }

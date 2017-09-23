@@ -15,7 +15,7 @@ class FileCopier extends FileAction implements FilesystemInterface
      */
     public function __invoke(Filesystem $filesystem, OutputInterface $output)
     {
-        $outputPath = $this->file->getCompiledPermalink(false);
+        $outputPath = $this->file->getCompiledPermalink();
         $output->writeln('[+] Copying File ['.$this->file->getUid().'] to path ['.$outputPath.']');
         $filesystem->copy($this->file->getFileInfo()->getPathname(), $this->destinationPath.DIRECTORY_SEPARATOR.$outputPath);
     }

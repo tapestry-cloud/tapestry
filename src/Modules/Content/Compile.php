@@ -199,7 +199,10 @@ class Compile implements Step
 
                 return false;
             }
-            $this->permalinkTable[sha1($file->getCompiledPermalink())] = $file->getUid();
+            $this->permalinkTable[sha1($file->getCompiledPermalink())] = [
+                'uid' => $file->getUid(),
+                'permalink' => $file->getCompiledPermalink(),
+            ];
         }
 
         return true;
