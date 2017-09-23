@@ -229,6 +229,7 @@ class File implements ProjectFileInterface
         if ($this->hasData('permalink')) {
             $pretty = false;
         }
+
         return $this->permalink->getCompiled($this, $pretty);
     }
 

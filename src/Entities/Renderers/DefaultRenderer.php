@@ -76,7 +76,7 @@ class DefaultRenderer implements RendererInterface
     {
         $file->setToCopy(true);
         $file->setData([
-            'pretty_permalink' => false
+            'pretty_permalink' => false,
         ]);
     }
 }
