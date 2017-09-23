@@ -14,7 +14,7 @@ use Tapestry\Entities\File;
 interface RendererInterface
 {
     /**
-     * Returns the renderer name
+     * Returns the renderer name.
      *
      * @return string
      */

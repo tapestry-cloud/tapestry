@@ -29,7 +29,7 @@ class HTMLRenderer implements RendererInterface
     }
 
     /**
-     * Returns the renderer name
+     * Returns the renderer name.
      *
      * @return string
      */

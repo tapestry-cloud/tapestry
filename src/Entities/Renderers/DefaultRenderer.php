@@ -12,7 +12,7 @@ class DefaultRenderer implements RendererInterface
     private $extensions = ['*'];
 
     /**
-     * Returns the renderer name
+     * Returns the renderer name.
      *
      * @return string
      */
