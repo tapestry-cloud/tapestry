@@ -35,14 +35,14 @@ abstract class Command extends SymfonyCommand
 
             return $result;
         } catch (InvalidVersionException $e) {
-            $this->error('[!] ' . $e->getMessage());
-            $this->error('    If you would like to ignore this error, delete the cache file and try again.');
+            $this->failure('[!] ' . $e->getMessage());
+            $this->failure('    If you would like to ignore this error, delete the cache file and try again.');
             return 1;
-        } catch (\Exception $e) {
-            $this->error('[!] ' . $e->getMessage());
+        }catch (\Exception $e) {
+            $this->failure($e->getMessage());
             return 1;
         }
-    }
+    }//
 
     private function renderStopwatchReport(OutputInterface $output)
     {
@@ -73,6 +73,13 @@ abstract class Command extends SymfonyCommand
     protected function error($string)
     {
         $this->output->writeln('<error>[!]</error> '.$string);
+    }
+
+    protected function failure($string)
+    {
+        // Because this is a failure e.g. Exception caught we will ignore verbosity
+        $this->output->setVerbosity(OutputInterface::VERBOSITY_DEBUG);
+        $this->error($string);
     }
 
     protected function panic($string, $code = 1)

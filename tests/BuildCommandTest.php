@@ -122,9 +122,7 @@ class BuildCommandTest extends CommandTestBase
     {
         $this->copyDirectory('assets/build_test_25/src', '_tmp');
         $output = $this->runCommand('build', '--quiet --dist-dir=' . __DIR__ . '/_tmp/test_dist_dir');
-
-        $this->assertContains('[Exception]', trim($output->getDisplay()));
-        $this->assertContains('The date [abc] is in a format not supported by Tapestry', trim($output->getDisplay()));
+        $this->assertContains('[!] The date [abc] is in a format not supported by Tapestry', trim($output->getDisplay()));
         $this->assertEquals(1, $output->getStatusCode());
     }
 
