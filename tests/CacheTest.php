@@ -21,7 +21,7 @@ class CacheTest extends CommandTestBase
      * @version 1.0.11
      * @link https://github.com/carbontwelve/tapestry/issues/230
      */
-    public function testCacheStoreValidateTapestryVersion()
+    public function testCacheStoreValidateTapestryVersionGreaterThan()
     {
         $cacheStore = new CacheStore(sha1('Hello world'), '200.100.10');
         $cacheStore->setItem('Hello', 'World');
@@ -38,6 +38,29 @@ class CacheTest extends CommandTestBase
         $cacheB = new Cache(__DIR__ . DIRECTORY_SEPARATOR . '_tmp' . DIRECTORY_SEPARATOR . '.test.cache', sha1('Hello world'));
 
         $this->expectException(InvalidVersionException::class);
+        $cacheB->load();
+    }
+
+    /**
+     * Written for issue #230
+     * @version 1.0.11
+     * @link https://github.com/carbontwelve/tapestry/issues/230
+     */
+    public function testCacheStoreValidateTapestryVersionLessThan()
+    {
+        $cacheStore = new CacheStore(sha1('Hello world'), '1.0.0');
+        $cacheStore->setItem('Hello', 'World');
+
+        $cacheA = new Cache(__DIR__ . DIRECTORY_SEPARATOR . '_tmp' . DIRECTORY_SEPARATOR . '.test.cache', sha1('Hello world'));
+        $cacheA->setCacheStore($cacheStore);
+
+        $this->assertEquals('World', $cacheA->getItem('Hello'));
+
+        $cacheA->save();
+
+        $this->assertFileExists(__DIR__ . DIRECTORY_SEPARATOR . '_tmp' . DIRECTORY_SEPARATOR . '.test.cache');
+
+        $cacheB = new Cache(__DIR__ . DIRECTORY_SEPARATOR . '_tmp' . DIRECTORY_SEPARATOR . '.test.cache', sha1('Hello world'));
         $cacheB->load();
     }
 
