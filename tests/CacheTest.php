@@ -8,17 +8,46 @@ use Tapestry\Entities\Cache;
 use Tapestry\Entities\CacheStore;
 use Tapestry\Entities\Collections\FlatCollection;
 use Tapestry\Entities\Project;
+use Tapestry\Exceptions\InvalidVersionException;
 use Tapestry\Modules\Content\ReadCache;
 use Tapestry\Modules\Content\WriteCache;
+use Tapestry\Tapestry;
 
 class CacheTest extends CommandTestBase
 {
+
+    /**
+     * Written for issue #230
+     * @version 1.0.11
+     * @link https://github.com/carbontwelve/tapestry/issues/230
+     */
+    public function testCacheStoreValidateTapestryVersion()
+    {
+        $cacheStore = new CacheStore(sha1('Hello world'), '200.100.10');
+        $cacheStore->setItem('Hello', 'World');
+
+        $cacheA = new Cache(__DIR__ . DIRECTORY_SEPARATOR . '_tmp' . DIRECTORY_SEPARATOR . '.test.cache', sha1('Hello world'));
+        $cacheA->setCacheStore($cacheStore);
+
+        $this->assertEquals('World', $cacheA->getItem('Hello'));
+
+        $cacheA->save();
+
+        $this->assertFileExists(__DIR__ . DIRECTORY_SEPARATOR . '_tmp' . DIRECTORY_SEPARATOR . '.test.cache');
+
+        $cacheB = new Cache(__DIR__ . DIRECTORY_SEPARATOR . '_tmp' . DIRECTORY_SEPARATOR . '.test.cache', sha1('Hello world'));
+
+        $this->expectException(InvalidVersionException::class);
+        $cacheB->load();
+    }
+
+
     public function testCacheStoreValidateMethod()
     {
         $hashA = sha1('Hello World');
         $hashB = sha1('World Hello');
 
-        $store = new CacheStore($hashA);
+        $store = new CacheStore($hashA, Tapestry::VERSION);
         $store->setItem('A', 'B');
         $store->setItem('B', 'C');
         $this->assertEquals(2, $store->count());
@@ -26,7 +55,7 @@ class CacheTest extends CommandTestBase
         $store->validate($hashA);
         $this->assertEquals(2, $store->count());
 
-        $store = new CacheStore($hashA);
+        $store = new CacheStore($hashA, Tapestry::VERSION);
         $store->setItem('A', 'B');
         $store->setItem('B', 'C');
         $this->assertEquals(2, $store->count());
@@ -39,7 +68,7 @@ class CacheTest extends CommandTestBase
     {
         $hashA = sha1('Hello World');
 
-        $store = new CacheStore($hashA, '1.0.0');
+        $store = new CacheStore($hashA, Tapestry::VERSION);
         $store->setItem('A', 'B');
         $store->setItem('B', 'C');
         $store->setItem('D', true);
@@ -59,7 +88,7 @@ class CacheTest extends CommandTestBase
     {
         $hashA = sha1('Hello World');
 
-        $store = new CacheStore($hashA, '1.0.0');
+        $store = new CacheStore($hashA, Tapestry::VERSION);
         $store->setItem('A', 'B');
         $store->setItem('B', 'C');
 
