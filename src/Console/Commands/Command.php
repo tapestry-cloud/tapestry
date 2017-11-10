@@ -2,9 +2,9 @@
 
 namespace Tapestry\Console\Commands;
 
-use Tapestry\Exceptions\InvalidVersionException;
 use Tapestry\Tapestry;
 use Symfony\Component\Console\Helper\Table;
+use Tapestry\Exceptions\InvalidVersionException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
@@ -27,7 +27,7 @@ abstract class Command extends SymfonyCommand
         try {
             $this->input = $input;
             $this->output = $output;
-            $result = (int)$this->fire();
+            $result = (int) $this->fire();
 
             if (defined('TAPESTRY_START') === true && $this->input->getOption('stopwatch')) {
                 $this->renderStopwatchReport($output);
@@ -35,14 +35,18 @@ abstract class Command extends SymfonyCommand
 
             return $result;
         } catch (InvalidVersionException $e) {
-            $this->failure('[!] ' . $e->getMessage());
+            $this->failure('[!] '.$e->getMessage());
             $this->failure('    If you would like to ignore this error, delete the cache file and try again.');
+
             return 1;
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             $this->failure($e->getMessage());
+
             return 1;
         }
-    }//
+    }
+
+//
 
     private function renderStopwatchReport(OutputInterface $output)
     {
