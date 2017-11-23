@@ -9,6 +9,7 @@ use League\Container\ContainerInterface;
 use League\Container\ReflectionContainer;
 use League\Container\ContainerAwareInterface;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Tapestry\Exceptions\InvalidConsoleInputException;
 use League\Container\ServiceProvider\ServiceProviderInterface;
 use Tapestry\Exceptions\InvalidCurrentWorkingDirectoryException;
@@ -97,12 +98,20 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
     }
 
     /**
-     * @param InputInterface $arguments
+     * @param InputInterface $input
      * @throws InvalidConsoleInputException
      */
-    public function setInput(InputInterface $arguments)
+    public function setInput(InputInterface $input)
     {
-        $this->parseOptions($arguments->getOptions());
+        $this->parseOptions($input->getOptions());
+        $this->getContainer()->add(InputInterface::class, $input);
+    }
+
+    /**
+     * @param OutputInterface $output
+     */
+    public function setOutput(OutputInterface $output){
+        $this->getContainer()->add(OutputInterface::class, $output);
     }
 
     /**

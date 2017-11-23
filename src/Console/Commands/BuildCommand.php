@@ -55,6 +55,7 @@ class BuildCommand extends Command
     {
         try {
             $this->tapestry->setInput($this->input);
+            $this->tapestry->setOutput($this->output);
             $this->tapestry->validateInput();
         } catch (InvalidConsoleInputException $e) {
             $this->output->writeln('<error>[!]</error> '.$e->getMessage().' Doing nothing and exiting.');
