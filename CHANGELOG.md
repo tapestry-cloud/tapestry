@@ -6,12 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 Tapestry currently operates a one month release cycle between releases, see the projects [milestones](https://github.com/tapestry-cloud/tapestry/milestones) for more information.
 
-## [Unreleased]
+## [1.0.11] - 2017-11-23
 
 ### Fixed
+- #255 Permalinks no longer clash on static files
 
 ### Added
-- #105 Added workspace scaffolding
+- #230 Tapestry now warns if the project was previously compiled with a newer version of Tapestry
 - #241 Added optional max argument to permalink category template tag 
 - #246 Added getEnvironment view helper
 
