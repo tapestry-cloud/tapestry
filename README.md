@@ -3,7 +3,7 @@
 [![StyleCI](https://styleci.io/repos/73839963/shield?branch=master)](https://styleci.io/repos/73839963)
 [![Code Climate](https://codeclimate.com/github/tapestry-cloud/tapestry/badges/gpa.svg)](https://codeclimate.com/github/tapestry-cloud/tapestry)
 [![Test Coverage](https://codeclimate.com/github/tapestry-cloud/tapestry/badges/coverage.svg)](https://codeclimate.com/github/tapestry-cloud/tapestry/coverage)
-[![Packagist](https://img.shields.io/packagist/v/carbontwelve/tapestry.svg?style=flat-square)](https://packagist.org/packages/carbontwelve/tapestry)
+[![Packagist](https://img.shields.io/packagist/v/tapestry-cloud/tapestry.svg?style=flat-square)](https://packagist.org/packages/tapestry-cloud/tapestry)
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.6-8892BF.svg?style=flat-square)](https://php.net/)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 [![Gitmoji](https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg?style=flat-square)](https://gitmoji.carloscuesta.me)
