@@ -21,6 +21,25 @@ class CacheTest extends CommandTestBase
      * @version 1.0.11
      * @link https://github.com/carbontwelve/tapestry/issues/230
      */
+    public function testCacheStoreWorksWithOldCacheFiles()
+    {
+        self::$fileSystem->copy(
+            __DIR__ . DIRECTORY_SEPARATOR . '/assets/cache_files/.local_cache.1.0.8',
+            __DIR__ . DIRECTORY_SEPARATOR . '/_tmp/.local_cache',
+            true
+        );
+
+        $cache = new Cache(__DIR__ . DIRECTORY_SEPARATOR . '/_tmp/.local_cache', '56157ae56f3acd71dd81a2d09e7582399c661599');
+        $cache->load();
+
+        // If this dones't throw an exception then the test has passed.
+    }
+
+    /**
+     * Written for issue #230
+     * @version 1.0.11
+     * @link https://github.com/carbontwelve/tapestry/issues/230
+     */
     public function testCacheStoreValidateTapestryVersionGreaterThan()
     {
         $cacheStore = new CacheStore(sha1('Hello world'), '200.100.10');
