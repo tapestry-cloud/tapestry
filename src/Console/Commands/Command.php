@@ -4,6 +4,7 @@ namespace Tapestry\Console\Commands;
 
 use Tapestry\Tapestry;
 use Symfony\Component\Console\Helper\Table;
+use Tapestry\Exceptions\InvalidVersionException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
@@ -23,16 +24,29 @@ abstract class Command extends SymfonyCommand
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->input = $input;
-        $this->output = $output;
-        $result = (int) $this->fire();
+        try {
+            $this->input = $input;
+            $this->output = $output;
+            $result = (int) $this->fire();
 
-        if (defined('TAPESTRY_START') === true && $this->input->getOption('stopwatch')) {
-            $this->renderStopwatchReport($output);
+            if (defined('TAPESTRY_START') === true && $this->input->getOption('stopwatch')) {
+                $this->renderStopwatchReport($output);
+            }
+
+            return $result;
+        } catch (InvalidVersionException $e) {
+            $this->failure('[!] '.$e->getMessage());
+            $this->failure('    If you would like to ignore this error, delete the cache file and try again.');
+
+            return 1;
+        } catch (\Exception $e) {
+            $this->failure($e->getMessage());
+
+            return 1;
         }
-
-        return $result;
     }
+
+//
 
     private function renderStopwatchReport(OutputInterface $output)
     {
@@ -63,6 +77,13 @@ abstract class Command extends SymfonyCommand
     protected function error($string)
     {
         $this->output->writeln('<error>[!]</error> '.$string);
+    }
+
+    protected function failure($string)
+    {
+        // Because this is a failure e.g. Exception caught we will ignore verbosity
+        $this->output->setVerbosity(OutputInterface::VERBOSITY_DEBUG);
+        $this->error($string);
     }
 
     protected function panic($string, $code = 1)
