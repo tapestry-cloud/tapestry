@@ -110,7 +110,8 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
     /**
      * @param OutputInterface $output
      */
-    public function setOutput(OutputInterface $output){
+    public function setOutput(OutputInterface $output)
+    {
         $this->getContainer()->add(OutputInterface::class, $output);
     }
 
@@ -181,7 +182,7 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
     /**
      * @param Tapestry $tapestry
      */
-    public static function setInstance(Tapestry $tapestry)
+    public static function setInstance(self $tapestry)
     {
         static::$instance = $tapestry;
     }
