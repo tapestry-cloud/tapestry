@@ -199,7 +199,10 @@ class Compile implements Step
 
                 return false;
             }
-            $this->permalinkTable[sha1($file->getCompiledPermalink())] = $file->getUid();
+            $this->permalinkTable[sha1($file->getCompiledPermalink())] = [
+                'uid' => $file->getUid(),
+                'permalink' => $file->getCompiledPermalink(),
+            ];
         }
 
         return true;
@@ -235,11 +238,7 @@ class Compile implements Step
                 if ($file->isRendered()) {
                     continue;
                 }
-                $fileRenderer = $contentRenderers->get($file->getExt());
-                $file->setContent($fileRenderer->render($file));
-                $file->setExt($fileRenderer->getDestinationExtension($file->getExt()));
-                $file->setRendered(true);
-                $fileRenderer->mutateFile($file);
+                $contentRenderers->renderFile($file);
             }
             unset($file);
         }

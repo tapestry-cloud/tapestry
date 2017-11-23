@@ -5,6 +5,7 @@ namespace Tapestry\Providers;
 use Tapestry\Tapestry;
 use Tapestry\Console\Application;
 use Tapestry\Console\Commands\InitCommand;
+use Tapestry\Console\Commands\MakeCommand;
 use Tapestry\Console\Commands\BuildCommand;
 use Tapestry\Console\Commands\SelfUpdateCommand;
 use League\Container\ServiceProvider\AbstractServiceProvider;
@@ -48,6 +49,12 @@ class CommandServiceProvider extends AbstractServiceProvider
                 \Symfony\Component\Finder\Finder::class,
             ]);
 
+        $container->add(MakeCommand::class)
+            ->withArguments([
+                \Symfony\Component\Filesystem\Filesystem::class,
+                \Symfony\Component\Finder\Finder::class,
+            ]);
+
         $container->share(Application::class)
             ->withArguments([
                 Tapestry::class,
@@ -55,6 +62,7 @@ class CommandServiceProvider extends AbstractServiceProvider
                     $container->get(InitCommand::class),
                     $container->get(BuildCommand::class),
                     $container->get(SelfUpdateCommand::class),
+                    $container->get(MakeCommand::class),
                 ],
             ]);
     }

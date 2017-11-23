@@ -65,11 +65,11 @@ class TaxonomyTest extends CommandTestBase
     {
         // Taxonomy should normalise classifications to lower case
         $taxonomy = new Taxonomy('test');
-        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-01-a.md'), 'Classification');
-        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-02-b.md'), 'classification');
-        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-03-c.md'), 'CLASSIFICATION');
-        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-04-d.md'), ' CLASSIFICATION');
-        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-05-e.md'), 'ClassificatioN ');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/Mocks/TaxonomyMocks/2016-01-01-a.md'), 'Classification');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/Mocks/TaxonomyMocks/2016-01-02-b.md'), 'classification');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/Mocks/TaxonomyMocks/2016-01-03-c.md'), 'CLASSIFICATION');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/Mocks/TaxonomyMocks/2016-01-04-d.md'), ' CLASSIFICATION');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/Mocks/TaxonomyMocks/2016-01-05-e.md'), 'ClassificatioN ');
 
         $this->assertEquals(['classification'], array_keys($taxonomy->getFileList()));
     }
@@ -83,12 +83,12 @@ class TaxonomyTest extends CommandTestBase
     {
         // Taxonomy should normalise classifications by filtering out spaces
         $taxonomy = new Taxonomy('test');
-        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-01-a.md'), 'Classification 123');
-        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-02-b.md'), 'classification-123');
-        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-03-c.md'), 'CLASSIFICATION  123');
-        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-04-d.md'), '  CLASSIFICATION 123');
-        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-05-e.md'), 'ClassificatioN 123 ');
-        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-05-f.md'), '  ClassificatioN 123 ');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/Mocks/TaxonomyMocks/2016-01-01-a.md'), 'Classification 123');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/Mocks/TaxonomyMocks/2016-01-02-b.md'), 'classification-123');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/Mocks/TaxonomyMocks/2016-01-03-c.md'), 'CLASSIFICATION  123');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/Mocks/TaxonomyMocks/2016-01-04-d.md'), '  CLASSIFICATION 123');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/Mocks/TaxonomyMocks/2016-01-05-e.md'), 'ClassificatioN 123 ');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/Mocks/TaxonomyMocks/2016-01-05-f.md'), '  ClassificatioN 123 ');
 
         $this->assertEquals(['classification-123'], array_keys($taxonomy->getFileList()));
     }
@@ -107,45 +107,45 @@ class TaxonomyTest extends CommandTestBase
     public function testTaxonomyClassOrder()
     {
         $descArrayA = [
-            '_mocks_TaxonomyMocks_2016-01-05-e_md',
-            '_mocks_TaxonomyMocks_2016-01-05-f_md',
-            '_mocks_TaxonomyMocks_2016-01-04-d_md',
-            '_mocks_TaxonomyMocks_2016-01-03-c_md',
-            '_mocks_TaxonomyMocks_2016-01-02-b_md',
-            '_mocks_TaxonomyMocks_2016-01-01-a_md',
+            '_Mocks_TaxonomyMocks_2016-01-05-e_md',
+            '_Mocks_TaxonomyMocks_2016-01-05-f_md',
+            '_Mocks_TaxonomyMocks_2016-01-04-d_md',
+            '_Mocks_TaxonomyMocks_2016-01-03-c_md',
+            '_Mocks_TaxonomyMocks_2016-01-02-b_md',
+            '_Mocks_TaxonomyMocks_2016-01-01-a_md',
         ];
         $descArrayB = [
-            '_mocks_TaxonomyMocks_2016-01-05-f_md',
-            '_mocks_TaxonomyMocks_2016-01-05-e_md',
-            '_mocks_TaxonomyMocks_2016-01-04-d_md',
-            '_mocks_TaxonomyMocks_2016-01-03-c_md',
-            '_mocks_TaxonomyMocks_2016-01-02-b_md',
-            '_mocks_TaxonomyMocks_2016-01-01-a_md',
+            '_Mocks_TaxonomyMocks_2016-01-05-f_md',
+            '_Mocks_TaxonomyMocks_2016-01-05-e_md',
+            '_Mocks_TaxonomyMocks_2016-01-04-d_md',
+            '_Mocks_TaxonomyMocks_2016-01-03-c_md',
+            '_Mocks_TaxonomyMocks_2016-01-02-b_md',
+            '_Mocks_TaxonomyMocks_2016-01-01-a_md',
         ];
         $ascArrayA = [
-            '_mocks_TaxonomyMocks_2016-01-01-a_md',
-            '_mocks_TaxonomyMocks_2016-01-02-b_md',
-            '_mocks_TaxonomyMocks_2016-01-03-c_md',
-            '_mocks_TaxonomyMocks_2016-01-04-d_md',
-            '_mocks_TaxonomyMocks_2016-01-05-f_md',
-            '_mocks_TaxonomyMocks_2016-01-05-e_md',
+            '_Mocks_TaxonomyMocks_2016-01-01-a_md',
+            '_Mocks_TaxonomyMocks_2016-01-02-b_md',
+            '_Mocks_TaxonomyMocks_2016-01-03-c_md',
+            '_Mocks_TaxonomyMocks_2016-01-04-d_md',
+            '_Mocks_TaxonomyMocks_2016-01-05-f_md',
+            '_Mocks_TaxonomyMocks_2016-01-05-e_md',
         ];
         $ascArrayB = [
-            '_mocks_TaxonomyMocks_2016-01-01-a_md',
-            '_mocks_TaxonomyMocks_2016-01-02-b_md',
-            '_mocks_TaxonomyMocks_2016-01-03-c_md',
-            '_mocks_TaxonomyMocks_2016-01-04-d_md',
-            '_mocks_TaxonomyMocks_2016-01-05-e_md',
-            '_mocks_TaxonomyMocks_2016-01-05-f_md',
+            '_Mocks_TaxonomyMocks_2016-01-01-a_md',
+            '_Mocks_TaxonomyMocks_2016-01-02-b_md',
+            '_Mocks_TaxonomyMocks_2016-01-03-c_md',
+            '_Mocks_TaxonomyMocks_2016-01-04-d_md',
+            '_Mocks_TaxonomyMocks_2016-01-05-e_md',
+            '_Mocks_TaxonomyMocks_2016-01-05-f_md',
         ];
 
         $taxonomy = new Taxonomy('test');
-        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-01-a.md'), 'Classification 123');
-        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-02-b.md'), 'classification-123');
-        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-03-c.md'), 'CLASSIFICATION  123');
-        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-04-d.md'), '  CLASSIFICATION 123');
-        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-05-e.md'), 'ClassificatioN 123 ');
-        $taxonomy->addFile($this->mockFile(__DIR__ . '/mocks/TaxonomyMocks/2016-01-05-f.md'), '   ClassificatioN 123 ');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/Mocks/TaxonomyMocks/2016-01-01-a.md'), 'Classification 123');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/Mocks/TaxonomyMocks/2016-01-02-b.md'), 'classification-123');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/Mocks/TaxonomyMocks/2016-01-03-c.md'), 'CLASSIFICATION  123');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/Mocks/TaxonomyMocks/2016-01-04-d.md'), '  CLASSIFICATION 123');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/Mocks/TaxonomyMocks/2016-01-05-e.md'), 'ClassificatioN 123 ');
+        $taxonomy->addFile($this->mockFile(__DIR__ . '/Mocks/TaxonomyMocks/2016-01-05-f.md'), '   ClassificatioN 123 ');
 
         $this->assertTrue($this->isOr(array_keys($taxonomy->getFileList()['classification-123']), $descArrayA, $descArrayB));
         $this->assertTrue($this->isOr(array_keys($taxonomy->getFileList('DESC')['classification-123']), $descArrayA, $descArrayB));
