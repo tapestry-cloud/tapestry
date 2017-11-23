@@ -98,7 +98,7 @@ class Input extends ArgvInput
                 $this->checkHasShortcut($name[0], $token);
             } else {
                 $len = strlen($name);
-                for ($i = 0; $i < $len; ++$i) {
+                for ($i = 0; $i < $len; $i++) {
                     $this->checkHasShortcut($name[$i], $token);
                 }
             }
