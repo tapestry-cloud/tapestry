@@ -33,7 +33,7 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
      *
      * @var string
      */
-    const VERSION = '1.0.10';
+    const VERSION = '1.0.11';
 
     /**
      * Storage of data used by --stopwatch flag.
