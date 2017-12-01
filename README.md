@@ -1,13 +1,12 @@
-# Tapestry
-[![Development Build Status](https://travis-ci.org/tapestry-cloud/tapestry.svg?branch=development)](https://travis-ci.org/tapestry-cloud/tapestry)
-[![StyleCI](https://styleci.io/repos/73839963/shield?branch=master)](https://styleci.io/repos/73839963)
-[![Code Climate](https://codeclimate.com/github/tapestry-cloud/tapestry/badges/gpa.svg)](https://codeclimate.com/github/tapestry-cloud/tapestry)
-[![Test Coverage](https://codeclimate.com/github/tapestry-cloud/tapestry/badges/coverage.svg)](https://codeclimate.com/github/tapestry-cloud/tapestry/coverage)
-[![Packagist](https://img.shields.io/packagist/v/tapestry-cloud/tapestry.svg?style=flat-square)](https://packagist.org/packages/tapestry-cloud/tapestry)
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.6-8892BF.svg?style=flat-square)](https://php.net/)
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
-[![Gitmoji](https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg?style=flat-square)](https://gitmoji.carloscuesta.me)
-[![ghit.me](https://ghit.me/badge.svg?repo=carbontwelve/tapestry)](https://ghit.me/repo/carbontwelve/tapestry)
+<h1 align="center">Tapestry</h1>
+<p align="center"><em>Plates PHP Static Site Generator</em></p>
+
+<p align="center">
+  <a href="https://travis-ci.org/tapestry-cloud/tapestry"><img src="https://travis-ci.org/tapestry-cloud/tapestry.svg" alt="Build Status"></a>
+  <a href="https://codeclimate.com/github/tapestry-cloud/tapestry/coverage"><img src="https://codeclimate.com/github/tapestry-cloud/tapestry/badges/coverage.svg" alt="Test Coverage"></a>
+  <a href="https://packagist.org/packages/tapestry-cloud/tapestry"><img src="https://poser.pugx.org/tapestry-cloud/tapestry/v/stable.svg" alt="Latest Stable Version"></a>
+  <a href="LICENSE"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
+</p>
 
 ## About Tapestry
 Tapestry is a static site generator that uses the [plates](http://platesphp.com/) template system by the league of extraordinary packages. Tapestry aims to be fast, easy to use and easy to extend. It has been inspired by similar generators [Sculpin](https://sculpin.io/) and [Jigsaw](http://jigsaw.tighten.co/). Tapestry is designed for developers who prefer to use native PHP templates over compiled template languages such as Twig or Blade. 
