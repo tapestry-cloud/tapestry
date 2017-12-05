@@ -1,6 +1,6 @@
 <?php
 
-date_default_timezone_set('GMT');
+date_default_timezone_set('UTC');
 
 $json = json_encode([
     'hash' => exec('git rev-parse --short --verify HEAD'),
