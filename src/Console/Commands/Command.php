@@ -2,8 +2,8 @@
 
 namespace Tapestry\Console\Commands;
 
-use Tapestry\Exceptions\LockException;
 use Tapestry\Tapestry;
+use Tapestry\Exceptions\LockException;
 use Symfony\Component\Console\Helper\Table;
 use Tapestry\Exceptions\InvalidVersionException;
 use Symfony\Component\Console\Input\InputInterface;
@@ -29,11 +29,11 @@ abstract class Command extends SymfonyCommand
             $this->input = $input;
             $this->output = $output;
 
-            $lockFilePathname = $this->input->getOption('site-dir') . DIRECTORY_SEPARATOR . '.lock';
+            $lockFilePathname = $this->input->getOption('site-dir').DIRECTORY_SEPARATOR.'.lock';
             $lockFile = fopen($lockFilePathname, 'w+');
 
             if (flock($lockFile, LOCK_EX | LOCK_NB)) {
-                $result = (int)$this->fire();
+                $result = (int) $this->fire();
             } else {
                 fclose($lockFile);
                 throw new LockException('Tapestry is already running; please wait for the previous process to complete or delete the .lock file.');
@@ -50,9 +50,11 @@ abstract class Command extends SymfonyCommand
         } catch (InvalidVersionException $e) {
             $this->failure('[!] '.$e->getMessage());
             $this->failure('    If you would like to ignore this error, delete the cache file and try again.');
+
             return 1;
         } catch (\Exception $e) {
             $this->failure($e->getMessage());
+
             return 1;
         }
     }
