@@ -16,7 +16,7 @@ class FrontmatterTest extends CommandTestBase
     {
         $file = new File(new SplFileInfo(__DIR__ . '/Mocks/TestFileNoBody.md', '', ''));
         $frontMatter = new FrontMatter($file->getFileContent());
-        $this->assertEquals(0, strlen($frontMatter->getContent()));
+        $this->assertSame('', $frontMatter->getContent());
         $this->assertSame([
             'title' => 'Test File Title',
             'draft' => false,
@@ -28,11 +28,26 @@ class FrontmatterTest extends CommandTestBase
     {
         $file = new File(new SplFileInfo(__DIR__ . '/Mocks/TestFile.md', '', ''));
         $frontMatter = new FrontMatter($file->getFileContent());
-        $this->assertEquals('This is a test file...', $frontMatter->getContent());
+        $this->assertSame('This is a test file...', $frontMatter->getContent());
         $this->assertSame([
             'title' => 'Test File Title',
             'draft' => false,
             'date' => 507600000
         ], $frontMatter->getData());
+    }
+
+    function testFrontMatterParsedWhenEmpty()
+    {
+        $frontMatter = new FrontMatter("---\n---\nHello World");
+        $this->assertSame('Hello World', $frontMatter->getContent());
+        $this->assertSame([], $frontMatter->getData());
+
+        $frontMatter = new FrontMatter("---\n---\n\n\nHello World");
+        $this->assertSame('Hello World', $frontMatter->getContent());
+        $this->assertSame([], $frontMatter->getData());
+
+        $frontMatter = new FrontMatter("---\r\n---\r\nHello World");
+        $this->assertSame('Hello World', $frontMatter->getContent());
+        $this->assertSame([], $frontMatter->getData());
     }
 }
