@@ -8,6 +8,9 @@ Tapestry currently operates a one month release cycle between releases, see the 
 
 ## [1.0.12] - Unreleased
 
+### Fixed
+- #148 Frontmatter is now parsed in files with an empty body.
+
 ### Added
 - #157 Added lock file support so Tapestry doesn't run concurrently.
 
