@@ -9,10 +9,11 @@ Tapestry currently operates a one month release cycle between releases, see the 
 ## [1.0.12] - Unreleased
 
 ### Fixed
+- #272 Disable self-update command if not executed within a phar
 - #148 Frontmatter is now parsed in files with an empty body.
 
 ### Added
-- #157 Added lock file support so Tapestry doesn't run concurrently.
+- #157 Added lock file support so Tapestry doesn't run concurrently
 
 ## [1.0.11] - 2017-11-23
 

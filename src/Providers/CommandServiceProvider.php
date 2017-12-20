@@ -25,10 +25,13 @@ class CommandServiceProvider extends AbstractServiceProvider
      * from the ContainerAwareTrait.
      *
      * @return void
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function register()
     {
         $container = $this->getContainer();
+        $commands = [];
 
         $container->add(InitCommand::class)
             ->withArguments([
@@ -36,26 +39,30 @@ class CommandServiceProvider extends AbstractServiceProvider
                 \Symfony\Component\Finder\Finder::class,
             ]);
 
+        array_push($commands, $container->get(InitCommand::class));
+
         $this->getContainer()->add(BuildCommand::class)
             ->withArguments([
                 Tapestry::class,
                 $this->getContainer()->get('Compile.Steps'),
             ]);
 
-        $container->add(SelfUpdateCommand::class)
-            ->withArguments([
-                \Symfony\Component\Filesystem\Filesystem::class,
-                \Symfony\Component\Finder\Finder::class,
-            ]);
+        array_push($commands, $container->get(BuildCommand::class));
+
+        if (strlen(\Phar::running() > 0)) {
+            $container->add(SelfUpdateCommand::class)
+                ->withArguments([
+                    \Symfony\Component\Filesystem\Filesystem::class,
+                    \Symfony\Component\Finder\Finder::class,
+                ]);
+
+            array_push($commands, $container->get(SelfUpdateCommand::class));
+        }
 
         $container->share(Application::class)
             ->withArguments([
                 Tapestry::class,
-                [
-                    $container->get(InitCommand::class),
-                    $container->get(BuildCommand::class),
-                    $container->get(SelfUpdateCommand::class),
-                ],
+                $commands,
             ]);
     }
 }
