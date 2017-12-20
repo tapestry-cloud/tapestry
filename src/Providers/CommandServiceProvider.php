@@ -59,14 +59,6 @@ class CommandServiceProvider extends AbstractServiceProvider
             array_push($commands, $container->get(SelfUpdateCommand::class));
         }
 
-        $container->add(MakeCommand::class)
-            ->withArguments([
-                \Symfony\Component\Filesystem\Filesystem::class,
-                \Symfony\Component\Finder\Finder::class,
-            ]);
-
-        array_push($commands, $container->get(MakeCommand::class));
-
         $container->share(Application::class)
             ->withArguments([
                 Tapestry::class,
