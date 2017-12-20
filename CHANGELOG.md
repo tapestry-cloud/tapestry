@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 Tapestry currently operates a one month release cycle between releases, see the projects [milestones](https://github.com/tapestry-cloud/tapestry/milestones) for more information.
 
+## [1.0.12] - Unreleased
+
+### Added
+- #157 Added lock file support so Tapestry doesn't run concurrently.
+
 ## [1.0.11] - 2017-11-23
 
 ### Fixed
