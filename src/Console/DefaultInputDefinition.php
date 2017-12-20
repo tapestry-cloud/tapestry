@@ -24,7 +24,7 @@ class DefaultInputDefinition extends InputDefinition
             new InputOption('--dist-dir', null, InputOption::VALUE_OPTIONAL, 'The destination directory'),
             new InputOption('--env', '-e', InputOption::VALUE_REQUIRED, 'Site environment', 'local'),
             new InputOption('--stopwatch', '-s', InputOption::VALUE_NONE, 'Time how long the build took'),
-            new InputOption('--no-lock', '-l', InputOption::VALUE_NONE, 'Ignore lock file if exists.')
+            new InputOption('--no-lock', '-l', InputOption::VALUE_NONE, 'Ignore lock file if exists.'),
         ]);
         parent::__construct($definition);
     }
