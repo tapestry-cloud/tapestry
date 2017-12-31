@@ -92,6 +92,8 @@ class File implements ProjectFileInterface
      * File constructor.
      *
      * @param SplFileInfo $fileInfo
+     * @param array $data
+     * @throws \Exception
      */
     public function __construct(SplFileInfo $fileInfo, array $data = [])
     {
