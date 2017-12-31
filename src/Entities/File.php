@@ -224,6 +224,7 @@ class File implements ProjectFileInterface
      * permalink structure configured via front matter.
      *
      * @return mixed|string
+     * @throws \Exception
      */
     public function getCompiledPermalink()
     {
