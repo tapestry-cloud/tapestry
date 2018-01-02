@@ -13,6 +13,7 @@ Tapestry currently operates a one month release cycle between releases, see the 
 - #148 Frontmatter is now parsed in files with an empty body.
 
 ### Added
+- #254 Added serve command
 - #157 Added lock file support so Tapestry doesn't run concurrently
 
 ## [1.0.11] - 2017-11-23

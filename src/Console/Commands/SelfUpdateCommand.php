@@ -35,6 +35,16 @@ class SelfUpdateCommand extends Command
     private $canExecute = true;
 
     /**
+     * Command only enabled if running within a Phar.
+     *
+     * @return bool
+     */
+    public function isEnabled()
+    {
+        return (strlen(\Phar::running() > 0));
+    }
+
+    /**
      * InitCommand constructor.
      *
      * @param Filesystem $filesystem

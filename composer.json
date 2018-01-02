@@ -38,7 +38,8 @@
     "league/event": "^2.1",
     "nesbot/carbon": "^1.21",
     "composer/semver": "^1.4",
-    "michelf/php-markdown": "^1.7"
+    "michelf/php-markdown": "^1.7",
+    "symfony/process": "^3.4"
   },
   "require-dev": {
     "phpunit/phpunit": "5.7.*"
