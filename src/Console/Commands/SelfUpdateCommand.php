@@ -41,7 +41,7 @@ class SelfUpdateCommand extends Command
      */
     public function isEnabled()
     {
-        return (strlen(\Phar::running() > 0));
+        return strlen(\Phar::running() > 0);
     }
 
     /**
