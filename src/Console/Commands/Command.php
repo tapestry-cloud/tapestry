@@ -12,9 +12,14 @@ use Symfony\Component\Console\Command\Command as SymfonyCommand;
 
 abstract class Command extends SymfonyCommand
 {
-    /** @var InputInterface */
+    /**
+     * @var InputInterface
+     */
     protected $input;
-    /** @var OutputInterface */
+
+    /**
+     * @var OutputInterface
+     */
     protected $output;
 
     /**
