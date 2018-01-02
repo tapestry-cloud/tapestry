@@ -2,11 +2,11 @@
 
 namespace Tapestry\Console\Commands;
 
+use Tapestry\Tapestry;
+use Tapestry\Entities\Project;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Process\PhpExecutableFinder;
-use Tapestry\Entities\Project;
 use Tapestry\Exceptions\InvalidConsoleInputException;
-use Tapestry\Tapestry;
 
 class ServeCommand extends Command
 {
@@ -50,17 +50,19 @@ class ServeCommand extends Command
             $this->tapestry->validateInput();
         } catch (InvalidConsoleInputException $e) {
             $this->output->writeln('<error>[!]</error> '.$e->getMessage().' Doing nothing and exiting.');
+
             return 1;
         }
 
         /** @var Project $project */
         $project = $this->tapestry->getContainer()->get(Project::class);
 
-        if (!file_exists($project->destinationDirectory)) {
-            if ($this->output->isDebug()){
+        if (! file_exists($project->destinationDirectory)) {
+            if ($this->output->isDebug()) {
                 $this->error("The path [{$project->destinationDirectory}] does not exist.");
             }
             $this->error("The project hasn't been built yet, please run the build command first.");
+
             return 1;
         }
 
@@ -72,12 +74,13 @@ class ServeCommand extends Command
         );
 
         if ($this->output->isDebug()) {
-            $this->info('Executing ['. $command .']');
+            $this->info('Executing ['.$command.']');
         } else {
             $this->output->writeln('Starting development server on: <info>'.$this->input->getOption('host').':'.$this->input->getOption('port').'</info>.');
         }
 
         passthru($command);
+
         return 0;
     }
 }

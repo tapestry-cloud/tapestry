@@ -2,14 +2,13 @@
 
 namespace Tapestry\Providers;
 
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
-use Tapestry\Console\Commands\ServeCommand;
-use Tapestry\Entities\Project;
 use Tapestry\Tapestry;
 use Tapestry\Console\Application;
 use Tapestry\Console\Commands\InitCommand;
 use Tapestry\Console\Commands\BuildCommand;
+use Tapestry\Console\Commands\ServeCommand;
+use Psr\Container\NotFoundExceptionInterface;
+use Psr\Container\ContainerExceptionInterface;
 use Tapestry\Console\Commands\SelfUpdateCommand;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
@@ -40,11 +39,12 @@ class CommandServiceProvider extends AbstractServiceProvider
      */
     public function register()
     {
-        foreach ($this->commands as &$command){
+        foreach ($this->commands as &$command) {
             $cmd = explode('\\', $command);
-            call_user_func_array([$this, "register". end($cmd)], []);
+            call_user_func_array([$this, 'register'.end($cmd)], []);
             $command = $this->getContainer()->get($command);
-        } unset($command);
+        }
+        unset($command);
 
         $this->getContainer()->share(Application::class)
             ->withArguments([
