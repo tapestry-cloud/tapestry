@@ -137,7 +137,7 @@ class File implements ProjectFileInterface
     public function getUid()
     {
         if (is_null($this->uid)) {
-            $pathName = (!empty($this->getFileInfo()->getRelativePathname())) ? $this->getFileInfo()->getRelativePathname() : $this->getFileInfo()->getPathname();
+            $pathName = (! empty($this->getFileInfo()->getRelativePathname())) ? $this->getFileInfo()->getRelativePathname() : $this->getFileInfo()->getPathname();
             $this->uid = $this->cleanUid($pathName);
         }
 
