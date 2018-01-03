@@ -1,11 +1,12 @@
 <?php
 
-namespace Tapestry\Tests;
+namespace Tapestry\Tests\Unit;
 
 use Tapestry\Entities\Collections\Collection;
 use Tapestry\Entities\Collections\FlatCollection;
+use Tapestry\Tests\TestCase;
 
-class CollectionsTest extends CommandTestBase
+class CollectionsTest extends TestCase
 {
     public function testFlatCollection()
     {

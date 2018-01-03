@@ -1,7 +1,8 @@
 <?php
 
-namespace Tapestry\Tests;
+namespace Tapestry\Tests\Feature;
 
+use Tapestry\Tests\CommandTestBase;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
 use Tapestry\Console\DefaultInputDefinition;

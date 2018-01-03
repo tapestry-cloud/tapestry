@@ -1,7 +1,8 @@
 <?php
 
-namespace Tapestry\Tests;
+namespace Tapestry\Tests\Feature;
 
+use Tapestry\Tests\CommandTestBase;
 use PHPUnit_Framework_Constraint_IsEqual;
 use Tapestry\Entities\Taxonomy;
 use Tapestry\Tests\Traits\MockFile;

@@ -1,7 +1,8 @@
 <?php
 
-namespace Tapestry\Tests;
+namespace Tapestry\Tests\Feature;
 
+use Tapestry\Tests\CommandTestBase;
 use Symfony\Component\Finder\SplFileInfo;
 use Tapestry\Entities\File;
 

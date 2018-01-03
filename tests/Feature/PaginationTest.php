@@ -1,15 +1,14 @@
 <?php
 
-namespace Tapestry\Tests;
+namespace Tapestry\Tests\Feature;
 
+use Tapestry\Tests\CommandTestBase;
 use Symfony\Component\Finder\SplFileInfo;
-use Tapestry\Entities\ContentType;
 use Tapestry\Entities\File;
 use Tapestry\Entities\Generators\PaginationGenerator;
 use Tapestry\Entities\Pagination;
 use Tapestry\Entities\Project;
 use Tapestry\Modules\Content\FrontMatter;
-use Tapestry\Modules\ContentTypes\ContentTypeFactory;
 
 class PaginationTest extends CommandTestBase
 {

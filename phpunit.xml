@@ -1,25 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/5.7/phpunit.xsd"
-         backupGlobals="false"
+<phpunit backupGlobals="false"
          backupStaticAttributes="false"
+         bootstrap="vendor/autoload.php"
          colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          processIsolation="false"
-         stopOnFailure="false"
-         bootstrap="vendor/autoload.php"
->
-    <php>
-        <ini name="error_reporting" value="-1"/>
-        <const name="PHPUNIT_TAPESTRY_TESTSUITE" value="true"/>
-    </php>
-
+         stopOnFailure="false">
     <testsuites>
-        <testsuite name="Tapestry Console Test Suite">
-            <directory>./tests/</directory>
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./tests/Feature</directory>
+        </testsuite>
+
+        <testsuite name="Unit">
+            <directory suffix="Test.php">./tests/Unit</directory>
         </testsuite>
     </testsuites>
 
@@ -32,4 +27,9 @@
             </exclude>
         </whitelist>
     </filter>
+
+    <php>
+        <ini name="error_reporting" value="-1"/>
+        <const name="PHPUNIT_TAPESTRY_TESTSUITE" value="true"/>
+    </php>
 </phpunit>

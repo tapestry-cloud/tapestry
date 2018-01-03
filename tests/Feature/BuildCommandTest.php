@@ -1,6 +1,8 @@
 <?php
 
-namespace Tapestry\Tests;
+namespace Tapestry\Tests\Feature;
+
+use Tapestry\Tests\CommandTestBase;
 
 class BuildCommandTest extends CommandTestBase
 {

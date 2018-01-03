@@ -1,7 +1,8 @@
 <?php
 
-namespace Tapestry\Tests;
+namespace Tapestry\Tests\Feature;
 
+use Tapestry\Tests\CommandTestBase;
 use Tapestry\Entities\Project;
 use Tapestry\Entities\Renderers\HTMLRenderer;
 use Tapestry\Tests\Traits\MockFile;

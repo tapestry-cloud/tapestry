@@ -1,7 +1,8 @@
 <?php
 
-namespace Tapestry\Tests;
+namespace Tapestry\Tests\Feature;
 
+use Tapestry\Tests\CommandTestBase;
 use Tapestry\Entities\Pagination;
 use Tapestry\Entities\Project;
 use Tapestry\Tests\Traits\MockTapestry;

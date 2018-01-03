@@ -2,7 +2,6 @@
 
 namespace Tapestry\Tests;
 
-use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Tester\ApplicationTester;
 use Symfony\Component\Filesystem\Filesystem;
 use Tapestry\Console\Application;

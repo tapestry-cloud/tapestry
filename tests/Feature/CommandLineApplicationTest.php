@@ -1,7 +1,8 @@
 <?php
 
-namespace Tapestry\Tests;
+namespace Tapestry\Tests\Feature;
 
+use Tapestry\Tests\CommandTestBase;
 use Tapestry\Tapestry;
 
 class CommandLineApplicationTest extends CommandTestBase
