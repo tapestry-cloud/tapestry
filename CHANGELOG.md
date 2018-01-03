@@ -10,6 +10,7 @@ Tapestry currently operates a one month release cycle between releases, see the 
 
 ### Added
 - #290 Organised Unit tests and updated third party requirements
+- #259 Added the `lang()` internationalization helper
 
 ## [1.0.12] - 2018-01-03
 
