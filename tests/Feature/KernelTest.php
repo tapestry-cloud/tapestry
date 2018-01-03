@@ -2,12 +2,12 @@
 
 namespace Tapestry\Tests\Feature;
 
-use Tapestry\Tests\CommandTestBase;
 use Tapestry\Modules\Kernel\KernelInterface;
 use Tapestry\Providers\ProjectKernelServiceProvider;
+use Tapestry\Tests\TestCase;
 use Tapestry\Tests\Traits\MockTapestry;
 
-class KernelTest extends CommandTestBase
+class KernelTest extends TestCase
 {
 
     use MockTapestry;
@@ -18,22 +18,22 @@ class KernelTest extends CommandTestBase
      */
     public function testKernelInterfaceMethodsUsed()
     {
-        $this->copyDirectory('assets/build_test_8/src', '_tmp');
+        $this->loadToTmp($this->assetPath('build_test_8/src'));
         $output = $this->runCommand('build', '--quiet');
 
         $this->assertEquals('', trim($output->getDisplay()));
         $this->assertEquals(0, $output->getStatusCode());
 
         $this->assertFileEquals(
-            __DIR__.'/assets/build_test_8/check/boot.html',
-            __DIR__.'/_tmp/build_local/boot.html',
+            $this->assetPath('build_test_8/check/boot.html'),
+            $this->tmpPath('build_local/boot.html'),
             '',
             true
         );
 
         $this->assertFileEquals(
-            __DIR__.'/assets/build_test_8/check/register.html',
-            __DIR__.'/_tmp/build_local/register.html',
+            $this->assetPath('build_test_8/check/register.html'),
+            $this->tmpPath('build_local/register.html'),
             '',
             true
         );
@@ -41,15 +41,15 @@ class KernelTest extends CommandTestBase
 
     public function testSiteKernelLoading()
     {
-        $this->copyDirectory('assets/build_test_28/src', '_tmp');
+        $this->loadToTmp($this->assetPath('build_test_28/src'));
         $output = $this->runCommand('build', '--quiet');
 
         $this->assertEquals('', trim($output->getDisplay()));
         $this->assertEquals(0, $output->getStatusCode());
 
         $this->assertFileEquals(
-            __DIR__.'/assets/build_test_28/check/index.html',
-            __DIR__.'/_tmp/build_local/index.html',
+            $this->assetPath('build_test_28/check/index.html'),
+            $this->tmpPath('build_local/index.html'),
             '',
             true
         );
@@ -61,7 +61,7 @@ class KernelTest extends CommandTestBase
      */
     public function testLoadingCommandViaSiteKernelBoot()
     {
-        $this->copyDirectory('assets/build_test_10/src', '_tmp');
+        $this->loadToTmp($this->assetPath('build_test_10/src'));
         $output = $this->runCommand('hello');
 
         $this->assertEquals('Hello world! This command was loaded via a site Kernel.', trim($output->getDisplay()));
@@ -76,9 +76,9 @@ class KernelTest extends CommandTestBase
      */
     public function testKernelThrowsException()
     {
-        $this->copyDirectory('assets/build_test_37/src', '_tmp');
+        $this->loadToTmp($this->assetPath('build_test_37/src'));
         $class = new ProjectKernelServiceProvider();
-        $tapestry = $this->mockTapestry(__DIR__ . DIRECTORY_SEPARATOR . '_tmp');
+        $tapestry = $this->mockTapestry($this->tmpPath());
         $class->setContainer($tapestry->getContainer());
 
         $this->expectExceptionMessage('[SiteThirtySeven\Kernel] kernel file not found.');
@@ -91,9 +91,9 @@ class KernelTest extends CommandTestBase
      */
     public function testKernelCaseLoaded()
     {
-        $this->copyDirectory('assets/build_test_38/src', '_tmp');
+        $this->loadToTmp($this->assetPath('build_test_38/src'));
         $class = new ProjectKernelServiceProvider();
-        $tapestry = $this->mockTapestry(__DIR__ . DIRECTORY_SEPARATOR . '_tmp');
+        $tapestry = $this->mockTapestry($this->tmpPath());
         $class->setContainer($tapestry->getContainer());
 
         $class->boot();

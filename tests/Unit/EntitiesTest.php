@@ -1,12 +1,12 @@
 <?php
 
-namespace Tapestry\Tests\Feature;
+namespace Tapestry\Tests\Unit;
 
-use Tapestry\Tests\CommandTestBase;
 use Tapestry\Entities\Configuration;
 use Tapestry\Entities\Url;
+use Tapestry\Tests\TestCase;
 
-class EntitiesTest extends CommandTestBase
+class EntitiesTest extends TestCase
 {
     public function testUrlEntity()
     {

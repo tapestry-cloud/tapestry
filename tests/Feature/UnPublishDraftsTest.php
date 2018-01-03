@@ -2,9 +2,9 @@
 
 namespace Tapestry\Tests\Feature;
 
-use Tapestry\Tests\CommandTestBase;
+use Tapestry\Tests\TestCase;
 
-class UnPublishDraftsTest extends CommandTestBase
+class UnPublishDraftsTest extends TestCase
 {
     /**
      * Written for issue #146
@@ -14,35 +14,34 @@ class UnPublishDraftsTest extends CommandTestBase
      */
     public function testScheduledPosts()
     {
-        $this->copyDirectory('assets/build_test_12/src', '_tmp');
+        $this->loadToTmp($this->assetPath('build_test_12/src'));
         $output = $this->runCommand('build', '--quiet --auto-publish');
 
         $this->assertEquals('', trim($output->getDisplay()));
         $this->assertEquals(0, $output->getStatusCode());
 
-        $this->assertFileExists(__DIR__.'/_tmp/build_local/blog/2016/test-blog-entry-two/index.html');
+        $this->assertFileExists($this->tmpPath('build_local/blog/2016/test-blog-entry-two/index.html'));
     }
 
     /**
      * Test that setting draft to true in a blog posts front matter ensures that it is not published.
      */
-    public function testUnpublishDrafts()
+    public function testUnPublishDrafts()
     {
-        $this->copyDirectory('assets/build_test_12/src', '_tmp');
-
+        $this->loadToTmp($this->assetPath('build_test_12/src'));
         $output = $this->runCommand('build', '--quiet');
 
         $this->assertEquals('', trim($output->getDisplay()));
         $this->assertEquals(0, $output->getStatusCode());
 
         $this->assertFileEquals(
-            __DIR__.'/assets/build_test_12/check/blog/2016/test-blog-entry.html',
-            __DIR__.'/_tmp/build_local/blog/2016/test-blog-entry/index.html',
+            $this->assetPath('build_test_12/check/blog/2016/test-blog-entry.html'),
+            $this->tmpPath('build_local/blog/2016/test-blog-entry/index.html'),
             '',
             true
         );
-        $this->assertFileNotExists(__DIR__.'/_tmp/build_local/blog/2016/test-blog-entry-two/index.html');
-        $this->assertFileNotExists(__DIR__.'/_tmp/build_local/blog/2116/test-blog-entry-three/index.html');
+        $this->assertFileNotExists($this->tmpPath('build_local/blog/2016/test-blog-entry-two/index.html'));
+        $this->assertFileNotExists($this->tmpPath('build_local/blog/2116/test-blog-entry-three/index.html'));
     }
 
     /**
@@ -50,23 +49,22 @@ class UnPublishDraftsTest extends CommandTestBase
      */
     public function testPublishDraftsConfigurationOverride()
     {
-        $this->copyDirectory('assets/build_test_13/src', '_tmp');
-
+        $this->loadToTmp($this->assetPath('build_test_13/src'));
         $output = $this->runCommand('build', '--quiet');
 
         $this->assertEquals('', trim($output->getDisplay()));
         $this->assertEquals(0, $output->getStatusCode());
 
         $this->assertFileEquals(
-            __DIR__.'/assets/build_test_13/check/blog/2016/test-blog-entry.html',
-            __DIR__.'/_tmp/build_local/blog/2016/test-blog-entry/index.html',
+            $this->assetPath('build_test_13/check/blog/2016/test-blog-entry.html'),
+            $this->tmpPath('build_local/blog/2016/test-blog-entry/index.html'),
             '',
             true
         );
 
         $this->assertFileEquals(
-            __DIR__.'/assets/build_test_13/check/blog/2016/test-blog-entry-two.html',
-            __DIR__.'/_tmp/build_local/blog/2016/test-blog-entry-two/index.html',
+            $this->assetPath('build_test_13/check/blog/2016/test-blog-entry-two.html'),
+            $this->tmpPath('build_local/blog/2016/test-blog-entry-two/index.html'),
             '',
             true
         );

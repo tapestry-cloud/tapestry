@@ -253,7 +253,7 @@ class CacheTest extends TestCase
 
     public function testTemplateModificationInvalidateCacheViaFrontMatter()
     {
-        $this->loadToTmp('/assets/build_test_22/src');
+        $this->loadToTmp(__DIR__ . '/../assets/build_test_22/src');
         $output = $this->runCommand('build', '--quiet');
         $this->assertEquals('', trim($output->getDisplay()));
         $this->assertEquals(0, $output->getStatusCode());
@@ -284,7 +284,7 @@ class CacheTest extends TestCase
 
     public function testTemplateModificationInvalidateCacheViaPlates()
     {
-        $this->loadToTmp('/assets/build_test_22/src');
+        $this->loadToTmp(__DIR__ . '/../assets/build_test_22/src');
         $output = $this->runCommand('build', '--quiet');
         $this->assertEquals('', trim($output->getDisplay()));
         $this->assertEquals(0, $output->getStatusCode());

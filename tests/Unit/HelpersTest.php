@@ -1,12 +1,12 @@
 <?php
 
-namespace Tapestry\Tests\Feature;
+namespace Tapestry\Tests\Unit;
 
-use Tapestry\Tests\CommandTestBase;
 use Tapestry\Entities\Configuration;
+use Tapestry\Tests\TestCase;
 use Tapestry\Tests\Traits\MockTapestry;
 
-class HelpersTest extends CommandTestBase
+class HelpersTest extends TestCase
 {
     use MockTapestry;
 

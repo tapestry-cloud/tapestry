@@ -2,33 +2,33 @@
 
 namespace Tapestry\Tests\Feature;
 
-use Tapestry\Tests\CommandTestBase;
 use Tapestry\Entities\Pagination;
 use Tapestry\Entities\Project;
+use Tapestry\Tests\TestCase;
 use Tapestry\Tests\Traits\MockTapestry;
 use Tapestry\Tests\Traits\MockViewFile;
 
-class ViewFileTraitTest extends CommandTestBase
+class ViewFileTraitTest extends TestCase
 {
     use MockViewFile;
     use MockTapestry;
 
     public function testIsDraftHelper()
     {
-        $this->copyDirectory('assets/build_test_15/src', '_tmp');
+        $this->loadToTmp($this->assetPath('build_test_15/src'));
         $output = $this->runCommand('build', '--quiet');
         $this->assertEquals(0, $output->getStatusCode());
 
         $this->assertFileEquals(
-            __DIR__.'/assets/build_test_15/check/draft-true.html',
-            __DIR__.'/_tmp/build_local/draft-true.html',
+            $this->assetPath('build_test_15/check/draft-true.html'),
+            $this->tmpPath('build_local/draft-true.html'),
             '',
             true
         );
 
         $this->assertFileEquals(
-            __DIR__.'/assets/build_test_15/check/draft-false.html',
-            __DIR__.'/_tmp/build_local/draft-false.html',
+            $this->assetPath('build_test_15/check/draft-false.html'),
+            $this->tmpPath('build_local/draft-false.html'),
             '',
             true
         );
@@ -40,7 +40,7 @@ class ViewFileTraitTest extends CommandTestBase
      */
     public function testExcerptHelper()
     {
-        $viewFile = $this->mockViewFile($this->mockTapestry(),__DIR__ . '/Mocks/TestExcerptFile.md');
+        $viewFile = $this->mockViewFile($this->mockTapestry(),__DIR__ . '/../Mocks/TestExcerptFile.md');
 
         $this->assertEquals('Lorem ipsum dolor sit amet, consectetur&hellip;', $viewFile->getExcerpt());
         $this->assertEquals('Lorem ipsum dolor sit amet, consectetur', $viewFile->getExcerpt(50, ''));
@@ -50,13 +50,13 @@ class ViewFileTraitTest extends CommandTestBase
         $this->assertEquals('Lorem', $viewFile->getExcerpt(10, ''));
         $this->assertEquals('Lorem', $viewFile->getExcerpt(10, null));
 
-        $viewFile = $this->mockViewFile($this->mockTapestry(),__DIR__ . '/Mocks/TestFile.md');
+        $viewFile = $this->mockViewFile($this->mockTapestry(),__DIR__ . '/../Mocks/TestFile.md');
         $this->assertEquals('This is a test file...', $viewFile->getExcerpt(50, null));
     }
 
     public function testGetContentHelper()
     {
-        $viewFile = $this->mockViewFile($this->mockTapestry(),__DIR__ . '/Mocks/TestFile.md');
+        $viewFile = $this->mockViewFile($this->mockTapestry(),__DIR__ . '/../Mocks/TestFile.md');
         $this->assertEquals('This is a test file...', trim($viewFile->getContent()));
 
         $viewFile->getFile()->setData(['content' => 'TEST test TEST 1234']);
@@ -65,7 +65,7 @@ class ViewFileTraitTest extends CommandTestBase
 
     public function testGetPermalinkHelper()
     {
-        $viewFile = $this->mockViewFile($this->mockTapestry(),__DIR__ . '/Mocks/TestExcerptFile.md');
+        $viewFile = $this->mockViewFile($this->mockTapestry(),__DIR__ . '/../Mocks/TestExcerptFile.md');
         $this->assertEquals('/testexcerptfile/index.md', $viewFile->getPermalink()); // this has the extension md becuase its not passed through any renderers
 
         $viewFile->getFile()->setData(['permalink' => '/folder1/folder2/folder3/test.html']);
@@ -76,7 +76,7 @@ class ViewFileTraitTest extends CommandTestBase
     {
         $viewFile = $this->mockViewFile(
             $this->mockTapestry(null, ['site' => ['url' => 'http://www.example.com']]),
-            __DIR__ . '/Mocks/TestExcerptFile.md'
+            __DIR__ . '/../Mocks/TestExcerptFile.md'
         );
 
         $this->assertEquals('http://www.example.com/testexcerptfile/', $viewFile->getUrl());
@@ -89,7 +89,7 @@ class ViewFileTraitTest extends CommandTestBase
     {
         $viewFile = $this->mockViewFile(
             $this->mockTapestry(null, ['site' => ['url' => 'http://www.example.com']]),
-            __DIR__ . '/Mocks/TestExcerptFile.md'
+            __DIR__ . '/../Mocks/TestExcerptFile.md'
         );
 
         $this->assertEquals(false, $viewFile->isPaginated());
@@ -105,7 +105,7 @@ class ViewFileTraitTest extends CommandTestBase
     {
         $viewFile = $this->mockViewFile(
             $this->mockTapestry(null, ['site' => ['url' => 'http://www.example.com']]),
-            __DIR__ . '/Mocks/TestExcerptFile.md'
+            __DIR__ . '/../Mocks/TestExcerptFile.md'
         );
 
         $this->assertEquals(false, $viewFile->hasPreviousNext());
@@ -121,7 +121,7 @@ class ViewFileTraitTest extends CommandTestBase
     {
         $viewFile = $this->mockViewFile(
             $this->mockTapestry(),
-            __DIR__ . '/Mocks/TestFile.md'
+            __DIR__ . '/../Mocks/TestFile.md'
         );
 
         $this->assertInstanceOf(\DateTime::class, $viewFile->getDate());

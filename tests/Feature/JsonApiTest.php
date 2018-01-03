@@ -2,24 +2,26 @@
 
 namespace Tapestry\Tests\Feature;
 
-use Tapestry\Tests\CommandTestBase;
+use Tapestry\Tests\TestCase;
 
-class JsonApiTest extends CommandTestBase
+class JsonApiTest extends TestCase
 {
     public function testJsonBuildFlag()
     {
-        $this->copyDirectory('assets/build_test_1/src', '_tmp');
+        $this->loadToTmp($this->assetPath('build_test_1/src'));
         $output = $this->runCommand('build', '--quiet --json');
+
         $this->assertEquals(0, $output->getStatusCode());
-        $this->assertFileExists(__DIR__ . '/_tmp/db.json');
+        $this->assertFileExists($this->tmpPath('db.json'));
     }
 
     public function testNoWriteBuildFlag()
     {
-        $this->copyDirectory('assets/build_test_1/src', '_tmp');
+        $this->loadToTmp($this->assetPath('build_test_1/src'));
         $output = $this->runCommand('build', '--quiet --json --no-write');
+
         $this->assertEquals(0, $output->getStatusCode());
-        $this->assertFileExists(__DIR__ . '/_tmp/db.json');
-        $this->assertFileNotExists(__DIR__ . '/_tmp/build_local');
+        $this->assertFileExists($this->tmpPath('db.json'));
+        $this->assertFileNotExists($this->tmpPath('build_local'));
     }
 }
