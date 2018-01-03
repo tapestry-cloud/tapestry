@@ -27,7 +27,7 @@ class TaxonomyArchiveGeneratorTest extends TestCase
             '--site-dir' => $this->tmpPath(),
             '--env' => 'testing'
         ], $definitions));
-        $generator = new Generator($tapestry->getContainer()->get('Compile.Steps'), $tapestry);
+        $generator = new Generator(config('steps', []), $tapestry);
 
         /** @var Project $project */
         $project = $tapestry->getContainer()->get(Project::class);

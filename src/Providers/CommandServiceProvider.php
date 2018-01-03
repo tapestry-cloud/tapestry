@@ -87,11 +87,10 @@ class CommandServiceProvider extends AbstractServiceProvider
      */
     protected function registerBuildCommand()
     {
-        $steps = $this->getContainer()->get('Compile.Steps');
         $this->getContainer()->add(BuildCommand::class)
             ->withArguments([
                 Tapestry::class,
-                $steps,
+                config('steps', []),
             ]);
     }
 
