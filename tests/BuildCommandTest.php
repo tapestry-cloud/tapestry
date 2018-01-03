@@ -369,6 +369,5 @@ class BuildCommandTest extends CommandTestBase
         $this->copyDirectory('assets/build_test_39/src', '_tmp');
         $output = $this->runCommand('build', '');
         $this->assertEquals(0, $output->getStatusCode());
-
     }
 }

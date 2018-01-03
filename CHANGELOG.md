@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 Tapestry currently operates a one month release cycle between releases, see the projects [milestones](https://github.com/tapestry-cloud/tapestry/milestones) for more information.
 
+## [1.0.12] - 2018-01-03
+
+### Fixed
+- #272 Disable self-update command if not executed within a phar
+- #148 Front-matter is now parsed in files with an empty body
+- #189 getUid can no longer return an empty string
+
+### Added
+- #254 Added serve command
+- #157 Added lock file support so Tapestry doesn't run concurrently
+
 ## [1.0.11] - 2017-11-23
 
 ### Fixed

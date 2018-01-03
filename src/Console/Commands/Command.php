@@ -3,6 +3,7 @@
 namespace Tapestry\Console\Commands;
 
 use Tapestry\Tapestry;
+use Tapestry\Exceptions\LockException;
 use Symfony\Component\Console\Helper\Table;
 use Tapestry\Exceptions\InvalidVersionException;
 use Symfony\Component\Console\Input\InputInterface;
@@ -11,9 +12,14 @@ use Symfony\Component\Console\Command\Command as SymfonyCommand;
 
 abstract class Command extends SymfonyCommand
 {
-    /** @var InputInterface */
+    /**
+     * @var InputInterface
+     */
     protected $input;
-    /** @var OutputInterface */
+
+    /**
+     * @var OutputInterface
+     */
     protected $output;
 
     /**
@@ -27,7 +33,19 @@ abstract class Command extends SymfonyCommand
         try {
             $this->input = $input;
             $this->output = $output;
-            $result = (int) $this->fire();
+
+            $lockFilePathname = $this->input->getOption('site-dir').DIRECTORY_SEPARATOR.'.lock';
+            $lockFile = fopen($lockFilePathname, 'w+');
+
+            if (flock($lockFile, LOCK_EX | LOCK_NB)) {
+                $result = (int) $this->fire();
+            } else {
+                fclose($lockFile);
+                throw new LockException('Tapestry is already running; please wait for the previous process to complete or delete the .lock file.');
+            }
+
+            fclose($lockFile);
+            unlink($lockFilePathname);
 
             if (defined('TAPESTRY_START') === true && $this->input->getOption('stopwatch')) {
                 $this->renderStopwatchReport($output);
@@ -45,8 +63,6 @@ abstract class Command extends SymfonyCommand
             return 1;
         }
     }
-
-//
 
     private function renderStopwatchReport(OutputInterface $output)
     {

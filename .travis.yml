@@ -9,10 +9,8 @@ matrix:
     - php: 7.1
       env: WITH_COVERAGE=true
     - php: nightly
-    - php: hhvm
   allow_failures:
     - php: nightly
-    - php: hhvm
   fast_finish: true
 
 cache:

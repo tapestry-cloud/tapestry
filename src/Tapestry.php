@@ -33,7 +33,7 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
      *
      * @var string
      */
-    const VERSION = '1.0.11';
+    const VERSION = '1.0.12';
 
     /**
      * Storage of data used by --stopwatch flag.
@@ -99,7 +99,6 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
 
     /**
      * @param InputInterface $input
-     * @throws InvalidConsoleInputException
      */
     public function setInput(InputInterface $input)
     {
@@ -187,6 +186,9 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
         static::$instance = $tapestry;
     }
 
+    /**
+     * @param string $name
+     */
     public static function addProfile($name)
     {
         static::$profiler->addItem($name);
@@ -204,9 +206,7 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
      * Whether a offset exists.
      *
      * @link http://php.net/manual/en/arrayaccess.offsetexists.php
-     *
      * @param mixed $offset
-     *
      * @return bool
      */
     public function offsetExists($offset)
@@ -218,10 +218,10 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
      * Offset to retrieve.
      *
      * @link http://php.net/manual/en/arrayaccess.offsetget.php
-     *
      * @param mixed $offset
-     *
      * @return mixed
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function offsetGet($offset)
     {
@@ -232,10 +232,8 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
      * Offset to set.
      *
      * @link http://php.net/manual/en/arrayaccess.offsetset.php
-     *
      * @param mixed $offset
      * @param mixed $value
-     *
      * @return void
      */
     public function offsetSet($offset, $value)
@@ -247,9 +245,7 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
      * Offset to unset.
      *
      * @link http://php.net/manual/en/arrayaccess.offsetunset.php
-     *
      * @param mixed $offset
-     *
      * @throws \Exception
      */
     public function offsetUnset($offset)

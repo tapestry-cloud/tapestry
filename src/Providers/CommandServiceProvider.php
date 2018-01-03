@@ -5,8 +5,10 @@ namespace Tapestry\Providers;
 use Tapestry\Tapestry;
 use Tapestry\Console\Application;
 use Tapestry\Console\Commands\InitCommand;
-use Tapestry\Console\Commands\MakeCommand;
 use Tapestry\Console\Commands\BuildCommand;
+use Tapestry\Console\Commands\ServeCommand;
+use Psr\Container\NotFoundExceptionInterface;
+use Psr\Container\ContainerExceptionInterface;
 use Tapestry\Console\Commands\SelfUpdateCommand;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
@@ -17,7 +19,13 @@ class CommandServiceProvider extends AbstractServiceProvider
      */
     protected $provides = [
         Application::class,
+    ];
+
+    private $commands = [
         InitCommand::class,
+        ServeCommand::class,
+        BuildCommand::class,
+        SelfUpdateCommand::class,
     ];
 
     /**
@@ -26,44 +34,78 @@ class CommandServiceProvider extends AbstractServiceProvider
      * from the ContainerAwareTrait.
      *
      * @return void
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function register()
     {
-        $container = $this->getContainer();
+        foreach ($this->commands as &$command) {
+            $cmd = explode('\\', $command);
+            call_user_func_array([$this, 'register'.end($cmd)], []);
+            $command = $this->getContainer()->get($command);
+        }
+        unset($command);
 
-        $container->add(InitCommand::class)
+        $this->getContainer()->share(Application::class)
+            ->withArguments([
+                Tapestry::class,
+                $this->commands,
+            ]);
+    }
+
+    /**
+     * Register init command.
+     *
+     * @return void
+     */
+    protected function registerInitCommand()
+    {
+        $this->getContainer()->add(InitCommand::class)
             ->withArguments([
                 \Symfony\Component\Filesystem\Filesystem::class,
                 \Symfony\Component\Finder\Finder::class,
             ]);
+    }
 
+    /**
+     * Register serve command.
+     *
+     * @return void
+     */
+    protected function registerServeCommand()
+    {
+        $this->getContainer()->add(ServeCommand::class)
+            ->withArgument(Tapestry::class);
+    }
+
+    /**
+     * Register build command.
+     *
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @return void
+     */
+    protected function registerBuildCommand()
+    {
+        $steps = $this->getContainer()->get('Compile.Steps');
         $this->getContainer()->add(BuildCommand::class)
             ->withArguments([
                 Tapestry::class,
-                $this->getContainer()->get('Compile.Steps'),
+                $steps,
             ]);
+    }
 
-        $container->add(SelfUpdateCommand::class)
+    /**
+     * Register self update command if executed within a Phar.
+     *
+     * @return void
+     */
+    protected function registerSelfUpdateCommand()
+    {
+        $this->getContainer()->add(SelfUpdateCommand::class)
             ->withArguments([
                 \Symfony\Component\Filesystem\Filesystem::class,
                 \Symfony\Component\Finder\Finder::class,
-            ]);
-
-        $container->add(MakeCommand::class)
-            ->withArguments([
-                \Symfony\Component\Filesystem\Filesystem::class,
-                \Symfony\Component\Finder\Finder::class,
-            ]);
-
-        $container->share(Application::class)
-            ->withArguments([
-                Tapestry::class,
-                [
-                    $container->get(InitCommand::class),
-                    $container->get(BuildCommand::class),
-                    $container->get(SelfUpdateCommand::class),
-                    $container->get(MakeCommand::class),
-                ],
             ]);
     }
 }

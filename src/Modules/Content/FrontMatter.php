@@ -10,7 +10,7 @@ class FrontMatter
     /**
      * @var string
      */
-    private $pattern = '/^\s*(?:---[\s]*[\r\n]+)(.*?)(?:---[\s]*[\r\n]+)(.*?)$/s';
+    private $pattern = '/^\s*(?:---[\s]*[\r\n]+)(.*?)(?:---[\s]*)(.*?)$/s';
 
     /**
      * @var string
@@ -35,8 +35,8 @@ class FrontMatter
         $this->body = $body;
         // If front matter is found, then we should parse it
         if (preg_match($this->pattern, $this->body, $matches)) {
-            $this->content = $matches[2];
-            $this->parse($matches[1]);
+            $this->content = trim($matches[2]);
+            $this->parse(trim($matches[1]));
         } else {
             $this->content = $this->body;
         }
