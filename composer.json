@@ -33,13 +33,13 @@
     "symfony/filesystem": "^3.4",
     "symfony/finder" : "^3.4",
     "symfony/yaml": "^3.4",
-    "league/container": "^2.2",
-    "league/plates": "^3.1",
+    "symfony/process": "^3.4",
+    "league/container": "^2.4",
+    "league/plates": "^3.3",
     "league/event": "^2.1",
     "nesbot/carbon": "^1",
     "composer/semver": "^1.4",
-    "michelf/php-markdown": "^1.7",
-    "symfony/process": "^3.4"
+    "michelf/php-markdown": "^1.7"
   },
   "require-dev": {
     "phpunit/phpunit": "^5"
