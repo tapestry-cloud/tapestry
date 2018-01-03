@@ -12,6 +12,11 @@ return [
     'kernel' => \Tapestry\Modules\Kernel\DefaultKernel::class,
 
     /*
+     * The default language to inject into all Files.
+     */
+    'language' => 'en',
+
+    /*
      * Enable / Disable pretty permalink, if enabled then /about.md will be written as /about/index.md.
      * This may be over-ridden on a per file basis.
      */

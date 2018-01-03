@@ -100,6 +100,7 @@ class LoadSourceFiles implements Step
         foreach ($finder->files() as $file) {
             $file = new File($file, [
                 'pretty_permalink' => $this->prettyPermalink,
+                'language' => config('language', 'en')
             ]);
             $renderer = $contentRenderers->get($file->getFileInfo()->getExtension());
 
