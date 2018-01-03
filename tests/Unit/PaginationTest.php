@@ -1,17 +1,17 @@
 <?php
 
-namespace Tapestry\Tests;
+namespace Tapestry\Tests\Unit;
 
+use Tapestry\Tests\CommandTestBase;
 use Symfony\Component\Finder\SplFileInfo;
-use Tapestry\Entities\ContentType;
 use Tapestry\Entities\File;
 use Tapestry\Entities\Generators\PaginationGenerator;
 use Tapestry\Entities\Pagination;
 use Tapestry\Entities\Project;
 use Tapestry\Modules\Content\FrontMatter;
-use Tapestry\Modules\ContentTypes\ContentTypeFactory;
+use Tapestry\Tests\TestCase;
 
-class PaginationTest extends CommandTestBase
+class PaginationTest extends TestCase
 {
 
     private function setupPagination(Project $project, $filePath)
@@ -38,7 +38,7 @@ class PaginationTest extends CommandTestBase
     public function testPaginationCoreFunctionality()
     {
         $project = new Project('', '', 'test');
-        $generator = $this->setupPagination($project, __DIR__ . '/Mocks/TestPaginatorFile.phtml');
+        $generator = $this->setupPagination($project, __DIR__ . '/../Mocks/TestPaginatorFile.phtml');
 
         $generatedFiles = $generator->generate($project);
         $this->assertTrue(is_array($generatedFiles));
@@ -75,7 +75,7 @@ class PaginationTest extends CommandTestBase
     public function testPaginationSkipFunctionality()
     {
         $project = new Project('', '', 'test');
-        $generator = $this->setupPagination($project, __DIR__ . '/Mocks/TestPaginatorSkipFile.phtml');
+        $generator = $this->setupPagination($project, __DIR__ . '/../Mocks/TestPaginatorSkipFile.phtml');
 
         $generatedFiles = $generator->generate($project);
         $this->assertTrue(is_array($generatedFiles));

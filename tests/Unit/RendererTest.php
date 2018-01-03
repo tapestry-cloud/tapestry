@@ -1,20 +1,21 @@
 <?php
 
-namespace Tapestry\Tests;
+namespace Tapestry\Tests\Unit;
 
 use Tapestry\Entities\Project;
 use Tapestry\Entities\Renderers\HTMLRenderer;
+use Tapestry\Tests\TestCase;
 use Tapestry\Tests\Traits\MockFile;
 
-class RendererTest extends CommandTestBase
+class RendererTest extends TestCase
 {
     use MockFile;
 
     public function testHTMLRenderer()
     {
-        $this->copyDirectory('/assets/build_test_34/src', '/_tmp');
+        $this->loadToTmp(__DIR__ . '/../assets/build_test_34/src');
 
-        $project = new Project(__DIR__ . '/_tmp', __DIR__ . '/_tmp/build_test', 'test');
+        $project = new Project($this->tmpDirectory, $this->tmpDirectory . '/build_test', 'test');
         $renderer = new HTMLRenderer($project);
 
         $this->assertEquals(['htm', 'html'], $renderer->supportedExtensions());
@@ -24,7 +25,7 @@ class RendererTest extends CommandTestBase
         $this->assertEquals('html', $renderer->getDestinationExtension('ext'));
         $this->assertTrue($renderer->supportsFrontMatter());
 
-        $file = $this->mockFile(__DIR__ . '/_tmp/source/test.html');
+        $file = $this->mockFile($this->tmpDirectory . '/source/test.html');
         $this->assertEquals('Hello World', trim($renderer->render($file)));
 
         $renderer->mutateFile($file);

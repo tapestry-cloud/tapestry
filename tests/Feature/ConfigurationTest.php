@@ -1,21 +1,22 @@
 <?php
 
-namespace Tapestry\Tests;
+namespace Tapestry\Tests\Feature;
 
-class ConfigurationTest extends CommandTestBase
+use Tapestry\Tests\TestCase;
+
+class ConfigurationTest extends TestCase
 {
     public function testEnvironmentConfigurationDefault()
     {
-        $this->copyDirectory('assets/build_test_14/src', '_tmp');
-
+        $this->loadToTmp($this->assetPath('build_test_14/src'));
         $output = $this->runCommand('build', '--quiet');
 
         $this->assertEquals('', trim($output->getDisplay()));
         $this->assertEquals(0, $output->getStatusCode());
 
         $this->assertFileEquals(
-            __DIR__.'/assets/build_test_14/check/default_index.html',
-            __DIR__.'/_tmp/build_local/index.html',
+            $this->assetPath('build_test_14/check/default_index.html'),
+            $this->tmpPath('build_local/index.html'),
             '',
             true
         );
@@ -23,16 +24,15 @@ class ConfigurationTest extends CommandTestBase
 
     public function testEnvironmentConfigurationWithEnvSet()
     {
-        $this->copyDirectory('assets/build_test_14/src', '_tmp');
-
+        $this->loadToTmp($this->assetPath('build_test_14/src'));
         $output = $this->runCommand('build', '--quiet --env=development');
 
         $this->assertEquals('', trim($output->getDisplay()));
         $this->assertEquals(0, $output->getStatusCode());
 
         $this->assertFileEquals(
-            __DIR__.'/assets/build_test_14/check/development_index.html',
-            __DIR__.'/_tmp/build_development/index.html',
+            $this->assetPath('build_test_14/check/development_index.html'),
+            $this->tmpPath('build_development/index.html'),
             '',
             true
         );
@@ -43,16 +43,15 @@ class ConfigurationTest extends CommandTestBase
      */
     public function testYAMLConfigurationDefault()
     {
-        $this->copyDirectory('assets/build_test_26/src', '_tmp');
-
+        $this->loadToTmp($this->assetPath('build_test_26/src'));
         $output = $this->runCommand('build', '--quiet');
 
         $this->assertEquals('', trim($output->getDisplay()));
         $this->assertEquals(0, $output->getStatusCode());
 
         $this->assertFileEquals(
-            __DIR__.'/assets/build_test_26/check/index.html',
-            __DIR__.'/_tmp/build_local/index.html',
+            $this->assetPath('build_test_26/check/index.html'),
+            $this->tmpPath('build_local/index.html'),
             '',
             true
         );
@@ -63,16 +62,15 @@ class ConfigurationTest extends CommandTestBase
      */
     public function testYAMLEnvironmentConfigurationWithEnvSet()
     {
-        $this->copyDirectory('assets/build_test_26/src', '_tmp');
-
+        $this->loadToTmp($this->assetPath('build_test_26/src'));
         $output = $this->runCommand('build', '--quiet --env=development');
 
         $this->assertEquals('', trim($output->getDisplay()));
         $this->assertEquals(0, $output->getStatusCode());
 
         $this->assertFileEquals(
-            __DIR__.'/assets/build_test_26/check/development_index.html',
-            __DIR__.'/_tmp/build_development/index.html',
+            $this->assetPath('build_test_26/check/development_index.html'),
+            $this->tmpPath('build_development/index.html'),
             '',
             true
         );
@@ -86,7 +84,7 @@ class ConfigurationTest extends CommandTestBase
      */
     public function testYAMLandPHPConfigurationThrowsError()
     {
-        $this->copyDirectory('assets/build_test_27/src', '_tmp');
+        $this->loadToTmp($this->assetPath('build_test_27/src'));
         $this->runCommand('build', '--quiet');
     }
 
@@ -95,7 +93,7 @@ class ConfigurationTest extends CommandTestBase
      */
     public function testYAMLandPHPConfigurationWithEnvSetThrowsError()
     {
-        $this->copyDirectory('assets/build_test_27/src', '_tmp');
+        $this->loadToTmp($this->assetPath('build_test_27/src'));
         $this->runCommand('build', '--quiet --env=development');
     }
 }

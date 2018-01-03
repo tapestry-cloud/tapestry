@@ -1,10 +1,11 @@
 <?php
 
-namespace Tapestry\Tests;
+namespace Tapestry\Tests\Unit;
 
 use Tapestry\Profiler;
+use Tapestry\Tests\TestCase;
 
-class StopwatchProfilerTest extends CommandTestBase
+class StopwatchProfilerTest extends TestCase
 {
     public function testProfiler()
     {

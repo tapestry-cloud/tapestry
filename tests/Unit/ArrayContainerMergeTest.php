@@ -1,10 +1,12 @@
 <?php
 
-namespace Tapestry\Tests;
+namespace Tapestry\Tests\Unit;
 
 use Tapestry\ArrayContainer;
+use Tapestry\Tests\Mocks\MockArrayAccessByKeyClass;
+use Tapestry\Tests\TestCase;
 
-class ArrayContainerMergeTest extends CommandTestBase
+class ArrayContainerMergeTest extends TestCase
 {
     public function testArrayContainerClassBaseFunctionality()
     {

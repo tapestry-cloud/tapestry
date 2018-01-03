@@ -1,8 +1,10 @@
 <?php
 
-namespace Tapestry\Tests;
+namespace Tapestry\Tests\Feature;
 
-class LockFileTest extends CommandTestBase
+use Tapestry\Tests\TestCase;
+
+class LockFileTest extends TestCase
 {
     /**
      * Written for issue #157
@@ -10,12 +12,13 @@ class LockFileTest extends CommandTestBase
      */
     public function testLockFileKillsTask()
     {
-        $this->copyDirectory('assets/build_test_40/src', '_tmp');
-        $lock = fopen(__DIR__ . DIRECTORY_SEPARATOR . '_tmp' . DIRECTORY_SEPARATOR . '.lock', 'w+');
+        $this->loadToTmp($this->assetPath('build_test_40/src'));
+        $lock = fopen($this->tmpPath('.lock'), 'w+');
         $this->assertTrue(flock($lock, LOCK_EX | LOCK_NB));
 
         $output = $this->runCommand('build', '');
         $this->assertEquals(1, $output->getStatusCode());
+        fclose($lock);
     }
 
     /**
@@ -24,7 +27,8 @@ class LockFileTest extends CommandTestBase
      */
     public function testIgnoringLockFile()
     {
-        $this->copyDirectory('assets/build_test_40/src', '_tmp');
+        $this->loadToTmp($this->assetPath('build_test_40/src'));
+        touch($this->tmpPath('.lock'));
         $output = $this->runCommand('build', '--no-lock');
         $this->assertEquals(0, $output->getStatusCode());
     }

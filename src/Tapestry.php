@@ -181,7 +181,7 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
     /**
      * @param Tapestry $tapestry
      */
-    public static function setInstance(self $tapestry)
+    public static function setInstance(self $tapestry = null)
     {
         static::$instance = $tapestry;
     }
