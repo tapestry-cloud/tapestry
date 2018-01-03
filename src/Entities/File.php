@@ -92,6 +92,8 @@ class File implements ProjectFileInterface
      * File constructor.
      *
      * @param SplFileInfo $fileInfo
+     * @param array $data
+     * @throws \Exception
      */
     public function __construct(SplFileInfo $fileInfo, array $data = [])
     {
@@ -135,7 +137,8 @@ class File implements ProjectFileInterface
     public function getUid()
     {
         if (is_null($this->uid)) {
-            $this->uid = $this->cleanUid($this->getFileInfo()->getRelativePathname());
+            $pathName = (! empty($this->getFileInfo()->getRelativePathname())) ? $this->getFileInfo()->getRelativePathname() : $this->getFileInfo()->getPathname();
+            $this->uid = $this->cleanUid($pathName);
         }
 
         return $this->uid;
@@ -222,6 +225,7 @@ class File implements ProjectFileInterface
      * permalink structure configured via front matter.
      *
      * @return mixed|string
+     * @throws \Exception
      */
     public function getCompiledPermalink()
     {

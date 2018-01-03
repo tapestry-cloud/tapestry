@@ -10,7 +10,8 @@ Tapestry currently operates a one month release cycle between releases, see the 
 
 ### Fixed
 - #272 Disable self-update command if not executed within a phar
-- #148 Frontmatter is now parsed in files with an empty body.
+- #148 Front-matter is now parsed in files with an empty body
+- #189 getUid can no longer return an empty string
 
 ### Added
 - #254 Added serve command
