@@ -1,6 +1,6 @@
 <?php
 
-namespace Tapestry\Tests;
+namespace Tapestry\Tests\Mocks;
 
 class MockArrayAccessByKeyClass
 {

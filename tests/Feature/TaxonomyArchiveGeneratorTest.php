@@ -1,7 +1,8 @@
 <?php
 
-namespace Tapestry\Tests;
+namespace Tapestry\Tests\Feature;
 
+use Tapestry\Tests\CommandTestBase;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
 use Tapestry\Console\DefaultInputDefinition;
@@ -11,18 +12,19 @@ use Tapestry\Entities\Filesystem\FileWriter;
 use Tapestry\Entities\Project;
 use Tapestry\Generator;
 use Tapestry\Tapestry;
+use Tapestry\Tests\TestCase;
 
-class TaxonomyArchiveGeneratorTest extends CommandTestBase
+class TaxonomyArchiveGeneratorTest extends TestCase
 {
     public function testGenerator()
     {
-        $this->copyDirectory('assets/build_test_23/src', '_tmp');
+        $this->loadToTmp($this->assetPath('build_test_23/src'));
 
         // <Bootstrap Tapestry>
         $definitions = new DefaultInputDefinition();
 
         $tapestry = new Tapestry(new ArrayInput([
-            '--site-dir' => __DIR__ . DIRECTORY_SEPARATOR . '_tmp',
+            '--site-dir' => $this->tmpPath(),
             '--env' => 'testing'
         ], $definitions));
         $generator = new Generator($tapestry->getContainer()->get('Compile.Steps'), $tapestry);
