@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 Tapestry currently operates a one month release cycle between releases, see the projects [milestones](https://github.com/tapestry-cloud/tapestry/milestones) for more information.
 
-## [1.0.12] - Unreleased
+## [1.0.12] - 2018-01-03
 
 ### Fixed
 - #272 Disable self-update command if not executed within a phar
