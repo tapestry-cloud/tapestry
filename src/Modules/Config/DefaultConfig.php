@@ -52,7 +52,7 @@ return [
         Tapestry\Entities\Generators\CollectionItemGenerator::class,
     ],
 
-    /**
+    /*
      * Compile steps that the build command will process.
      */
     'steps' => [
