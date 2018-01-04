@@ -9,7 +9,7 @@ return [
     /*
      * The site kernel to be loaded during site building
      */
-    'kernel' => \Tapestry\Modules\Kernel\DefaultKernel::class,
+    'kernel' => Tapestry\Modules\Kernel\DefaultKernel::class,
 
     /*
      * Enable / Disable pretty permalink, if enabled then /about.md will be written as /about/index.md.
@@ -39,17 +39,39 @@ return [
     ],
 
     'content_renderers' => [
-        \Tapestry\Entities\Renderers\PlatesRenderer::class,
-        \Tapestry\Entities\Renderers\HTMLRenderer::class,
-        \Tapestry\Entities\Renderers\MarkdownRenderer::class,
-        \Tapestry\Entities\Renderers\DefaultRenderer::class,
+        Tapestry\Entities\Renderers\PlatesRenderer::class,
+        Tapestry\Entities\Renderers\HTMLRenderer::class,
+        Tapestry\Entities\Renderers\MarkdownRenderer::class,
+        Tapestry\Entities\Renderers\DefaultRenderer::class,
     ],
 
     'content_generators' => [
-        \Tapestry\Entities\Generators\PaginationGenerator::class,
-        \Tapestry\Entities\Generators\TaxonomyArchiveGenerator::class,
-        \Tapestry\Entities\Generators\TaxonomyIndexGenerator::class,
+        Tapestry\Entities\Generators\PaginationGenerator::class,
+        Tapestry\Entities\Generators\TaxonomyArchiveGenerator::class,
+        Tapestry\Entities\Generators\TaxonomyIndexGenerator::class,
         Tapestry\Entities\Generators\CollectionItemGenerator::class,
+    ],
+
+    /*
+     * Compile steps that the build command will process.
+     */
+    'steps' => [
+        Tapestry\Modules\Kernel\BootKernel::class,
+        Tapestry\Modules\Content\ReadCache::class,
+        Tapestry\Modules\Scripts\Before::class,
+        Tapestry\Modules\Content\Clear::class,
+        Tapestry\Modules\ContentTypes\LoadContentTypes::class,
+        Tapestry\Modules\Renderers\LoadContentRenderers::class,
+        Tapestry\Modules\Generators\LoadContentGenerators::class,
+        Tapestry\Modules\Content\LoadSourceFiles::class,
+        Tapestry\Modules\Api\Json::class,
+        Tapestry\Modules\ContentTypes\ParseContentTypes::class,
+        Tapestry\Modules\Content\Compile::class,
+        Tapestry\Modules\Content\WriteFiles::class,
+        Tapestry\Modules\Content\WriteCache::class,
+        Tapestry\Modules\Content\Copy::class,
+        Tapestry\Modules\Content\Clean::class,
+        Tapestry\Modules\Scripts\After::class,
     ],
 
     /*
