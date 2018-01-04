@@ -94,6 +94,7 @@ class ContentTypeFactory
                 return $key;
             }
         }
+        return null;
     }
 
     /**
