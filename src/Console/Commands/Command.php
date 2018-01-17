@@ -41,11 +41,11 @@ abstract class Command extends SymfonyCommand
             $this->output = $output;
 
             if ($this->shouldLock === true) {
-                $lockFilePathname = $this->input->getOption('site-dir') . DIRECTORY_SEPARATOR . '.lock';
+                $lockFilePathname = $this->input->getOption('site-dir').DIRECTORY_SEPARATOR.'.lock';
                 $lockFile = fopen($lockFilePathname, 'w+');
 
                 if (flock($lockFile, LOCK_EX | LOCK_NB)) {
-                    $result = (int)$this->fire();
+                    $result = (int) $this->fire();
                 } else {
                     fclose($lockFile);
                     throw new LockException('Tapestry is already running; please wait for the previous process to complete or delete the .lock file.');
@@ -54,7 +54,7 @@ abstract class Command extends SymfonyCommand
                 fclose($lockFile);
                 unlink($lockFilePathname);
             } else {
-                $result = (int)$this->fire();
+                $result = (int) $this->fire();
             }
 
             if (defined('TAPESTRY_START') === true && $this->input->getOption('stopwatch')) {
