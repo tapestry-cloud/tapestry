@@ -16,6 +16,12 @@ class ServeCommand extends Command
     private $tapestry;
 
     /**
+     * Should this command block additional execution?
+     * @var bool
+     */
+    protected $shouldLock = false;
+
+    /**
      * ServeCommand constructor.
      *
      * @param Tapestry $tapestry
