@@ -23,6 +23,12 @@ abstract class Command extends SymfonyCommand
     protected $output;
 
     /**
+     * Should this command block additional execution?
+     * @var bool
+     */
+    protected $shouldLock = true;
+
+    /**
      * @param InputInterface  $input
      * @param OutputInterface $output
      *
@@ -34,18 +40,22 @@ abstract class Command extends SymfonyCommand
             $this->input = $input;
             $this->output = $output;
 
-            $lockFilePathname = $this->input->getOption('site-dir').DIRECTORY_SEPARATOR.'.lock';
-            $lockFile = fopen($lockFilePathname, 'w+');
+            if ($this->shouldLock === true) {
+                $lockFilePathname = $this->input->getOption('site-dir').DIRECTORY_SEPARATOR.'.lock';
+                $lockFile = fopen($lockFilePathname, 'w+');
 
-            if (flock($lockFile, LOCK_EX | LOCK_NB)) {
-                $result = (int) $this->fire();
-            } else {
+                if (flock($lockFile, LOCK_EX | LOCK_NB)) {
+                    $result = (int) $this->fire();
+                } else {
+                    fclose($lockFile);
+                    throw new LockException('Tapestry is already running; please wait for the previous process to complete or delete the .lock file.');
+                }
+
                 fclose($lockFile);
-                throw new LockException('Tapestry is already running; please wait for the previous process to complete or delete the .lock file.');
+                unlink($lockFilePathname);
+            } else {
+                $result = (int) $this->fire();
             }
-
-            fclose($lockFile);
-            unlink($lockFilePathname);
 
             if (defined('TAPESTRY_START') === true && $this->input->getOption('stopwatch')) {
                 $this->renderStopwatchReport($output);
