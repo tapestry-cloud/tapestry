@@ -10,7 +10,7 @@ use Tapestry\Steps\SyntaxAnalysis;
 use Tapestry\Tests\TestCase;
 use Tapestry\Tests\Traits\MockTapestry;
 
-class ContentGraphTest extends TestCase
+class ContentGraphNTest extends TestCase
 {
 
     use MockTapestry;
