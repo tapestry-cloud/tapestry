@@ -55,7 +55,7 @@
       "@php box.phar build -v"
     ],
     "api-docs": [
-      "@php -r \"file_exists('sami.phar') || exec('curl -LSs http://get.sensiolabs.org/sami.phar');\"",
+      "@php -r \"file_exists('sami.phar') || exec('curl -O http://get.sensiolabs.org/sami.phar');\"",
       "@php sami.phar update sami-config.php"
     ]
   },
