@@ -1,6 +1,7 @@
 .idea
 .DS_Store
 box.phar
+sami.phar
 vendor
 bin/tapestry.phar
 bin/tapestry.version
