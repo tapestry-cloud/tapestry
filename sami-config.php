@@ -16,8 +16,8 @@ $versions = GitVersionCollection::create($dir)
 return new Sami($dir, [
     'versions' => $versions,
     'title' => 'Tapestry API',
-    'build_dir' => __DIR__.'/build/tapestry/%version%',
-    'cache_dir' => __DIR__.'/cache/tapestry/%version%',
+    'build_dir' => __DIR__.'/build/docs/%version%',
+    'cache_dir' => __DIR__.'/build/cache/%version%',
     'remote_repository' => new GitHubRemoteRepository('tapestry-cloud/tapestry', dirname($dir)),
     'default_opened_level' => 2
 ]);
