@@ -2,12 +2,12 @@
 
 namespace Tapestry\Entities\Renderers;
 
-use Tapestry\Entities\File;
+use Tapestry\Entities\ProjectFile;
 
 class DefaultRenderer implements RendererInterface
 {
     /**
-     * @var array File extensions that this renderer supports
+     * @var array ProjectFile extensions that this renderer supports
      */
     private $extensions = ['*'];
 
@@ -46,11 +46,11 @@ class DefaultRenderer implements RendererInterface
     /**
      * Render the input file content and return the output.
      *
-     * @param File $file
+     * @param ProjectFile $file
      *
      * @return string
      */
-    public function render(File $file)
+    public function render(ProjectFile $file)
     {
         return '';
     }
@@ -76,13 +76,13 @@ class DefaultRenderer implements RendererInterface
     }
 
     /**
-     * The default action is to set a File for copying and therefore
+     * The default action is to set a ProjectFile for copying and therefore
      * disable its pretty permalink output.
      *
-     * @param File $file
+     * @param ProjectFile $file
      * @return void
      */
-    public function mutateFile(File &$file)
+    public function mutateFile(ProjectFile &$file)
     {
         $file->setToCopy(true);
         $file->setData([

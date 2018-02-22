@@ -2,6 +2,7 @@
 
 namespace Tapestry\Tests\Unit;
 
+use Tapestry\Entities\ProjectFile;
 use Tapestry\Tests\CommandTestBase;
 use Symfony\Component\Finder\SplFileInfo;
 use Tapestry\Entities\File;
@@ -16,10 +17,10 @@ class PaginationTest extends TestCase
 
     private function setupPagination(Project $project, $filePath)
     {
-        $file = new File(new SplFileInfo($filePath, '', ''));
+        $file = new ProjectFile(new SplFileInfo($filePath, '', ''));
         $frontMatter = new FrontMatter($file->getFileContent());
         $file->setData($frontMatter->getData());
-        $file->setContent($frontMatter->getContent());
+        $file->loadContent($frontMatter->getContent());
 
         $this->assertEquals(['PaginationGenerator'], $file->getData('generator'));
 
@@ -31,7 +32,7 @@ class PaginationTest extends TestCase
             $p->setUid('item-' . $i);
             $project->set('compiled.item-' . $i, $p);
         }
-        $file->setData(['test_items' => $testItems]);
+        $file->setData('test_items', $testItems);
         return new PaginationGenerator($file);
     }
 

@@ -2,7 +2,7 @@
 
 namespace Tapestry\Modules\Generators;
 
-use Tapestry\Entities\File;
+use Tapestry\Entities\ProjectFile;
 
 class ContentGeneratorFactory
 {
@@ -24,7 +24,7 @@ class ContentGeneratorFactory
         $this->items[$reflection->getShortName()] = $class;
     }
 
-    public function get($name, File $file)
+    public function get($name, ProjectFile $file)
     {
         return new $this->items[$name]($file);
     }

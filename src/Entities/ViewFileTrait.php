@@ -7,18 +7,18 @@ namespace Tapestry\Entities;
  *
  * This trait contains methods that are shared between the ViewFile class and Tapestry\Plates\Extensions\Helpers
  *
- * @see Tapestry\Plates\Extensions\Helpers
- * @see Tapestry\Entities\ViewFile
+ * @see \Tapestry\Plates\Extensions\Helpers
+ * @see \Tapestry\Entities\ViewFile
  */
 trait ViewFileTrait
 {
     /**
-     * @return File
+     * @return ProjectFile
      */
     abstract public function getFile();
 
     /**
-     * Returns data from attached File or $default if not found.
+     * Returns data from attached ProjectFile or $default if not found.
      *
      * @param $key
      * @param null $default
@@ -33,6 +33,7 @@ trait ViewFileTrait
      * Returns the Files compiled permalink.
      *
      * @return mixed|string
+     * @throws \Exception
      */
     public function getPermalink()
     {
@@ -43,6 +44,7 @@ trait ViewFileTrait
      * Returns the Files compiled permalink as a absolute url.
      *
      * @return string
+     * @throws \Exception
      */
     public function getUrl()
     {
@@ -145,7 +147,7 @@ trait ViewFileTrait
     }
 
     /**
-     * Returns true if the File has draft front matter set to true.
+     * Returns true if the ProjectFile has draft front matter set to true.
      *
      * @return bool
      */

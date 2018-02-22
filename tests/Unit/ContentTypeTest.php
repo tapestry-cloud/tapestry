@@ -4,7 +4,7 @@ namespace Tapestry\Tests\Unit;
 
 use Symfony\Component\Finder\SplFileInfo;
 use Tapestry\Entities\ContentType;
-use Tapestry\Entities\File;
+use Tapestry\Entities\ProjectFile;
 use Tapestry\Modules\ContentTypes\ContentTypeFactory;
 use Tapestry\Tests\TestCase;
 
@@ -18,7 +18,7 @@ class ContentTypeTest extends TestCase
     public function testAddFileMutatesFileDataWithContentTypeName()
     {
         $contentType = new ContentType('Test', ['enabled' => true]);
-        $file = new File(new SplFileInfo(__DIR__ . '/../Mocks/TestFile.md', '', ''));
+        $file = new ProjectFile(new SplFileInfo(__DIR__ . '/../Mocks/TestFile.md', '', ''));
         $this->assertFalse($file->hasData('contentType'));
         $contentType->addFile($file);
         $this->assertTrue($file->hasData('contentType'));

@@ -5,7 +5,7 @@ namespace Tapestry\Entities;
 /**
  * Class ViewFile.
  *
- * A wrapper surrounding a File object for the purpose of providing view helper
+ * A wrapper surrounding a ProjectFile object for the purpose of providing view helper
  * methods that are friendly to the end user.
  */
 class ViewFile
@@ -23,7 +23,7 @@ class ViewFile
     private $fileUid;
 
     /**
-     * @var File
+     * @var ProjectFile
      */
     private $file;
 
@@ -40,7 +40,7 @@ class ViewFile
     }
 
     /**
-     * @return File
+     * @return ProjectFile
      */
     public function getFile()
     {

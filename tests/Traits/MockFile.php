@@ -4,6 +4,7 @@ namespace Tapestry\Tests\Traits;
 
 use Symfony\Component\Finder\SplFileInfo;
 use Tapestry\Entities\File;
+use Tapestry\Entities\ProjectFile;
 use Tapestry\Modules\Content\FrontMatter;
 
 trait MockFile {
@@ -17,7 +18,7 @@ trait MockFile {
      *
      * @return  String
      */
-    protected function getRelativePath($base, $path) {
+    protected function getRelativePath(string $base, string $path) {
         // On windows strip drive letter
         $base = preg_replace('/^[A-Z]:/i', '', $base);
         $path = preg_replace('/^[A-Z]:/i', '', $path);
@@ -39,15 +40,16 @@ trait MockFile {
      * @param $filePath
      * @param string $base
      *
-     * @return File
+     * @return ProjectFile
+     * @throws \Exception
      */
-    protected function mockFile($filePath, $base = __DIR__ . '/..')
+    protected function mockFile(string $filePath, string $base = __DIR__ . '/..') : ProjectFile
     {
         $base = realpath($base);
-        $file = new File(new SplFileInfo($filePath, $this->getRelativePath($base, $filePath), $this->getRelativePath($base, $filePath)));
+        $file = new ProjectFile(new SplFileInfo($filePath, $this->getRelativePath($base, $filePath), $this->getRelativePath($base, $filePath)));
         $frontMatter = new FrontMatter($file->getFileContent());
         $file->setData($frontMatter->getData());
-        $file->setContent($frontMatter->getContent());
+        $file->loadContent($frontMatter->getContent());
         $file->getUid(); // Force the file to generate its uid
         return $file;
     }

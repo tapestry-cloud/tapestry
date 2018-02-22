@@ -6,6 +6,7 @@ use Symfony\Component\Finder\SplFileInfo;
 use Tapestry\Entities\Configuration;
 use Tapestry\Entities\File;
 use Tapestry\Entities\Project;
+use Tapestry\Entities\ProjectFile;
 use Tapestry\Entities\ViewFile;
 use Tapestry\Modules\Content\FrontMatter;
 use Tapestry\Modules\Renderers\ContentRendererFactory;
@@ -13,12 +14,21 @@ use Tapestry\Tapestry;
 
 trait MockViewFile
 {
-    protected function mockViewFile(Tapestry $tapestry, $viewPath, $render = false)
+    /**
+     * @param Tapestry $tapestry
+     * @param $viewPath
+     * @param bool $render
+     * @return ViewFile
+     * @throws \Exception
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    protected function mockViewFile(Tapestry $tapestry, string $viewPath, bool $render = false) : ViewFile
     {
-        $file = new File(new SplFileInfo($viewPath, '', ''));
+        $file = new ProjectFile(new SplFileInfo($viewPath, '', ''));
         $frontMatter = new FrontMatter($file->getFileContent());
         $file->setData($frontMatter->getData());
-        $file->setContent($frontMatter->getContent());
+        $file->loadContent($frontMatter->getContent());
 
         /** @var Project $project */
         $project = $tapestry->getContainer()->get(Project::class);

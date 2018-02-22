@@ -5,14 +5,14 @@ namespace Tapestry\Entities;
 class CachedFile
 {
     /**
-     * File unique identifier.
+     * ProjectFile unique identifier.
      *
      * @var string
      */
     private $uid;
 
     /**
-     * File invalidation hash.
+     * ProjectFile invalidation hash.
      *
      * @var string
      */
@@ -31,11 +31,12 @@ class CachedFile
     /**
      * CachedFile constructor.
      *
-     * @param File $file
+     * @param ProjectFile $file
      * @param array $layouts
      * @param string $sourceDirectory
+     * @throws \Exception
      */
-    public function __construct(File $file, array $layouts = [], $sourceDirectory = '')
+    public function __construct(ProjectFile $file, array $layouts = [], $sourceDirectory = '')
     {
         $this->layouts = $layouts;
         $this->sourceDirectory = $sourceDirectory;
@@ -46,11 +47,11 @@ class CachedFile
     /**
      * Check to see if the current cache entry is still valid.
      *
-     * @param File $file
+     * @param ProjectFile $file
      * @return bool
      * @throws \Exception
      */
-    public function check(File $file)
+    public function check(ProjectFile $file)
     {
         if ($file->getUid() !== $this->uid) {
             throw new \Exception('This CachedFile is not for uid ['.$file->getUid().']');
@@ -60,12 +61,13 @@ class CachedFile
     }
 
     /**
-     * Calculates the invalidation hash for the given File.
+     * Calculates the invalidation hash for the given ProjectFile.
      *
-     * @param File $file
+     * @param ProjectFile $file
      * @return string
+     * @throws \Exception
      */
-    private function hashFile(File $file)
+    private function hashFile(ProjectFile $file)
     {
         $arr = [];
 
@@ -80,7 +82,7 @@ class CachedFile
             }
         }
 
-        array_push($arr, $file->getLastModified());
+        array_push($arr, $file->getMTime());
 
         return sha1(implode('.', $arr));
     }

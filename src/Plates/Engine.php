@@ -2,7 +2,7 @@
 
 namespace Tapestry\Plates;
 
-use Tapestry\Entities\File;
+use Tapestry\Entities\ProjectFile;
 use Tapestry\Entities\Project;
 use League\Plates\Engine as LeagueEngine;
 use Tapestry\Entities\Collections\FlatCollection;
@@ -40,11 +40,11 @@ class Engine extends LeagueEngine
     /**
      * Create a new template and render it.
      *
-     * @param File   $file
+     * @param ProjectFile   $file
      *
      * @return string
      */
-    public function renderFile(File $file)
+    public function renderFile(ProjectFile $file)
     {
         return $this->make(
             $file->getFileInfo()->getRelativePath().

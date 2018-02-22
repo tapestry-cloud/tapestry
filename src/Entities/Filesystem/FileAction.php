@@ -2,14 +2,14 @@
 
 namespace Tapestry\Entities\Filesystem;
 
-use Tapestry\Entities\File;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Console\Output\OutputInterface;
+use Tapestry\Entities\ProjectFile;
 
 abstract class FileAction implements FilesystemInterface
 {
     /**
-     * @var File
+     * @var ProjectFile
      */
     protected $file;
 
@@ -21,19 +21,19 @@ abstract class FileAction implements FilesystemInterface
     /**
      * FilesystemInterface constructor.
      *
-     * @param File   $file
+     * @param ProjectFile   $file
      * @param string $destinationPath
      */
-    public function __construct(File $file, $destinationPath)
+    public function __construct(ProjectFile $file, $destinationPath)
     {
         $this->file = $file;
         $this->destinationPath = $destinationPath;
     }
 
     /**
-     * @return File
+     * @return ProjectFile
      */
-    public function getFile()
+    public function getFile() : ProjectFile
     {
         return $this->file;
     }

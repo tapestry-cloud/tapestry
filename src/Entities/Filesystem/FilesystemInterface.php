@@ -2,7 +2,7 @@
 
 namespace Tapestry\Entities\Filesystem;
 
-use Tapestry\Entities\File;
+use Tapestry\Entities\ProjectFile;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -11,13 +11,13 @@ interface FilesystemInterface
     /**
      * FilesystemInterface constructor.
      *
-     * @param File   $file
+     * @param ProjectFile   $file
      * @param string $destinationPath
      */
-    public function __construct(File $file, $destinationPath);
+    public function __construct(ProjectFile $file, $destinationPath);
 
     /**
-     * @return File
+     * @return ProjectFile
      */
     public function getFile();
 

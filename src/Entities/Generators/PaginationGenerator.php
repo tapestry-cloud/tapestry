@@ -2,7 +2,7 @@
 
 namespace Tapestry\Entities\Generators;
 
-use Tapestry\Entities\File;
+use Tapestry\Entities\ProjectFile;
 use Tapestry\Entities\Project;
 use Tapestry\Entities\Permalink;
 use Tapestry\Entities\Pagination;
@@ -13,6 +13,7 @@ class PaginationGenerator extends FileGenerator
      * @param Project $project
      *
      * @return \Tapestry\Entities\ProjectFileInterface|\Tapestry\Entities\ProjectFileInterface[]
+     * @throws \Exception
      */
     public function generate(Project $project)
     {
@@ -67,13 +68,11 @@ class PaginationGenerator extends FileGenerator
         foreach (array_chunk($paginationItems, $configuration['perPage'], true) as $pageItems) {
             $pageFile = clone $newFile;
             $currentPage++;
-            $pageFile->setData(['pagination' => new Pagination($project, $pageItems, $totalPages, ($currentPage))]);
+            $pageFile->setData('pagination', new Pagination($project, $pageItems, $totalPages, ($currentPage)));
 
             if ($currentPage > 1) {
                 $pageFile->setUid($pageFile->getUid().'_page_'.$currentPage);
-
-                $permalink = $pageFile->getPermalink();
-                $template = $permalink->getTemplate();
+                $template = $pageFile->getData('permalink', '');
 
                 if (strpos($template, '.')) {
                     $parts = explode('.', $template);
@@ -95,7 +94,7 @@ class PaginationGenerator extends FileGenerator
                     $template = implode('/', $parts);
                 }
 
-                $pageFile->setPermalink(new Permalink($template));
+                $pageFile->setData('permalink', $template);
             }
 
             array_push($generatedFiles, $pageFile);
@@ -106,13 +105,13 @@ class PaginationGenerator extends FileGenerator
         if ($totalGenerated > 1) {
             /**
              * @var int
-             * @var File $generatedFile
+             * @var ProjectFile $generatedFile
              */
             foreach ($generatedFiles as $key => &$generatedFile) {
                 /*
                  * @var Pagination
-                 * @var null|File  $previous
-                 * @var null|File  $next
+                 * @var null|ProjectFile  $previous
+                 * @var null|ProjectFile  $next
                  */
                 $pagination = $generatedFile->getData('pagination');
 

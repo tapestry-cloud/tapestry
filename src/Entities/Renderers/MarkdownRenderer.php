@@ -3,12 +3,12 @@
 namespace Tapestry\Entities\Renderers;
 
 use Michelf\MarkdownExtra;
-use Tapestry\Entities\File;
+use Tapestry\Entities\ProjectFile;
 
 class MarkdownRenderer implements RendererInterface
 {
     /**
-     * @var array File extensions that this renderer supports
+     * @var array ProjectFile extensions that this renderer supports
      */
     private $extensions = ['md', 'markdown'];
 
@@ -62,11 +62,12 @@ class MarkdownRenderer implements RendererInterface
     /**
      * Render the input file content and return the output.
      *
-     * @param File $file
+     * @param ProjectFile $file
      *
      * @return string
+     * @throws \Exception
      */
-    public function render(File $file)
+    public function render(ProjectFile $file)
     {
         return $this->markdown->transform($file->getContent());
     }
@@ -92,11 +93,11 @@ class MarkdownRenderer implements RendererInterface
     }
 
     /**
-     * @param File $file
+     * @param ProjectFile $file
      *
      * @return void
      */
-    public function mutateFile(File &$file)
+    public function mutateFile(ProjectFile &$file)
     {
         // If markdown file has a layout associated with it, we need to ensure it gets rendered within that
         if ($file->hasData('layout')) {

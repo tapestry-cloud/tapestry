@@ -251,6 +251,23 @@ class ProjectFile extends SplFileInfo implements ProjectFileInterface
     }
 
     /**
+     * Pretty Permalinks are disabled on all files that have their
+     * permalink structure configured via front matter.
+     *
+     * @return mixed|string
+     * @throws \Exception
+     */
+    public function getCompiledPermalink()
+    {
+        $pretty = $this->getData('pretty_permalink', true);
+        if ($this->hasData('permalink')) {
+            $pretty = false;
+        }
+
+        return $this->permalink->getCompiled($this, $pretty);
+    }
+
+    /**
      * A file can be considered loaded once its content property has been set, that way you know any frontmatter has
      * also been injected into the File objects data property.
      *

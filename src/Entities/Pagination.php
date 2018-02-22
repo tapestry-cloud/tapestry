@@ -77,7 +77,7 @@ class Pagination
         }
 
         array_walk_recursive($this->items, function (&$file, $fileKey) {
-            /** @var File $compiledFile */
+            /** @var ProjectFile $compiledFile */
             if (! $compiledFile = $this->project->get('compiled.'.$fileKey)) {
                 $file = null;
             } else {
@@ -139,7 +139,7 @@ class Pagination
     }
 
     /**
-     * @param array|File[] $pages
+     * @param array|ProjectFile[] $pages
      */
     public function setPages(array $pages = [])
     {
