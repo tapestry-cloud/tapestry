@@ -3,11 +3,11 @@
 namespace Tapestry\Tests\Unit;
 
 use Tapestry\Entities\ProjectFile;
-use Tapestry\Tests\CommandTestBase;
 use Symfony\Component\Finder\SplFileInfo;
 use Tapestry\Modules\Content\FrontMatter;
+use Tapestry\Tests\TestCase;
 
-class FrontMatterTest extends CommandTestBase
+class FrontMatterNTest extends TestCase
 {
     /**
      * Written for issue #148

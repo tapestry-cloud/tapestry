@@ -6,7 +6,7 @@ use Symfony\Component\Finder\SplFileInfo;
 use Tapestry\Entities\ProjectFile;
 use Tapestry\Tests\TestCase;
 
-class FileTest extends TestCase
+class FileNTest extends TestCase
 {
     function testFileGetUid()
     {

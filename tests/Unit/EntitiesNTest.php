@@ -6,7 +6,7 @@ use Tapestry\Entities\Configuration;
 use Tapestry\Entities\Url;
 use Tapestry\Tests\TestCase;
 
-class EntitiesTest extends TestCase
+class EntitiesNTest extends TestCase
 {
     public function testUrlEntity()
     {

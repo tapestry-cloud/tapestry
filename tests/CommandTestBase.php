@@ -8,7 +8,7 @@ use Tapestry\Console\Application;
 
 require_once __DIR__ . '/../src/bootstrap.php';
 
-abstract class CommandTestBase extends \PHPUnit_Framework_TestCase
+abstract class CommandTestBase extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var null|Application

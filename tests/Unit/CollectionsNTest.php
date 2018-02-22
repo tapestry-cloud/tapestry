@@ -6,7 +6,7 @@ use Tapestry\Entities\Collections\Collection;
 use Tapestry\Entities\Collections\FlatCollection;
 use Tapestry\Tests\TestCase;
 
-class CollectionsTest extends TestCase
+class CollectionsNTest extends TestCase
 {
     public function testFlatCollection()
     {

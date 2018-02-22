@@ -6,7 +6,7 @@ use Symfony\Component\Console\Output\Output;
 use Tapestry\Tapestry;
 use Tapestry\Tests\TestCase;
 
-class CommandLineApplicationTest extends TestCase
+class CommandLineApplicationNTest extends TestCase
 {
     public function testApplicationVersion()
     {

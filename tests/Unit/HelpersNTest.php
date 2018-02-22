@@ -6,7 +6,7 @@ use Tapestry\Entities\Configuration;
 use Tapestry\Tests\TestCase;
 use Tapestry\Tests\Traits\MockTapestry;
 
-class HelpersTest extends TestCase
+class HelpersNTest extends TestCase
 {
     use MockTapestry;
 

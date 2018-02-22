@@ -6,7 +6,7 @@ use Tapestry\ArrayContainer;
 use Tapestry\Tests\Mocks\MockArrayAccessByKeyClass;
 use Tapestry\Tests\TestCase;
 
-class ArrayContainerMergeTest extends TestCase
+class ArrayContainerMergeNTest extends TestCase
 {
     public function testArrayContainerClassBaseFunctionality()
     {
