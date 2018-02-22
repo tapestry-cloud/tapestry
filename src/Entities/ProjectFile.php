@@ -8,13 +8,6 @@ use Symfony\Component\Finder\SplFileInfo;
 class ProjectFile extends SplFileInfo implements ProjectFileInterface
 {
     /**
-     * The unique identifier for this file.
-     *
-     * @var string
-     */
-    private $uid;
-
-    /**
      * File meta data, usually from front matter or site config.
      *
      * @var array
@@ -118,7 +111,7 @@ class ProjectFile extends SplFileInfo implements ProjectFileInterface
      */
     public function getUid()
     {
-        return $this->uid;
+        return $this->meta['uid'];
     }
 
     /**
@@ -132,7 +125,7 @@ class ProjectFile extends SplFileInfo implements ProjectFileInterface
     {
         $uid = str_replace('.', '_', $uid);
         $uid = str_replace(['/', '\\'], '_', $uid);
-        $this->uid = $uid;
+        $this->meta['uid'] = $uid;
     }
 
     /**
