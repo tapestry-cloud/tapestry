@@ -57,6 +57,16 @@ class ProjectFile extends SplFileInfo implements ProjectFileInterface
     private $blocked = false;
 
     /**
+     * Because all files in the source tree are loaded, this ignore flag
+     * is set on those that should not be parsed. This allows them to be
+     * analysed for dependencies (e.g. a not ignored file depends upon a
+     * ignored file)
+     *
+     * @var bool
+     */
+    private $ignored = false;
+
+    /**
      * ProjectFile constructor.
      *
      * @param SplFileInfo $file
@@ -319,7 +329,7 @@ class ProjectFile extends SplFileInfo implements ProjectFileInterface
     /**
      * @return bool
      */
-    public function isBlocked()
+    public function isBlocked() : bool
     {
         return $this->blocked;
     }
@@ -327,9 +337,25 @@ class ProjectFile extends SplFileInfo implements ProjectFileInterface
     /**
      * @param bool $blocked
      */
-    public function setBlocked($blocked = true)
+    public function setBlocked(bool $blocked = true)
     {
         $this->blocked = $blocked;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isIgnored(): bool
+    {
+        return $this->ignored;
+    }
+
+    /**
+     * @param bool $ignored
+     */
+    public function setIgnored(bool $ignored = true)
+    {
+        $this->ignored = $ignored;
     }
 
     /////////////////////////////////////////////
