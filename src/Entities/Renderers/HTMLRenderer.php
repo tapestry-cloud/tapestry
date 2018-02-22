@@ -2,15 +2,13 @@
 
 namespace Tapestry\Entities\Renderers;
 
-use Tapestry\Entities\ProjectFile;
 use Tapestry\Entities\Project;
+use Tapestry\Entities\ProjectFile;
 
 /**
- * Class HTMLRenderer
+ * Class HTMLRenderer.
  *
  * Mutate HTML input file into a PHTML output file for intermediate compiling.
- *
- * @package Tapestry\Entities\Renderers
  */
 class HTMLRenderer implements RendererInterface
 {
@@ -108,7 +106,7 @@ class HTMLRenderer implements RendererInterface
     public function mutateFile(ProjectFile &$file)
     {
         if ($layout = $file->getData('layout')) {
-            $file->loadContent('<?php $v->layout("'. $layout .'", $projectFile->getData()) ?>' . $file->getContent());
+            $file->loadContent('<?php $v->layout("'.$layout.'", $projectFile->getData()) ?>'.$file->getContent());
         }
     }
 }

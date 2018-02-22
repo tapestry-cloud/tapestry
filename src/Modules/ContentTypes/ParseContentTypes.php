@@ -2,10 +2,10 @@
 
 namespace Tapestry\Modules\ContentTypes;
 
-use Tapestry\Entities\ProjectFile;
 use Tapestry\Step;
 use Tapestry\Entities\Project;
 use Tapestry\Entities\ContentType;
+use Tapestry\Entities\ProjectFile;
 use Tapestry\Entities\Generators\FileGenerator;
 use Symfony\Component\Console\Output\OutputInterface;
 

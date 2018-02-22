@@ -2,10 +2,10 @@
 
 namespace Tapestry\Entities\Generators;
 
-use Tapestry\Entities\ProjectFile;
 use Tapestry\Entities\Project;
 use Tapestry\Entities\Permalink;
 use Tapestry\Entities\Pagination;
+use Tapestry\Entities\ProjectFile;
 
 class PaginationGenerator extends FileGenerator
 {

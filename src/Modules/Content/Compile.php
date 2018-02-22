@@ -2,7 +2,6 @@
 
 namespace Tapestry\Modules\Content;
 
-use Tapestry\Entities\ProjectFile;
 use Tapestry\Step;
 use Tapestry\Tapestry;
 use Tapestry\Entities\Cache;
@@ -10,6 +9,7 @@ use Tapestry\Entities\Project;
 use Tapestry\Entities\ViewFile;
 use Tapestry\Entities\CachedFile;
 use Tapestry\Entities\ContentType;
+use Tapestry\Entities\ProjectFile;
 use Tapestry\Entities\ProjectFileInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Tapestry\Entities\Filesystem\FileCopier;

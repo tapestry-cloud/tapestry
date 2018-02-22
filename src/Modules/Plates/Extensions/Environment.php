@@ -3,17 +3,15 @@
 namespace Tapestry\Modules\Plates\Extensions;
 
 use League\Plates\Engine;
-use Tapestry\Entities\Project;
 use League\Plates\Extension;
+use Tapestry\Entities\Project;
 
 /**
- * Class Environment
+ * Class Environment.
  *
  * The Environment extension to Plates provides the user the `getEnvironment` method.
  * This allows you to get the current environment as set via the `--env` flag from
  * the command line, from within a template.
- *
- * @package Tapestry\Modules\Plates\Extensions
  */
 class Environment implements Extension
 {

@@ -2,13 +2,12 @@
 
 namespace Tapestry\Steps;
 
-use Symfony\Component\Console\Output\OutputInterface;
-use Tapestry\Entities\Project;
 use Tapestry\Step;
+use Tapestry\Entities\Project;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class LexicalAnalysis implements Step
 {
-
     /**
      * Process the Project at current.
      *

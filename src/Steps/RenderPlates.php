@@ -2,11 +2,11 @@
 
 namespace Tapestry\Steps;
 
-use League\Plates\Engine;
-use Tapestry\Entities\Collections\FlatCollection;
-use Tapestry\Entities\ProjectFile;
 use Tapestry\Step;
+use League\Plates\Engine;
 use Tapestry\Entities\Project;
+use Tapestry\Entities\ProjectFile;
+use Tapestry\Entities\Collections\FlatCollection;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class RenderPlates implements Step
@@ -37,7 +37,7 @@ class RenderPlates implements Step
         $files = $project['files'];
 
         foreach ($project->get('plates_cache') as $id => $path) {
-            if (substr($path, 0 ,1) === '/') {
+            if (substr($path, 0, 1) === '/') {
                 $path = substr($path, 1);
             }
 

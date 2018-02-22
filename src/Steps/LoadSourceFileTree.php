@@ -2,21 +2,20 @@
 
 namespace Tapestry\Steps;
 
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Finder\Finder;
-use Tapestry\Entities\Cache;
-use Tapestry\Entities\Configuration;
-use Tapestry\Entities\Project;
-use Tapestry\Entities\ProjectFile;
-use Tapestry\Modules\Content\FrontMatter;
-use Tapestry\Modules\ContentTypes\ContentTypeFactory;
-use Tapestry\Modules\Renderers\ContentRendererFactory;
 use Tapestry\Step;
 use Tapestry\Tapestry;
+use Tapestry\Entities\Cache;
+use Tapestry\Entities\Project;
+use Tapestry\Entities\ProjectFile;
+use Symfony\Component\Finder\Finder;
+use Tapestry\Entities\Configuration;
+use Tapestry\Modules\Content\FrontMatter;
+use Symfony\Component\Console\Output\OutputInterface;
+use Tapestry\Modules\ContentTypes\ContentTypeFactory;
+use Tapestry\Modules\Renderers\ContentRendererFactory;
 
 class LoadSourceFileTree implements Step
 {
-
     /**
      * @var Tapestry
      */
@@ -84,8 +83,8 @@ class LoadSourceFileTree implements Step
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
-        if (!file_exists($project->sourceDirectory)) {
-            $output->writeln('[!] The project source path could not be opened at [' . $project->sourceDirectory . ']');
+        if (! file_exists($project->sourceDirectory)) {
+            $output->writeln('[!] The project source path could not be opened at ['.$project->sourceDirectory.']');
 
             return false;
         }
@@ -94,7 +93,7 @@ class LoadSourceFileTree implements Step
         $cache = $project->get('cache');
 
         // Table containing all files found and their last update time.
-        if (!$hashTable = $cache->getItem('fileHashTable')) {
+        if (! $hashTable = $cache->getItem('fileHashTable')) {
             $hashTable = [];
         }
 
@@ -117,7 +116,6 @@ class LoadSourceFileTree implements Step
             ->followLinks()
             ->in($project->sourceDirectory)
             ->ignoreDotFiles(true);
-
 
         foreach ($finder->files() as $file) {
             $file = new ProjectFile($file, ['pretty_permalink' => $this->prettyPermalink]);
@@ -155,7 +153,7 @@ class LoadSourceFileTree implements Step
                 }
             }
 
-            if (!$contentType = $contentTypes->find($file->getRelativePath())) {
+            if (! $contentType = $contentTypes->find($file->getRelativePath())) {
                 $contentType = $contentTypes->get('*');
             } else {
                 $contentType = $contentTypes->get($contentType);
@@ -168,7 +166,7 @@ class LoadSourceFileTree implements Step
 
             $contentType->addFile($file);
             $project->addFile($file);
-            $output->writeln('[+] File [' . $file->getRelativePathname() . '] bucketed into content type [' . $contentType->getName() . ']');
+            $output->writeln('[+] File ['.$file->getRelativePathname().'] bucketed into content type ['.$contentType->getName().']');
         }
 
         $cache->setItem('fileHashTable', $hashTable);
@@ -209,13 +207,13 @@ class LoadSourceFileTree implements Step
         $relativePath = $file->getRelativePath();
 
         foreach ($this->dontIgnorePaths as $dontIgnorePath) {
-            if (str_contains($relativePath, $dontIgnorePath)){
+            if (str_contains($relativePath, $dontIgnorePath)) {
                 return false;
             }
         }
 
         foreach ($this->ignoredPaths as $ignoredPath) {
-            if (str_contains($relativePath, $ignoredPath)){
+            if (str_contains($relativePath, $ignoredPath)) {
                 return true;
             }
         }

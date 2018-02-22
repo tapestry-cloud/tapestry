@@ -2,10 +2,10 @@
 
 namespace Tapestry\Modules\Content;
 
-use Tapestry\Entities\ProjectFile;
 use Tapestry\Step;
 use Tapestry\Tapestry;
 use Tapestry\Entities\Project;
+use Tapestry\Entities\ProjectFile;
 use Symfony\Component\Finder\Finder;
 use Tapestry\Entities\Configuration;
 use Symfony\Component\Console\Output\OutputInterface;

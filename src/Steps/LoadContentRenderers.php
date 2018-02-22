@@ -2,12 +2,12 @@
 
 namespace Tapestry\Steps;
 
-use Tapestry\Modules\Renderers\ContentRendererFactory;
 use Tapestry\Step;
 use Tapestry\Tapestry;
 use Tapestry\Entities\Project;
 use Tapestry\Entities\Configuration;
 use Symfony\Component\Console\Output\OutputInterface;
+use Tapestry\Modules\Renderers\ContentRendererFactory;
 
 class LoadContentRenderers implements Step
 {

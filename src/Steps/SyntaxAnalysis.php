@@ -2,19 +2,19 @@
 
 namespace Tapestry\Steps;
 
+use Tapestry\Step;
 use League\Plates\Engine;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Filesystem\Filesystem;
 use Tapestry\Entities\Cache;
-use Tapestry\Entities\ContentType;
-use Tapestry\Entities\Generators\FileGenerator;
 use Tapestry\Entities\Project;
+use Tapestry\Entities\ViewFile;
+use Tapestry\Entities\ContentType;
 use Tapestry\Entities\ProjectFile;
 use Tapestry\Entities\ProjectFileInterface;
-use Tapestry\Entities\ViewFile;
+use Symfony\Component\Filesystem\Filesystem;
+use Tapestry\Entities\Generators\FileGenerator;
+use Symfony\Component\Console\Output\OutputInterface;
 use Tapestry\Modules\ContentTypes\ContentTypeFactory;
 use Tapestry\Modules\Renderers\ContentRendererFactory;
-use Tapestry\Step;
 
 class SyntaxAnalysis implements Step
 {
@@ -104,21 +104,23 @@ class SyntaxAnalysis implements Step
     {
         $filesystem = new Filesystem();
         $platesCache = $project['plates_cache'] ?? [];
-        $intermediatePath = $project->currentWorkingDirectory . DIRECTORY_SEPARATOR . '.compileTmp';
+        $intermediatePath = $project->currentWorkingDirectory.DIRECTORY_SEPARATOR.'.compileTmp';
 
         while (! $this->allFilesRendered()) {
             foreach ($this->files as $file) {
-                if ($file->isRendered()) { continue; }
+                if ($file->isRendered()) {
+                    continue;
+                }
                 $contentRenderers->renderFile($file);
-                if (!$file->isToCopy()){
-                    $permalink =  $file->getCompiledPermalink();
-                    $platesFilePath = $intermediatePath . $permalink;
+                if (! $file->isToCopy()) {
+                    $permalink = $file->getCompiledPermalink();
+                    $platesFilePath = $intermediatePath.$permalink;
                     $filesystem->dumpFile($platesFilePath, $file->getContent());
 
                     $platesCache[$file->getUid()] = $permalink;
 
-                    if ($layout = $file->getData('layout')){
-                        $filesystem->copy($project->sourceDirectory . DIRECTORY_SEPARATOR . $layout . '.phtml', $intermediatePath . DIRECTORY_SEPARATOR . $layout . '.phtml');
+                    if ($layout = $file->getData('layout')) {
+                        $filesystem->copy($project->sourceDirectory.DIRECTORY_SEPARATOR.$layout.'.phtml', $intermediatePath.DIRECTORY_SEPARATOR.$layout.'.phtml');
                     }
                 }
                 $file->setRendered();
@@ -154,7 +156,7 @@ class SyntaxAnalysis implements Step
                     continue;
                 }
 
-                if (!$file->hasData('layout')) {
+                if (! $file->hasData('layout')) {
                     $file->setData('layout', $contentType->getTemplate());
                 }
 
@@ -170,7 +172,6 @@ class SyntaxAnalysis implements Step
 
         $project->set('compiled', $this->files);
     }
-
 
     /**
      * @param Project $project
