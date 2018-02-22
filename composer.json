@@ -39,7 +39,7 @@
     "symfony/yaml": "^3.4",
     "symfony/process": "^3.4",
     "league/container": "^2.4",
-    "league/plates": "^3.3",
+    "league/plates": "^4",
     "league/event": "^2.1",
     "nesbot/carbon": "^1",
     "composer/semver": "^1.4",
@@ -51,6 +51,7 @@
   "bin": [
     "bin/tapestry.php"
   ],
+  "minimum-stability" : "dev",
   "scripts": {
     "box": [
       "composer install --no-dev --prefer-dist",
