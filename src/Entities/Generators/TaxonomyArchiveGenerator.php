@@ -13,7 +13,8 @@ class TaxonomyArchiveGenerator extends FileGenerator implements ProjectFileGener
      * Taxonomy name with the Files passed to them.
      *
      * @param Project $project
-     * @return array|\Tapestry\Entities\File
+     * @return array|\Tapestry\Entities\ProjectFile
+     * @throws \Exception
      */
     public function generate(Project $project)
     {

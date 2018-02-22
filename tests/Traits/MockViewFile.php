@@ -4,7 +4,6 @@ namespace Tapestry\Tests\Traits;
 
 use Symfony\Component\Finder\SplFileInfo;
 use Tapestry\Entities\Configuration;
-use Tapestry\Entities\File;
 use Tapestry\Entities\Project;
 use Tapestry\Entities\ProjectFile;
 use Tapestry\Entities\ViewFile;

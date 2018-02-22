@@ -2,9 +2,9 @@
 
 namespace Tapestry\Modules\Content;
 
+use Tapestry\Entities\ProjectFile;
 use Tapestry\Step;
 use Tapestry\Tapestry;
-use Tapestry\Entities\File;
 use Tapestry\Entities\Cache;
 use Tapestry\Entities\Project;
 use Tapestry\Entities\ViewFile;
@@ -29,7 +29,7 @@ class Compile implements Step
     private $filesystem;
 
     /**
-     * @var array|File[]
+     * @var array|ProjectFile[]
      */
     private $files = [];
     /**
@@ -138,7 +138,7 @@ class Compile implements Step
             // Foreach ContentType look up their Files and run the particular Renderer on their $content before updating
             // the Project File.
             foreach (array_keys($contentType->getFileList()) as $fileKey) {
-                /** @var File $file */
+                /** @var ProjectFile $file */
                 if (! $file = $project->get('files.'.$fileKey)) {
                     continue;
                 }
@@ -158,10 +158,11 @@ class Compile implements Step
      * Where a file has a use statement, we now need to collect the associated use data and inject it.
      *
      * @param Project $project
+     * @throws \Exception
      */
     private function collectProjectFilesUseData(Project $project)
     {
-        /** @var File $file */
+        /** @var ProjectFile $file */
         foreach ($project['compiled'] as $file) {
             if (! $uses = $file->getData('use')) {
                 continue;
@@ -172,7 +173,7 @@ class Compile implements Step
                 }
 
                 array_walk_recursive($items, function (&$file, $fileKey) use ($project) {
-                    /** @var File $compiledFile */
+                    /** @var ProjectFile $compiledFile */
                     if (! $compiledFile = $project->get('compiled.'.$fileKey)) {
                         $file = null;
                     } else {
@@ -192,7 +193,7 @@ class Compile implements Step
 
     private function checkForPermalinkClashes(Project $project, OutputInterface $output)
     {
-        /** @var File $file */
+        /** @var ProjectFile $file */
         foreach ($project['compiled'] as $file) {
             if (isset($this->permalinkTable[sha1($file->getCompiledPermalink())])) {
                 $output->writeln('<error>[!]</error> The permalink ['.$file->getCompiledPermalink().'] is already in use!');
@@ -271,7 +272,7 @@ class Compile implements Step
     }
 
     /**
-     * @param ProjectFileInterface|ProjectFileInterface[]|File|File[] $files
+     * @param ProjectFileInterface|ProjectFileInterface[]|ProjectFile|ProjectFile[] $files
      */
     private function add($files)
     {

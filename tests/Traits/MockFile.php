@@ -3,7 +3,6 @@
 namespace Tapestry\Tests\Traits;
 
 use Symfony\Component\Finder\SplFileInfo;
-use Tapestry\Entities\File;
 use Tapestry\Entities\ProjectFile;
 use Tapestry\Modules\Content\FrontMatter;
 

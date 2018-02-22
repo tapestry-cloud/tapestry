@@ -3,9 +3,7 @@
 namespace Tapestry\Tests\Unit;
 
 use Tapestry\Entities\ProjectFile;
-use Tapestry\Tests\CommandTestBase;
 use Symfony\Component\Finder\SplFileInfo;
-use Tapestry\Entities\File;
 use Tapestry\Entities\Generators\PaginationGenerator;
 use Tapestry\Entities\Pagination;
 use Tapestry\Entities\Project;
@@ -46,8 +44,8 @@ class PaginationTest extends TestCase
         $this->assertEquals(17, count($generatedFiles));
 
         /**
-         * @var File $firstPage
-         * @var File $lastPage
+         * @var ProjectFile $firstPage
+         * @var ProjectFile $lastPage
          */
         $firstPage = array_shift($generatedFiles);
         $lastPage = array_pop($generatedFiles);
@@ -81,7 +79,7 @@ class PaginationTest extends TestCase
         $generatedFiles = $generator->generate($project);
         $this->assertTrue(is_array($generatedFiles));
 
-        /** @var File $firstPage */
+        /** @var ProjectFile $firstPage */
         $firstPage = $generatedFiles[0];
 
         /** @var Pagination $pagination */

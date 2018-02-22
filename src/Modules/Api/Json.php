@@ -2,8 +2,8 @@
 
 namespace Tapestry\Modules\Api;
 
+use Tapestry\Entities\ProjectFile;
 use Tapestry\Step;
-use Tapestry\Entities\File;
 use Tapestry\Entities\Project;
 use Tapestry\Entities\Taxonomy;
 use Tapestry\Entities\ContentType;
@@ -38,6 +38,7 @@ class Json implements Step
      * @param OutputInterface $output
      *
      * @return bool
+     * @throws \Exception
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
@@ -55,7 +56,7 @@ class Json implements Step
 
         /**
          * @var string
-         * @var File $file
+         * @var ProjectFile $file
          */
         foreach ($project->get('files') as $id => $file) {
             $json['files'][$id] = [
@@ -63,7 +64,7 @@ class Json implements Step
                 'ext' => $file->getExt(),
                 'data' => $file->getData(),
                 'content' => $file->getFileContent(),
-                'modified' => $file->getLastModified(),
+                'modified' => $file->getMTime(),
                 'path' => $file->getPath(),
             ];
         }
