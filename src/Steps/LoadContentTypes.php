@@ -1,7 +1,8 @@
 <?php
 
-namespace Tapestry\Modules\ContentTypes;
+namespace Tapestry\Steps;
 
+use Tapestry\Modules\ContentTypes\ContentTypeFactory;
 use Tapestry\Step;
 use Tapestry\Entities\Project;
 use Tapestry\Entities\ContentType;
@@ -28,10 +29,11 @@ class LoadContentTypes implements Step
     /**
      * Process the Project at current.
      *
-     * @param Project         $project
+     * @param Project $project
      * @param OutputInterface $output
      *
      * @return bool
+     * @throws \Exception
      */
     public function __invoke(Project $project, OutputInterface $output)
     {

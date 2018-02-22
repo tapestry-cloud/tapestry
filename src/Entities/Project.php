@@ -51,7 +51,7 @@ class Project extends ArrayContainer
     }
 
     /**
-     * @param ProjectFileInterface|File|FileGenerator $file
+     * @param ProjectFileInterface|ProjectFile|FileGenerator $file
      */
     public function addFile(ProjectFileInterface $file)
     {
@@ -61,7 +61,7 @@ class Project extends ArrayContainer
     /**
      * @param string $key
      *
-     * @return ProjectFileInterface|File|FileGenerator
+     * @return ProjectFileInterface|ProjectFile|FileGenerator
      */
     public function getFile($key)
     {
@@ -69,7 +69,7 @@ class Project extends ArrayContainer
     }
 
     /**
-     * @param ProjectFileInterface|File|FileGenerator $file
+     * @param ProjectFileInterface|ProjectFile|FileGenerator $file
      */
     public function removeFile(ProjectFileInterface $file)
     {
@@ -77,8 +77,8 @@ class Project extends ArrayContainer
     }
 
     /**
-     * @param ProjectFileInterface|File|FileGenerator $oldFile
-     * @param ProjectFileInterface|File|FileGenerator $newFile
+     * @param ProjectFileInterface|ProjectFile|FileGenerator $oldFile
+     * @param ProjectFileInterface|ProjectFile|FileGenerator $newFile
      */
     public function replaceFile(ProjectFileInterface $oldFile, ProjectFileInterface $newFile)
     {
@@ -88,11 +88,11 @@ class Project extends ArrayContainer
 
     /**
      * @param string $name
-     * @param File   $file
+     * @param ProjectFile   $file
      *
      * @return ProjectFileGeneratorInterface
      */
-    public function getContentGenerator($name, File $file)
+    public function getContentGenerator($name, ProjectFile $file)
     {
         return $this->get('content_generators')->get($name, $file);
     }

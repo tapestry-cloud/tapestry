@@ -5,7 +5,7 @@ namespace Tapestry\Entities;
 use DateTime;
 use Symfony\Component\Finder\SplFileInfo;
 
-class ProjectFile extends SplFileInfo
+class ProjectFile extends SplFileInfo implements ProjectFileInterface
 {
     /**
      * The unique identifier for this file.
@@ -51,16 +51,32 @@ class ProjectFile extends SplFileInfo
     private $copy = false;
 
     /**
+     * If a file is blocked, it means it hasn't been changed since the
+     * last time it was rendered. This should block outputting the dist
+     * file, but not block the file being used.
+     *
+     * This way we should be able to speed up execution by only
+     * generating files that have had their source change since the
+     * last execution.
+     *
+     * @var bool
+     */
+    private $blocked = false;
+
+    /**
      * ProjectFile constructor.
      *
      * @param SplFileInfo $file
      * @param array $data
+     * @param bool $autoBoot
      * @throws \Exception
      */
-    public function __construct(SplFileInfo $file, $data = [])
+    public function __construct(SplFileInfo $file, $data = [], $autoBoot = true)
     {
-        parent::__construct($file->getFilename(), $file->getRelativePath(), $file->getRelativePathname());
-        $this->boot($data);
+        parent::__construct($file->getPathname(), $file->getRelativePath(), $file->getRelativePathname());
+        if ($autoBoot === true) {
+            $this->boot($data);
+        }
     }
 
     /**
@@ -288,6 +304,22 @@ class ProjectFile extends SplFileInfo
     public function setToCopy($copy)
     {
         $this->copy = $copy;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isBlocked()
+    {
+        return $this->blocked;
+    }
+
+    /**
+     * @param bool $blocked
+     */
+    public function setBlocked($blocked = true)
+    {
+        $this->blocked = $blocked;
     }
 
     /////////////////////////////////////////////

@@ -2,7 +2,7 @@
 
 namespace Tapestry\Entities\Renderers;
 
-use Tapestry\Entities\File;
+use Tapestry\Entities\ProjectFile;
 use Tapestry\Plates\Engine;
 use Tapestry\Entities\Project;
 
@@ -71,11 +71,11 @@ class PlatesRenderer implements RendererInterface
     /**
      * Render the input file content and return the output.
      *
-     * @param File $file
+     * @param ProjectFile $file
      *
      * @return string
      */
-    public function render(File $file)
+    public function render(ProjectFile $file)
     {
         return $this->parser->renderFile($file);
     }
@@ -101,11 +101,11 @@ class PlatesRenderer implements RendererInterface
     }
 
     /**
-     * @param File $file
+     * @param ProjectFile $file
      *
      * @return void
      */
-    public function mutateFile(File &$file)
+    public function mutateFile(ProjectFile &$file)
     {
         // ...
     }

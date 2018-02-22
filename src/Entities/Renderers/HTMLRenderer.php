@@ -2,7 +2,7 @@
 
 namespace Tapestry\Entities\Renderers;
 
-use Tapestry\Entities\File;
+use Tapestry\Entities\ProjectFile;
 use Tapestry\Entities\Project;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -63,11 +63,12 @@ class HTMLRenderer implements RendererInterface
     /**
      * Render the input file content and return the output.
      *
-     * @param File $file
+     * @param ProjectFile $file
      *
      * @return string
+     * @throws \Exception
      */
-    public function render(File $file)
+    public function render(ProjectFile $file)
     {
         return $file->getContent();
     }
@@ -93,11 +94,12 @@ class HTMLRenderer implements RendererInterface
     }
 
     /**
-     * @param File $file
+     * @param ProjectFile $file
      *
      * @return void
+     * @throws \Exception
      */
-    public function mutateFile(File &$file)
+    public function mutateFile(ProjectFile &$file)
     {
         //
         // If the HTML file has a template then we should pass it on to the plates renderer
@@ -110,9 +112,10 @@ class HTMLRenderer implements RendererInterface
                 $filePath = $file->getPath();
 
                 $file->setRendered(false);
-                $file->setData(['content' => $file->getContent()]);
-                $file->setFileInfo(new SplFileInfo($templatePath, '_templates', $templateRelativePath));
-                $file->setContent($file->getFileContent());
+                $file->setData('content', $file->getContent());
+
+                $file = new ProjectFile(new SplFileInfo($templatePath, '_templates', $templateRelativePath), $file->getData(), false);
+                $file->loadContent($file->getFileContent());
                 $file->setFilename($fileName);
                 $file->setPath($filePath);
             }

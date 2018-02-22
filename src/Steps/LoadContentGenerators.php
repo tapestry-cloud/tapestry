@@ -1,14 +1,15 @@
 <?php
 
-namespace Tapestry\Modules\Renderers;
+namespace Tapestry\Steps;
 
+use Tapestry\Modules\Generators\ContentGeneratorFactory;
 use Tapestry\Step;
 use Tapestry\Tapestry;
 use Tapestry\Entities\Project;
 use Tapestry\Entities\Configuration;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class LoadContentRenderers implements Step
+class LoadContentGenerators implements Step
 {
     /**
      * @var \League\Container\ContainerInterface
@@ -21,18 +22,20 @@ class LoadContentRenderers implements Step
     private $configuration;
 
     /**
-     * LoadRenderers constructor.
+     * LoadContentGenerators constructor.
      *
-     * @param Tapestry      $tapestry
+     * @param Tapestry $tapestry
      * @param Configuration $configuration
      */
     public function __construct(Tapestry $tapestry, Configuration $configuration)
     {
-        $this->container = $tapestry->getContainer();
         $this->configuration = $configuration;
+        $this->container = $tapestry->getContainer();
     }
 
     /**
+     * Process the Project at current.
+     *
      * @param Project         $project
      * @param OutputInterface $output
      *
@@ -40,17 +43,12 @@ class LoadContentRenderers implements Step
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
-        if (! $contentRenderers = $this->configuration->get('content_renderers', null)) {
-            $output->writeln('[!] Your project\'s content renderers are miss-configured. Doing nothing and exiting.]');
+        if (! $contentGenerators = $this->configuration->get('content_generators', null)) {
+            $output->writeln('[!] Your project\'s content generators are miss-configured. Doing nothing and exiting.]');
+            exit(1);
         }
 
-        $contentRendererFactory = new ContentRendererFactory();
-
-        foreach ($contentRenderers as $renderer) {
-            $contentRendererFactory->add($this->container->get($renderer));
-        }
-
-        $project->set('content_renderers', $contentRendererFactory);
+        $project->set('content_generators', new ContentGeneratorFactory($contentGenerators));
 
         return true;
     }

@@ -2,7 +2,7 @@
 
 namespace Tapestry\Entities\Renderers;
 
-use Tapestry\Entities\File;
+use Tapestry\Entities\ProjectFile;
 
 /**
  * Interface RendererInterface.
@@ -39,11 +39,11 @@ interface RendererInterface
     /**
      * Render the input file content and return the output.
      *
-     * @param File $file
+     * @param ProjectFile $file
      *
      * @return string
      */
-    public function render(File $file);
+    public function render(ProjectFile $file);
 
     /**
      * Returns the extension that the rendered output conforms to.
@@ -63,9 +63,9 @@ interface RendererInterface
      * A Renderer can mutate an input file so that the Compile class pushes it through to another renderer, this is used
      * by the HTMLRenderer to pass through a html file that has a template to the PlatesRenderer.
      *
-     * @param File $file
+     * @param ProjectFile $file
      *
      * @return void
      */
-    public function mutateFile(File &$file);
+    public function mutateFile(ProjectFile &$file);
 }
