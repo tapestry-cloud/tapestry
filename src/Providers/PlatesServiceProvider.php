@@ -2,12 +2,13 @@
 
 namespace Tapestry\Providers;
 
-use Tapestry\Plates\Engine;
+
+use League\Plates\Engine;
 use Tapestry\Entities\Project;
-use Tapestry\Plates\Extensions\Url;
-use Tapestry\Plates\Extensions\Site;
+use Tapestry\Modules\Plates\Extensions\Url;
+use Tapestry\Modules\Plates\Extensions\Site;
 use Tapestry\Plates\Extensions\Helpers;
-use Tapestry\Plates\Extensions\Environment;
+use Tapestry\Modules\Plates\Extensions\Environment;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
 class PlatesServiceProvider extends AbstractServiceProvider
@@ -16,7 +17,7 @@ class PlatesServiceProvider extends AbstractServiceProvider
      * @var array
      */
     protected $provides = [
-        Engine::class,
+        Engine::class
     ];
 
     /**
@@ -25,6 +26,8 @@ class PlatesServiceProvider extends AbstractServiceProvider
      * from the ContainerAwareTrait.
      *
      * @return void
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function register()
     {
@@ -34,11 +37,11 @@ class PlatesServiceProvider extends AbstractServiceProvider
         $project = $container->get(Project::class);
 
         $container->share(Engine::class, function () use ($project, $container) {
-            $engine = new Engine($project->sourceDirectory, 'phtml');
-            $engine->loadExtension($container->get(Site::class));
-            $engine->loadExtension($container->get(Url::class));
-            $engine->loadExtension($container->get(Helpers::class));
-            $engine->loadExtension($container->get(Environment::class));
+            $engine = Engine::create($project->sourceDirectory, 'phtml');
+            $engine->register($container->get(Site::class));
+            $engine->register($container->get(Url::class));
+            //$engine->register($container->get(Helpers::class)); // @todo rewrite this for v4
+            $engine->register($container->get(Environment::class));
 
             return $engine;
         });

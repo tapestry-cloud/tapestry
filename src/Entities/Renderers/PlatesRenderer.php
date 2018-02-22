@@ -2,8 +2,8 @@
 
 namespace Tapestry\Entities\Renderers;
 
+use League\Plates\Engine;
 use Tapestry\Entities\ProjectFile;
-use Tapestry\Plates\Engine;
 use Tapestry\Entities\Project;
 
 class PlatesRenderer implements RendererInterface
@@ -33,7 +33,7 @@ class PlatesRenderer implements RendererInterface
     {
         $this->parser = $parser;
         $this->project = $project;
-        $this->parser->setProject($project);
+        //$this->parser->setProject($project); //@todo determine if this is nessessary with v4
     }
 
     /**

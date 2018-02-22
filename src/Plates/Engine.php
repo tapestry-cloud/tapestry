@@ -7,6 +7,11 @@ use Tapestry\Entities\Project;
 use League\Plates\Engine as LeagueEngine;
 use Tapestry\Entities\Collections\FlatCollection;
 
+/**
+ * Class Engine
+ * @package Tapestry\Plates
+ * @deprecated
+ */
 class Engine extends LeagueEngine
 {
     /**

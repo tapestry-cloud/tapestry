@@ -10,6 +10,7 @@ use League\Plates\Template\Template as PlatesTemplate;
 
 /**
  * Class Template.
+ * @deprecated
  */
 class Template extends PlatesTemplate
 {
