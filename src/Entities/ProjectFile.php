@@ -44,6 +44,12 @@ class ProjectFile extends SplFileInfo implements ProjectFileInterface
     private $copy = false;
 
     /**
+     * Overloaded SplFileInfo properties.
+     * @var array
+     */
+    private $overloaded = [];
+
+    /**
      * If a file is blocked, it means it hasn't been changed since the
      * last time it was rendered. This should block outputting the dist
      * file, but not block the file being used.
@@ -278,6 +284,43 @@ class ProjectFile extends SplFileInfo implements ProjectFileInterface
     }
 
     /**
+     * @param string $key
+     * @param $value
+     */
+    public function setOverloaded(string $key, $value)
+    {
+        $this->overloaded[$key] = $value;
+    }
+
+    /**
+     * Allows the overloading of the SplFileInfo filename property.
+     *
+     * @param bool $overload
+     * @return mixed|string
+     */
+    public function getFilename(bool $overload = true)
+    {
+        if ($overload === true && isset($this->overloaded['filename'])){
+            return $this->overloaded['filename'];
+        }
+        return parent::getFilename();
+    }
+
+    /**
+     * Allows the overloading of the SplFileInfo extension property.
+     *
+     * @param bool $overload
+     * @return mixed|string
+     */
+    public function getExtension(bool $overload = true)
+    {
+        if ($overload === true && isset($this->overloaded['ext'])){
+            return $this->overloaded['ext'];
+        }
+        return parent::getExtension();
+    }
+
+    /**
      * A file can be considered loaded once its content property has been set, that way you know any frontmatter has
      * also been injected into the File objects data property.
      *
@@ -293,9 +336,9 @@ class ProjectFile extends SplFileInfo implements ProjectFileInterface
      *
      * @param $value
      */
-    public function setRendered($value)
+    public function setRendered(bool $value = true)
     {
-        $this->rendered = boolval($value);
+        $this->rendered = $value;
     }
 
     /**
@@ -311,7 +354,7 @@ class ProjectFile extends SplFileInfo implements ProjectFileInterface
     /**
      * @return bool
      */
-    public function isToCopy()
+    public function isToCopy() : bool
     {
         return $this->copy;
     }
@@ -321,7 +364,7 @@ class ProjectFile extends SplFileInfo implements ProjectFileInterface
      *
      * @return void
      */
-    public function setToCopy($copy)
+    public function setToCopy(bool $copy)
     {
         $this->copy = $copy;
     }

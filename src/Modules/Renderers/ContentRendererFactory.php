@@ -26,6 +26,7 @@ class ContentRendererFactory
      * ContentRendererFactory constructor.
      *
      * @param array|RendererInterface[] $items
+     * @throws Exception
      */
     public function __construct(array $items = [])
     {
@@ -110,9 +111,9 @@ class ContentRendererFactory
         if ($file->isRendered()) {
             return;
         }
-        $fileRenderer = $this->get($file->getExt());
+        $fileRenderer = $this->get($file->getExtension());
         $file->loadContent($fileRenderer->render($file));
-        $file->setExt($fileRenderer->getDestinationExtension($file->getExt()));
+        $file->setOverloaded('ext', $fileRenderer->getDestinationExtension($file->getExtension()));
         $file->setRendered(true);
         $fileRenderer->mutateFile($file);
     }

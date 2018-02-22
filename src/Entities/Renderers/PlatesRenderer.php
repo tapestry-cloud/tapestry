@@ -6,6 +6,13 @@ use League\Plates\Engine;
 use Tapestry\Entities\ProjectFile;
 use Tapestry\Entities\Project;
 
+/**
+ * Class PlatesRenderer.
+ *
+ * Pass through phtml files for intermediate compiling.
+ *
+ * @package Tapestry\Entities\Renderers
+ */
 class PlatesRenderer implements RendererInterface
 {
     /**
@@ -74,10 +81,11 @@ class PlatesRenderer implements RendererInterface
      * @param ProjectFile $file
      *
      * @return string
+     * @throws \Exception
      */
     public function render(ProjectFile $file)
     {
-        return $this->parser->renderFile($file);
+        return $file->getContent();
     }
 
     /**
@@ -87,7 +95,7 @@ class PlatesRenderer implements RendererInterface
      */
     public function getDestinationExtension($ext)
     {
-        return 'html';
+        return 'phtml';
     }
 
     /**
@@ -104,9 +112,14 @@ class PlatesRenderer implements RendererInterface
      * @param ProjectFile $file
      *
      * @return void
+     * @throws \Exception
      */
     public function mutateFile(ProjectFile &$file)
     {
-        // ...
+        if (!str_contains($file->getContent(), '$v->layout')){
+            if ($layout = $file->getData('layout')) {
+                $file->loadContent('<?php $v->layout("'. $layout .'", $projectFile->getData()) ?>' . $file->getContent());
+            }
+        }
     }
 }

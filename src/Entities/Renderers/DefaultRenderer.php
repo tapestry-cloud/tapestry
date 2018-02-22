@@ -81,6 +81,7 @@ class DefaultRenderer implements RendererInterface
      *
      * @param ProjectFile $file
      * @return void
+     * @throws \Exception
      */
     public function mutateFile(ProjectFile &$file)
     {

@@ -51,6 +51,13 @@ class LoadSourceFileTree implements Step
     private $ignoredPaths = [];
 
     /**
+     * Paths that would otherwise be ignored due to containing _ such as _blog.
+     *
+     * @var array
+     */
+    private $dontIgnorePaths = [];
+
+    /**
      * LoadSourceFiles constructor.
      *
      * @param Tapestry $tapestry
@@ -96,8 +103,8 @@ class LoadSourceFileTree implements Step
 
         foreach ($contentTypes->all() as $contentType) {
             $path = $contentType->getPath();
-            if ($path !== '*' && ! isset($this->ignoredPaths[$contentType->getPath()])) {
-                $this->ignoredPaths[] = $contentType->getPath();
+            if ($path !== '*' && ! isset($this->dontIgnorePaths[$contentType->getPath()])) {
+                $this->dontIgnorePaths[] = $contentType->getPath();
             }
         }
         unset($contentType);
@@ -111,6 +118,7 @@ class LoadSourceFileTree implements Step
             ->in($project->sourceDirectory)
             ->ignoreDotFiles(true);
 
+
         foreach ($finder->files() as $file) {
             $file = new ProjectFile($file, ['pretty_permalink' => $this->prettyPermalink]);
             if (isset($hashTable[$file->getUid()]) && $hashTable[$file->getUid()] == $file->getMTime()) {
@@ -121,51 +129,46 @@ class LoadSourceFileTree implements Step
 
             if ($this->shouldIgnore($file)) {
                 $file->setIgnored();
+            }
+
+            $renderer = $contentRenderers->get($file->getFileInfo()->getExtension());
+
+            if ($renderer->supportsFrontMatter()) {
+                $frontMatter = new FrontMatter($file->getFileContent());
+                $file->setData($frontMatter->getData());
+                $file->loadContent($frontMatter->getContent());
+            }
+
+            // Publish Drafts / Scheduled Posts
+            if ($this->publishDrafts === false) {
+                // If file is a draft and cant auto publish then it remains a draft
+                if (
+                    boolval($file->getData('draft', false)) === true &&
+                    $this->canAutoPublish($file) === false
+                ) {
+                    continue;
+                }
+
+                // If file is not a draft, but the date is in the future then it is scheduled
+                if ($file->getData('date', new \DateTime()) > $this->now) {
+                    continue;
+                }
+            }
+
+            if (!$contentType = $contentTypes->find($file->getRelativePath())) {
+                $contentType = $contentTypes->get('*');
             } else {
-
-                $renderer = $contentRenderers->get($file->getFileInfo()->getExtension());
-
-                if ($renderer->supportsFrontMatter()) {
-                    $frontMatter = new FrontMatter($file->getFileContent());
-                    $file->setData($frontMatter->getData());
-                    $file->loadContent($frontMatter->getContent());
-                }
-
-                // Publish Drafts / Scheduled Posts
-                if ($this->publishDrafts === false) {
-                    // If file is a draft and cant auto publish then it remains a draft
-                    if (
-                        boolval($file->getData('draft', false)) === true &&
-                        $this->canAutoPublish($file) === false
-                    ) {
-                        continue;
-                    }
-
-                    // If file is not a draft, but the date is in the future then it is scheduled
-                    if ($file->getData('date', new \DateTime()) > $this->now) {
-                        continue;
-                    }
-                }
-
-                if (!$contentType = $contentTypes->find($file->getRelativePath())) {
-                    $contentType = $contentTypes->get('*');
-                } else {
-                    $contentType = $contentTypes->get($contentType);
-                }
-
-                // Identify if $file belongs to default renderer and therefore should be copied (for issue #255)
-                if ($renderer->getName() === 'DefaultRenderer') {
-                    $renderer->mutateFile($file);
-                }
-
-                $contentType->addFile($file);
+                $contentType = $contentTypes->get($contentType);
             }
 
+            // Identify if $file belongs to default renderer and therefore should be copied (for issue #255)
+            if ($renderer->getName() === 'DefaultRenderer') {
+                $renderer->mutateFile($file);
+            }
+
+            $contentType->addFile($file);
             $project->addFile($file);
-
-            if (! $file->isIgnored()) {
-                $output->writeln('[+] File [' . $file->getRelativePathname() . '] bucketed into content type [' . $contentType->getName() . ']');
-            }
+            $output->writeln('[+] File [' . $file->getRelativePathname() . '] bucketed into content type [' . $contentType->getName() . ']');
         }
 
         $cache->setItem('fileHashTable', $hashTable);
@@ -204,6 +207,12 @@ class LoadSourceFileTree implements Step
     private function shouldIgnore(ProjectFile $file): bool
     {
         $relativePath = $file->getRelativePath();
+
+        foreach ($this->dontIgnorePaths as $dontIgnorePath) {
+            if (str_contains($relativePath, $dontIgnorePath)){
+                return false;
+            }
+        }
 
         foreach ($this->ignoredPaths as $ignoredPath) {
             if (str_contains($relativePath, $ignoredPath)){

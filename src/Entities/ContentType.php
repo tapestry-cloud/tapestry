@@ -78,7 +78,7 @@ class ContentType
         $this->name = $name;
 
         $this->path = (isset($settings['path']) ? $settings['path'] : ('_'.$this->name));
-        $this->template = (isset($settings['template']) ? $settings['template'] : $this->name);
+        $this->template = (isset($settings['template']) ? $settings['template'] : '_templates' . DIRECTORY_SEPARATOR . $this->name);
         $this->permalink = (isset($settings['permalink']) ? $settings['permalink'] : ($this->name.'/{slug}.{ext}'));
         $this->enabled = (isset($settings['enabled']) ? boolval($settings['enabled']) : false);
 

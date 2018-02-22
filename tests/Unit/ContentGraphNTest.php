@@ -5,12 +5,14 @@ namespace Tapestry\Tests\Unit;
 use Symfony\Component\Console\Output\NullOutput;
 use Tapestry\Entities\Project;
 use Tapestry\Generator;
+use Tapestry\Modules\ContentTypes\ParseContentTypes;
 use Tapestry\Steps\LexicalAnalysis;
 use Tapestry\Steps\LoadContentGenerators;
 use Tapestry\Steps\LoadContentRenderers;
 use Tapestry\Steps\LoadContentTypes;
 use Tapestry\Steps\LoadSourceFileTree;
 use Tapestry\Steps\ReadCache;
+use Tapestry\Steps\RenderPlates;
 use Tapestry\Steps\SyntaxAnalysis;
 use Tapestry\Tests\TestCase;
 use Tapestry\Tests\Traits\MockTapestry;
@@ -27,7 +29,7 @@ class ContentGraphNTest extends TestCase
     public function testAnalysis()
     {
         //$this->loadToTmp($this->assetPath('build_test_7/src'));
-        $this->loadToTmp($this->assetPath('build_test_4/src'));
+        $this->loadToTmp($this->assetPath('build_test_41/src'));
         $tapestry = $this->mockTapestry($this->tmpDirectory);
 
         /** @var Project $project */
@@ -39,9 +41,11 @@ class ContentGraphNTest extends TestCase
             LoadContentRenderers::class,
             LoadContentGenerators::class,
             LoadSourceFileTree::class,
+            ParseContentTypes::class,
 
-            //SyntaxAnalysis::class,
+            SyntaxAnalysis::class,
             //LexicalAnalysis::class,
+            RenderPlates::class
         ], $tapestry);
         $generator->generate($project, new NullOutput());
 
