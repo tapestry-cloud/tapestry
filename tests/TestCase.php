@@ -11,7 +11,7 @@ use Tapestry\Console\DefaultInputDefinition;
 use Tapestry\Console\Input;
 use Tapestry\Tapestry;
 
-class TestCase extends \PHPUnit_Framework_TestCase {
+class TestCase extends \PHPUnit\Framework\TestCase {
 
     /**
      * The unique tmp test directory for this test case, set on each test setup.
@@ -65,7 +65,7 @@ class TestCase extends \PHPUnit_Framework_TestCase {
      * @param bool $overwrite
      * @return void
      */
-    protected function copy($origin, $destination, $overwrite = false)
+    protected function copy(string $origin, string $destination, bool $overwrite = false)
     {
         (new Filesystem())->copy($origin, $destination, $overwrite);
     }
@@ -77,7 +77,7 @@ class TestCase extends \PHPUnit_Framework_TestCase {
      * @param string $destination
      * @return void
      */
-    protected function mirror($origin, $destination)
+    protected function mirror(string $origin, string $destination)
     {
         (new Filesystem())->mirror($origin, $destination);
     }
@@ -87,7 +87,7 @@ class TestCase extends \PHPUnit_Framework_TestCase {
      *
      * @param string $source
      */
-    protected function loadToTmp($source)
+    protected function loadToTmp(string $source)
     {
         $this->mirror($source, $this->tmpDirectory);
     }
@@ -98,7 +98,8 @@ class TestCase extends \PHPUnit_Framework_TestCase {
      * @param null|string $path
      * @return string
      */
-    protected function tmpPath($path = null) {
+    protected function tmpPath(string $path = null) : string
+    {
         if (is_null($path)) {
             return $this->tmpDirectory;
         }
@@ -116,7 +117,8 @@ class TestCase extends \PHPUnit_Framework_TestCase {
      * @param null|string $path
      * @return string
      */
-    protected function assetPath($path = null) {
+    protected function assetPath(string $path = null) : string
+    {
         if (is_null($path)) {
             return realpath(__DIR__ . '/assets');
         }
@@ -136,7 +138,7 @@ class TestCase extends \PHPUnit_Framework_TestCase {
      * @param array $options
      * @return ApplicationTester
      */
-    protected function runCommand($command, $argv = '', array $options = [])
+    protected function runCommand(string $command, string $argv = '', array $options = []) : ApplicationTester
     {
         $arguments = ['command' => $command];
         $argv = (strlen($argv) > 0) ? explode(' ', $argv) : [];
@@ -183,13 +185,8 @@ class TestCase extends \PHPUnit_Framework_TestCase {
      *
      * @since  Method available since Release 3.2.14
      */
-    public static function assertFileEquals(
-        $expected,
-        $actual,
-        $message = '',
-        $canonicalize = false,
-        $ignoreCase = false
-    ) {
+    public static function assertFileEquals(string $expected, string $actual, string $message = '', bool $canonicalize = false, bool $ignoreCase = false): void
+    {
         self::assertFileExists($expected, $message);
         self::assertFileExists($actual, $message);
         self::assertEquals(
