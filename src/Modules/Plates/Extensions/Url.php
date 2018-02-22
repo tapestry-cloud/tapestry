@@ -6,7 +6,7 @@ use League\Plates\Engine;
 use League\Plates\Extension;
 
 /**
- * Class Url
+ * Class Url.
  *
  * The Url extension to Plates provides the user the `url` method. This allows
  * you to parse the input `$uri` and have a valid url be returned that contains
@@ -15,8 +15,6 @@ use League\Plates\Extension;
  * e.g
  *
  * `url('/abc/123/')` -> 'http://www.example.com/abc/123'
- *
- * @package Tapestry\Modules\Plates\Extensions
  */
 class Url implements Extension
 {

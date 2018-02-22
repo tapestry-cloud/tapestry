@@ -24,7 +24,7 @@ class ProjectFile extends SplFileInfo implements ProjectFileInterface
     /**
      * This is the files content.
      *
-     * @var boolean|string
+     * @var bool|string
      */
     private $content = false;
 
@@ -66,7 +66,7 @@ class ProjectFile extends SplFileInfo implements ProjectFileInterface
      * Because all files in the source tree are loaded, this ignore flag
      * is set on those that should not be parsed. This allows them to be
      * analysed for dependencies (e.g. a not ignored file depends upon a
-     * ignored file)
+     * ignored file).
      *
      * @var bool
      */
@@ -155,8 +155,9 @@ class ProjectFile extends SplFileInfo implements ProjectFileInterface
      */
     public function setData($key, $value = null)
     {
-        if (is_array($key) && is_null($value)){
+        if (is_array($key) && is_null($value)) {
             $this->setDataFromArray($key);
+
             return;
         }
 
@@ -200,7 +201,8 @@ class ProjectFile extends SplFileInfo implements ProjectFileInterface
      *
      * @return array|mixed|null
      */
-    public function getData($key = null, $default = null) {
+    public function getData($key = null, $default = null)
+    {
         if (is_null($key)) {
             return $this->meta;
         }
@@ -237,7 +239,7 @@ class ProjectFile extends SplFileInfo implements ProjectFileInterface
             return $content;
         }
 
-        throw new \Exception('Unable to read file ['. $this->getPathname().']');
+        throw new \Exception('Unable to read file ['.$this->getPathname().']');
     }
 
     /**
@@ -300,9 +302,10 @@ class ProjectFile extends SplFileInfo implements ProjectFileInterface
      */
     public function getFilename(bool $overload = true)
     {
-        if ($overload === true && isset($this->overloaded['filename'])){
+        if ($overload === true && isset($this->overloaded['filename'])) {
             return $this->overloaded['filename'];
         }
+
         return parent::getFilename();
     }
 
@@ -314,9 +317,10 @@ class ProjectFile extends SplFileInfo implements ProjectFileInterface
      */
     public function getExtension(bool $overload = true)
     {
-        if ($overload === true && isset($this->overloaded['ext'])){
+        if ($overload === true && isset($this->overloaded['ext'])) {
             return $this->overloaded['ext'];
         }
+
         return parent::getExtension();
     }
 
@@ -448,7 +452,5 @@ class ProjectFile extends SplFileInfo implements ProjectFileInterface
     public function setLastModified()
     {
         throw new \Exception('Deprecated Function [setLastModified] used.');
-
     }
-
 }

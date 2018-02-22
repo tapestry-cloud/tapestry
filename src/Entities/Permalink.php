@@ -46,11 +46,11 @@ class Permalink
      * @return mixed|string
      * @throws \Exception
      */
-    public function getCompiled(ProjectFile $file, bool$pretty = true)
+    public function getCompiled(ProjectFile $file, bool $pretty = true)
     {
         $output = $this->template;
         $output = str_replace('{ext}', $file->getExtension(), $output);
-        $output = str_replace('{filename}', $this->sluggify($file->getBasename('.' . $file->getExtension(false))), $output);
+        $output = str_replace('{filename}', $this->sluggify($file->getBasename('.'.$file->getExtension(false))), $output);
 
         $filePath = str_replace('\\', '/', $file->getRelativePath());
         if (substr($filePath, 0, 1) === '/') {

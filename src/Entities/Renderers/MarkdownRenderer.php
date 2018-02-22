@@ -6,11 +6,9 @@ use Michelf\MarkdownExtra;
 use Tapestry\Entities\ProjectFile;
 
 /**
- * Class MarkdownRenderer
+ * Class MarkdownRenderer.
  *
  * Mutate MD input file into a PHTML output file for intermediate compiling.
- *
- * @package Tapestry\Entities\Renderers
  */
 class MarkdownRenderer implements RendererInterface
 {
@@ -108,7 +106,7 @@ class MarkdownRenderer implements RendererInterface
     public function mutateFile(ProjectFile &$file)
     {
         if ($layout = $file->getData('layout')) {
-            $file->loadContent('<?php $v->layout("'. $layout .'", $projectFile->getData()) ?>' . $file->getContent());
+            $file->loadContent('<?php $v->layout("'.$layout.'", $projectFile->getData()) ?>'.$file->getContent());
         }
     }
 }

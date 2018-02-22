@@ -3,15 +3,13 @@
 namespace Tapestry\Entities\Renderers;
 
 use League\Plates\Engine;
-use Tapestry\Entities\ProjectFile;
 use Tapestry\Entities\Project;
+use Tapestry\Entities\ProjectFile;
 
 /**
  * Class PlatesRenderer.
  *
  * Pass through phtml files for intermediate compiling.
- *
- * @package Tapestry\Entities\Renderers
  */
 class PlatesRenderer implements RendererInterface
 {
@@ -116,9 +114,9 @@ class PlatesRenderer implements RendererInterface
      */
     public function mutateFile(ProjectFile &$file)
     {
-        if (!str_contains($file->getContent(), '$v->layout')){
+        if (! str_contains($file->getContent(), '$v->layout')) {
             if ($layout = $file->getData('layout')) {
-                $file->loadContent('<?php $v->layout("'. $layout .'", $projectFile->getData()) ?>' . $file->getContent());
+                $file->loadContent('<?php $v->layout("'.$layout.'", $projectFile->getData()) ?>'.$file->getContent());
             }
         }
     }

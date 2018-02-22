@@ -2,13 +2,12 @@
 
 namespace Tapestry\Providers;
 
-
 use League\Plates\Engine;
 use Tapestry\Entities\Project;
-use Tapestry\Modules\Plates\Extensions\RenderProjectFile;
 use Tapestry\Modules\Plates\Extensions\Url;
 use Tapestry\Modules\Plates\Extensions\Site;
 use Tapestry\Modules\Plates\Extensions\Environment;
+use Tapestry\Modules\Plates\Extensions\RenderProjectFile;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
 class PlatesServiceProvider extends AbstractServiceProvider
@@ -17,7 +16,7 @@ class PlatesServiceProvider extends AbstractServiceProvider
      * @var array
      */
     protected $provides = [
-        Engine::class
+        Engine::class,
     ];
 
     /**
@@ -37,11 +36,11 @@ class PlatesServiceProvider extends AbstractServiceProvider
         /** @var Project $project */
         $project = $container->get(Project::class);
 
-        $intermediatePath = $project->currentWorkingDirectory . DIRECTORY_SEPARATOR . '.compileTmp';
+        $intermediatePath = $project->currentWorkingDirectory.DIRECTORY_SEPARATOR.'.compileTmp';
 
-        if (! file_exists($intermediatePath)){
+        if (! file_exists($intermediatePath)) {
             if (! mkdir($intermediatePath)) {
-                throw new \Exception('Could not create folder at ['. $intermediatePath .']');
+                throw new \Exception('Could not create folder at ['.$intermediatePath.']');
             }
         }
 

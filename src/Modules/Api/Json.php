@@ -2,11 +2,11 @@
 
 namespace Tapestry\Modules\Api;
 
-use Tapestry\Entities\ProjectFile;
 use Tapestry\Step;
 use Tapestry\Entities\Project;
 use Tapestry\Entities\Taxonomy;
 use Tapestry\Entities\ContentType;
+use Tapestry\Entities\ProjectFile;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Console\Output\OutputInterface;
 use Tapestry\Modules\ContentTypes\ContentTypeFactory;

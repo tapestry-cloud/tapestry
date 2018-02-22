@@ -2,9 +2,9 @@
 
 namespace Tapestry\Entities\Filesystem;
 
+use Tapestry\Entities\ProjectFile;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Console\Output\OutputInterface;
-use Tapestry\Entities\ProjectFile;
 
 abstract class FileAction implements FilesystemInterface
 {

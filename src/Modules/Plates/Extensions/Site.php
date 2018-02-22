@@ -3,16 +3,14 @@
 namespace Tapestry\Modules\Plates\Extensions;
 
 use League\Plates\Engine;
-use Tapestry\Entities\Configuration;
 use League\Plates\Extension;
+use Tapestry\Entities\Configuration;
 
 /**
- * Class Site
+ * Class Site.
  *
  * The Site extension to Plates provides the user with the `site` method.
  * This allows you to get site configuration by key.
- *
- * @package Tapestry\Modules\Plates\Extensions
  */
 class Site implements Extension
 {
