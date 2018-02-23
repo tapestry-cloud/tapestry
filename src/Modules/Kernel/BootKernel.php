@@ -29,10 +29,12 @@ class BootKernel implements Step
     /**
      * Process the Project at current.
      *
-     * @param Project         $project
+     * @param Project $project
      * @param OutputInterface $output
      *
      * @return bool
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function __invoke(Project $project, OutputInterface $output)
     {

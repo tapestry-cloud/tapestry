@@ -5,7 +5,7 @@ namespace Tapestry\Tests\Unit;
 use Symfony\Component\Console\Output\NullOutput;
 use Tapestry\Entities\Project;
 use Tapestry\Generator;
-use Tapestry\Modules\ContentTypes\ParseContentTypes;
+use Tapestry\Steps\ParseContentTypes;
 use Tapestry\Steps\LexicalAnalysis;
 use Tapestry\Steps\LoadContentGenerators;
 use Tapestry\Steps\LoadContentRenderers;
@@ -44,10 +44,18 @@ class ContentGraphNTest extends TestCase
             ParseContentTypes::class,
 
             SyntaxAnalysis::class,
-            //LexicalAnalysis::class,
+            LexicalAnalysis::class,
             RenderPlates::class
         ], $tapestry);
+
         $generator->generate($project, new NullOutput());
+
+        $this->assertTrue(true);
+
+        // @todo check graph is built
+        // Once run through, touch some of the files and then repeat to check that only files
+        // related to the ones "changed" are marked for rendering.
+        $n = 1;
 
         //touch($this->tmpDirectory . '/source/something.html');
 

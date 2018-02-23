@@ -1,6 +1,6 @@
 <?php
 
-namespace Tapestry\Modules\ContentTypes;
+namespace Tapestry\Steps;
 
 use Tapestry\Step;
 use Tapestry\Entities\Project;
