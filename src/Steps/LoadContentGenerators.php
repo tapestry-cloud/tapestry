@@ -1,12 +1,13 @@
 <?php
 
-namespace Tapestry\Modules\Generators;
+namespace Tapestry\Steps;
 
 use Tapestry\Step;
 use Tapestry\Tapestry;
 use Tapestry\Entities\Project;
 use Tapestry\Entities\Configuration;
 use Symfony\Component\Console\Output\OutputInterface;
+use Tapestry\Modules\Generators\ContentGeneratorFactory;
 
 class LoadContentGenerators implements Step
 {
@@ -20,6 +21,12 @@ class LoadContentGenerators implements Step
      */
     private $configuration;
 
+    /**
+     * LoadContentGenerators constructor.
+     *
+     * @param Tapestry $tapestry
+     * @param Configuration $configuration
+     */
     public function __construct(Tapestry $tapestry, Configuration $configuration)
     {
         $this->configuration = $configuration;

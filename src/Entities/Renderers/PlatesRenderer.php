@@ -2,10 +2,15 @@
 
 namespace Tapestry\Entities\Renderers;
 
-use Tapestry\Entities\File;
-use Tapestry\Plates\Engine;
+use League\Plates\Engine;
 use Tapestry\Entities\Project;
+use Tapestry\Entities\ProjectFile;
 
+/**
+ * Class PlatesRenderer.
+ *
+ * Pass through phtml files for intermediate compiling.
+ */
 class PlatesRenderer implements RendererInterface
 {
     /**
@@ -33,7 +38,7 @@ class PlatesRenderer implements RendererInterface
     {
         $this->parser = $parser;
         $this->project = $project;
-        $this->parser->setProject($project);
+        //$this->parser->setProject($project); //@todo determine if this is nessessary with v4
     }
 
     /**
@@ -71,13 +76,14 @@ class PlatesRenderer implements RendererInterface
     /**
      * Render the input file content and return the output.
      *
-     * @param File $file
+     * @param ProjectFile $file
      *
      * @return string
+     * @throws \Exception
      */
-    public function render(File $file)
+    public function render(ProjectFile $file)
     {
-        return $this->parser->renderFile($file);
+        return $file->getContent();
     }
 
     /**
@@ -87,7 +93,7 @@ class PlatesRenderer implements RendererInterface
      */
     public function getDestinationExtension($ext)
     {
-        return 'html';
+        return 'phtml';
     }
 
     /**
@@ -101,12 +107,17 @@ class PlatesRenderer implements RendererInterface
     }
 
     /**
-     * @param File $file
+     * @param ProjectFile $file
      *
      * @return void
+     * @throws \Exception
      */
-    public function mutateFile(File &$file)
+    public function mutateFile(ProjectFile &$file)
     {
-        // ...
+        if (! str_contains($file->getContent(), '$v->layout')) {
+            if ($layout = $file->getData('layout')) {
+                $file->loadContent('<?php $v->layout("'.$layout.'", $projectFile->getData()) ?>'.$file->getContent());
+            }
+        }
     }
 }

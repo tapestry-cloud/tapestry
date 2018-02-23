@@ -42,10 +42,10 @@ class Taxonomy
     }
 
     /**
-     * @param File $file
+     * @param ProjectFile $file
      * @param $classification
      */
-    public function addFile(File $file, $classification)
+    public function addFile(ProjectFile $file, $classification)
     {
         $classification = str_slug($classification);
         if (! $this->items->has($classification)) {

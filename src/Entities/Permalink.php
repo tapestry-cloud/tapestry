@@ -40,18 +40,19 @@ class Permalink
     /**
      * Returns a compiled permalink path in string form.
      *
-     * @param File $file
+     * @param ProjectFile $file
      * @param bool $pretty
      *
      * @return mixed|string
+     * @throws \Exception
      */
-    public function getCompiled(File $file, $pretty = true)
+    public function getCompiled(ProjectFile $file, bool $pretty = true)
     {
         $output = $this->template;
-        $output = str_replace('{ext}', $file->getExt(), $output);
-        $output = str_replace('{filename}', $this->sluggify($file->getFilename()), $output);
+        $output = str_replace('{ext}', $file->getExtension(), $output);
+        $output = str_replace('{filename}', $this->sluggify($file->getBasename('.'.$file->getExtension(false))), $output);
 
-        $filePath = str_replace('\\', '/', $file->getPath());
+        $filePath = str_replace('\\', '/', $file->getRelativePath());
         if (substr($filePath, 0, 1) === '/') {
             $filePath = substr($filePath, 1);
         }

@@ -1,12 +1,13 @@
 <?php
 
-namespace Tapestry\Modules\Renderers;
+namespace Tapestry\Steps;
 
 use Tapestry\Step;
 use Tapestry\Tapestry;
 use Tapestry\Entities\Project;
 use Tapestry\Entities\Configuration;
 use Symfony\Component\Console\Output\OutputInterface;
+use Tapestry\Modules\Renderers\ContentRendererFactory;
 
 class LoadContentRenderers implements Step
 {
@@ -33,10 +34,13 @@ class LoadContentRenderers implements Step
     }
 
     /**
-     * @param Project         $project
+     * @param Project $project
      * @param OutputInterface $output
      *
      * @return bool
+     * @throws \Exception
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function __invoke(Project $project, OutputInterface $output)
     {

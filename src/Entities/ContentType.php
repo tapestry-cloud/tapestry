@@ -53,7 +53,7 @@ class ContentType
     private $taxonomies = [];
 
     /**
-     * Collection of Entities\File that this ContentType has collected.
+     * Collection of Entities\ProjectFile that this ContentType has collected.
      *
      * @var FlatCollection
      */
@@ -78,7 +78,7 @@ class ContentType
         $this->name = $name;
 
         $this->path = (isset($settings['path']) ? $settings['path'] : ('_'.$this->name));
-        $this->template = (isset($settings['template']) ? $settings['template'] : $this->name);
+        $this->template = (isset($settings['template']) ? $settings['template'] : '_templates'.DIRECTORY_SEPARATOR.$this->name);
         $this->permalink = (isset($settings['permalink']) ? $settings['permalink'] : ($this->name.'/{slug}.{ext}'));
         $this->enabled = (isset($settings['enabled']) ? boolval($settings['enabled']) : false);
 
@@ -112,9 +112,15 @@ class ContentType
         return boolval($this->enabled);
     }
 
-    public function addFile(File $file)
+    /**
+     * Add a ProjectFile to the ContentType.
+     *
+     * @param ProjectFile $file
+     * @throws \Exception
+     */
+    public function addFile(ProjectFile $file)
     {
-        $file->setData(['contentType' => $this->name]);
+        $file->setData('contentType', $this->name);
         $this->itemsOrderCache = null;
         $this->items->set($file->getUid(), $file->getData('date')->getTimestamp());
 
@@ -124,12 +130,18 @@ class ContentType
                     $taxonomy->addFile($file, $classification);
                 }
             } else {
-                $file->setData([$taxonomy->getName() => []]);
+                $file->setData($taxonomy->getName(), []);
             }
         }
     }
 
-    public function hasFile(File $file)
+    /**
+     * Check if this ContentType contains ProjectFile.
+     *
+     * @param ProjectFile $file
+     * @return bool
+     */
+    public function hasFile(ProjectFile $file)
     {
         return $this->items->has($file->getUid());
     }
@@ -165,7 +177,7 @@ class ContentType
      *
      * @param string $order
      *
-     * @return array
+     * @return ProjectFile[]
      */
     public function getFileList($order = 'desc')
     {
@@ -194,6 +206,7 @@ class ContentType
      * Mutate project files that are contained within this ContentType.
      *
      * @param Project $project
+     * @throws \Exception
      */
     public function mutateProjectFiles(Project $project)
     {
@@ -201,30 +214,29 @@ class ContentType
         $contentRenderers = $project->get('content_renderers');
 
         foreach (array_keys($this->getFileList()) as $fileKey) {
-            /** @var File $file */
+            /** @var ProjectFile $file */
             if (! $file = $project->get('files.'.$fileKey)) {
                 continue;
             }
 
-            $file->setData(['content_type' => $this->name]);
+            $file->setData('content_type', $this->name);
 
             if ($this->permalink !== '*') {
-                $file->setPermalink(new Permalink($this->permalink));
+                $file->setData('permalink', $this->permalink);
             }
 
             // If we are not a default Content Type
             $templatePath = $project->sourceDirectory.DIRECTORY_SEPARATOR.'_views'.DIRECTORY_SEPARATOR.$this->template.'.phtml';
             if ($this->template !== 'default' && file_exists($templatePath)) {
-                $fileRenderer = $contentRenderers->get($file->getExt());
-                $file->setData(['content' => $fileRenderer->render($file)]);
-                $file->setFileInfo(new SplFileInfo($templatePath, '_views', '_views'.DIRECTORY_SEPARATOR.$this->template.'.phtml'));
-
+                $fileRenderer = $contentRenderers->get($file->getExtension());
+                $file->setData('content', $fileRenderer->render($file));
+                $file = new ProjectFile(new SplFileInfo($templatePath, '_views', '_views'.DIRECTORY_SEPARATOR.$this->template.'.phtml'), $file->getData(), false);
                 if ($fileRenderer->supportsFrontMatter()) {
                     $frontMatter = new FrontMatter($file->getFileContent());
                     $file->setData(array_merge_recursive($file->getData(), $frontMatter->getData()));
-                    $file->setContent($frontMatter->getContent());
+                    $file->loadContent($frontMatter->getContent());
                 } else {
-                    $file->setContent($file->getFileContent());
+                    $file->loadContent($file->getFileContent());
                 }
 
                 if ($file->hasData('generator')) {

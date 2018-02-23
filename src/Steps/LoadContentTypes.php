@@ -1,12 +1,13 @@
 <?php
 
-namespace Tapestry\Modules\ContentTypes;
+namespace Tapestry\Steps;
 
 use Tapestry\Step;
 use Tapestry\Entities\Project;
 use Tapestry\Entities\ContentType;
 use Tapestry\Entities\Configuration;
 use Symfony\Component\Console\Output\OutputInterface;
+use Tapestry\Modules\ContentTypes\ContentTypeFactory;
 
 class LoadContentTypes implements Step
 {
@@ -28,10 +29,11 @@ class LoadContentTypes implements Step
     /**
      * Process the Project at current.
      *
-     * @param Project         $project
+     * @param Project $project
      * @param OutputInterface $output
      *
      * @return bool
+     * @throws \Exception
      */
     public function __invoke(Project $project, OutputInterface $output)
     {

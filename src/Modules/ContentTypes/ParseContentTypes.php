@@ -3,9 +3,9 @@
 namespace Tapestry\Modules\ContentTypes;
 
 use Tapestry\Step;
-use Tapestry\Entities\File;
 use Tapestry\Entities\Project;
 use Tapestry\Entities\ContentType;
+use Tapestry\Entities\ProjectFile;
 use Tapestry\Entities\Generators\FileGenerator;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -14,10 +14,11 @@ class ParseContentTypes implements Step
     /**
      * Process the Project at current.
      *
-     * @param Project         $project
+     * @param Project $project
      * @param OutputInterface $output
      *
      * @return bool
+     * @throws \Exception
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
@@ -31,7 +32,7 @@ class ParseContentTypes implements Step
         // is to be used for pagination and taxonomy output where pages are generated that do not exist in the source path.
         //
 
-        /** @var File $file */
+        /** @var ProjectFile $file */
         foreach ($project['files']->all() as $file) {
             if (! $uses = $file->getData('use')) {
                 continue;
@@ -49,19 +50,19 @@ class ParseContentTypes implements Step
                         continue;
                     }
 
-                    $file->setData([$use.'_items' => $contentType->getTaxonomy($useTaxonomy)->getFileList()]);
+                    $file->setData($use.'_items', $contentType->getTaxonomy($useTaxonomy)->getFileList());
 
                     // If the file doesn't have a generator set then we need to define one
                     if (! $file->hasData('generator')) {
                         // do we _need_ to add a generator here?
-                        $file->setData(['generator' => ['TaxonomyIndexGenerator']]);
+                        $file->setData('generator', ['TaxonomyIndexGenerator']);
                     }
                 } else {
                     /** @var ContentType $contentType */
                     if (! $contentType = $project['content_types.'.$use]) {
                         continue;
                     }
-                    $file->setData([$use.'_items' => $contentType->getFileList()]);
+                    $file->setData($use.'_items', $contentType->getFileList());
                 }
             }
 

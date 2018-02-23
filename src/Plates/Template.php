@@ -5,11 +5,12 @@ namespace Tapestry\Plates;
 use Exception;
 use Throwable;
 use LogicException;
-use Tapestry\Entities\File;
+use Tapestry\Entities\ProjectFile;
 use League\Plates\Template\Template as PlatesTemplate;
 
 /**
  * Class Template.
+ * @deprecated
  */
 class Template extends PlatesTemplate
 {
@@ -20,7 +21,7 @@ class Template extends PlatesTemplate
     protected $engine;
 
     /**
-     * @var File|null
+     * @var ProjectFile|null
      */
     private $file = null;
 
@@ -61,21 +62,21 @@ class Template extends PlatesTemplate
         return $this->file;
     }
 
-    public function setFile(File $file)
+    public function setFile(ProjectFile $file)
     {
         $this->file = $file;
     }
 
     /**
-     * Render the File.
+     * Render the ProjectFile.
      *
-     * @param File $file
+     * @param ProjectFile $file
      * @param array $data
      * @return string
      * @throws Exception
      * @throws Throwable
      */
-    public function renderFile(File $file, array $data = [])
+    public function renderFile(ProjectFile $file, array $data = [])
     {
         $this->data($data);
         unset($data);

@@ -2,12 +2,11 @@
 
 namespace Tapestry\Tests\Feature;
 
-use Tapestry\Tests\CommandTestBase;
+use Tapestry\Entities\ProjectFile;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
 use Tapestry\Console\DefaultInputDefinition;
 use Tapestry\Entities\Collections\FlatCollection;
-use Tapestry\Entities\File;
 use Tapestry\Entities\Filesystem\FileWriter;
 use Tapestry\Entities\Project;
 use Tapestry\Generator;
@@ -48,7 +47,7 @@ class TaxonomyArchiveGeneratorTest extends TestCase
         $miscCategory = $compiledFiles['blog_categories_category_phtml_misc'];
         $miscCategoryFile = $miscCategory->getFile();
 
-        $this->assertInstanceOf(File::class, $miscCategoryFile);
+        $this->assertInstanceOf(ProjectFile::class, $miscCategoryFile);
         $this->assertTrue($miscCategoryFile->hasData('blog_categories_items'));
         $this->assertTrue($miscCategoryFile->hasData('blog_categories'));
 

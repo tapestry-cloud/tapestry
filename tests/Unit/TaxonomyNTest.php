@@ -2,13 +2,12 @@
 
 namespace Tapestry\Tests\Unit;
 
-use Tapestry\Tests\CommandTestBase;
-use PHPUnit_Framework_Constraint_IsEqual;
+use PHPUnit\Framework\Constraint\IsEqual;
 use Tapestry\Entities\Taxonomy;
 use Tapestry\Tests\TestCase;
 use Tapestry\Tests\Traits\MockFile;
 
-class TaxonomyTest extends TestCase
+class TaxonomyNTest extends TestCase
 {
     use MockFile;
 
@@ -156,7 +155,7 @@ class TaxonomyTest extends TestCase
 
     private function isOr($test, $checkA, $checkB) {
 
-        $constraintA = new PHPUnit_Framework_Constraint_IsEqual(
+        $constraintA = new IsEqual(
             $checkA,
             0.0,
             10,
@@ -168,7 +167,7 @@ class TaxonomyTest extends TestCase
             return true;
         }
 
-        $constraintB = new PHPUnit_Framework_Constraint_IsEqual(
+        $constraintB = new IsEqual(
             $checkB,
             0.0,
             10,

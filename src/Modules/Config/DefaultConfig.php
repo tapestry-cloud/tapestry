@@ -28,8 +28,8 @@ return [
     'content_types' => [
         'blog' => [
             'path'       => '_blog',
-            'template'   => 'blog',
-            'permalink'  => 'blog/{year}/{slug}.html',
+            'template'   => '_views/blog',
+            'permalink'  => 'blog/{year}/{slug}.{ext}',
             'enabled'    => true,
             'taxonomies' => [
                 'tags',

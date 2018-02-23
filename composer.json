@@ -7,6 +7,10 @@
     "site",
     "generator"
   ],
+  "support": {
+    "issues": "https://github.com/tapestry-cloud/tapestry/issues",
+    "source": "https://github.com/tapestry-cloud/tapestry"
+  },
   "license": "MIT",
   "authors": [
     {
@@ -28,25 +32,26 @@
     }
   },
   "require": {
-    "php": ">=5.6.0",
+    "php": ">=7.0.0",
     "symfony/console": "^3.4",
     "symfony/filesystem": "^3.4",
     "symfony/finder" : "^3.4",
     "symfony/yaml": "^3.4",
     "symfony/process": "^3.4",
     "league/container": "^2.4",
-    "league/plates": "^3.3",
+    "league/plates": "^4",
     "league/event": "^2.1",
     "nesbot/carbon": "^1",
     "composer/semver": "^1.4",
     "michelf/php-markdown": "^1.7"
   },
   "require-dev": {
-    "phpunit/phpunit": "^5"
+    "phpunit/phpunit": "6.*|7.*"
   },
   "bin": [
     "bin/tapestry.php"
   ],
+  "minimum-stability" : "dev",
   "scripts": {
     "box": [
       "composer install --no-dev --prefer-dist",

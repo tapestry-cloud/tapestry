@@ -8,7 +8,7 @@ use Tapestry\Entities\Cache;
 use Tapestry\Entities\CacheStore;
 use Tapestry\Entities\Project;
 use Tapestry\Exceptions\InvalidVersionException;
-use Tapestry\Modules\Content\ReadCache;
+use Tapestry\Steps\ReadCache;
 use Tapestry\Tapestry;
 use Tapestry\Tests\TestCase;
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace Tapestry\Plates\Extensions;
+namespace Tapestry\Modules\Plates\Extensions;
 
 use League\Plates\Engine;
-use Tapestry\Entities\File;
+use Tapestry\Entities\ProjectFile;
 use Tapestry\Entities\ViewFileTrait;
 use League\Plates\Extension\ExtensionInterface;
 
@@ -33,7 +33,7 @@ class Helpers implements ExtensionInterface
     }
 
     /**
-     * @return File
+     * @return ProjectFile
      */
     public function getFile()
     {

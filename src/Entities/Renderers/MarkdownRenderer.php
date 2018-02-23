@@ -3,12 +3,17 @@
 namespace Tapestry\Entities\Renderers;
 
 use Michelf\MarkdownExtra;
-use Tapestry\Entities\File;
+use Tapestry\Entities\ProjectFile;
 
+/**
+ * Class MarkdownRenderer.
+ *
+ * Mutate MD input file into a PHTML output file for intermediate compiling.
+ */
 class MarkdownRenderer implements RendererInterface
 {
     /**
-     * @var array File extensions that this renderer supports
+     * @var array ProjectFile extensions that this renderer supports
      */
     private $extensions = ['md', 'markdown'];
 
@@ -62,11 +67,12 @@ class MarkdownRenderer implements RendererInterface
     /**
      * Render the input file content and return the output.
      *
-     * @param File $file
+     * @param ProjectFile $file
      *
      * @return string
+     * @throws \Exception
      */
-    public function render(File $file)
+    public function render(ProjectFile $file)
     {
         return $this->markdown->transform($file->getContent());
     }
@@ -78,7 +84,7 @@ class MarkdownRenderer implements RendererInterface
      */
     public function getDestinationExtension($ext)
     {
-        return 'html';
+        return 'phtml';
     }
 
     /**
@@ -92,16 +98,15 @@ class MarkdownRenderer implements RendererInterface
     }
 
     /**
-     * @param File $file
+     * @param ProjectFile $file
      *
      * @return void
+     * @throws \Exception
      */
-    public function mutateFile(File &$file)
+    public function mutateFile(ProjectFile &$file)
     {
-        // If markdown file has a layout associated with it, we need to ensure it gets rendered within that
-        if ($file->hasData('layout')) {
-            $file->setExt('phtml');     // Templates are managed by the phtml renderer
-            $file->setRendered(false);  // Set rendered to false so that within Compile.php's Execute Renderers loop it gets re-rendered
+        if ($layout = $file->getData('layout')) {
+            $file->loadContent('<?php $v->layout("'.$layout.'", $projectFile->getData()) ?>'.$file->getContent());
         }
     }
 }

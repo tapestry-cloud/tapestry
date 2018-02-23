@@ -2,10 +2,14 @@
 
 namespace Tapestry\Entities\Renderers;
 
-use Tapestry\Entities\File;
 use Tapestry\Entities\Project;
-use Symfony\Component\Finder\SplFileInfo;
+use Tapestry\Entities\ProjectFile;
 
+/**
+ * Class HTMLRenderer.
+ *
+ * Mutate HTML input file into a PHTML output file for intermediate compiling.
+ */
 class HTMLRenderer implements RendererInterface
 {
     /**
@@ -63,11 +67,12 @@ class HTMLRenderer implements RendererInterface
     /**
      * Render the input file content and return the output.
      *
-     * @param File $file
+     * @param ProjectFile $file
      *
      * @return string
+     * @throws \Exception
      */
-    public function render(File $file)
+    public function render(ProjectFile $file)
     {
         return $file->getContent();
     }
@@ -79,7 +84,7 @@ class HTMLRenderer implements RendererInterface
      */
     public function getDestinationExtension($ext)
     {
-        return 'html';
+        return 'phtml';
     }
 
     /**
@@ -93,29 +98,15 @@ class HTMLRenderer implements RendererInterface
     }
 
     /**
-     * @param File $file
+     * @param ProjectFile $file
      *
      * @return void
+     * @throws \Exception
      */
-    public function mutateFile(File &$file)
+    public function mutateFile(ProjectFile &$file)
     {
-        //
-        // If the HTML file has a template then we should pass it on to the plates renderer
-        //
-        if ($template = $file->getData('template')) {
-            $templateRelativePath = '_templates'.DIRECTORY_SEPARATOR.$template.'.phtml';
-            $templatePath = $this->project->sourceDirectory.DIRECTORY_SEPARATOR.$templateRelativePath;
-            if (file_exists($templatePath)) {
-                $fileName = $file->getFilename();
-                $filePath = $file->getPath();
-
-                $file->setRendered(false);
-                $file->setData(['content' => $file->getContent()]);
-                $file->setFileInfo(new SplFileInfo($templatePath, '_templates', $templateRelativePath));
-                $file->setContent($file->getFileContent());
-                $file->setFilename($fileName);
-                $file->setPath($filePath);
-            }
+        if ($layout = $file->getData('layout')) {
+            $file->loadContent('<?php $v->layout("'.$layout.'", $projectFile->getData()) ?>'.$file->getContent());
         }
     }
 }

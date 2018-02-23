@@ -8,10 +8,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 class FileWriter extends FileAction implements FilesystemInterface
 {
     /**
-     * @param Filesystem      $filesystem
+     * @param Filesystem $filesystem
      * @param OutputInterface $output
      *
      * @return void
+     * @throws \Exception
      */
     public function __invoke(Filesystem $filesystem, OutputInterface $output)
     {

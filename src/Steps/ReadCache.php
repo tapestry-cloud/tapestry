@@ -1,6 +1,6 @@
 <?php
 
-namespace Tapestry\Modules\Content;
+namespace Tapestry\Steps;
 
 use Tapestry\Step;
 use Tapestry\Tapestry;
@@ -33,6 +33,7 @@ class ReadCache implements Step
      * @param OutputInterface $output
      *
      * @return bool
+     * @throws \Tapestry\Exceptions\InvalidVersionException
      */
     public function __invoke(Project $project, OutputInterface $output)
     {

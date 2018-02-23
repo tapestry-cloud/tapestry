@@ -4,8 +4,8 @@ namespace Tapestry\Modules\Content;
 
 use Tapestry\Step;
 use Tapestry\Tapestry;
-use Tapestry\Entities\File;
 use Tapestry\Entities\Project;
+use Tapestry\Entities\ProjectFile;
 use Symfony\Component\Finder\Finder;
 use Tapestry\Entities\Configuration;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -98,7 +98,7 @@ class LoadSourceFiles implements Step
         $this->excluded->excludeFromFinder($finder);
 
         foreach ($finder->files() as $file) {
-            $file = new File($file, [
+            $file = new ProjectFile($file, [
                 'pretty_permalink' => $this->prettyPermalink,
             ]);
             $renderer = $contentRenderers->get($file->getFileInfo()->getExtension());
@@ -149,11 +149,11 @@ class LoadSourceFiles implements Step
 
     /**
      * If the file is a draft, but auto publish is enabled and the files date is in the past then it should be published.
-     * @param File $file
+     * @param ProjectFile $file
      * @version 1.0.9
      * @return bool
      */
-    private function canAutoPublish(File $file)
+    private function canAutoPublish(ProjectFile $file)
     {
         if ($this->autoPublish === false) {
             return false;

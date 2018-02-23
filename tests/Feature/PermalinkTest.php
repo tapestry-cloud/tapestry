@@ -3,7 +3,7 @@
 namespace Tapestry\Tests\Feature;
 
 use Symfony\Component\Finder\SplFileInfo;
-use Tapestry\Entities\File;
+use Tapestry\Entities\ProjectFile;
 use Tapestry\Entities\Permalink;
 use Tapestry\Modules\Content\FrontMatter;
 use Tapestry\Tests\TestCase;
@@ -11,26 +11,26 @@ use Tapestry\Tests\TestCase;
 class PermalinkTest extends TestCase
 {
     /**
-     * @param File $file
+     * @param ProjectFile $file
      * @return Permalink
      * @throws \Exception
      */
-    private function setupPermalinks(File $file)
+    private function setupPermalinks(ProjectFile $file)
     {
         return $file->getCompiledPermalink();
     }
 
     /**
      * @param string $filePath
-     * @return File
+     * @return ProjectFile
      * @throws \Exception
      */
     private function setupFile($filePath)
     {
-        $file = new File(new SplFileInfo($filePath, '', ''));
+        $file = new ProjectFile(new SplFileInfo($filePath, '', ''));
         $frontMatter = new FrontMatter($file->getFileContent());
         $file->setData($frontMatter->getData());
-        $file->setContent($frontMatter->getContent());
+        $file->loadContent($frontMatter->getContent());
         return $file;
     }
 

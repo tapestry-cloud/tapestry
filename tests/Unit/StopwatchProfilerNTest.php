@@ -5,7 +5,7 @@ namespace Tapestry\Tests\Unit;
 use Tapestry\Profiler;
 use Tapestry\Tests\TestCase;
 
-class StopwatchProfilerTest extends TestCase
+class StopwatchProfilerNTest extends TestCase
 {
     public function testProfiler()
     {

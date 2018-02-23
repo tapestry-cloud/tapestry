@@ -2,12 +2,12 @@
 
 namespace Tapestry\Tests\Unit;
 
-use Tapestry\Tests\CommandTestBase;
+use Tapestry\Entities\ProjectFile;
 use Symfony\Component\Finder\SplFileInfo;
-use Tapestry\Entities\File;
 use Tapestry\Modules\Content\FrontMatter;
+use Tapestry\Tests\TestCase;
 
-class FrontMatterTest extends CommandTestBase
+class FrontMatterNTest extends TestCase
 {
     /**
      * Written for issue #148
@@ -15,7 +15,7 @@ class FrontMatterTest extends CommandTestBase
      */
     function testFrontMatterParsedWhenBodyEmpty()
     {
-        $file = new File(new SplFileInfo(__DIR__ . '/../Mocks/TestFileNoBody.md', '', ''));
+        $file = new ProjectFile(new SplFileInfo(__DIR__ . '/../Mocks/TestFileNoBody.md', '', ''));
         $frontMatter = new FrontMatter($file->getFileContent());
         $this->assertSame('', $frontMatter->getContent());
         $this->assertSame([
@@ -27,7 +27,7 @@ class FrontMatterTest extends CommandTestBase
 
     function testFrontMatterAndBodyParsedCorrectly()
     {
-        $file = new File(new SplFileInfo(__DIR__ . '/../Mocks/TestFile.md', '', ''));
+        $file = new ProjectFile(new SplFileInfo(__DIR__ . '/../Mocks/TestFile.md', '', ''));
         $frontMatter = new FrontMatter($file->getFileContent());
         $this->assertSame('This is a test file...', $frontMatter->getContent());
         $this->assertSame([
