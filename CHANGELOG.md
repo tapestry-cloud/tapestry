@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 Tapestry currently operates a one month release cycle between releases, see the projects [milestones](https://github.com/tapestry-cloud/tapestry/milestones) for more information.
 
+## [2.0.0] - Unreleased
+
+### Added
+- #284 Refactored `File` entity to `ProjectFile`
+- #300 Updated plates version to 4.0
+
 ## [1.1.0] - Unreleased
 
 ### Added
