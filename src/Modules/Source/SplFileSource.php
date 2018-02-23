@@ -2,63 +2,73 @@
 
 namespace Tapestry\Modules\Source;
 
-use Tapestry\Entities\Permalink;
+use Symfony\Component\Finder\SplFileInfo;
 
+/**
+ * Class SplFileSource
+ * @package Tapestry\Modules\Source
+ *
+ *
+ *
+ */
 class SplFileSource extends AbstractSource implements SourceInterface
 {
-    public function getUid(): string
+
+    /**
+     * @var SplFileInfo
+     */
+    private $splFileInfo;
+
+    /**
+     * SplFileSource constructor.
+     *
+     * @param SplFileInfo $file
+     * @param array $data
+     * @param bool $autoBoot
+     * @throws \Exception
+     */
+    public function __construct(SplFileInfo $file, $data = [], $autoBoot = true)
     {
-        // TODO: Implement getUid() method.
+        $this->splFileInfo = $file;
+        // if ($autoBoot === true) {
+        //     $this->boot($data);
+        // }
     }
 
-    public function setUid(string $uid)
-    {
-        // TODO: Implement setUid() method.
-    }
-
-    public function setData(string $key, $value = null)
-    {
-        // TODO: Implement setData() method.
-    }
-
-    public function setDataFromArray(array $data)
-    {
-        // TODO: Implement setDataFromArray() method.
-    }
-
-    public function getData(string $key = null, $default = null)
-    {
-        // TODO: Implement getData() method.
-    }
-
-    public function hasData(string $key): bool
-    {
-        // TODO: Implement hasData() method.
-    }
-
+    /**
+     * Get the content of the file that this object relates to.
+     *
+     * @throws \Exception
+     * @return string
+     */
     public function getRawContent(): string
     {
-        // TODO: Implement getRawContent() method.
+        return $this->splFileInfo->getContents();
     }
 
+    /**
+     * Set the files content, this should be excluding any frontmatter.
+     *
+     * @param string $content
+     */
     public function setRenderedContent(string $content)
     {
-        // TODO: Implement setRenderedContent() method.
+        $this->content = $content;
     }
 
+    /**
+     * Returns the file content, this will be excluding any frontmatter.
+     *
+     * @throws \Exception
+     * @return string
+     */
     public function getRenderedContent(): string
     {
-        // TODO: Implement getRenderedContent() method.
-    }
+        if (! $this->hasContent()) {
+            throw new \Exception('The file ['.$this->getRelativePathname().'] has not been loaded.');
+        }
 
-    public function getPermalink(): Permalink
-    {
-        // TODO: Implement getPermalink() method.
-    }
-
-    public function getCompiledPermalink(): string
-    {
-        // TODO: Implement getCompiledPermalink() method.
+        return $this->content;
     }
 
     public function setOverloaded(string $key, $value)
@@ -74,16 +84,6 @@ class SplFileSource extends AbstractSource implements SourceInterface
     public function getExtension(bool $overloaded = true): string
     {
         // TODO: Implement getExtension() method.
-    }
-
-    public function hasChanged(): bool
-    {
-        // TODO: Implement hasChanged() method.
-    }
-
-    public function setHasChanged(bool $value = true)
-    {
-        // TODO: Implement setHasChanged() method.
     }
 
     public function isRendered(): bool

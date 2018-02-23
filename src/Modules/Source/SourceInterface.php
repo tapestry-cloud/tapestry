@@ -38,6 +38,8 @@ interface SourceInterface
 
     public function setHasChanged(bool $value = true);
 
+    public function hasContent() : bool;
+
     public function isRendered() : bool;
 
     public function setRendered(bool $value = true);
