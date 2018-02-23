@@ -7,9 +7,6 @@ use Symfony\Component\Finder\SplFileInfo;
 /**
  * Class SplFileSource
  * @package Tapestry\Modules\Source
- *
- *
- *
  */
 class SplFileSource extends AbstractSource implements SourceInterface
 {
@@ -71,48 +68,62 @@ class SplFileSource extends AbstractSource implements SourceInterface
         return $this->content;
     }
 
-    public function setOverloaded(string $key, $value)
-    {
-        // TODO: Implement setOverloaded() method.
-    }
-
+    /**
+     * Gets the filename.
+     *
+     * @param bool $overloaded
+     * @return string
+     */
     public function getFilename(bool $overloaded = true): string
     {
-        // TODO: Implement getFilename() method.
+        if ($overloaded === true && isset($this->overloaded['filename'])) {
+            return $this->overloaded['filename'];
+        }
+
+        return $this->splFileInfo->getFilename();
     }
 
+
+    /**
+     * Gets the file extension.
+     *
+     * @param bool $overloaded
+     * @return string
+     */
     public function getExtension(bool $overloaded = true): string
     {
-        // TODO: Implement getExtension() method.
+        if ($overloaded === true && isset($this->overloaded['ext'])) {
+            return $this->overloaded['ext'];
+        }
+
+        return $this->splFileInfo->getExtension();
     }
 
-    public function isRendered(): bool
+    /**
+     * Returns the relative path.
+     * This path does not contain the file name.
+     *
+     * @param bool $overloaded
+     * @return string the relative path
+     */
+    public function getRelativePath(bool $overloaded = true): string
     {
-        // TODO: Implement isRendered() method.
+        if ($overloaded === true && isset($this->overloaded['relativePath'])){
+            return $this->overloaded['relativePath'];
+        }
+
+        return $this->splFileInfo->getRelativePath();
     }
 
-    public function setRendered(bool $value = true)
+    /**
+     * Returns the relative path name.
+     * This path contains the file name.
+     *
+     * @param bool $overloaded
+     * @return string
+     */
+    public function getRelativePathname(bool $overloaded = true): string
     {
-        // TODO: Implement setRendered() method.
-    }
 
-    public function isToCopy(): bool
-    {
-        // TODO: Implement isToCopy() method.
-    }
-
-    public function setToCopy(bool $value = true)
-    {
-        // TODO: Implement setToCopy() method.
-    }
-
-    public function isIgnored(): bool
-    {
-        // TODO: Implement isIgnored() method.
-    }
-
-    public function setIgnored(bool $value = true)
-    {
-        // TODO: Implement setIgnored() method.
     }
 }

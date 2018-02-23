@@ -37,6 +37,39 @@ abstract class AbstractSource implements SourceInterface
     protected $hasChanged = false;
 
     /**
+     * Has the file been passed through a Renderer?
+     *
+     * @var bool
+     */
+    protected $rendered = false;
+
+    /**
+     * Should this file be copied from source to destination?
+     * Files marked for copying will not be rendered.
+     *
+     * @var bool
+     */
+    protected $copy = false;
+
+    /**
+     * Because all files in the source tree are loaded, this ignore flag
+     * is set on those that should not be parsed. This allows them to be
+     * analysed for dependencies (e.g. a not ignored file depends upon a
+     * ignored file).
+     *
+     * @var bool
+     */
+    protected $ignored = false;
+
+    /**
+     * Overloaded properties, in the case of SplFileSource these may be
+     * SplFileInfo methods being overloaded.
+     *
+     * @var array
+     */
+    protected $overloaded = [];
+
+    /**
      * Get this sources uid.
      *
      * @return string
@@ -142,8 +175,9 @@ abstract class AbstractSource implements SourceInterface
     }
 
     /**
-     * A file can be considered loaded once its content property has been set, that way you know any frontmatter has
-     * also been injected into the File objects data property.
+     * A file can be considered loaded once its content property
+     * has been set, that way you know any front matter has also
+     * been injected into the File objects data property.
      *
      * @return bool
      */
@@ -178,14 +212,106 @@ abstract class AbstractSource implements SourceInterface
         return $this->permalink->getCompiled($this, $pretty);
     }
 
+    /**
+     * Get the filename.
+     * Without the file extension.
+     *
+     * @param bool $overloaded
+     * @return string
+     */
+    public function getBasename(bool $overloaded = true): string
+    {
+        return preg_replace('/'. preg_quote($this->getFilename($overloaded), '/') .'$/', '', $this->getExtension($overloaded));
+    }
+
+    /**
+     * Has the file changed since it was last processed?
+     *
+     * @return bool
+     */
     public function hasChanged(): bool
     {
         return $this->hasChanged;
     }
 
+    /**
+     * Set the hasChanged flag.
+     *
+     * @param bool $value
+     */
     public function setHasChanged(bool $value = true)
     {
         $this->hasChanged = $value;
     }
 
+    /**
+     * Has this source been through the renderer step?
+     *
+     * @return bool
+     */
+    public function isRendered(): bool
+    {
+        return $this->rendered;
+    }
+
+    /**
+     * Set the rendered flag.
+     *
+     * @param bool $value
+     */
+    public function setRendered(bool $value = true)
+    {
+        $this->rendered = $value;
+    }
+
+    /**
+     * Should the file be copied from source to dist, or processed?
+     *
+     * @return bool
+     */
+    public function isToCopy(): bool
+    {
+        return $this->copy;
+    }
+
+    /**
+     * Set the copy flag.
+     *
+     * @param bool $value
+     */
+    public function setToCopy(bool $value = true)
+    {
+        $this->copy = $value;
+    }
+
+    /**
+     * Is the source to be ignored by the compile steps?
+     *
+     * @return bool
+     */
+    public function isIgnored(): bool
+    {
+        return $this->ignored;
+    }
+
+    /**
+     * Set the ignore flag.
+     *
+     * @param bool $value
+     */
+    public function setIgnored(bool $value = true)
+    {
+        $this->ignored = $value;
+    }
+
+    /**
+     * Set the value of an overloaded property.
+     *
+     * @param string $key
+     * @param mixed $value
+     */
+    public function setOverloaded(string $key, $value)
+    {
+        $this->overloaded[$key] = $value;
+    }
 }
