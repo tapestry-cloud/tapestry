@@ -213,6 +213,21 @@ abstract class AbstractSource implements SourceInterface
     }
 
     /**
+     * Returns the file content, this will be excluding any frontmatter.
+     *
+     * @throws \Exception
+     * @return string
+     */
+    public function getRenderedContent(): string
+    {
+        if (! $this->hasContent()) {
+            throw new \Exception('The file ['.$this->getRelativePathname().'] has not been loaded.');
+        }
+
+        return $this->content;
+    }
+
+    /**
      * Get the filename.
      * Without the file extension.
      *
