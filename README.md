@@ -2,7 +2,7 @@
 <p align="center"><em>Plates PHP Static Site Generator</em></p>
 
 <p align="center">
-  <a href="https://travis-ci.org/tapestry-cloud/tapestry"><img src="https://travis-ci.org/tapestry-cloud/tapestry.svg" alt="Build Status"></a>
+  <a href="https://travis-ci.org/tapestry-cloud/tapestry"><img src="https://travis-ci.org/tapestry-cloud/tapestry.svg?branch=master" alt="Build Status"></a>
   <a href="https://codeclimate.com/github/tapestry-cloud/tapestry/coverage"><img src="https://codeclimate.com/github/tapestry-cloud/tapestry/badges/coverage.svg" alt="Test Coverage"></a>
   <a href="https://packagist.org/packages/tapestry-cloud/tapestry"><img src="https://poser.pugx.org/tapestry-cloud/tapestry/v/stable.svg" alt="Latest Stable Version"></a>
   <a href="LICENSE"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
