@@ -102,7 +102,7 @@ abstract class AbstractSource implements SourceInterface
      *
      * @return void
      */
-    public function setData(string $key, $value = null)
+    public function setData($key, $value = null)
     {
         if (is_array($key) && is_null($value)) {
             $this->setDataFromArray($key);
@@ -221,7 +221,10 @@ abstract class AbstractSource implements SourceInterface
      */
     public function getBasename(bool $overloaded = true): string
     {
-        return preg_replace('/'. preg_quote($this->getFilename($overloaded), '/') .'$/', '', $this->getExtension($overloaded));
+        $e = explode('.', $this->getFilename($overloaded));
+        array_pop($e);
+
+        return implode('.', $e);
     }
 
     /**

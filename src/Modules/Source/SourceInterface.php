@@ -10,7 +10,7 @@ interface SourceInterface
 
     public function setUid(string $uid);
 
-    public function setData(string $key, $value = null);
+    public function setData($key, $value = null);
 
     public function setDataFromArray(array $data);
 

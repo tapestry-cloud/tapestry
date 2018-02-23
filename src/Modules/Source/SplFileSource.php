@@ -3,6 +3,7 @@
 namespace Tapestry\Modules\Source;
 
 use Symfony\Component\Finder\SplFileInfo;
+use Tapestry\Entities\Permalink;
 
 /**
  * Class SplFileSource
@@ -27,6 +28,12 @@ class SplFileSource extends AbstractSource implements SourceInterface
     public function __construct(SplFileInfo $file, $data = [], $autoBoot = true)
     {
         $this->splFileInfo = $file;
+        $this->meta = [];
+        $this->permalink = new Permalink();
+
+        $this->setDataFromArray($data);
+        $this->setUid((! empty($this->getRelativePathname())) ? $this->getRelativePathname() : $file->getPathname());
+
         // if ($autoBoot === true) {
         //     $this->boot($data);
         // }
@@ -124,6 +131,10 @@ class SplFileSource extends AbstractSource implements SourceInterface
      */
     public function getRelativePathname(bool $overloaded = true): string
     {
+        if ($overloaded === true && isset($this->overloaded['relativePathname'])){
+            return $this->overloaded['relativePathname'];
+        }
 
+        return $this->splFileInfo->getRelativePathname();
     }
 }
