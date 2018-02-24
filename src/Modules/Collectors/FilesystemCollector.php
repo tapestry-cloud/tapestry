@@ -19,11 +19,6 @@ final class FilesystemCollector extends AbstractCollector implements CollectorIn
     private $sourcePath;
 
     /**
-     * @var array|MutatorInterface[]
-     */
-    private $mutatorCollection = [];
-
-    /**
      * FilesystemCollector constructor.
      *
      * @param string $sourcePath
@@ -37,9 +32,8 @@ final class FilesystemCollector extends AbstractCollector implements CollectorIn
         }
 
         $this->sourcePath = $sourcePath;
-        $this->mutatorCollection = $mutatorCollection;
 
-        parent::__construct('FilesystemCollector');
+        parent::__construct('FilesystemCollector', $mutatorCollection);
     }
 
     /**
@@ -66,13 +60,7 @@ final class FilesystemCollector extends AbstractCollector implements CollectorIn
                 'date' => DateTime::createFromFormat('U', $file->getMTime()),
                 'pretty_permalink' => true
             ]);
-
-            // @todo implement isDraft, isIgnored, defaultData, etc as mutators that this iterates over
-            foreach($this->mutatorCollection as $mutator) {
-                $mutator->mutate($file);
-            }
-
-            $collection[$file->getUid()] = $file;
+            $collection[$file->getUid()] = $this->mutateSource($file);
         }
 
         // @todo implement filters which filter out items from the collection e.g. draft posts...
