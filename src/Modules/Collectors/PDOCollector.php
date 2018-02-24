@@ -23,6 +23,10 @@ final class PDOCollector extends AbstractCollector implements CollectorInterface
 
     /**
      * PDOCollector constructor.
+     *
+     * @todo check pdo connection is valid
+     * @todo check that tables required by `collect` method exist
+     *
      * @param PDO $pdo
      */
     public function __construct(PDO $pdo)
