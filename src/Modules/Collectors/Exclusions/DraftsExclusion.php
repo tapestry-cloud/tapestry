@@ -39,6 +39,10 @@ class DraftsExclusion implements ExclusionInterface
      */
     public function filter(SourceInterface $source): bool
     {
-        return $source->getData('draft', false);
+        if ($this->canPublishDrafts){
+            return true;
+        }
+
+        return !$source->getData('draft', false);
     }
 }
