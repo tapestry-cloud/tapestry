@@ -2,7 +2,9 @@
 
 namespace Tapestry\Modules\Collectors;
 
+use DateTime;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 use Tapestry\Modules\Collectors\Mutators\MutatorInterface;
 use Tapestry\Modules\Source\SourceInterface;
 use Tapestry\Modules\Source\SplFileSource;
@@ -57,8 +59,13 @@ final class FilesystemCollector extends AbstractCollector implements CollectorIn
             ->in($this->sourcePath)
             ->ignoreDotFiles(true);
 
+        /** @var SplFileInfo $file */
         foreach ($finder->files() as $file) {
-            $file = new SplFileSource($file);
+            $file = new SplFileSource($file, [
+                'draft' => false,
+                'date' => DateTime::createFromFormat('U', $file->getMTime()),
+                'pretty_permalink' => true
+            ]);
 
             // @todo implement isDraft, isIgnored, defaultData, etc as mutators that this iterates over
             foreach($this->mutatorCollection as $mutator) {
