@@ -22,6 +22,16 @@ final class SetDateDataFromFileNameMutator implements MutatorInterface
                 'slug' => $matches[2],
                 'title' => ucfirst(str_replace('-', ' ', $matches[2]))
             ]);
+            return;
+        }
+
+        preg_match('/^(\d{2}-\d{2}-\d{4})-(.*)/', $source->getBasename(),$matches);
+        if (count($matches) === 3) {
+            $source->setDataFromArray([
+                'date' => new DateTime($matches[1]),
+                'slug' => $matches[2],
+                'title' => ucfirst(str_replace('-', ' ', $matches[2]))
+            ]);
         }
     }
 }
