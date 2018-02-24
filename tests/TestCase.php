@@ -6,9 +6,11 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Symfony\Component\Console\Tester\ApplicationTester;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\SplFileInfo;
 use Tapestry\Console\Application;
 use Tapestry\Console\DefaultInputDefinition;
 use Tapestry\Console\Input;
+use Tapestry\Modules\Source\SplFileSource;
 use Tapestry\Tapestry;
 
 class TestCase extends \PHPUnit\Framework\TestCase {
@@ -171,6 +173,21 @@ class TestCase extends \PHPUnit\Framework\TestCase {
         $applicationTester->run($arguments, $options);
 
         return $applicationTester;
+    }
+
+    /**
+     * @param $file
+     * @param $relativePath
+     * @param $relativePathname
+     * @return SplFileSource
+     */
+    public function mockSplFileSource(string $file, string $relativePath, string $relativePathname): SplFileSource {
+        try {
+            return new SplFileSource(new SplFileInfo($file, $relativePath, $relativePathname));
+        } catch (\Exception $e) {
+            $this->fail($e->getMessage());
+            return null;
+        }
     }
 
     /**
