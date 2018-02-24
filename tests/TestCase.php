@@ -10,6 +10,7 @@ use Symfony\Component\Finder\SplFileInfo;
 use Tapestry\Console\Application;
 use Tapestry\Console\DefaultInputDefinition;
 use Tapestry\Console\Input;
+use Tapestry\Modules\Source\MemorySource;
 use Tapestry\Modules\Source\SplFileSource;
 use Tapestry\Tapestry;
 
@@ -184,6 +185,21 @@ class TestCase extends \PHPUnit\Framework\TestCase {
     public function mockSplFileSource(string $file, string $relativePath, string $relativePathname): SplFileSource {
         try {
             return new SplFileSource(new SplFileInfo($file, $relativePath, $relativePathname));
+        } catch (\Exception $e) {
+            $this->fail($e->getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * @param string $uid
+     * @param string $ext
+     * @return MemorySource
+     */
+    public function mockMemorySource(string $uid, string $ext = 'md'): MemorySource
+    {
+        try {
+            return new MemorySource($uid, '', ($uid . '.' . $ext), $ext, '', ($uid . '.' . $ext));
         } catch (\Exception $e) {
             $this->fail($e->getMessage());
             return null;
