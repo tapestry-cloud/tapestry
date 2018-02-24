@@ -75,6 +75,8 @@ final class FilesystemCollector extends AbstractCollector implements CollectorIn
             $collection[$file->getUid()] = $file;
         }
 
+        // @todo implement filters which filter out items from the collection e.g. draft posts...
+
         return $collection;
 
         // TODO: Implement collect() method.
