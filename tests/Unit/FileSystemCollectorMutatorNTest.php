@@ -71,15 +71,32 @@ class FileSystemCollectorMutatorNTest extends TestCase
 
     public function testisIgnoredMutator()
     {
-        $mutator = new IsIgnoredMutator();
+        $mutator = new IsIgnoredMutator(['_views', '_templates'], ['_blog']);
 
-        // Any files not handled by renders are "ignored"; these are files that should be included in the collected
-        // list of files due to them maybe being a dependency of other files (e.g templates, partials, etc) but that
-        // should be ignored at compile time given they are a resource and not a source.
-        //
-        // Ignored files are different to Excluded files, with the later actually being excluded from the collected
-        // list of files.
+        $file = $this->mockMemorySource('test-file');
+        $file->setOverloaded('relativePath', 'abc/123');
+        $mutator->mutate($file);
+        $this->assertFalse($file->isIgnored());
 
+        $file = $this->mockMemorySource('test-file');
+        $file->setOverloaded('relativePath', '_views/abc/123');
+        $mutator->mutate($file);
+        $this->assertTrue($file->isIgnored());
+
+        $file = $this->mockMemorySource('test-file');
+        $file->setOverloaded('relativePath', '_templates/abc/123');
+        $mutator->mutate($file);
+        $this->assertTrue($file->isIgnored());
+
+        $file = $this->mockMemorySource('test-file');
+        $file->setOverloaded('relativePath', '_blog/2017');
+        $mutator->mutate($file);
+        $this->assertFalse($file->isIgnored());
+
+        $file = $this->mockMemorySource('test-file');
+        $file->setOverloaded('relativePath', 'abc/123/_test');
+        $mutator->mutate($file);
+        $this->assertTrue($file->isIgnored());
     }
 
     public function testSetDateDataFromFileNameMutator()
