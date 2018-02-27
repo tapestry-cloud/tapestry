@@ -23,9 +23,10 @@ final class FilesystemCollector extends AbstractCollector implements CollectorIn
      *
      * @param string $sourcePath
      * @param array|MutatorInterface[] $mutatorCollection
+     * @param array $filterCollection
      * @throws \Exception
      */
-    public function __construct(string $sourcePath, array $mutatorCollection = [])
+    public function __construct(string $sourcePath, array $mutatorCollection = [], array $filterCollection = [])
     {
         if (! file_exists($sourcePath)) {
             throw new \Exception('The source path ['. $sourcePath .'] could not be read or does not exist.');
@@ -33,7 +34,7 @@ final class FilesystemCollector extends AbstractCollector implements CollectorIn
 
         $this->sourcePath = $sourcePath;
 
-        parent::__construct('FilesystemCollector', $mutatorCollection);
+        parent::__construct('FilesystemCollector', $mutatorCollection, $filterCollection);
     }
 
     /**

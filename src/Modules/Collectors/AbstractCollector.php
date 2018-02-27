@@ -2,6 +2,7 @@
 
 namespace Tapestry\Modules\Collectors;
 
+use Tapestry\Modules\Collectors\Exclusions\ExclusionInterface;
 use Tapestry\Modules\Collectors\Mutators\MutatorInterface;
 use Tapestry\Modules\Source\SourceInterface;
 
@@ -21,15 +22,22 @@ abstract class AbstractCollector implements CollectorInterface
     private $mutatorCollection;
 
     /**
+     * @var array|ExclusionInterface[]
+     */
+    private $filterCollection;
+
+    /**
      * AbstractCollector constructor.
      *
      * @param string $name
      * @param array $mutatorCollection
+     * @param array $filterCollection
      */
-    public function __construct(string $name, array $mutatorCollection = [])
+    public function __construct(string $name, array $mutatorCollection = [], array $filterCollection = [])
     {
         $this->name = $name;
         $this->mutatorCollection = $mutatorCollection;
+        $this->filterCollection = $filterCollection;
     }
 
     /**
@@ -49,11 +57,16 @@ abstract class AbstractCollector implements CollectorInterface
      */
     protected function mutateSource(SourceInterface $source) : SourceInterface
     {
-        // @todo implement isDraft, isIgnored, defaultData, etc as mutators that this iterates over
+        // @todo implement defaultData as mutators that this iterates over
         foreach($this->mutatorCollection as $mutator) {
             $mutator->mutate($source);
         }
         return $source;
+    }
+
+    protected function filterCollection(array $collection)
+    {
+        // @todo
     }
 
 }
