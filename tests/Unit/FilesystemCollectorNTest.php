@@ -34,18 +34,17 @@ class FilesystemCollectorNTest extends TestCase
                     new SetDateDataFromFileNameMutator(),
                     new FrontMatterMutator(),
                     new IsScheduledMutator(),
-                    new IsIgnoredMutator(),
+                    new IsIgnoredMutator(['_views', '_templates'], ['_blog']),
                 ]
             );
+
+            $arr = $class->collect();
+            $this->assertTrue(is_array($arr));
+            $this->assertCount(10, $arr);
         } catch (\Exception $e) {
             $this->fail($e);
             return;
         }
-
-        $arr = $class->collect();
-        $this->assertTrue(is_array($arr));
-        $this->assertCount(10, $arr);
-
     }
 
 }
