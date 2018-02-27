@@ -2,12 +2,20 @@
 
 namespace Tapestry\Modules\Collectors\Mutators;
 
+use Tapestry\Modules\Content\FrontMatter;
 use Tapestry\Modules\Source\SourceInterface;
 
+/**
+ * Class FrontMatterMutator
+ * @package Tapestry\Modules\Collectors\Mutators
+ */
 class FrontMatterMutator implements MutatorInterface
 {
     public function mutate(SourceInterface &$source)
     {
-        // TODO: Implement mutate() method.
+        $parser = new FrontMatter($source->getRawContent());
+
+        $source->setRenderedContent($parser->getContent());
+        $source->setDataFromArray($parser->getData());
     }
 }

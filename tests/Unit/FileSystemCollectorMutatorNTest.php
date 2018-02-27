@@ -12,9 +12,19 @@ use Tapestry\Tests\TestCase;
 class FileSystemCollectorMutatorNTest extends TestCase
 {
 
+    /**
+     * @throws \Exception
+     */
     public function testFrontMatterMutator()
     {
         $mutator = new FrontMatterMutator();
+
+        $file = $this->mockSplFileSource(__DIR__ . '/../Mocks/TestFile.md', 'Mocks', 'Mocks/TestFile.md');
+        $this->assertCount(1, $file->getData());
+
+        $mutator->mutate($file);
+        $this->assertCount(4, $file->getData());
+        $this->assertSame('This is a test file...', trim($file->getRenderedContent()));
     }
 
     /**
@@ -62,6 +72,14 @@ class FileSystemCollectorMutatorNTest extends TestCase
     public function testisIgnoredMutator()
     {
         $mutator = new IsIgnoredMutator();
+
+        // Any files not handled by renders are "ignored"; these are files that should be included in the collected
+        // list of files due to them maybe being a dependency of other files (e.g templates, partials, etc) but that
+        // should be ignored at compile time given they are a resource and not a source.
+        //
+        // Ignored files are different to Excluded files, with the later actually being excluded from the collected
+        // list of files.
+
     }
 
     public function testSetDateDataFromFileNameMutator()
