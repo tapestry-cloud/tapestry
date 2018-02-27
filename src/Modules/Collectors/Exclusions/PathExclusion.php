@@ -37,6 +37,9 @@ class PathExclusion implements ExclusionInterface
      */
     public function filter(SourceInterface $source): bool
     {
-        // TODO: Implement filter() method.
+        if (strpos($source->getRelativePath(), $this->path) === false) {
+            return false;
+        }
+        return true;
     }
 }

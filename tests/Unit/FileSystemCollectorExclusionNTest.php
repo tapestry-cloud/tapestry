@@ -42,5 +42,11 @@ class FileSystemCollectorExclusionNTest extends TestCase
         $file->setOverloaded('relativePath', '_assets/css');
 
         $this->assertTrue($exclusion->filter($file));
+
+        $file->setOverloaded('relativePath', 'css/_assets');
+        $this->assertTrue($exclusion->filter($file));
+
+        $file->setOverloaded('relativePath', 'somewhere/else');
+        $this->assertFalse($exclusion->filter($file));
     }
 }
