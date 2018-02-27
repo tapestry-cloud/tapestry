@@ -32,7 +32,7 @@ class DraftsExclusion implements ExclusionInterface
 
     /**
      * Returns whether the input SourceInterface should be excluded from the
-     * Collectors output.
+     * Collectors output: true = exclude, false = include.
      *
      * @param SourceInterface $source
      * @return bool
@@ -40,9 +40,9 @@ class DraftsExclusion implements ExclusionInterface
     public function filter(SourceInterface $source): bool
     {
         if ($this->canPublishDrafts){
-            return true;
+            return false;
         }
 
-        return !$source->getData('draft', false);
+        return $source->getData('draft', false);
     }
 }
