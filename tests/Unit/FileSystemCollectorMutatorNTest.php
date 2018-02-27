@@ -59,7 +59,5 @@ class FileSystemCollectorMutatorNTest extends TestCase
         $this->assertSame('This is a test', $file->getData('title'));
         $this->assertInstanceOf(DateTime::class, $file->getData('date'));
         $this->assertSame('2018-02-01', $file->getData('date')->format('Y-m-d'));
-
-        // @todo
     }
 }
