@@ -4,7 +4,7 @@ namespace Tapestry\Tests\Unit;
 
 use DateTime;
 use Tapestry\Modules\Collectors\Mutators\FrontMatterMutator;
-use Tapestry\Modules\Collectors\Mutators\IsDraftMutator;
+use Tapestry\Modules\Collectors\Mutators\IsScheduledMutator;
 use Tapestry\Modules\Collectors\Mutators\IsIgnoredMutator;
 use Tapestry\Modules\Collectors\Mutators\SetDateDataFromFileNameMutator;
 use Tapestry\Tests\TestCase;
@@ -17,15 +17,46 @@ class FileSystemCollectorMutatorNTest extends TestCase
         $mutator = new FrontMatterMutator();
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testIsDraftMutator()
     {
-        $mutator = new IsDraftMutator();
+        $mutator = new IsScheduledMutator(true,true);
 
-        $file = $this->mockSplFileSource(__DIR__ . '/../Mocks/TestFile.md', 'Mocks', 'Mocks/TestFile.md');
+        $file = $this->mockMemorySource('TestFile');
+        $file->setData([
+            'draft' => true,
+            'date' => new DateTime('01-01-2015')
+        ]);
+
         $mutator->mutate($file);
+        $this->assertTrue($file->getData('draft'));
 
-        // needs a file that is a draft
+        // Scheduled Source that should be published (publish date in past, draft set to true)
+        $mutator = new IsScheduledMutator(false,true);
+        $mutator->mutate($file);
+        $this->assertFalse($file->getData('draft'));
 
+        // Scheduled Source that shouold not be published (publish date in future, draft set to true)
+        $file = $this->mockMemorySource('TestFile');
+        $file->setData([
+            'draft' => true,
+            'date' => new DateTime('01-01-2099')
+        ]);
+
+        $mutator->mutate($file);
+        $this->assertTrue($file->getData('draft'));
+
+        // Disabled
+        $mutator = new IsScheduledMutator();
+        $file = $this->mockMemorySource('TestFile');
+        $file->setData([
+            'draft' => true,
+            'date' => new DateTime('01-01-2015')
+        ]);
+        $mutator->mutate($file);
+        $this->assertTrue($file->getData('draft'));
     }
 
     public function testisIgnoredMutator()

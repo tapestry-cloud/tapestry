@@ -4,7 +4,7 @@ namespace Tapestry\Tests\Unit;
 
 use Tapestry\Modules\Collectors\FilesystemCollector;
 use Tapestry\Modules\Collectors\Mutators\FrontMatterMutator;
-use Tapestry\Modules\Collectors\Mutators\IsDraftMutator;
+use Tapestry\Modules\Collectors\Mutators\IsScheduledMutator;
 use Tapestry\Modules\Collectors\Mutators\IsIgnoredMutator;
 use Tapestry\Modules\Collectors\Mutators\SetDateDataFromFileNameMutator;
 use Tapestry\Tests\TestCase;
@@ -33,7 +33,7 @@ class FilesystemCollectorNTest extends TestCase
                 [
                     new SetDateDataFromFileNameMutator(),
                     new FrontMatterMutator(),
-                    new IsDraftMutator(),
+                    new IsScheduledMutator(),
                     new IsIgnoredMutator(),
                 ]
             );

@@ -5,7 +5,18 @@ namespace Tapestry\Modules\Collectors\Mutators;
 use DateTime;
 use Tapestry\Modules\Source\SourceInterface;
 
-final class IsDraftMutator implements MutatorInterface
+/**
+ * Class IsScheduledMutator
+ *
+ * This mutator takes an input SourceInterface and determines if it is scheduled for publishing.
+ * A scheduled source is one that has its draft flag set to `true` while also having a date set
+ * that is less than or equal to `$now`.
+ *
+ *
+ *
+ * @package Tapestry\Modules\Collectors\Mutators
+ */
+final class IsScheduledMutator implements MutatorInterface
 {
     /**
      * @var DateTime
@@ -16,13 +27,14 @@ final class IsDraftMutator implements MutatorInterface
      * @var bool
      */
     private $canPublishDrafts;
+
     /**
      * @var bool
      */
     private $autoPublish;
 
     /**
-     * IsDraftMutator constructor.
+     * IsScheduledMutator constructor.
      *
      * @todo maybe have the site config pass in here rather than variables that require external bootstrapping
      *
@@ -32,9 +44,8 @@ final class IsDraftMutator implements MutatorInterface
     public function __construct(bool $canPublishDrafts = false, bool $autoPublish = false)
     {
         $this->now = new DateTime();
-
-        $this->canPublishDrafts = $canPublishDrafts;
         $this->autoPublish = $autoPublish;
+        $this->canPublishDrafts = $canPublishDrafts;
     }
 
     public function mutate(SourceInterface &$source)
@@ -46,11 +57,6 @@ final class IsDraftMutator implements MutatorInterface
                 boolval($source->getData('draft', false)) === true &&
                 $this->canAutoPublish($source) === false
             ) {
-                return;
-            }
-
-            // If file is not a draft, but the date is in the future then it is scheduled
-            if ($source->getData('date', new \DateTime()) > $this->now) {
                 return;
             }
 
