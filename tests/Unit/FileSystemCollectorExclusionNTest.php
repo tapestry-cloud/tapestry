@@ -2,14 +2,8 @@
 
 namespace Tapestry\Tests\Unit;
 
-use DateTime;
 use Tapestry\Modules\Collectors\Exclusions\DraftsExclusion;
 use Tapestry\Modules\Collectors\Exclusions\PathExclusion;
-use Tapestry\Modules\Collectors\Mutators\FrontMatterMutator;
-use Tapestry\Modules\Collectors\Mutators\IsDraftMutator;
-use Tapestry\Modules\Collectors\Mutators\IsIgnoredMutator;
-use Tapestry\Modules\Collectors\Mutators\SetDateDataFromFileNameMutator;
-use Tapestry\Modules\Source\MemorySource;
 use Tapestry\Tests\TestCase;
 
 class FileSystemCollectorExclusionNTest extends TestCase
