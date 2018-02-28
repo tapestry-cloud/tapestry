@@ -52,5 +52,4 @@ class FilesystemCollectorNTest extends TestCase
             return;
         }
     }
-
 }
