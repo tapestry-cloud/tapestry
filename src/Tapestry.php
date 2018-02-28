@@ -126,6 +126,7 @@ class Tapestry implements ContainerAwareInterface, ArrayAccess
         $this->register(\Tapestry\Providers\ProjectServiceProvider::class);
         $this->register(\Tapestry\Providers\PlatesServiceProvider::class);
         $this->register(\Tapestry\Providers\ProjectKernelServiceProvider::class);
+        $this->register(\Tapestry\Providers\CollectorsServiceProvider::class);
     }
 
     /**
