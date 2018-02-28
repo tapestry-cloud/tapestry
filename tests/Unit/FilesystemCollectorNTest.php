@@ -2,6 +2,8 @@
 
 namespace Tapestry\Tests\Unit;
 
+use Tapestry\Modules\Collectors\Exclusions\DraftsExclusion;
+use Tapestry\Modules\Collectors\Exclusions\PathExclusion;
 use Tapestry\Modules\Collectors\FilesystemCollector;
 use Tapestry\Modules\Collectors\Mutators\FrontMatterMutator;
 use Tapestry\Modules\Collectors\Mutators\IsScheduledMutator;
@@ -35,12 +37,16 @@ class FilesystemCollectorNTest extends TestCase
                     new FrontMatterMutator(),
                     new IsScheduledMutator(),
                     new IsIgnoredMutator(['_views', '_templates'], ['_blog']),
+                ],
+                [
+                    new DraftsExclusion(),
+                    new PathExclusion('ignored_folder')
                 ]
             );
 
             $arr = $class->collect();
             $this->assertTrue(is_array($arr));
-            $this->assertCount(10, $arr);
+            $this->assertCount(9, $arr);
         } catch (\Exception $e) {
             $this->fail($e);
             return;

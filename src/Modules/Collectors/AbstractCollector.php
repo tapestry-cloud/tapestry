@@ -64,9 +64,19 @@ abstract class AbstractCollector implements CollectorInterface
         return $source;
     }
 
+    /**
+     * @param array|SourceInterface[] $collection
+     * @return array|SourceInterface[]
+     */
     protected function filterCollection(array $collection)
     {
-        // @todo
+        return array_filter($collection, function(SourceInterface $el){
+            foreach ($this->filterCollection as $filter) {
+                if ($filter->filter($el) === true) {
+                    return false;
+                }
+            }
+            return true;
+        });
     }
-
 }
