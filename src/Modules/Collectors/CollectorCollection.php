@@ -11,12 +11,10 @@ class CollectorCollection
 
     /**
      * @param CollectorInterface $class
-     * @throws \ReflectionException
      */
     public function add(CollectorInterface $class)
     {
-        $reflection = new \ReflectionClass($class);
-        $this->items[$reflection->getShortName()] = $class;
+        $this->items[] = $class;
     }
 
     public function collect()
