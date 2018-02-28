@@ -10,7 +10,7 @@ interface ExclusionInterface
      * Returns whether the input SourceInterface should be excluded from the
      * Collectors output.
      *
-     * Note: This method shoult return true if the SourceInterface
+     * Note: This method should return true if the SourceInterface
      * should be excluded.
      *
      * @param SourceInterface $source
