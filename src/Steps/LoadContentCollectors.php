@@ -99,6 +99,6 @@ class LoadContentCollectors implements Step
         }
 
         $project['content_collectors'] = $collection;
-        return false;
+        return true;
     }
 }
