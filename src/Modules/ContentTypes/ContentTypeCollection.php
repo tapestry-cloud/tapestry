@@ -4,7 +4,7 @@ namespace Tapestry\Modules\ContentTypes;
 
 use Tapestry\Entities\ContentType;
 
-class ContentTypeFactory
+class ContentTypeCollection
 {
     /**
      * Registered item stack.
@@ -31,6 +31,7 @@ class ContentTypeFactory
      * ContentTypeFactory constructor.
      *
      * @param array|ContentType[] $items
+     * @throws \Exception
      */
     public function __construct(array $items = [])
     {
@@ -43,16 +44,16 @@ class ContentTypeFactory
      * Add a ContentType to the registry.
      *
      * @param ContentType $contentType
-     * @param bool        $overWrite   should adding overwrite existing; if false an exception will be thrown if a matching collection already found
+     * @param bool $overWrite should adding overwrite existing; if false an exception will be thrown if a matching collection already found
      *
      * @throws \Exception
      */
-    public function add(ContentType $contentType, $overWrite = false)
+    public function add(ContentType $contentType, bool $overWrite = false)
     {
-        if (! $overWrite && $this->has($contentType->getPath())) {
-            throw new \Exception('The collection ['.$this->pathLookupTable[$contentType->getPath()].'] already collects for the path ['.$contentType->getPath().']');
+        if (!$overWrite && $this->has($contentType->getPath())) {
+            throw new \Exception('The collection [' . $this->pathLookupTable[$contentType->getPath()] . '] already collects for the path [' . $contentType->getPath() . ']');
         }
-        $uid = sha1(md5(get_class($contentType)).'_'.sha1($contentType->getName().'-'.$contentType->getPath()));
+        $uid = sha1(md5(get_class($contentType)) . '_' . sha1($contentType->getName() . '-' . $contentType->getPath()));
         $this->items[$uid] = $contentType;
         $this->pathLookupTable[$contentType->getPath()] = $uid;
         $this->nameLookupTable[$contentType->getName()] = $uid;
@@ -65,7 +66,7 @@ class ContentTypeFactory
      *
      * @return bool
      */
-    public function has($path)
+    public function has($path): bool
     {
         return isset($this->pathLookupTable[$path]);
     }
@@ -75,7 +76,7 @@ class ContentTypeFactory
      *
      * @return array|\Tapestry\Entities\ContentType[]
      */
-    public function all()
+    public function all(): array
     {
         return array_values($this->items);
     }
@@ -94,6 +95,7 @@ class ContentTypeFactory
                 return $key;
             }
         }
+        return null;
     }
 
     /**
@@ -106,13 +108,13 @@ class ContentTypeFactory
      *
      * @return ContentType
      */
-    public function get($path)
+    public function get($path): ContentType
     {
-        if (! $this->has($path) && ! $this->has('*')) {
-            throw new \Exception('There is no collection that collects for the path ['.$path.']');
+        if (!$this->has($path) && !$this->has('*')) {
+            throw new \Exception('There is no collection that collects for the path [' . $path . ']');
         }
 
-        if (! $this->has($path) && $this->has('*')) {
+        if (!$this->has($path) && $this->has('*')) {
             return $this->items[$this->pathLookupTable['*']];
         }
 
@@ -128,7 +130,7 @@ class ContentTypeFactory
      */
     public function arrayAccessByKey($key)
     {
-        if (! isset($this->nameLookupTable[$key])) {
+        if (!isset($this->nameLookupTable[$key])) {
             return null;
         }
 

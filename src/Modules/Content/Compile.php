@@ -18,7 +18,7 @@ use Tapestry\Entities\Filesystem\FileIgnored;
 use Tapestry\Entities\Generators\FileGenerator;
 use Tapestry\Entities\Collections\FlatCollection;
 use Symfony\Component\Console\Output\OutputInterface;
-use Tapestry\Modules\ContentTypes\ContentTypeFactory;
+use Tapestry\Modules\ContentTypes\ContentTypeCollection;
 use Tapestry\Modules\Renderers\ContentRendererFactory;
 
 class Compile implements Step
@@ -66,7 +66,7 @@ class Compile implements Step
     {
         $stopwatch = $project->get('cmd_options.stopwatch', false);
 
-        /** @var ContentTypeFactory $contentTypes */
+        /** @var ContentTypeCollection $contentTypes */
         $contentTypes = $project->get('content_types');
 
         /** @var ContentRendererFactory $contentRenderers */
@@ -124,11 +124,11 @@ class Compile implements Step
      * Iterate over the file list of all content types and add the files they contain to the local compiled file list
      * also at this point run any generators that the file may be linked to.
      *
-     * @param ContentTypeFactory $contentTypes
+     * @param ContentTypeCollection $contentTypes
      * @param Project $project
      * @param OutputInterface $output
      */
-    private function iterateProjectContentTypes(ContentTypeFactory $contentTypes, Project $project, OutputInterface $output)
+    private function iterateProjectContentTypes(ContentTypeCollection $contentTypes, Project $project, OutputInterface $output)
     {
         /** @var ContentType $contentType */
         foreach ($contentTypes->all() as $contentType) {

@@ -13,7 +13,7 @@ use Tapestry\Entities\ProjectFileInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Tapestry\Entities\Generators\FileGenerator;
 use Symfony\Component\Console\Output\OutputInterface;
-use Tapestry\Modules\ContentTypes\ContentTypeFactory;
+use Tapestry\Modules\ContentTypes\ContentTypeCollection;
 use Tapestry\Modules\Renderers\ContentRendererFactory;
 
 class SyntaxAnalysis implements Step
@@ -57,7 +57,7 @@ class SyntaxAnalysis implements Step
         // Identify all source files and build the initial symbol table
         //
 
-        /** @var ContentTypeFactory $contentTypes */
+        /** @var ContentTypeCollection $contentTypes */
         $contentTypes = $project->get('content_types');
 
         /** @var ContentRendererFactory $contentRenderers */
@@ -134,12 +134,12 @@ class SyntaxAnalysis implements Step
      * Iterate over the file list of all content types and add the files they contain to the local compiled file list
      * also at this point run any generators that the file may be linked to.
      *
-     * @param ContentTypeFactory $contentTypes
+     * @param ContentTypeCollection $contentTypes
      * @param Project $project
      * @param OutputInterface $output
      * @throws \Exception
      */
-    private function iterateProjectContentTypes(ContentTypeFactory $contentTypes, Project $project, OutputInterface $output)
+    private function iterateProjectContentTypes(ContentTypeCollection $contentTypes, Project $project, OutputInterface $output)
     {
         foreach ($contentTypes->all() as $contentType) {
             $output->writeln('[+] Compiling content within ['.$contentType->getName().']');

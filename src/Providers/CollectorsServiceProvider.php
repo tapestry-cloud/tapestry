@@ -9,7 +9,7 @@ use Tapestry\Entities\Project;
 use Tapestry\Modules\Collectors\Exclusions\DraftsExclusion;
 use Tapestry\Modules\Collectors\Mutators\IsIgnoredMutator;
 use Tapestry\Modules\Collectors\Mutators\IsScheduledMutator;
-use Tapestry\Modules\ContentTypes\ContentTypeFactory;
+use Tapestry\Modules\ContentTypes\ContentTypeCollection;
 use Tapestry\Tapestry;
 
 class CollectorsServiceProvider extends AbstractServiceProvider
@@ -61,7 +61,7 @@ class CollectorsServiceProvider extends AbstractServiceProvider
             /** @var Configuration $configuration */
             $configuration = $container->get(Configuration::class);
 
-            /** @var ContentTypeFactory $contentTypes */
+            /** @var ContentTypeCollection $contentTypes */
             $contentTypes = $project->get('content_types');
 
             $exclusions = [];

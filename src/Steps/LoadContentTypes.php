@@ -7,7 +7,7 @@ use Tapestry\Entities\Project;
 use Tapestry\Entities\ContentType;
 use Tapestry\Entities\Configuration;
 use Symfony\Component\Console\Output\OutputInterface;
-use Tapestry\Modules\ContentTypes\ContentTypeFactory;
+use Tapestry\Modules\ContentTypes\ContentTypeCollection;
 
 class LoadContentTypes implements Step
 {
@@ -41,7 +41,7 @@ class LoadContentTypes implements Step
             $output->writeln('[!] Your project\'s content types are miss-configured. Doing nothing and exiting.]');
         }
 
-        $contentTypeFactory = new ContentTypeFactory([
+        $contentTypeFactory = new ContentTypeCollection([
             new ContentType('default', [
                 'path'      => '*',
                 'permalink' => '*',
