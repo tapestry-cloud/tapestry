@@ -14,6 +14,7 @@ use Tapestry\Steps\LoadContentTypes;
 use Tapestry\Steps\LoadSourceFileTree;
 use Tapestry\Steps\ReadCache;
 use Tapestry\Steps\RenderPlates;
+use Tapestry\Steps\RunContentCollectors;
 use Tapestry\Steps\SyntaxAnalysis;
 use Tapestry\Tests\TestCase;
 use Tapestry\Tests\Traits\MockTapestry;
@@ -44,10 +45,13 @@ class ContentGraphNTest extends TestCase
             LoadContentCollectors::class,
             LoadContentRenderers::class,
             LoadContentGenerators::class,
-            LoadSourceFileTree::class,
+            RunContentCollectors::class,
+            //LoadSourceFileTree::class,
+
+
             ParseContentTypes::class,
 
-            SyntaxAnalysis::class,
+            //SyntaxAnalysis::class,
             LexicalAnalysis::class,
             RenderPlates::class
         ], $tapestry);
