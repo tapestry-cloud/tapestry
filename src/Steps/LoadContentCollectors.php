@@ -6,6 +6,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Tapestry\Entities\Configuration;
 use Tapestry\Entities\Project;
 use Tapestry\Modules\Collectors\CollectorCollection;
+use Tapestry\Modules\Collectors\CollectorInterface;
 use Tapestry\Step;
 use Tapestry\Tapestry;
 
@@ -92,10 +93,9 @@ class LoadContentCollectors implements Step
                 $params[$parameter->name] = $collectorConfig[$parameter->name];
             }
 
-            $class = $class->newInstanceArgs($params);
-
-            //$class = new $collectorConfig['collector']($collectorConfig[$constructorParameters[0]->name], $collectorConfig[$constructorParameters[1]->name], $collectorConfig[$constructorParameters[2]->name]);
-            $n = 1;
+            /** @var CollectorInterface $instance */
+            $instance = $class->newInstanceArgs($params);
+            $collection->add($instance);
         }
 
         $project['content_collectors'] = $collection;
