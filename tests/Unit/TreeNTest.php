@@ -14,7 +14,6 @@ class TreeNTest extends TestCase
 
     public function testTreeClass()
     {
-
         $tree = new Tree();
         $root = new Leaf('root','Kernel');
         $tree->add($root);
@@ -38,5 +37,6 @@ class TreeNTest extends TestCase
         });
 
         $this->assertCount(4, $arr);
+        $this->assertEquals(4, $tree->childCount());
     }
 }

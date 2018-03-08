@@ -17,6 +17,7 @@ class Tree
      *
      * @param callable $callback
      * @param null|array|Leaf $node
+     * @return void
      */
     public function traverse(callable $callback, $node = null)
     {
@@ -33,10 +34,25 @@ class Tree
     }
 
     /**
+     * Helper method for traversing the tree and counting all the Leaf nodes.
+     *
+     * @return int
+     */
+    public function childCount(): int
+    {
+        $count = 0;
+        $this->traverse(function() use (&$count){
+            $count++;
+        });
+        return $count;
+    }
+
+    /**
      * Add a new item to the tree.
      *
      * @param Leaf $leaf
      * @param string|null $parent
+     * @return void
      */
     public function add(Leaf $leaf, $parent = null)
     {

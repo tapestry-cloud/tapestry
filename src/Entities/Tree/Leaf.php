@@ -21,6 +21,7 @@ class Leaf
 
     /**
      * Leaf constructor.
+     *
      * @param string $id
      * @param mixed $entity
      */
@@ -48,6 +49,7 @@ class Leaf
 
     /**
      * @param Leaf $entity
+     * @return void
      */
     public function addChild(Leaf $entity)
     {
