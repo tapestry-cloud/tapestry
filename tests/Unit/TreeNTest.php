@@ -2,16 +2,12 @@
 
 namespace Tapestry\Tests\Unit;
 
-use PHPUnit\Framework\Constraint\IsEqual;
-use Tapestry\Entities\Taxonomy;
 use Tapestry\Entities\Tree\Leaf;
 use Tapestry\Entities\Tree\Tree;
 use Tapestry\Tests\TestCase;
-use Tapestry\Tests\Traits\MockFile;
 
 class TreeNTest extends TestCase
 {
-
     public function testTreeClass()
     {
         $tree = new Tree();
