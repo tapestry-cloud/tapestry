@@ -35,4 +35,43 @@ class TreeNTest extends TestCase
         $this->assertCount(4, $arr);
         $this->assertEquals(4, $tree->childCount());
     }
+
+    /**
+     * Example AST Tree:
+     *
+     * ├── kernel.php
+     * |   ├── Content Type A
+     * |   |   ├── File A
+     * |   |   ├── File B
+     * |   |   └── File C
+     * |   ├── Content Type B
+     * |   |   ├── File D
+     * |   |   └── File E
+     * |   ├── Template A
+     * |   |   ├── File A
+     * |   |   ├── View A
+     * |   |   |   ├── File B
+     * |   |   |   └── File C
+     * |   |   └── File D
+     * |   └── Template B
+     * |       └── File E
+     * └── config.php
+     *    └── *All the same nodes as kernel.php
+     *
+     * If only Template B changes then only File E needs to be re-generated and the tree will reduce to:
+     *
+     * └── Template B
+     *    └── File E
+     *
+     * Resulting in only one file needing to be regenerated.
+     *
+     * Once generated the AST will be cached by Tapestry and amended as files are added/removed from
+     * the project workspace.
+     */
+    public function testAST()
+    {
+
+
+
+    }
 }
