@@ -2,6 +2,13 @@
 
 namespace Tapestry\Entities\Tree;
 
+/**
+ * Class Leaf
+ *
+ * Leaf node container class for the Tree data structure.
+ *
+ * @package Tapestry\Entities\Tree
+ */
 class Leaf
 {
     /**

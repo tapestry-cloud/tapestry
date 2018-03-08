@@ -2,6 +2,14 @@
 
 namespace Tapestry\Entities\Tree;
 
+/**
+ * Class Tree
+ *
+ * Code based upon the Tree data structure of Itsy Bitsy data structure by Jamie <https://jamie.build/>
+ *
+ * @see https://github.com/jamiebuilds/itsy-bitsy-data-structures
+ * @package Tapestry\Entities\Tree
+ */
 class Tree
 {
     /**
