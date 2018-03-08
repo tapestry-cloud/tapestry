@@ -27,7 +27,7 @@ class Tree
 
         $callback($node);
 
-        foreach($node->getChildren() as $child) {
+        foreach ($node->getChildren() as $child) {
             $this->traverse($callback, $child);
         }
     }
@@ -47,7 +47,6 @@ class Tree
 
         if (!is_null($parent)) {
             $this->traverse(function (Leaf $node) use ($parent, $leaf) {
-
                 if ($node->getId() === $parent) {
                     $node->addChild($leaf);
                 }
