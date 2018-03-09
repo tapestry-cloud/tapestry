@@ -36,7 +36,7 @@ class RunContentCollectors implements Step
                 $contentType = $contentTypes->get($contentType);
             }
 
-            $contentType->addFile($file);
+            $contentType->addSource($file);
             $project->addFile($file);
 
             $output->writeln('[+] File ['.$file->getRelativePathname().'] bucketed into content type ['.$contentType->getName().']');

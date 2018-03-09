@@ -4,7 +4,7 @@ namespace Tapestry\Modules\ContentTypes;
 
 use Tapestry\Entities\Project;
 use Tapestry\Entities\Taxonomy;
-use Tapestry\Modules\Source\AbstractSource;
+use Tapestry\Modules\Source\SourceInterface;
 
 class ContentType
 {
@@ -51,9 +51,9 @@ class ContentType
     private $taxonomies = [];
 
     /**
-     * Collection of AbstractSource that this ContentType has collected.
+     * Collection of SourceInterface that this ContentType has collected.
      *
-     * @var array|AbstractSource[]
+     * @var array|SourceInterface[]
      */
     private $items = [];
 
@@ -165,12 +165,12 @@ class ContentType
     }
 
     /**
-     * Assign AbstractSource to this content type.
+     * Assign SourceInterface to this content type.
      *
-     * @param AbstractSource $source
+     * @param SourceInterface $source
      * @throws \Exception
      */
-    public function addSource(AbstractSource $source)
+    public function addSource(SourceInterface $source)
     {
         $source->setData('contentType', $this->name);
         $this->itemsOrderCache = null;
@@ -189,12 +189,12 @@ class ContentType
     }
 
     /**
-     * Returns true if AbstractSource has been assigned to this content type.
+     * Returns true if SourceInterface has been assigned to this content type.
      *
-     * @param AbstractSource $source
+     * @param SourceInterface $source
      * @return bool
      */
-    public function hasSource(AbstractSource $source): bool
+    public function hasSource(SourceInterface $source): bool
     {
         return isset($this->items[$source->getUid()]);
     }
@@ -205,7 +205,7 @@ class ContentType
      *
      * @param string $order
      * @throws \Exception
-     * @return AbstractSource[]
+     * @return SourceInterface[]
      */
     public function getSourceList(string $order = 'desc')
     {

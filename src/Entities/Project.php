@@ -5,6 +5,7 @@ namespace Tapestry\Entities;
 use Tapestry\ArrayContainer;
 use Tapestry\Entities\Generators\FileGenerator;
 use Tapestry\Entities\Collections\FlatCollection;
+use Tapestry\Modules\Source\SourceInterface;
 
 class Project extends ArrayContainer
 {
@@ -51,9 +52,9 @@ class Project extends ArrayContainer
     }
 
     /**
-     * @param ProjectFileInterface|ProjectFile|FileGenerator $file
+     * @param SourceInterface|FileGenerator $file
      */
-    public function addFile(ProjectFileInterface $file)
+    public function addFile(SourceInterface $file)
     {
         $this->set('files.'.$file->getUid(), $file);
     }
@@ -61,7 +62,7 @@ class Project extends ArrayContainer
     /**
      * @param string $key
      *
-     * @return ProjectFileInterface|ProjectFile|FileGenerator
+     * @return SourceInterface|FileGenerator
      */
     public function getFile($key)
     {
@@ -69,18 +70,18 @@ class Project extends ArrayContainer
     }
 
     /**
-     * @param ProjectFileInterface|ProjectFile|FileGenerator $file
+     * @param SourceInterface|FileGenerator $file
      */
-    public function removeFile(ProjectFileInterface $file)
+    public function removeFile(SourceInterface $file)
     {
         $this->remove('files.'.$file->getUid());
     }
 
     /**
-     * @param ProjectFileInterface|ProjectFile|FileGenerator $oldFile
-     * @param ProjectFileInterface|ProjectFile|FileGenerator $newFile
+     * @param SourceInterface|FileGenerator $oldFile
+     * @param SourceInterface|FileGenerator $newFile
      */
-    public function replaceFile(ProjectFileInterface $oldFile, ProjectFileInterface $newFile)
+    public function replaceFile(SourceInterface $oldFile, SourceInterface $newFile)
     {
         $this->removeFile($oldFile);
         $this->addFile($newFile);
@@ -88,11 +89,11 @@ class Project extends ArrayContainer
 
     /**
      * @param string $name
-     * @param ProjectFile   $file
+     * @param SourceInterface   $file
      *
      * @return ProjectFileGeneratorInterface
      */
-    public function getContentGenerator($name, ProjectFile $file)
+    public function getContentGenerator($name, SourceInterface $file)
     {
         return $this->get('content_generators')->get($name, $file);
     }
