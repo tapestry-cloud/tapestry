@@ -1,7 +1,11 @@
 <?php
 
-namespace Tapestry\Modules\Kernel;
+namespace Tapestry\Steps;
 
+use Tapestry\Entities\Tree\Leaf;
+use Tapestry\Entities\Tree\Symbol;
+use Tapestry\Entities\Tree\Tree;
+use Tapestry\Modules\Kernel\KernelInterface;
 use Tapestry\Step;
 use Tapestry\Tapestry;
 use Tapestry\Entities\Project;
@@ -35,12 +39,26 @@ class BootKernel implements Step
      * @return bool
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \ReflectionException
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
         /** @var KernelInterface $kernel */
         $kernel = $this->tapestry->getContainer()->get(KernelInterface::class);
         $kernel->boot();
+
+        $reflection = new \ReflectionClass($kernel);
+
+        if ($mTime = filemtime($reflection->getFileName())) {
+            $kernelSymbol = new Symbol('kernel', Symbol::SYMBOL_KERNEL, $mTime);
+        } else {
+            $kernelSymbol = new Symbol('kernel', Symbol::SYMBOL_KERNEL, -1);
+            $kernelSymbol->setHash(sha1_file($reflection->getFileName()));
+        }
+
+        /** @var Tree $tree */
+        $tree = $project['ast'];
+        $tree->add(new Leaf('kernel', $kernelSymbol));
 
         return true;
     }

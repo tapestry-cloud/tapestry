@@ -86,7 +86,7 @@ class Symbol
             return false;
         }
 
-        if ($symbol->mTime > $this->mTime) {
+        if ($this->mTime > 0 && $symbol->mTime > $this->mTime) {
             return false;
         }
 
