@@ -7,7 +7,6 @@ use Tapestry\Entities\Permalink;
 
 abstract class AbstractSource implements SourceInterface
 {
-
     /**
      * File meta data, usually from front matter or site config.
      *
@@ -181,7 +180,8 @@ abstract class AbstractSource implements SourceInterface
      *
      * @return bool
      */
-    public function hasContent(): bool{
+    public function hasContent(): bool
+    {
         return $this->content !== false;
     }
 

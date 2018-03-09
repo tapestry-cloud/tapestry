@@ -5,11 +5,9 @@ namespace Tapestry\Modules\Collectors\Exclusions;
 use Tapestry\Entities\Configuration;
 
 /**
- * Class ConfigurationIgnoredExclusion
+ * Class ConfigurationIgnoredExclusion.
  *
  * Filters out files with a path matching any set within the ignored configuration array.
- *
- * @package Tapestry\Modules\Collectors\Exclusions
  */
 class ConfigurationIgnoredExclusion extends ArrayPathExclusion implements ExclusionInterface
 {

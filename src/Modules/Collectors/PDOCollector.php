@@ -7,12 +7,10 @@ use Tapestry\Modules\Source\MemorySource;
 use Tapestry\Modules\Source\SourceInterface;
 
 /**
- * Class PDOCollector
+ * Class PDOCollector.
  *
  * This collector uses a PDO database connection as the source of Files rather than
  * the file system (as with FilesystemCollector).
- *
- * @package Tapestry\Modules\Collectors
  */
 final class PDOCollector extends AbstractCollector implements CollectorInterface
 {
@@ -37,7 +35,7 @@ final class PDOCollector extends AbstractCollector implements CollectorInterface
 
     /**
      * Executes queries on database and returns an array containing
-     * all source "files" as instances of MemorySource
+     * all source "files" as instances of MemorySource.
      *
      * @return array|SourceInterface[]|MemorySource[]
      */

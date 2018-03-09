@@ -3,11 +3,9 @@
 namespace Tapestry\Entities\Tree;
 
 /**
- * Class Leaf
+ * Class Leaf.
  *
  * Leaf node container class for the Tree data structure.
- *
- * @package Tapestry\Entities\Tree
  */
 class Leaf
 {
@@ -63,7 +61,7 @@ class Leaf
      * @param Leaf $entity
      * @return void
      */
-    public function addChild(Leaf $entity)
+    public function addChild(self $entity)
     {
         $this->hasChildren = true;
         $this->children[] = $entity;

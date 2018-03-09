@@ -6,8 +6,7 @@ use Tapestry\Modules\Content\FrontMatter;
 use Tapestry\Modules\Source\SourceInterface;
 
 /**
- * Class FrontMatterMutator
- * @package Tapestry\Modules\Collectors\Mutators
+ * Class FrontMatterMutator.
  */
 class FrontMatterMutator implements MutatorInterface
 {

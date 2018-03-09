@@ -6,15 +6,11 @@ use DateTime;
 use Tapestry\Modules\Source\SourceInterface;
 
 /**
- * Class IsScheduledMutator
+ * Class IsScheduledMutator.
  *
  * This mutator takes an input SourceInterface and determines if it is scheduled for publishing.
  * A scheduled source is one that has its draft flag set to `true` while also having a date set
  * that is less than or equal to `$now`.
- *
- *
- *
- * @package Tapestry\Modules\Collectors\Mutators
  */
 final class IsScheduledMutator implements MutatorInterface
 {

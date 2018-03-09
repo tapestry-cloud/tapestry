@@ -2,16 +2,14 @@
 
 namespace Tapestry\Modules\Source;
 
-use Symfony\Component\Finder\SplFileInfo;
 use Tapestry\Entities\Permalink;
+use Symfony\Component\Finder\SplFileInfo;
 
 /**
- * Class SplFileSource
- * @package Tapestry\Modules\Source
+ * Class SplFileSource.
  */
 class SplFileSource extends AbstractSource implements SourceInterface
 {
-
     /**
      * @var SplFileInfo
      */
@@ -75,7 +73,6 @@ class SplFileSource extends AbstractSource implements SourceInterface
         return $this->splFileInfo->getFilename();
     }
 
-
     /**
      * Gets the file extension.
      *
@@ -100,7 +97,7 @@ class SplFileSource extends AbstractSource implements SourceInterface
      */
     public function getRelativePath(bool $overloaded = true): string
     {
-        if ($overloaded === true && isset($this->overloaded['relativePath'])){
+        if ($overloaded === true && isset($this->overloaded['relativePath'])) {
             return $this->overloaded['relativePath'];
         }
 
@@ -116,7 +113,7 @@ class SplFileSource extends AbstractSource implements SourceInterface
      */
     public function getRelativePathname(bool $overloaded = true): string
     {
-        if ($overloaded === true && isset($this->overloaded['relativePathname'])){
+        if ($overloaded === true && isset($this->overloaded['relativePathname'])) {
             return $this->overloaded['relativePathname'];
         }
 

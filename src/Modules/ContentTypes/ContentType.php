@@ -8,7 +8,6 @@ use Tapestry\Modules\Source\AbstractSource;
 
 class ContentType
 {
-
     /**
      * The developer friendly name of this content type.
      *
@@ -76,9 +75,9 @@ class ContentType
     {
         $this->name = $name;
 
-        $this->path = ((isset($settings['path']) && is_string($settings['path'])) ? $settings['path'] : ('_' . $this->name));
-        $this->template = ((isset($settings['template']) && is_string($settings['template'])) ? $settings['template'] : '_templates' . DIRECTORY_SEPARATOR . $this->name);
-        $this->permalink = ((isset($settings['permalink']) && is_string($settings['permalink'])) ? $settings['permalink'] : ($this->name . '/{slug}.{ext}'));
+        $this->path = ((isset($settings['path']) && is_string($settings['path'])) ? $settings['path'] : ('_'.$this->name));
+        $this->template = ((isset($settings['template']) && is_string($settings['template'])) ? $settings['template'] : '_templates'.DIRECTORY_SEPARATOR.$this->name);
+        $this->permalink = ((isset($settings['permalink']) && is_string($settings['permalink'])) ? $settings['permalink'] : ($this->name.'/{slug}.{ext}'));
         $this->enabled = ((isset($settings['enabled']) && is_bool($settings['enabled'])) ? boolval($settings['enabled']) : false);
 
         // @todo for #31 look into this
@@ -196,8 +195,7 @@ class ContentType
      */
     public function getSourceList(string $order = 'desc')
     {
-        if (! in_array(strtolower($order), ['asc', 'desc']))
-        {
+        if (! in_array(strtolower($order), ['asc', 'desc'])) {
             throw new \Exception('The order attribute of getSourceList must be either asc or desc');
         }
 

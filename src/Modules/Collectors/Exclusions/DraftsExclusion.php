@@ -5,18 +5,15 @@ namespace Tapestry\Modules\Collectors\Exclusions;
 use Tapestry\Modules\Source\SourceInterface;
 
 /**
- * Class DraftsExclusion
+ * Class DraftsExclusion.
  *
  * Filters out draft files if publishing drafts is not allowed and the file in question
  * is not considered "scheduled".
- *
- * @package Tapestry\Modules\Collectors\Exclusions
  */
 class DraftsExclusion implements ExclusionInterface
 {
     /**
-     * 
-     * @var bool 
+     * @var bool
      */
     private $canPublishDrafts;
 
@@ -39,7 +36,7 @@ class DraftsExclusion implements ExclusionInterface
      */
     public function filter(SourceInterface $source): bool
     {
-        if ($this->canPublishDrafts){
+        if ($this->canPublishDrafts) {
             return false;
         }
 

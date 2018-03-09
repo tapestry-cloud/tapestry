@@ -2,13 +2,12 @@
 
 namespace Tapestry\Modules\Collectors;
 
-use Tapestry\Modules\Collectors\Exclusions\ExclusionInterface;
-use Tapestry\Modules\Collectors\Mutators\MutatorInterface;
 use Tapestry\Modules\Source\SourceInterface;
+use Tapestry\Modules\Collectors\Mutators\MutatorInterface;
+use Tapestry\Modules\Collectors\Exclusions\ExclusionInterface;
 
 abstract class AbstractCollector implements CollectorInterface
 {
-
     /**
      * Collector Name.
      *
@@ -58,9 +57,10 @@ abstract class AbstractCollector implements CollectorInterface
     protected function mutateSource(SourceInterface $source) : SourceInterface
     {
         // @todo implement defaultData as mutators that this iterates over
-        foreach($this->mutatorCollection as $mutator) {
+        foreach ($this->mutatorCollection as $mutator) {
             $mutator->mutate($source);
         }
+
         return $source;
     }
 
@@ -70,12 +70,13 @@ abstract class AbstractCollector implements CollectorInterface
      */
     protected function filterCollection(array $collection)
     {
-        return array_filter($collection, function(SourceInterface $el){
+        return array_filter($collection, function (SourceInterface $el) {
             foreach ($this->filterCollection as $filter) {
                 if ($filter->filter($el) === true) {
                     return false;
                 }
             }
+
             return true;
         });
     }

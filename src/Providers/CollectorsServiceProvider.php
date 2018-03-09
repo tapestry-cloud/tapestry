@@ -2,26 +2,24 @@
 
 namespace Tapestry\Providers;
 
-
-use League\Container\ServiceProvider\AbstractServiceProvider;
-use Tapestry\Entities\Configuration;
-use Tapestry\Entities\Project;
-use Tapestry\Modules\Collectors\Exclusions\DraftsExclusion;
-use Tapestry\Modules\Collectors\Mutators\IsIgnoredMutator;
-use Tapestry\Modules\Collectors\Mutators\IsScheduledMutator;
-use Tapestry\Modules\ContentTypes\ContentTypeCollection;
 use Tapestry\Tapestry;
+use Tapestry\Entities\Project;
+use Tapestry\Entities\Configuration;
+use Tapestry\Modules\ContentTypes\ContentTypeCollection;
+use Tapestry\Modules\Collectors\Mutators\IsIgnoredMutator;
+use Tapestry\Modules\Collectors\Exclusions\DraftsExclusion;
+use Tapestry\Modules\Collectors\Mutators\IsScheduledMutator;
+use League\Container\ServiceProvider\AbstractServiceProvider;
 
 class CollectorsServiceProvider extends AbstractServiceProvider
 {
-
     /**
      * @var array
      */
     protected $provides = [
         IsScheduledMutator::class,
         IsIgnoredMutator::class,
-        DraftsExclusion::class
+        DraftsExclusion::class,
     ];
 
     /**
@@ -94,5 +92,4 @@ class CollectorsServiceProvider extends AbstractServiceProvider
             return new IsScheduledMutator($publishDrafts, $autoPublish);
         });
     }
-
 }

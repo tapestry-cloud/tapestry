@@ -20,7 +20,7 @@ class Symbol
     /**
      * @var int
      */
-    public $type = Symbol::SYMBOL_UNKNOWN;
+    public $type = self::SYMBOL_UNKNOWN;
 
     /**
      * The sha1 hash of the symbol if applicable.
@@ -76,7 +76,7 @@ class Symbol
      * @return bool
      * @throws \Exception
      */
-    public function isSame(Symbol $symbol): bool
+    public function isSame(self $symbol): bool
     {
         if ($symbol->id !== $this->id) {
             throw new \Exception('Symbol being compared must have the same identifier.');

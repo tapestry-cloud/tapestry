@@ -2,11 +2,11 @@
 
 namespace Tapestry\Steps;
 
-use Tapestry\Modules\Collectors\CollectorCollection;
-use Tapestry\Modules\ContentTypes\ContentTypeCollection;
 use Tapestry\Step;
 use Tapestry\Entities\Project;
+use Tapestry\Modules\Collectors\CollectorCollection;
 use Symfony\Component\Console\Output\OutputInterface;
+use Tapestry\Modules\ContentTypes\ContentTypeCollection;
 
 class RunContentCollectors implements Step
 {
@@ -29,8 +29,7 @@ class RunContentCollectors implements Step
 
         $files = $collection->collect();
 
-        foreach ($files as $file)
-        {
+        foreach ($files as $file) {
             if (! $contentType = $contentTypes->find($file->getRelativePath())) {
                 $contentType = $contentTypes->get('*');
             } else {
