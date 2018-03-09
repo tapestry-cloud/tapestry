@@ -5,12 +5,10 @@ namespace Tapestry\Modules\Collectors\Exclusions;
 use Tapestry\Modules\Source\SourceInterface;
 
 /**
- * Class PathExclusion
+ * Class PathExclusion.
  *
  * Filters out files that match an defined path. This can be used to configure tapestry to ignore
  * certain paths and not parse the files inside.
- *
- * @package Tapestry\Modules\Collectors\Exclusions
  */
 class PathExclusion implements ExclusionInterface
 {
@@ -40,6 +38,7 @@ class PathExclusion implements ExclusionInterface
         if (strpos($source->getRelativePath(), $this->path) === false) {
             return false;
         }
+
         return true;
     }
 }

@@ -16,5 +16,5 @@ interface ExclusionInterface
      * @param SourceInterface $source
      * @return bool
      */
-    public function filter(SourceInterface $source): bool  ;
+    public function filter(SourceInterface $source): bool;
 }

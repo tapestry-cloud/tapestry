@@ -11,8 +11,8 @@ use Symfony\Component\Finder\Finder;
 use Tapestry\Entities\Configuration;
 use Tapestry\Modules\Content\FrontMatter;
 use Symfony\Component\Console\Output\OutputInterface;
-use Tapestry\Modules\ContentTypes\ContentTypeCollection;
 use Tapestry\Modules\Renderers\ContentRendererFactory;
+use Tapestry\Modules\ContentTypes\ContentTypeCollection;
 
 class LoadSourceFileTree implements Step
 {

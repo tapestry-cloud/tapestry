@@ -5,7 +5,7 @@ namespace Tapestry\Modules\Collectors\Mutators;
 use Tapestry\Modules\Source\SourceInterface;
 
 /**
- * Class IsIgnoredMutator
+ * Class IsIgnoredMutator.
  *
  * Any files not handled by renders are "ignored"; these are files that should be included in the collected
  * list of files due to them maybe being a dependency of other files (e.g templates, partials, etc) but that
@@ -15,8 +15,6 @@ use Tapestry\Modules\Source\SourceInterface;
  * list of files.
  *
  * Any path containing an underscore (_) is ignored by default unless its found within the $exclusions array.
- *
- * @package Tapestry\Modules\Collectors\Mutators
  */
 final class IsIgnoredMutator implements MutatorInterface
 {
@@ -55,6 +53,7 @@ final class IsIgnoredMutator implements MutatorInterface
         foreach ($this->exclusions as $exclusion) {
             if (str_contains($relativePath, $exclusion)) {
                 $source->setIgnored(false);
+
                 return;
             }
         }
@@ -62,6 +61,7 @@ final class IsIgnoredMutator implements MutatorInterface
         foreach ($this->ignorePaths as $ignoredPath) {
             if (str_contains($relativePath, $ignoredPath)) {
                 $source->setIgnored();
+
                 return;
             }
         }
@@ -70,6 +70,7 @@ final class IsIgnoredMutator implements MutatorInterface
         foreach (explode('/', str_replace('\\', '/', $relativePath)) as $pathItem) {
             if (substr($pathItem, 0, 1) === '_') {
                 $source->setIgnored();
+
                 return;
             }
         }

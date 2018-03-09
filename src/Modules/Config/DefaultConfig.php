@@ -46,12 +46,12 @@ return [
                 Tapestry\Modules\Collectors\Mutators\SetDateDataFromFileNameMutator::class,
                 Tapestry\Modules\Collectors\Mutators\FrontMatterMutator::class,
                 Tapestry\Modules\Collectors\Mutators\IsScheduledMutator::class,
-                Tapestry\Modules\Collectors\Mutators\IsIgnoredMutator::class
+                Tapestry\Modules\Collectors\Mutators\IsIgnoredMutator::class,
             ],
             'filterCollection' => [
                 Tapestry\Modules\Collectors\Exclusions\DraftsExclusion::class,
-            ]
-        ]
+            ],
+        ],
     ],
 
     'content_renderers' => [

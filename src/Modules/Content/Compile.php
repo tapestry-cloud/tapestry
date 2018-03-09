@@ -18,8 +18,8 @@ use Tapestry\Entities\Filesystem\FileIgnored;
 use Tapestry\Entities\Generators\FileGenerator;
 use Tapestry\Entities\Collections\FlatCollection;
 use Symfony\Component\Console\Output\OutputInterface;
-use Tapestry\Modules\ContentTypes\ContentTypeCollection;
 use Tapestry\Modules\Renderers\ContentRendererFactory;
+use Tapestry\Modules\ContentTypes\ContentTypeCollection;
 
 class Compile implements Step
 {

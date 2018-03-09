@@ -7,8 +7,7 @@ use Tapestry\Modules\Source\MemorySource;
 use Tapestry\Modules\Source\SourceInterface;
 
 /**
- * Class MemoryCollector
- * @package Tapestry\Modules\Collectors
+ * Class MemoryCollector.
  */
 final class MemoryCollector extends AbstractCollector implements CollectorInterface
 {
@@ -37,8 +36,7 @@ final class MemoryCollector extends AbstractCollector implements CollectorInterf
     {
         $collection = [];
 
-        foreach($this->items as $item)
-        {
+        foreach ($this->items as $item) {
             $file = new MemorySource(
                 $item['uid'],
                 $item['rawContent'],
@@ -49,7 +47,7 @@ final class MemoryCollector extends AbstractCollector implements CollectorInterf
                 $item['data'] ?? [
                     'draft' => false,
                     'date' => DateTime::createFromFormat('U', time()),
-                    'pretty_permalink' => true
+                    'pretty_permalink' => true,
                 ]
             );
 

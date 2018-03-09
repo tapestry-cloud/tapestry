@@ -2,22 +2,20 @@
 
 namespace Tapestry\Steps;
 
-use Symfony\Component\Console\Output\OutputInterface;
-use Tapestry\Entities\Configuration;
-use Tapestry\Entities\Project;
-use Tapestry\Modules\Collectors\CollectorCollection;
-use Tapestry\Modules\Collectors\CollectorInterface;
 use Tapestry\Step;
 use Tapestry\Tapestry;
+use Tapestry\Entities\Project;
+use Tapestry\Entities\Configuration;
+use Tapestry\Modules\Collectors\CollectorInterface;
+use Tapestry\Modules\Collectors\CollectorCollection;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class LoadContentCollectors
+ * Class LoadContentCollectors.
  *
  * This Step looks up the configured collectors and fills the `collectors` object
  * for the given Project. This is required to have been invoked after
  * LoadContentTypes because it excludes their paths from `IsIgnoredMutator`.
- *
- * @package Tapestry\Steps
  */
 class LoadContentCollectors implements Step
 {
@@ -61,7 +59,9 @@ class LoadContentCollectors implements Step
         foreach ($this->configuration->get('content_collectors', []) as $name => $collectorConfig) {
             // Replace any %xxx% values with public Project properties.
             foreach ($collectorConfig as $key => $value) {
-                if (!is_string($value)) { continue; }
+                if (! is_string($value)) {
+                    continue;
+                }
                 if (preg_match_all("/%(\w+)%/", $value, $matches) > 0) {
                     $collectorConfig[$key] = $project->{$matches[1][0]};
                 }
@@ -69,8 +69,7 @@ class LoadContentCollectors implements Step
 
             // If mutatorCollection exist, create their classes.
             if (isset($collectorConfig['mutatorCollection'])) {
-                foreach ($collectorConfig['mutatorCollection'] as &$mutator)
-                {
+                foreach ($collectorConfig['mutatorCollection'] as &$mutator) {
                     $mutator = $this->container->get($mutator);
                 }
                 unset($mutator);
@@ -78,8 +77,7 @@ class LoadContentCollectors implements Step
 
             // If filterCollection exist, create their classes.
             if (isset($collectorConfig['filterCollection'])) {
-                foreach ($collectorConfig['filterCollection'] as &$exclusion)
-                {
+                foreach ($collectorConfig['filterCollection'] as &$exclusion) {
                     $exclusion = $this->container->get($exclusion);
                 }
                 unset($exclusion);
@@ -88,8 +86,7 @@ class LoadContentCollectors implements Step
             $class = new \ReflectionClass($collectorConfig['collector']);
             $params = [];
 
-            foreach ($class->getConstructor()->getParameters() as $parameter)
-            {
+            foreach ($class->getConstructor()->getParameters() as $parameter) {
                 $params[$parameter->name] = $collectorConfig[$parameter->name];
             }
 
@@ -99,6 +96,7 @@ class LoadContentCollectors implements Step
         }
 
         $project['content_collectors'] = $collection;
+
         return true;
     }
 }

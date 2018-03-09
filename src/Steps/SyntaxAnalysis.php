@@ -13,8 +13,8 @@ use Tapestry\Entities\ProjectFileInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Tapestry\Entities\Generators\FileGenerator;
 use Symfony\Component\Console\Output\OutputInterface;
-use Tapestry\Modules\ContentTypes\ContentTypeCollection;
 use Tapestry\Modules\Renderers\ContentRendererFactory;
+use Tapestry\Modules\ContentTypes\ContentTypeCollection;
 
 class SyntaxAnalysis implements Step
 {

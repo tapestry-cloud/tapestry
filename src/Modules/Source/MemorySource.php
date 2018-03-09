@@ -5,12 +5,10 @@ namespace Tapestry\Modules\Source;
 use Tapestry\Entities\Permalink;
 
 /**
- * Class SplFileSource
- * @package Tapestry\Modules\Source
+ * Class SplFileSource.
  */
 class MemorySource extends AbstractSource implements SourceInterface
 {
-
     /**
      * @var string
      */
@@ -55,7 +53,7 @@ class MemorySource extends AbstractSource implements SourceInterface
         string $relativePath,
         string $relativePathname,
         array $data = []
-    ){
+    ) {
         $this->meta = [];
         $this->permalink = new Permalink();
         $this->setDataFromArray($data);
@@ -103,7 +101,6 @@ class MemorySource extends AbstractSource implements SourceInterface
         return $this->filename;
     }
 
-
     /**
      * Gets the file extension.
      *
@@ -128,7 +125,7 @@ class MemorySource extends AbstractSource implements SourceInterface
      */
     public function getRelativePath(bool $overloaded = true): string
     {
-        if ($overloaded === true && isset($this->overloaded['relativePath'])){
+        if ($overloaded === true && isset($this->overloaded['relativePath'])) {
             return $this->overloaded['relativePath'];
         }
 
@@ -144,7 +141,7 @@ class MemorySource extends AbstractSource implements SourceInterface
      */
     public function getRelativePathname(bool $overloaded = true): string
     {
-        if ($overloaded === true && isset($this->overloaded['relativePathname'])){
+        if ($overloaded === true && isset($this->overloaded['relativePathname'])) {
             return $this->overloaded['relativePathname'];
         }
 

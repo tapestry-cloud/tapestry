@@ -3,13 +3,11 @@
 namespace Tapestry\Entities\Tree;
 
 /**
- * Class TreeShaker
+ * Class TreeShaker.
  *
  * Given two Tree structures, using the isSame method on each Leaf's Symbol
  * this class reduces the Tree to just those nodes that are modified or
  * affected by ancestors that are modified.
- *
- * @package Tapestry\Entities\Tree
  */
 class TreeShaker
 {
@@ -31,11 +29,11 @@ class TreeShaker
         $symbols = $b->getAllSymbols();
         $changed = [];
 
-        $a->traverse(function(Leaf $leaf) use ($symbols, &$changed){
-            if(isset($symbols[$leaf->getId()])){
+        $a->traverse(function (Leaf $leaf) use ($symbols, &$changed) {
+            if (isset($symbols[$leaf->getId()])) {
                 if (! $leaf->getSymbol()->isSame($symbols[$leaf->getId()])) {
                     $changed[$leaf->getId()] = $leaf->getSymbol();
-                    if ($leaf->hasChildren()){
+                    if ($leaf->hasChildren()) {
                         $changed = array_merge($changed, $this->traverse($leaf));
                     }
                 }
@@ -54,12 +52,13 @@ class TreeShaker
      */
     private function traverse(Leaf $leaf, array $changed = []): array
     {
-        foreach($leaf->getChildren() as $child) {
+        foreach ($leaf->getChildren() as $child) {
             $changed[$child->getId()] = $child->getSymbol();
-            if ($child->hasChildren()){
+            if ($child->hasChildren()) {
                 $changed = $this->traverse($child, $changed);
             }
         }
+
         return $changed;
     }
 }

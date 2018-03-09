@@ -30,15 +30,15 @@ class CollectorCollection
     public function collect(): array
     {
         $output = [];
-        foreach($this->collectors as $collector) {
-            foreach($collector->collect() as $key => $source)
-            {
-                if (isset($output[$key])){
-                    throw new \Exception('File with key ['. $key .'] already collected by previous collector.');
+        foreach ($this->collectors as $collector) {
+            foreach ($collector->collect() as $key => $source) {
+                if (isset($output[$key])) {
+                    throw new \Exception('File with key ['.$key.'] already collected by previous collector.');
                 }
                 $output[$key] = $source;
             }
         }
+
         return $output;
     }
 }

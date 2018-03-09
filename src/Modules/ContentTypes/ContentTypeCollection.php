@@ -50,10 +50,10 @@ class ContentTypeCollection
      */
     public function add(ContentType $contentType, bool $overWrite = false)
     {
-        if (!$overWrite && $this->has($contentType->getPath())) {
-            throw new \Exception('The collection [' . $this->pathLookupTable[$contentType->getPath()] . '] already collects for the path [' . $contentType->getPath() . ']');
+        if (! $overWrite && $this->has($contentType->getPath())) {
+            throw new \Exception('The collection ['.$this->pathLookupTable[$contentType->getPath()].'] already collects for the path ['.$contentType->getPath().']');
         }
-        $uid = sha1(md5(get_class($contentType)) . '_' . sha1($contentType->getName() . '-' . $contentType->getPath()));
+        $uid = sha1(md5(get_class($contentType)).'_'.sha1($contentType->getName().'-'.$contentType->getPath()));
         $this->items[$uid] = $contentType;
         $this->pathLookupTable[$contentType->getPath()] = $uid;
         $this->nameLookupTable[$contentType->getName()] = $uid;
@@ -95,6 +95,7 @@ class ContentTypeCollection
                 return $key;
             }
         }
+
         return null;
     }
 
@@ -110,11 +111,11 @@ class ContentTypeCollection
      */
     public function get($path): ContentType
     {
-        if (!$this->has($path) && !$this->has('*')) {
-            throw new \Exception('There is no collection that collects for the path [' . $path . ']');
+        if (! $this->has($path) && ! $this->has('*')) {
+            throw new \Exception('There is no collection that collects for the path ['.$path.']');
         }
 
-        if (!$this->has($path) && $this->has('*')) {
+        if (! $this->has($path) && $this->has('*')) {
             return $this->items[$this->pathLookupTable['*']];
         }
 
@@ -130,7 +131,7 @@ class ContentTypeCollection
      */
     public function arrayAccessByKey($key)
     {
-        if (!isset($this->nameLookupTable[$key])) {
+        if (! isset($this->nameLookupTable[$key])) {
             return null;
         }
 
