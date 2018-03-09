@@ -56,6 +56,22 @@ class Tree
     }
 
     /**
+     * Return all symbols stored in this Tree as a List.
+     *
+     * @return array|Symbol[]
+     */
+    public function getAllSymbols(): array
+    {
+        $symbols = [];
+        $this->traverse(function(Leaf $leaf) use (&$symbols){
+            if (! isset($symbols[$leaf->getId()])){
+                $symbols[$leaf->getId()] = $leaf->getSymbol();
+            }
+        });
+        return $symbols;
+    }
+
+    /**
      * Add a new item to the tree.
      *
      * @param Leaf $leaf

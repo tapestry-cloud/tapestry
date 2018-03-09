@@ -17,9 +17,9 @@ class Leaf
     private $id;
 
     /**
-     * @var mixed
+     * @var Symbol
      */
-    private $entity;
+    private $symbol;
 
     /**
      * @var array|Leaf[]
@@ -27,15 +27,20 @@ class Leaf
     private $children = [];
 
     /**
+     * @var bool
+     */
+    private $hasChildren = false;
+
+    /**
      * Leaf constructor.
      *
      * @param string $id
-     * @param mixed $entity
+     * @param Symbol  $symbol
      */
-    public function __construct(string $id, $entity)
+    public function __construct(string $id, Symbol $symbol)
     {
         $this->id = $id;
-        $this->entity = $entity;
+        $this->symbol = $symbol;
     }
 
     /**
@@ -47,11 +52,11 @@ class Leaf
     }
 
     /**
-     * @return mixed
+     * @return Symbol
      */
-    public function getEntity()
+    public function getSymbol(): Symbol
     {
-        return $this->entity;
+        return $this->symbol;
     }
 
     /**
@@ -60,7 +65,16 @@ class Leaf
      */
     public function addChild(Leaf $entity)
     {
+        $this->hasChildren = true;
         $this->children[] = $entity;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasChildren(): bool
+    {
+        return $this->hasChildren;
     }
 
     /**
