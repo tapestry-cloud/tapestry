@@ -4,7 +4,7 @@ namespace Tapestry\Steps;
 
 use Tapestry\Step;
 use Tapestry\Entities\Project;
-use Tapestry\Entities\ContentType;
+use Tapestry\Modules\ContentTypes\ContentType;
 use Tapestry\Entities\Configuration;
 use Symfony\Component\Console\Output\OutputInterface;
 use Tapestry\Modules\ContentTypes\ContentTypeCollection;

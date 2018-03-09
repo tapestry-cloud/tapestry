@@ -168,10 +168,24 @@ class ContentType
      * Assign AbstractSource to this content type.
      *
      * @param AbstractSource $source
+     * @throws \Exception
      */
     public function addSource(AbstractSource $source)
     {
-        // @todo finish
+        $source->setData('contentType', $this->name);
+        $this->itemsOrderCache = null;
+
+        $this->items[$source->getUid()] = $source->getData('date')->getTimestamp();
+
+        foreach ($this->taxonomies as $taxonomy) {
+            if ($classifications = $source->getData($taxonomy->getName())) {
+                foreach ($classifications as $classification) {
+                    $taxonomy->addFile($source, $classification);
+                }
+            } else {
+                $source->setData($taxonomy->getName(), []);
+            }
+        }
     }
 
     /**
