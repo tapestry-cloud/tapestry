@@ -2,8 +2,6 @@
 
 namespace Tapestry\Modules\ContentTypes;
 
-use Tapestry\Entities\ContentType;
-
 class ContentTypeCollection
 {
     /**

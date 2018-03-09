@@ -113,6 +113,5 @@ class TreeNTest extends TestCase
 
         $list = $shaker->reduce($treeA, $treeD);
         $this->assertEquals(5, count($list));
-
     }
 }
