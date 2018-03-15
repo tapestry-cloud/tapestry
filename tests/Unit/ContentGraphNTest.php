@@ -17,6 +17,7 @@ use Tapestry\Steps\LoadSourceFileTree;
 use Tapestry\Steps\ReadCache;
 use Tapestry\Steps\RenderPlates;
 use Tapestry\Steps\RunContentCollectors;
+use Tapestry\Steps\RunGenerators;
 use Tapestry\Steps\SyntaxAnalysis;
 use Tapestry\Tests\TestCase;
 use Tapestry\Tests\Traits\MockTapestry;
@@ -51,6 +52,7 @@ class ContentGraphNTest extends TestCase
             LoadContentGenerators::class,
             RunContentCollectors::class,
 
+            RunGenerators::class,
             ParseContentTypes::class,
 
             //SyntaxAnalysis::class,
@@ -58,7 +60,7 @@ class ContentGraphNTest extends TestCase
             //RenderPlates::class
         ], $tapestry);
 
-        $generator->generate($project, new NullOutput());
+        $this->assertEquals(0, $generator->generate($project, new NullOutput()));
 
         $this->assertTrue(true);
     }
