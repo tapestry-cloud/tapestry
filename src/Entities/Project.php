@@ -5,6 +5,7 @@ namespace Tapestry\Entities;
 use Tapestry\ArrayContainer;
 use Tapestry\Entities\Generators\FileGenerator;
 use Tapestry\Entities\Collections\FlatCollection;
+use Tapestry\Entities\Tree\Tree;
 use Tapestry\Modules\Source\SourceInterface;
 
 class Project extends ArrayContainer
@@ -107,5 +108,17 @@ class Project extends ArrayContainer
     public function getContentType($name)
     {
         return $this->get('content_types.'.$name);
+    }
+
+    /**
+     * @return Tree
+     * @throws \Exception
+     */
+    public function getAST(): Tree
+    {
+        if (! $this->has('ast')) {
+            throw new \Exception('AST is not initiated');
+        }
+        return $this->get('ast');
     }
 }
