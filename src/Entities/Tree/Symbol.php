@@ -45,12 +45,14 @@ class Symbol
      * @param string $id
      * @param int $type
      * @param int $mTime
+     * @param string $hash
      */
-    public function __construct(string $id, int $type, int $mTime)
+    public function __construct(string $id, int $type, int $mTime, string $hash = '')
     {
         $this->id = $id;
         $this->type = $type;
         $this->mTime = $mTime;
+        $this->hash = $hash;
     }
 
     /**
