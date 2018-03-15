@@ -119,4 +119,14 @@ class SplFileSource extends AbstractSource implements SourceInterface
 
         return $this->splFileInfo->getRelativePathname();
     }
+
+    /**
+     * Returns the last modified time.
+     *
+     * @return int
+     */
+    public function getMTime(): int
+    {
+        return $this->splFileInfo->getMTime();
+    }
 }

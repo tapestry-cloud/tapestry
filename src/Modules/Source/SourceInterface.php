@@ -40,6 +40,8 @@ interface SourceInterface
 
     public function getRelativePathname(bool $overloaded = true): string;
 
+    public function getMTime(): int;
+
     public function hasChanged(): bool;
 
     public function setHasChanged(bool $value = true);

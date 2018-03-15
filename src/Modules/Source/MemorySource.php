@@ -34,6 +34,11 @@ class MemorySource extends AbstractSource implements SourceInterface
     private $rawContent;
 
     /**
+     * @var int
+     */
+    private $mTime;
+
+    /**
      * MemorySource constructor.
      *
      * @param string $uid
@@ -63,6 +68,7 @@ class MemorySource extends AbstractSource implements SourceInterface
         $this->relativePath = $relativePath;
         $this->relativePathname = $relativePathname;
         $this->rawContent = $rawContent;
+        $this->mTime = time();
     }
 
     /**
@@ -146,5 +152,15 @@ class MemorySource extends AbstractSource implements SourceInterface
         }
 
         return $this->relativePathname;
+    }
+
+    /**
+     * Returns the last modified time.
+     *
+     * @return int
+     */
+    public function getMTime(): int
+    {
+        return $this->mTime;
     }
 }
