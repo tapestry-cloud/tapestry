@@ -53,9 +53,9 @@ class ContentGraphNTest extends TestCase
 
             ParseContentTypes::class,
 
-            SyntaxAnalysis::class,
-            LexicalAnalysis::class,
-            RenderPlates::class
+            //SyntaxAnalysis::class,
+            //LexicalAnalysis::class,
+            //RenderPlates::class
         ], $tapestry);
 
         $generator->generate($project, new NullOutput());

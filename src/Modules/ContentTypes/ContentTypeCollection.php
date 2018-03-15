@@ -69,9 +69,17 @@ class ContentTypeCollection
         $this->pathLookupTable[$contentType->getPath()] = $uid;
         $this->nameLookupTable[$contentType->getName()] = $uid;
 
-        $symbol = new Symbol('content_type.' . $contentType->getName(), Symbol::SYMBOL_CONTENT_TYPE, -1);
-        $symbol->setHash($uid);
-        $this->project->getAST()->add(new Leaf('content_type.' . $contentType->getName(), $symbol), 'configuration');
+        $templateFilePath = $this->project->sourceDirectory.DIRECTORY_SEPARATOR.$contentType->getTemplate().'.phtml';
+
+        // I have added the hash of the content types template file to ensure that the
+        // content type is invalid if its template changes.
+        if ($contentType->getName() !== 'default' && file_exists($templateFilePath)){
+            $hash = sha1($uid .'.'. sha1_file($templateFilePath));
+        } else {
+            $hash = $uid;
+        }
+
+        $this->project->getAST()->add(new Leaf('content_type.' . $contentType->getName(), new Symbol('content_type.' . $contentType->getName(), Symbol::SYMBOL_CONTENT_TYPE, -1, $hash)), 'configuration');
     }
 
     /**
