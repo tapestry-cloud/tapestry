@@ -11,6 +11,11 @@ use Tapestry\Entities\Project;
 use Symfony\Component\Console\Output\OutputInterface;
 use Tapestry\Tapestry;
 
+/**
+ * Class LoadAST
+ *
+ * This Step initiates the AST Tree structure and assigns it to the Project Container.
+ */
 class LoadAST implements Step
 {
     /**

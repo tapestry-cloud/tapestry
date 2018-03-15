@@ -12,6 +12,11 @@ use Tapestry\Entities\Project;
 use Tapestry\Entities\Configuration;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Class BootKernel
+ *
+ * This Step identifies the configured Kernel for this Project and executes its `boot()` method.
+ */
 class BootKernel implements Step
 {
     /**
