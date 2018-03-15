@@ -48,7 +48,7 @@ class Project extends ArrayContainer
         parent::__construct(
             [
                 'files' => new FlatCollection(),
-                'ast' => new Tree\Tree(),
+                'ast' => new Tree(),
             ]
         );
     }

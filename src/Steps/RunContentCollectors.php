@@ -27,19 +27,10 @@ class RunContentCollectors implements Step
         /** @var ContentTypeCollection $contentTypes */
         $contentTypes = $project->get('content_types');
 
-        $files = $collection->collect();
-
-        foreach ($files as $file) {
-            if (! $contentType = $contentTypes->find($file->getRelativePath())) {
-                $contentType = $contentTypes->get('*');
-            } else {
-                $contentType = $contentTypes->get($contentType);
-            }
-
-            $contentType->addSource($file);
-            $project->addFile($file);
-
-            $output->writeln('[+] File ['.$file->getRelativePathname().'] bucketed into content type ['.$contentType->getName().']');
+        foreach ($collection->collect() as $source) {
+            $contentType = $contentTypes->bucketSource($source);
+            $project->addFile($source);
+            $output->writeln('[+] File ['.$source->getRelativePathname().'] bucketed into content type ['.$contentType->getName().']');
         }
 
         return true;

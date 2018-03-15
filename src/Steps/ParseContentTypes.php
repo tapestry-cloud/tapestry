@@ -4,7 +4,7 @@ namespace Tapestry\Steps;
 
 use Tapestry\Step;
 use Tapestry\Entities\Project;
-use Tapestry\Entities\ContentType;
+use Tapestry\Modules\ContentTypes\ContentType;
 use Tapestry\Entities\ProjectFile;
 use Tapestry\Entities\Generators\FileGenerator;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -72,7 +72,7 @@ class ParseContentTypes implements Step
 
         /** @var ContentType $contentType */
         foreach ($project['content_types']->all() as $contentType) {
-            $contentType->mutateProjectFiles($project);
+            $contentType->mutateProjectSources($project);
         }
 
         return true;

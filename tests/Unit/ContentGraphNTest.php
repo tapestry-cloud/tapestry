@@ -53,7 +53,7 @@ class ContentGraphNTest extends TestCase
 
             ParseContentTypes::class,
 
-            //SyntaxAnalysis::class,
+            SyntaxAnalysis::class,
             LexicalAnalysis::class,
             RenderPlates::class
         ], $tapestry);

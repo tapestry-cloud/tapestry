@@ -2,6 +2,11 @@
 
 namespace Tapestry\Modules\ContentTypes;
 
+use Tapestry\Entities\Project;
+use Tapestry\Entities\Tree\Leaf;
+use Tapestry\Entities\Tree\Symbol;
+use Tapestry\Modules\Source\SourceInterface;
+
 class ContentTypeCollection
 {
     /**
@@ -26,13 +31,21 @@ class ContentTypeCollection
     private $nameLookupTable = [];
 
     /**
+     * @var Project
+     */
+    private $project;
+
+    /**
      * ContentTypeFactory constructor.
      *
      * @param array|ContentType[] $items
+     * @param Project $project
      * @throws \Exception
      */
-    public function __construct(array $items = [])
+    public function __construct(array $items = [], Project $project)
     {
+        $this->project = $project;
+
         foreach ($items as $item) {
             $this->add($item);
         }
@@ -55,6 +68,31 @@ class ContentTypeCollection
         $this->items[$uid] = $contentType;
         $this->pathLookupTable[$contentType->getPath()] = $uid;
         $this->nameLookupTable[$contentType->getName()] = $uid;
+
+        $symbol = new Symbol('content_type.' . $contentType->getName(), Symbol::SYMBOL_CONTENT_TYPE, -1);
+        $symbol->setHash($uid);
+        $this->project->getAST()->add(new Leaf('content_type.' . $contentType->getName(), $symbol), 'configuration');
+    }
+
+    /**
+     * Bucket a SourceFile into one of the ContentTypes in this Collection.
+     *
+     * @param SourceInterface $source
+     * @return ContentType
+     * @throws \Exception
+     */
+    public function bucketSource(SourceInterface $source): ContentType
+    {
+        if (! $contentType = $this->find($source->getRelativePath())) {
+            $contentType = $this->get('*');
+        } else {
+            $contentType = $this->get($contentType);
+        }
+
+        $this->project->getAST()->add(new Leaf($source->getUid(), new Symbol($source->getUid(), Symbol::SYMBOL_CONTENT_TYPE, $source->getMTime())), 'content_type.' . $contentType->getName());
+        $contentType->addSource($source);
+
+        return $contentType;
     }
 
     /**
