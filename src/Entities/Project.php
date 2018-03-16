@@ -72,6 +72,14 @@ class Project extends ArrayContainer
     }
 
     /**
+     * @return SourceInterface
+     */
+    public function allFiles(): SourceInterface
+    {
+        return $this->get('files');
+    }
+
+    /**
      * @param SourceInterface|FileGenerator $file
      */
     public function removeFile(SourceInterface $file)
