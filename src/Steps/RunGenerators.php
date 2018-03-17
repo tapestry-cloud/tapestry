@@ -4,9 +4,7 @@ namespace Tapestry\Steps;
 
 use Tapestry\Step;
 use Tapestry\Entities\Project;
-use Tapestry\Modules\Collectors\CollectorCollection;
 use Symfony\Component\Console\Output\OutputInterface;
-use Tapestry\Modules\ContentTypes\ContentTypeCollection;
 
 class RunGenerators implements Step
 {
@@ -21,16 +19,15 @@ class RunGenerators implements Step
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
+
         //
-        // Replace the ParseContentTypes Step with this
-        // That Step basically loops over all project files and injects ContentType data for files
-        // that have a use.
+        // @todo Foreach File run Generators found until all Generators have been ran.
         //
-        // Replace the FileGenerator class with a MemorySource or create a new extension of AbstractSource
-        // called GeneratedSource.
+        // Note: I don't think the AST need be
         //
-        // @todo this.
-        //
+        // 1 Create a new GeneratedSource from the AbstractSource and set the original Source's
+        //   ignore flag to true so it doesn't get compiled itself.
+        // 2 Run each generator until they have all been ran.
 
         return false;
     }

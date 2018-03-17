@@ -213,11 +213,78 @@ class ContentType
             throw new \Exception('The order attribute of getSourceList must be either asc or desc');
         }
 
-        // @todo finish
+        if (! is_null($this->itemsOrderCache) && isset($this->itemsOrderCache[$order])) {
+            return $this->itemsOrderCache[$order];
+        }
+
+        // Order Files by date newer to older
+        uasort($this->items, function ($a, $b) use ($order) {
+            if ($a == $b) {
+                return 0;
+            }
+            if ($order === 'asc') {
+                return ($a < $b) ? -1 : 1;
+            }
+
+            return ($a > $b) ? -1 : 1;
+        });
+
+        $this->itemsOrderCache[$order] = $this->items;
+
+        return $this->itemsOrderCache[$order];
     }
 
+    /**
+     * @param Project $project
+     * @throws \Exception
+     */
     public function mutateProjectSources(Project $project)
     {
+        // If this content type has a template associated with it then it should set that as the
+        // template front matter for each file within it - unless already set.
+        //
+        // This way when we come to rendering the files md -> phtml -> html the correct template
+        // will be used.
+
         // @todo finish
+
+        // Identify the template source file for this content type so it can be used for adding
+        // to the AST as well as assigning to Source files that do not already define their own
+        // template.
+        $templatePath = $project->sourceDirectory.DIRECTORY_SEPARATOR.$this->template.'.phtml';
+        if ($this->name !== 'default' && file_exists($templatePath)) {
+            $templateSource = $project->getFile($this->templateProjectUid());
+        } else {
+            $templateSource = null;
+        }
+
+        foreach (array_keys($this->getSourceList()) as $fileKey) {
+            if (!$source = $project->getFile($fileKey)) {
+                continue;
+            }
+
+            $source->setData('content_type', $this->name);
+
+            if ($this->permalink !== '*') {
+                $source->setData('permalink', $this->permalink);
+            }
+
+            if (!is_null($templateSource) && !$source->hasData('template'))
+            {
+                $source->setData('template', $this->template);
+            }
+        }
+    }
+
+    /**
+     * Identify the Source UID for this ContentType's template.
+     *
+     * @return string
+     */
+    private function templateProjectUid(): string
+    {
+        $uid = str_replace('.', '_', $this->template.'.phtml');
+        $uid = str_replace(['/', '\\'], '_', $uid);
+        return $uid;
     }
 }

@@ -41,11 +41,11 @@ class LoadAST implements Step
      * @param OutputInterface $output
      *
      * @return bool
+     * @throws \Exception
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
-        /** @var Tree $tree */
-        $tree = $project['ast'];
+        $tree = $project->getAST();
 
         $configurationSymbol = new Symbol('configuration', Symbol::SYMBOL_CONFIGURATION, -1);
         $configurationSymbol->setHash(sha1(json_encode($this->configuration->all())));

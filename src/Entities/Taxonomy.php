@@ -3,6 +3,7 @@
 namespace Tapestry\Entities;
 
 use Tapestry\Entities\Collections\Collection;
+use Tapestry\Modules\Source\SourceInterface;
 
 class Taxonomy
 {
@@ -42,10 +43,10 @@ class Taxonomy
     }
 
     /**
-     * @param ProjectFile $file
+     * @param SourceInterface $file
      * @param $classification
      */
-    public function addFile(ProjectFile $file, $classification)
+    public function addFile(SourceInterface $file, $classification)
     {
         $classification = str_slug($classification);
         if (! $this->items->has($classification)) {

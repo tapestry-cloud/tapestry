@@ -64,7 +64,7 @@ class Project extends ArrayContainer
     /**
      * @param string $key
      *
-     * @return SourceInterface|FileGenerator
+     * @return SourceInterface
      */
     public function getFile($key)
     {
@@ -72,9 +72,9 @@ class Project extends ArrayContainer
     }
 
     /**
-     * @return SourceInterface
+     * @return SourceInterface[]|FlatCollection
      */
-    public function allFiles(): SourceInterface
+    public function allSources(): FlatCollection
     {
         return $this->get('files');
     }

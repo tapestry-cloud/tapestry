@@ -43,6 +43,7 @@ class ContentGraphNTest extends TestCase
         $project = $tapestry->getContainer()->get(Project::class);
 
         $generator = new Generator([
+            // Loading...
             BootKernel::class,
             ReadCache::class,
             LoadAST::class,
@@ -50,14 +51,21 @@ class ContentGraphNTest extends TestCase
             LoadContentCollectors::class,
             LoadContentRenderers::class,
             LoadContentGenerators::class,
+            // Collecting...
             RunContentCollectors::class,
 
-            RunGenerators::class,
+            // Parsing/Lexical Analysis
             ParseContentTypes::class,
+            LexicalAnalysis::class,
 
+            // Generation/Compilation...
+            RunGenerators::class,
             //SyntaxAnalysis::class,
-            //LexicalAnalysis::class,
             //RenderPlates::class
+
+            // Shutdown...
+
+
         ], $tapestry);
 
         $this->assertEquals(0, $generator->generate($project, new NullOutput()));
