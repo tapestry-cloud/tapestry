@@ -24,9 +24,11 @@ class Tree
      *
      * @param callable $callback
      * @param null|array|Leaf $node
+     * @param null|array|Leaf $parent
+     * @param int $depth
      * @return void
      */
-    public function traverse(callable $callback, $node = null)
+    public function traverse(callable $callback, $node = null, $parent = null, int $depth = 0)
     {
         if (is_null($node)) {
             $this->traverse($callback, $this->root);
@@ -34,10 +36,10 @@ class Tree
             return;
         }
 
-        $callback($node);
+        $callback($node, $parent, $depth);
 
         foreach ($node->getChildren() as $child) {
-            $this->traverse($callback, $child);
+            $this->traverse($callback, $child, $node, ($depth + 1));
         }
     }
 
@@ -74,27 +76,59 @@ class Tree
     }
 
     /**
-     * Add a new item to the tree.
+     * Add a new Leaf to the tree.
      *
      * @param Leaf $leaf
      * @param string|null $parent
-     * @return void
+     * @return bool
      */
-    public function add(Leaf $leaf, $parent = null)
+    public function add(Leaf $leaf, $parent = null): bool
     {
         if (is_null($this->root)) {
             $this->root = $leaf;
-
-            return;
+            return true;
         }
 
         if (! is_null($parent)) {
-            $this->traverse(function (Leaf $node) use ($parent, $leaf) {
+            $inserted = false;
+            $this->traverse(function (Leaf $node) use ($parent, $leaf, &$inserted) {
                 if ($node->getId() === $parent) {
                     $node->addChild($leaf);
+                    $inserted = true;
                 }
             });
+            return $inserted;
         }
+        return false;
+    }
+
+    /**
+     * Add a new Symbol to the tree.
+     * Unlike the `add` method this attaches to parent Leaf nodes based upon
+     * their symbol id and not the Leaf node id.
+     *
+     * @param Symbol $symbol
+     * @param string|null $parent
+     * @return bool
+     */
+    public function addSymbol(Symbol $symbol, $parent = null): bool
+    {
+        if (is_null($this->root)) {
+            $this->root = new Leaf('root', $symbol);
+            return true;
+        }
+
+        if (! is_null($parent)) {
+            $inserted = false;
+            $this->traverse(function (Leaf $node) use ($parent, $symbol, &$inserted) {
+                if ($node->getSymbol()->id === $parent) {
+                    $node->addChild(new Leaf($node->getId() . '.' . $symbol->id, $symbol));
+                    $inserted = true;
+                }
+            });
+            return $inserted;
+        }
+        return false;
     }
 
     /**
