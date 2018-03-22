@@ -64,7 +64,7 @@ class Leaf
     public function addChild(self $entity)
     {
         $this->hasChildren = true;
-        $this->children[] = $entity;
+        $this->children[$entity->getId()] = $entity;
     }
 
     /**
