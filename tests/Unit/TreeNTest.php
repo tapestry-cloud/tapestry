@@ -6,6 +6,7 @@ use Tapestry\Entities\Tree\Leaf;
 use Tapestry\Entities\Tree\Symbol;
 use Tapestry\Entities\Tree\Tree;
 use Tapestry\Entities\Tree\TreeShaker;
+use Tapestry\Entities\Tree\TreeToASCII;
 use Tapestry\Tests\TestCase;
 
 class TreeNTest extends TestCase
@@ -113,5 +114,51 @@ class TreeNTest extends TestCase
 
         $list = $shaker->reduce($treeA, $treeD);
         $this->assertEquals(5, count($list));
+    }
+
+    public function testAddSymbol()
+    {
+        $treeA = new Tree();
+        $this->assertTrue($treeA->addSymbol(new Symbol('kernel', Symbol::SYMBOL_KERNEL, 100)));
+        $this->assertTrue($treeA->addSymbol(new Symbol('configuration', Symbol::SYMBOL_CONFIGURATION, 100), 'kernel'));
+        $this->assertTrue($treeA->addSymbol(new Symbol('content_type_blog', Symbol::SYMBOL_CONTENT_TYPE, 100), 'configuration'));
+        $this->assertTrue($treeA->addSymbol(new Symbol('content_type_default', Symbol::SYMBOL_CONTENT_TYPE, 100), 'configuration'));
+        $this->assertTrue($treeA->addSymbol(new Symbol('blog_view', Symbol::SYMBOL_SOURCE, 100), 'content_type_blog'));
+        $this->assertTrue($treeA->addSymbol(new Symbol('blog_page_a', Symbol::SYMBOL_SOURCE, 100), 'blog_view'));
+        $this->assertTrue($treeA->addSymbol(new Symbol('blog_page_b', Symbol::SYMBOL_SOURCE, 100), 'blog_view'));
+        $this->assertTrue($treeA->addSymbol(new Symbol('blog_page_c', Symbol::SYMBOL_SOURCE, 100), 'blog_view'));
+        $this->assertTrue($treeA->addSymbol(new Symbol('blog_page_d', Symbol::SYMBOL_SOURCE, 100), 'blog_view'));
+        $this->assertTrue($treeA->addSymbol(new Symbol('template_a', Symbol::SYMBOL_SOURCE, 100), 'content_type_default'));
+        $this->assertTrue($treeA->addSymbol(new Symbol('blog_view', Symbol::SYMBOL_SOURCE, 100), 'template_a'));
+        $this->assertTrue($treeA->addSymbol(new Symbol('blog_page_a', Symbol::SYMBOL_SOURCE, 100), 'blog_view'));
+        $this->assertTrue($treeA->addSymbol(new Symbol('blog_page_b', Symbol::SYMBOL_SOURCE, 100), 'blog_view'));
+        $this->assertTrue($treeA->addSymbol(new Symbol('blog_page_c', Symbol::SYMBOL_SOURCE, 100), 'blog_view'));
+        $this->assertTrue($treeA->addSymbol(new Symbol('blog_page_d', Symbol::SYMBOL_SOURCE, 100), 'blog_view'));
+        $this->assertTrue($treeA->addSymbol(new Symbol('blog_page_e', Symbol::SYMBOL_SOURCE, 100), 'template_a'));
+
+        echo 'Tree A' . PHP_EOL;
+        echo (new TreeToASCII($treeA));
+
+        $treeB = new Tree();
+        $this->assertTrue($treeB->addSymbol(new Symbol('kernel', Symbol::SYMBOL_KERNEL, 100)));
+        $this->assertTrue($treeB->addSymbol(new Symbol('configuration', Symbol::SYMBOL_CONFIGURATION, 100), 'kernel'));
+        $this->assertTrue($treeB->addSymbol(new Symbol('content_type_blog', Symbol::SYMBOL_CONTENT_TYPE, 100), 'configuration'));
+        $this->assertTrue($treeB->addSymbol(new Symbol('content_type_default', Symbol::SYMBOL_CONTENT_TYPE, 100), 'configuration'));
+        $this->assertTrue($treeB->addSymbol(new Symbol('blog_view', Symbol::SYMBOL_SOURCE, 100), 'content_type_blog'));
+        $this->assertTrue($treeB->addSymbol(new Symbol('blog_page_a', Symbol::SYMBOL_SOURCE, 100), 'blog_view'));
+        $this->assertTrue($treeB->addSymbol(new Symbol('blog_page_b', Symbol::SYMBOL_SOURCE, 100), 'blog_view'));
+        $this->assertTrue($treeB->addSymbol(new Symbol('blog_page_c', Symbol::SYMBOL_SOURCE, 100), 'blog_view'));
+        $this->assertTrue($treeB->addSymbol(new Symbol('blog_page_d', Symbol::SYMBOL_SOURCE, 100), 'blog_view'));
+        $this->assertTrue($treeB->addSymbol(new Symbol('template_a', Symbol::SYMBOL_SOURCE, 150), 'content_type_default'));
+        $this->assertTrue($treeB->addSymbol(new Symbol('blog_view', Symbol::SYMBOL_SOURCE, 100), 'template_a'));
+        $this->assertTrue($treeB->addSymbol(new Symbol('blog_page_a', Symbol::SYMBOL_SOURCE, 100), 'blog_view'));
+        $this->assertTrue($treeB->addSymbol(new Symbol('blog_page_b', Symbol::SYMBOL_SOURCE, 100), 'blog_view'));
+        $this->assertTrue($treeB->addSymbol(new Symbol('blog_page_c', Symbol::SYMBOL_SOURCE, 100), 'blog_view'));
+        $this->assertTrue($treeB->addSymbol(new Symbol('blog_page_d', Symbol::SYMBOL_SOURCE, 100), 'blog_view'));
+        $this->assertTrue($treeB->addSymbol(new Symbol('blog_page_e', Symbol::SYMBOL_SOURCE, 100), 'template_a'));
+
+        $shaker = new TreeShaker();
+        $list = $shaker->reduce($treeA, $treeB);
+        $this->assertEquals(7, count($list));
     }
 }

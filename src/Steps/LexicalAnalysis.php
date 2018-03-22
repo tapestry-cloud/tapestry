@@ -4,6 +4,7 @@ namespace Tapestry\Steps;
 
 use Tapestry\Entities\Tree\Leaf;
 use Tapestry\Entities\Tree\Symbol;
+use Tapestry\Entities\Tree\TreeToASCII;
 use Tapestry\Step;
 use Tapestry\Entities\Project;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -45,6 +46,8 @@ class LexicalAnalysis implements Step
         }
 
         // @todo reduce the AST and provide the compile steps with a list of source files that are queued for compilation
+
+        $p = (new TreeToASCII($tree))->__toString();
 
         return true;
     }
