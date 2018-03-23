@@ -17,6 +17,13 @@ class Tree
     private $root = null;
 
     /**
+     * This table keeps track of which symbols are at which path.
+     *
+     * @var array
+     */
+    private $symbolPathsHash = [];
+
+    /**
      * Traverse all items within the tree and execute the callback for
      * each node in the tree. The $node param is only required for the
      * recursive nature of the function, to use this method simply pass
@@ -78,6 +85,7 @@ class Tree
     /**
      * Add a new Leaf to the tree.
      *
+     * @deprecated replace this with addSymbol (then rename addSymbol to add)
      * @param Leaf $leaf
      * @param string|null $parent
      * @return bool
@@ -113,8 +121,13 @@ class Tree
      */
     public function addSymbol(Symbol $symbol, $parent = null): bool
     {
+        if (! isset($this->symbolPathsHash[$symbol->id])){
+            $this->symbolPathsHash[$symbol->id] = [];
+        }
+
         if (is_null($this->root)) {
             $this->root = new Leaf('root', $symbol);
+            $this->symbolPathsHash[$symbol->id][] = 'root';
             return true;
         }
 
@@ -123,9 +136,16 @@ class Tree
             $this->traverse(function (Leaf $node) use ($parent, $symbol, &$inserted) {
                 if ($node->getSymbol()->id === $parent) {
                     $node->addChild(new Leaf($node->getId() . '.' . $symbol->id, $symbol));
+                    $this->symbolPathsHash[$symbol->id][] = $node->getId() . '.' . $symbol->id;
                     $inserted = true;
                 }
             });
+
+            if ($inserted === true && count($this->symbolPathsHash[$symbol->id]) > 1) {
+                // @todo check all leaf nodes for symbol have the same child structure and amend if not.
+                $n = 1;
+            }
+
             return $inserted;
         }
         return false;

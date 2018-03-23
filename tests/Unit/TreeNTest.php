@@ -161,4 +161,40 @@ class TreeNTest extends TestCase
         $list = $shaker->reduce($treeA, $treeB);
         $this->assertEquals(7, count($list));
     }
+
+    /**
+     * The AST can have duplicate references but the structure of each should be identical...
+     *
+     * For example
+     * └──kernel
+     *     └──configuration
+     *         └──content_type.default
+     *             ├──about_md
+     *             ├──index_phtml
+     *             ├──_templates_default_phtml
+     *                 └──index_phtml
+     *             └──_templates_sidebar_phtml
+     *                 └──_templates_default_phtml
+     *
+     * The above Tree is invalid because _templates_default_phtml is referenced twice
+     * but both references have a different child structure.
+     *
+     *
+     */
+    public function testAddDuplicates()
+    {
+
+        $tree = new Tree();
+        $this->assertTrue($tree->addSymbol(new Symbol('kernel', Symbol::SYMBOL_KERNEL, 100)));
+        $this->assertTrue($tree->addSymbol(new Symbol('configuration', Symbol::SYMBOL_CONFIGURATION, 100), 'kernel'));
+        $this->assertTrue($tree->addSymbol(new Symbol('content_type.default', Symbol::SYMBOL_CONTENT_TYPE, 100), 'configuration'));
+        $this->assertTrue($tree->addSymbol(new Symbol('about_md', Symbol::SYMBOL_CONTENT_TYPE, 100), 'content_type.default'));
+        $this->assertTrue($tree->addSymbol(new Symbol('index_phtml', Symbol::SYMBOL_CONTENT_TYPE, 100), 'content_type.default'));
+        $this->assertTrue($tree->addSymbol(new Symbol('_templates_default_phtml', Symbol::SYMBOL_CONTENT_TYPE, 100), 'content_type.default'));
+        $this->assertTrue($tree->addSymbol(new Symbol('_templates_sidebar_phtml', Symbol::SYMBOL_CONTENT_TYPE, 100), 'content_type.default'));
+        $this->assertTrue($tree->addSymbol(new Symbol('index_phtml', Symbol::SYMBOL_CONTENT_TYPE, 100), '_templates_default_phtml'));
+        $this->assertTrue($tree->addSymbol(new Symbol('_templates_default_phtml', Symbol::SYMBOL_CONTENT_TYPE, 100), '_templates_sidebar_phtml'));
+
+        echo (new TreeToASCII($tree));
+    }
 }

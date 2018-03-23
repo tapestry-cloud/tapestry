@@ -90,4 +90,13 @@ class Leaf
     {
         return $this->children;
     }
+
+    /**
+     * @param string $id
+     * @return Leaf
+     */
+    public function getChild(string $id): Leaf
+    {
+        return $this->children[$id];
+    }
 }

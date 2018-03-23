@@ -32,7 +32,7 @@ class LexicalAnalysis implements Step
 
         foreach($project->allSources() as $source)
         {
-            if ($source->isToCopy() || $source->isIgnored()) {
+            if ($source->isToCopy()) {
                 continue;
             }
 
@@ -42,6 +42,26 @@ class LexicalAnalysis implements Step
                     $template .= '.phtml';
                 }
                 $tree->add(new Leaf($source->getUid(), new Symbol($source->getUid(), Symbol::SYMBOL_SOURCE, $source->getMTime())), $this->templateUid($template));
+            }
+
+            // Plates v4 uses $v->layout and $v->insert to define dependencies
+            if ($source->getExtension() === 'phtml') {
+                $tokens = token_get_all($source->getRenderedContent());
+                foreach ($tokens as $k => $token) {
+                    if($token[0] === T_VARIABLE && $token[1] === '$v'){
+                        if ($tokens[$k+1][0] === T_OBJECT_OPERATOR){
+                            if ($tokens[$k+2][0] === T_STRING && ($tokens[$k+2][1] === 'layout' || $tokens[$k+2][1] === 'insert')){
+                                if ($tokens[$k+3] === '(' && $tokens[$k+4][0] === T_CONSTANT_ENCAPSED_STRING){
+                                    $found = substr($tokens[$k+4][1], 1, -1);
+                                    if (strpos($found, '.phtml') === false) {
+                                        $found .= '.phtml';
+                                    }
+                                    $tree->add(new Leaf($source->getUid(), new Symbol($source->getUid(), Symbol::SYMBOL_SOURCE, $source->getMTime())), $this->templateUid($found));
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
 
