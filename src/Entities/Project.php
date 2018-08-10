@@ -37,7 +37,7 @@ class Project extends ArrayContainer
      * @param string $dist
      * @param string $environment
      */
-    public function __construct($cwd, $dist, $environment)
+    public function __construct(string $cwd, string $dist, string $environment)
     {
         $this->sourceDirectory = $cwd.DIRECTORY_SEPARATOR.'source';
         $this->destinationDirectory = $dist;

@@ -71,7 +71,7 @@ class ContentType
      * @param string $name
      * @param array $settings
      */
-    public function __construct($name, array $settings)
+    public function __construct(string $name, array $settings)
     {
         $this->name = $name;
 
