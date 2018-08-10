@@ -3,9 +3,10 @@
 namespace Tapestry\Modules\Source;
 
 use DateTime;
+use Tapestry\Entities\DependencyGraph\Node;
 use Tapestry\Entities\Permalink;
 
-abstract class AbstractSource implements SourceInterface
+abstract class AbstractSource implements SourceInterface, Node
 {
     /**
      * File meta data, usually from front matter or site config.
@@ -67,6 +68,33 @@ abstract class AbstractSource implements SourceInterface
      * @var array
      */
     protected $overloaded = [];
+
+    /**
+     * The source files that depend upon this source.
+     *
+     * @var array Node[]|AbstractSource[]
+     */
+    protected $edges = [];
+
+    /**
+     * Add a source that depends upon this source.
+     *
+     * @param Node $node
+     */
+    public function addEdge(Node $node)
+    {
+        $this->edges[$node->getUid()] = $node;
+    }
+
+    /**
+     * Return a list of source objects that depend upon this one.
+     *
+     * @return array
+     */
+    public function getEdges(): array
+    {
+        return $this->edges;
+    }
 
     /**
      * Get this sources uid.
