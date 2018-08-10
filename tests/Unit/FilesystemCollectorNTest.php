@@ -25,6 +25,9 @@ class FilesystemCollectorNTest extends TestCase
         new FilesystemCollector('does-not-exist');
     }
 
+    /**
+     * Tests the FilesystemCollector with a handful of loosely configured mutators and exclusions.
+     */
     public function testFilesystemCollector()
     {
         $this->loadToTmp($this->assetPath('build_test_41/src'));

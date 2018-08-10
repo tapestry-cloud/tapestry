@@ -1,5 +1,6 @@
 ---
 title: This is another test blog entry
+draft: true
 categories:
     - test
 ---
