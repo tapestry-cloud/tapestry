@@ -2,6 +2,7 @@
 
 namespace Tapestry\Steps;
 
+use Tapestry\Entities\DependencyGraph\Debug;
 use Tapestry\Entities\Tree\Leaf;
 use Tapestry\Entities\Tree\Symbol;
 use Tapestry\Entities\Tree\TreeToASCII;
@@ -28,7 +29,7 @@ class LexicalAnalysis implements Step
         // focus on only dealing with Tree nodes that have changed since the last run.
         //
 
-        $tree = $project->getAST();
+        $graph = $project->getGraph();
 
         foreach($project->allSources() as $source)
         {
@@ -41,7 +42,7 @@ class LexicalAnalysis implements Step
                 if (strpos($template, '.') === false) {
                     $template .= '.phtml';
                 }
-                $tree->add(new Leaf($source->getUid(), new Symbol($source->getUid(), Symbol::SYMBOL_SOURCE, $source->getMTime())), $this->templateUid($template));
+                $graph->addEdge($this->templateUid($template), $graph->getEdge($source->getUid()));
             }
 
             // Plates v4 uses $v->layout and $v->insert to define dependencies
@@ -56,7 +57,7 @@ class LexicalAnalysis implements Step
                                     if (strpos($found, '.phtml') === false) {
                                         $found .= '.phtml';
                                     }
-                                    $tree->add(new Leaf($source->getUid(), new Symbol($source->getUid(), Symbol::SYMBOL_SOURCE, $source->getMTime())), $this->templateUid($found));
+                                    $graph->addEdge($this->templateUid($found), $graph->getEdge($source->getUid()));
                                 }
                             }
                         }
@@ -65,9 +66,13 @@ class LexicalAnalysis implements Step
             }
         }
 
-        // @todo reduce the AST and provide the compile steps with a list of source files that are queued for compilation
+        // @todo reduce the graph and provide the compile steps with a list of source files that are queued for compilation
+        // @todo write debug export of graph to graphviz format.
 
-        $p = (new TreeToASCII($tree))->__toString();
+        //$p = (new TreeToASCII($tree))->__toString();
+
+        $debug = new Debug($graph);
+        $n = $debug->graphViz('kernel');
 
         return true;
     }

@@ -6,8 +6,8 @@ use Symfony\Component\Console\Output\NullOutput;
 use Tapestry\Entities\Project;
 use Tapestry\Generator;
 use Tapestry\Steps\BootKernel;
-use Tapestry\Steps\LoadAST;
 use Tapestry\Steps\LoadContentCollectors;
+use Tapestry\Steps\LoadGraph;
 use Tapestry\Steps\ParseContentTypes;
 use Tapestry\Steps\LexicalAnalysis;
 use Tapestry\Steps\LoadContentGenerators;
@@ -46,7 +46,7 @@ class ContentGraphNTest extends TestCase
             // Loading...
             BootKernel::class,
             ReadCache::class,
-            LoadAST::class,
+            LoadGraph::class,
             LoadContentTypes::class,
             LoadContentCollectors::class,
             LoadContentRenderers::class,

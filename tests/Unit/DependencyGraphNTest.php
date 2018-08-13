@@ -4,6 +4,7 @@ namespace Tapestry\Tests\Unit;
 
 use Tapestry\Entities\DependencyGraph\Resolver;
 use Tapestry\Entities\DependencyGraph\Node;
+use Tapestry\Entities\DependencyGraph\SimpleNode;
 use Tapestry\Modules\Source\AbstractSource;
 use Tapestry\Modules\Source\MemorySource;
 use Tapestry\Tests\TestCase;

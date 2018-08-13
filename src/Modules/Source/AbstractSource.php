@@ -360,4 +360,14 @@ abstract class AbstractSource implements SourceInterface, Node
     {
         $this->overloaded[$key] = $value;
     }
+
+    /**
+     * @param Node $node
+     * @return bool
+     */
+    public function isSame(Node $node): bool
+    {
+        return true;
+        // TODO: Implement isSame() method.
+    }
 }

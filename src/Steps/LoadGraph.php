@@ -3,34 +3,34 @@
 namespace Tapestry\Steps;
 
 use Tapestry\Entities\Configuration;
-use Tapestry\Entities\Tree\Leaf;
-use Tapestry\Entities\Tree\Symbol;
-use Tapestry\Entities\Tree\Tree;
+use Tapestry\Entities\DependencyGraph\SimpleNode;
+use Tapestry\Modules\Kernel\KernelInterface;
 use Tapestry\Step;
 use Tapestry\Entities\Project;
 use Symfony\Component\Console\Output\OutputInterface;
 use Tapestry\Tapestry;
 
-/**
- * Class LoadAST
- *
- * This Step initiates the AST Tree structure and assigns it to the Project Container.
- */
-class LoadAST implements Step
+class LoadGraph implements Step
 {
+    /**
+     * @var Tapestry
+     */
+    private $tapestry;
+
     /**
      * @var Configuration
      */
     private $configuration;
 
     /**
-     * LoadContentGenerators constructor.
+     * LoadGraph constructor.
      *
      * @param Tapestry $tapestry
      * @param Configuration $configuration
      */
     public function __construct(Tapestry $tapestry, Configuration $configuration)
     {
+        $this->tapestry = $tapestry;
         $this->configuration = $configuration;
     }
 
@@ -45,12 +45,14 @@ class LoadAST implements Step
      */
     public function __invoke(Project $project, OutputInterface $output)
     {
-        $tree = $project->getAST();
+        $graph = $project->getGraph();
 
-        $configurationSymbol = new Symbol('configuration', Symbol::SYMBOL_CONFIGURATION, -1);
-        $configurationSymbol->setHash(sha1(json_encode($this->configuration->all())));
+        /** @var KernelInterface $kernel */
+        $kernel = $this->tapestry->getContainer()->get(KernelInterface::class);
 
-        $tree->add(new Leaf('configuration', $configurationSymbol), 'kernel');
+        $reflection = new \ReflectionClass($kernel);
+        $graph->setRoot(new SimpleNode('kernel', sha1_file($reflection->getFileName())));
+        $graph->addEdge('kernel', new SimpleNode('configuration', sha1(json_encode($this->configuration->all()))));
 
         return true;
     }

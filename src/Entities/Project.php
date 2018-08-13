@@ -3,9 +3,12 @@
 namespace Tapestry\Entities;
 
 use Tapestry\ArrayContainer;
+use Tapestry\Entities\DependencyGraph\Graph;
+use Tapestry\Entities\DependencyGraph\Node;
 use Tapestry\Entities\Generators\FileGenerator;
 use Tapestry\Entities\Collections\FlatCollection;
 use Tapestry\Entities\Tree\Tree;
+use Tapestry\Exceptions\GraphException;
 use Tapestry\Modules\Source\SourceInterface;
 
 class Project extends ArrayContainer
@@ -48,7 +51,7 @@ class Project extends ArrayContainer
         parent::__construct(
             [
                 'files' => new FlatCollection(),
-                'ast' => new Tree(),
+                'graph' => new Graph()
             ]
         );
     }
@@ -119,14 +122,14 @@ class Project extends ArrayContainer
     }
 
     /**
-     * @return Tree
-     * @throws \Exception
+     * @return Graph
+     * @throws GraphException
      */
-    public function getAST(): Tree
+    public function getGraph(): Graph
     {
-        if (! $this->has('ast')) {
-            throw new \Exception('AST is not initiated');
+        if (! $this->has('graph')) {
+            throw new GraphException('Graph is not initiated');
         }
-        return $this->get('ast');
+        return $this->get('graph');
     }
 }

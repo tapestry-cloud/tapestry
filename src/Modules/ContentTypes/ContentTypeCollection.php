@@ -2,6 +2,7 @@
 
 namespace Tapestry\Modules\ContentTypes;
 
+use Tapestry\Entities\DependencyGraph\SimpleNode;
 use Tapestry\Entities\Project;
 use Tapestry\Entities\Tree\Leaf;
 use Tapestry\Entities\Tree\Symbol;
@@ -79,7 +80,7 @@ class ContentTypeCollection
             $hash = $uid;
         }
 
-        $this->project->getAST()->add(new Leaf('content_type.' . $contentType->getName(), new Symbol('content_type.' . $contentType->getName(), Symbol::SYMBOL_CONTENT_TYPE, -1, $hash)), 'configuration');
+        $this->project->getGraph()->addEdge('configuration', new SimpleNode('content_type.' . $contentType->getName(), $hash));
     }
 
     /**
@@ -97,7 +98,7 @@ class ContentTypeCollection
             $contentType = $this->get($contentType);
         }
 
-        $this->project->getAST()->add(new Leaf($source->getUid(), new Symbol($source->getUid(), Symbol::SYMBOL_CONTENT_TYPE, $source->getMTime())), 'content_type.' . $contentType->getName());
+        $this->project->getGraph()->addEdge('content_type.'.$contentType->getName(), new SimpleNode($source->getUid(), $source->getMTime()));
         $contentType->addSource($source);
 
         return $contentType;
