@@ -45,21 +45,21 @@ class DependencyGraphNTest extends TestCase {
             foreach (range('a', 'e') as $letter) {
                 $nodes[$letter] = new MemorySource('memory_' . $letter, 'Howdy!', 'memory.md', 'md', 'memory/' . $letter, 'memory/' . $letter . '/memory.md');
             }
-            $nodes['a']->addEdge($nodes['b']); // b depends on a
-            $nodes['a']->addEdge($nodes['d']); // d depends on a
-            $nodes['b']->addEdge($nodes['c']); // c depends on b
-            $nodes['b']->addEdge($nodes['e']); // e depends on b
-            $nodes['c']->addEdge($nodes['d']); // d depends on c
-            $nodes['c']->addEdge($nodes['e']); // e depends on c
-            $nodes['d']->addEdge($nodes['b']); // b depends on d - circular
-
-            $class = new Resolver();
-            $this->expectExceptionMessage('Circular reference detected: memory_d -> memory_b');
-            $class->resolve($nodes['a']);
         } catch (\Exception $e) {
             $this->fail($e);
             return;
         }
+        $nodes['a']->addEdge($nodes['b']); // b depends on a
+        $nodes['a']->addEdge($nodes['d']); // d depends on a
+        $nodes['b']->addEdge($nodes['c']); // c depends on b
+        $nodes['b']->addEdge($nodes['e']); // e depends on b
+        $nodes['c']->addEdge($nodes['d']); // d depends on c
+        $nodes['c']->addEdge($nodes['e']); // e depends on c
+        $nodes['d']->addEdge($nodes['b']); // b depends on d - circular
+
+        $class = new Resolver();
+        $this->expectExceptionMessage('Circular reference detected: memory_d -> memory_b');
+        $class->resolve($nodes['a']);
     }
 
     public function testGraphAdjacencyList()
