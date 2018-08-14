@@ -63,7 +63,6 @@ class LexicalAnalysis implements Step
         }
 
         // @todo reduce the graph and provide the compile steps with a list of source files that are queued for compilation
-        // @todo write debug export of graph to graphviz format.
 
         $debug = new Debug($graph);
         file_put_contents(__DIR__ . '/../../lexical.gv', $debug->graphViz('kernel')); // @todo remove afterwards
