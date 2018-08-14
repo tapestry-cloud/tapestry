@@ -50,6 +50,7 @@ return [
             ],
             'filterCollection' => [
                 Tapestry\Modules\Collectors\Exclusions\DraftsExclusion::class,
+                Tapestry\Modules\Collectors\Exclusions\ConfigurationIgnoredExclusion::class,
             ],
         ],
     ],

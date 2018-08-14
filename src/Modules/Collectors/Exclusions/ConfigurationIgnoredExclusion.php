@@ -18,6 +18,6 @@ class ConfigurationIgnoredExclusion extends ArrayPathExclusion implements Exclus
      */
     public function __construct(Configuration $configuration)
     {
-        parent::__construct($configuration->get('ignored', []));
+        parent::__construct($configuration->get('ignore', []));
     }
 }
