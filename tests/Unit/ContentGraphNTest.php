@@ -13,12 +13,9 @@ use Tapestry\Steps\LexicalAnalysis;
 use Tapestry\Steps\LoadContentGenerators;
 use Tapestry\Steps\LoadContentRenderers;
 use Tapestry\Steps\LoadContentTypes;
-use Tapestry\Steps\LoadSourceFileTree;
 use Tapestry\Steps\ReadCache;
-use Tapestry\Steps\RenderPlates;
 use Tapestry\Steps\RunContentCollectors;
 use Tapestry\Steps\RunGenerators;
-use Tapestry\Steps\SyntaxAnalysis;
 use Tapestry\Tests\TestCase;
 use Tapestry\Tests\Traits\MockTapestry;
 

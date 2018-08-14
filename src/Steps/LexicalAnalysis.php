@@ -72,7 +72,7 @@ class LexicalAnalysis implements Step
         //$p = (new TreeToASCII($tree))->__toString();
 
         $debug = new Debug($graph);
-        $n = $debug->graphViz('kernel');
+        file_put_contents(__DIR__ . '/../../lexical.gv', $debug->graphViz('kernel'));
 
         return true;
     }

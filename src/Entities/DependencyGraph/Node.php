@@ -4,8 +4,19 @@ namespace Tapestry\Entities\DependencyGraph;
 
 interface Node
 {
+
+    /**
+     * Get this nodes uid.
+     *
+     * @return string
+     */
     public function getUid(): string;
 
+    /**
+     * Add a source that depends upon this source.
+     *
+     * @param Node $node
+     */
     public function addEdge(Node $node);
 
     /**

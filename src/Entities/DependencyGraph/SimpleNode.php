@@ -45,6 +45,8 @@ class SimpleNode implements Node
     }
 
     /**
+     * Get this nodes uid.
+     *
      * @return string
      */
     public function getUid(): string

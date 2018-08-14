@@ -27,7 +27,6 @@ class Debug
      */
     public function graphViz(string $edge, $arr = null): String
     {
-
         if (is_null($arr)) {
             $arr = [
                 'digraph Tapestry {',
