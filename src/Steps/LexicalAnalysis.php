@@ -3,9 +3,6 @@
 namespace Tapestry\Steps;
 
 use Tapestry\Entities\DependencyGraph\Debug;
-use Tapestry\Entities\Tree\Leaf;
-use Tapestry\Entities\Tree\Symbol;
-use Tapestry\Entities\Tree\TreeToASCII;
 use Tapestry\Step;
 use Tapestry\Entities\Project;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -31,13 +28,12 @@ class LexicalAnalysis implements Step
 
         $graph = $project->getGraph();
 
-        foreach($project->allSources() as $source)
-        {
+        foreach ($project->allSources() as $source) {
             if ($source->isToCopy()) {
                 continue;
             }
 
-            // @todo needs to identify phtml layout's for the AST tree.
+            // @todo needs to identify phtml layout's for the graph.
             if ($template = $source->getData('template')) {
                 if (strpos($template, '.') === false) {
                     $template .= '.phtml';
@@ -49,11 +45,11 @@ class LexicalAnalysis implements Step
             if ($source->getExtension() === 'phtml') {
                 $tokens = token_get_all($source->getRenderedContent());
                 foreach ($tokens as $k => $token) {
-                    if($token[0] === T_VARIABLE && $token[1] === '$v'){
-                        if ($tokens[$k+1][0] === T_OBJECT_OPERATOR){
-                            if ($tokens[$k+2][0] === T_STRING && ($tokens[$k+2][1] === 'layout' || $tokens[$k+2][1] === 'insert')){
-                                if ($tokens[$k+3] === '(' && $tokens[$k+4][0] === T_CONSTANT_ENCAPSED_STRING){
-                                    $found = substr($tokens[$k+4][1], 1, -1);
+                    if ($token[0] === T_VARIABLE && $token[1] === '$v') {
+                        if ($tokens[$k + 1][0] === T_OBJECT_OPERATOR) {
+                            if ($tokens[$k + 2][0] === T_STRING && ($tokens[$k + 2][1] === 'layout' || $tokens[$k + 2][1] === 'insert')) {
+                                if ($tokens[$k + 3] === '(' && $tokens[$k + 4][0] === T_CONSTANT_ENCAPSED_STRING) {
+                                    $found = substr($tokens[$k + 4][1], 1, -1);
                                     if (strpos($found, '.phtml') === false) {
                                         $found .= '.phtml';
                                     }
@@ -69,10 +65,8 @@ class LexicalAnalysis implements Step
         // @todo reduce the graph and provide the compile steps with a list of source files that are queued for compilation
         // @todo write debug export of graph to graphviz format.
 
-        //$p = (new TreeToASCII($tree))->__toString();
-
         $debug = new Debug($graph);
-        file_put_contents(__DIR__ . '/../../lexical.gv', $debug->graphViz('kernel'));
+        file_put_contents(__DIR__ . '/../../lexical.gv', $debug->graphViz('kernel')); // @todo remove afterwards
 
         return true;
     }
@@ -80,6 +74,7 @@ class LexicalAnalysis implements Step
     /**
      * Identify the Source UID for this ContentType's template.
      *
+     * @param string $template
      * @return string
      */
     private function templateUid(string $template): string
