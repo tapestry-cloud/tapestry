@@ -35,9 +35,7 @@ class Debug
                 '    node [shape=circle];',
             ];
         }
-
         $arr = array_merge($arr, $this->walkGraph($edge, []));
-
         $arr[] = '}';
 
         return implode(PHP_EOL, $arr);
