@@ -11,7 +11,7 @@ use Tapestry\Modules\Source\MemorySource;
 use Tapestry\Tapestry;
 use Tapestry\Tests\TestCase;
 
-class ContentGeneratorFactoryNTest extends TestCase
+class ContentGeneratorsNTest extends TestCase
 {
     public function testContentGeneratorFactory()
     {
@@ -30,6 +30,32 @@ class ContentGeneratorFactoryNTest extends TestCase
         $this->assertTrue(is_array($result));
         $this->assertSame($memory, $result[0]);
 
+        // @todo finish this test
+    }
 
+    public function testGeneratorGenerator()
+    {
+        // Tapestry\Modules\Generators\Generator
+        $this->assertTrue(false);
+    }
+
+    public function testCollectionItemGenerator()
+    {
+        $this->assertTrue(false);
+    }
+
+    public function testPaginationGenerator()
+    {
+        $this->assertTrue(false);
+    }
+
+    public function testTaxonomyArchiveGenerator()
+    {
+        $this->assertTrue(false);
+    }
+
+    public function testTaxonomyIndexGenerator()
+    {
+        $this->assertTrue(false);
     }
 }
