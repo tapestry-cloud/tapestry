@@ -7,6 +7,10 @@ use Tapestry\Entities\Permalink;
 use Tapestry\Entities\Pagination;
 use Tapestry\Entities\ProjectFile;
 
+/**
+ * Class PaginationGenerator
+ * @deprecated
+ */
 class PaginationGenerator extends FileGenerator
 {
     /**

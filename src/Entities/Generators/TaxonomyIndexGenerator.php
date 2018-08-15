@@ -4,6 +4,10 @@ namespace Tapestry\Entities\Generators;
 
 use Tapestry\Entities\Project;
 
+/**
+ * Class TaxonomyIndexGenerator
+ * @deprecated
+ */
 class TaxonomyIndexGenerator extends FileGenerator
 {
     public function generate(Project $project)

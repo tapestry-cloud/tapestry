@@ -5,6 +5,10 @@ namespace Tapestry\Entities\Generators;
 use Tapestry\Entities\Project;
 use Tapestry\Entities\ProjectFileGeneratorInterface;
 
+/**
+ * Class TaxonomyArchiveGenerator
+ * @deprecated
+ */
 class TaxonomyArchiveGenerator extends FileGenerator implements ProjectFileGeneratorInterface
 {
     /**

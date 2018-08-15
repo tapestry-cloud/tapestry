@@ -5,6 +5,10 @@ namespace Tapestry\Entities\Generators;
 use Tapestry\Entities\Project;
 use Tapestry\Entities\Pagination;
 
+/**
+ * Class CollectionItemGenerator
+ * @deprecated
+ */
 class CollectionItemGenerator extends FileGenerator
 {
     public function generate(Project $project)

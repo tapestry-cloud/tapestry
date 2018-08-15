@@ -7,6 +7,10 @@ use Tapestry\Entities\ProjectFile;
 use Tapestry\Entities\ProjectFileInterface;
 use Tapestry\Entities\ProjectFileGeneratorInterface;
 
+/**
+ * Class FileGenerator
+ * @deprecated
+ */
 class FileGenerator implements ProjectFileInterface, ProjectFileGeneratorInterface
 {
     /**
