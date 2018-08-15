@@ -48,7 +48,7 @@ class Project extends ArrayContainer
 
         parent::__construct(
             [
-                'files' => new FlatCollection(),
+                'files' => new FlatCollection(), // @todo replace files with graph?
                 'graph' => new Graph(),
             ]
         );

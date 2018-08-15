@@ -35,7 +35,7 @@ class ContentTypeCollection
     private $project;
 
     /**
-     * ContentTypeFactory constructor.
+     * ContentTypeCollection constructor.
      *
      * @param array|ContentType[] $items
      * @param Project $project
