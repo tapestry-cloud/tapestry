@@ -2,11 +2,9 @@
 
 namespace Tapestry\Modules\ContentTypes;
 
-use Tapestry\Entities\DependencyGraph\SimpleNode;
 use Tapestry\Entities\Project;
-use Tapestry\Entities\Tree\Leaf;
-use Tapestry\Entities\Tree\Symbol;
 use Tapestry\Modules\Source\SourceInterface;
+use Tapestry\Entities\DependencyGraph\SimpleNode;
 
 class ContentTypeCollection
 {
@@ -74,13 +72,13 @@ class ContentTypeCollection
 
         // I have added the hash of the content types template file to ensure that the
         // content type is invalid if its template changes.
-        if ($contentType->getName() !== 'default' && file_exists($templateFilePath)){
-            $hash = sha1($uid .'.'. sha1_file($templateFilePath));
+        if ($contentType->getName() !== 'default' && file_exists($templateFilePath)) {
+            $hash = sha1($uid.'.'.sha1_file($templateFilePath));
         } else {
             $hash = $uid;
         }
 
-        $this->project->getGraph()->addEdge('configuration', new SimpleNode('content_type.' . $contentType->getName(), $hash));
+        $this->project->getGraph()->addEdge('configuration', new SimpleNode('content_type.'.$contentType->getName(), $hash));
     }
 
     /**

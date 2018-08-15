@@ -6,14 +6,13 @@ use Tapestry\Exceptions\GraphException;
 
 class Graph
 {
-
     /**
      * @var Node
      */
     private $root;
 
     /**
-     * uid -> obj node lookup table
+     * uid -> obj node lookup table.
      *
      * @var Node[]
      */
@@ -25,7 +24,7 @@ class Graph
      */
     public function __construct(Node $root = null)
     {
-        if (! is_null($root)){
+        if (! is_null($root)) {
             $this->setRoot($root);
         }
     }
@@ -50,7 +49,7 @@ class Graph
      */
     public function addEdge(string $uid, Node $node)
     {
-        if (! isset($this->table[$uid])){
+        if (! isset($this->table[$uid])) {
             throw new GraphException('The edge ['.$uid.'] is not found in graph.');
         }
         $this->table[$uid]->addEdge($node);
@@ -64,7 +63,7 @@ class Graph
      */
     public function getEdge(string $uid): Node
     {
-        if (! isset($this->table[$uid])){
+        if (! isset($this->table[$uid])) {
             throw new GraphException('The edge ['.$uid.'] is not found in graph.');
         }
 

@@ -2,13 +2,13 @@
 
 namespace Tapestry\Steps;
 
-use Tapestry\Entities\Configuration;
-use Tapestry\Entities\DependencyGraph\SimpleNode;
-use Tapestry\Modules\Kernel\KernelInterface;
 use Tapestry\Step;
-use Tapestry\Entities\Project;
-use Symfony\Component\Console\Output\OutputInterface;
 use Tapestry\Tapestry;
+use Tapestry\Entities\Project;
+use Tapestry\Entities\Configuration;
+use Tapestry\Modules\Kernel\KernelInterface;
+use Tapestry\Entities\DependencyGraph\SimpleNode;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class LoadGraph implements Step
 {

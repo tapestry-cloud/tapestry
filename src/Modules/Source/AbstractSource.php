@@ -3,8 +3,8 @@
 namespace Tapestry\Modules\Source;
 
 use DateTime;
-use Tapestry\Entities\DependencyGraph\Node;
 use Tapestry\Entities\Permalink;
+use Tapestry\Entities\DependencyGraph\Node;
 
 abstract class AbstractSource implements SourceInterface, Node
 {

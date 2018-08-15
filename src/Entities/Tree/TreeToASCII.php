@@ -21,14 +21,14 @@ class TreeToASCII
     public function __toString()
     {
         $output = '';
-        $this->tree->traverse(function(Leaf $leaf, Leaf $parent = null, $depth) use (&$output) {
+        $this->tree->traverse(function (Leaf $leaf, Leaf $parent = null, $depth) use (&$output) {
             $ascii = '├──';
 
-            if (!is_null($parent)){
+            if (! is_null($parent)) {
                 /** @var Leaf $last */
                 $c = $parent->getChildren();
                 $last = end($c);
-                if ($last->getId() === $leaf->getId()){
+                if ($last->getId() === $leaf->getId()) {
                     $ascii = '└──';
                 }
                 unset($c, $last);
@@ -37,11 +37,11 @@ class TreeToASCII
             }
 
             $pad = '';
-            for ($i=0; $i<$depth*4;$i++){
+            for ($i = 0; $i < $depth * 4; $i++) {
                 $pad .= ' ';
             }
 
-            $output .= $pad . $ascii . $leaf->getSymbol()->id . PHP_EOL;
+            $output .= $pad.$ascii.$leaf->getSymbol()->id.PHP_EOL;
         });
 
         return $output;

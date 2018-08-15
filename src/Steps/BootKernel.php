@@ -2,15 +2,15 @@
 
 namespace Tapestry\Steps;
 
-use Tapestry\Modules\Kernel\KernelInterface;
 use Tapestry\Step;
 use Tapestry\Tapestry;
 use Tapestry\Entities\Project;
 use Tapestry\Entities\Configuration;
+use Tapestry\Modules\Kernel\KernelInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class BootKernel
+ * Class BootKernel.
  *
  * This Step identifies the configured Kernel for this Project and executes its `boot()` method.
  */

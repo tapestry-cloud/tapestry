@@ -32,6 +32,7 @@ class Resolver
         $this->unresolved = [];
         $this->adjacencyList = [];
         $this->resolveNode($node);
+
         return $this->resolved;
     }
 
@@ -57,11 +58,11 @@ class Resolver
     {
         $modified = [];
 
-        foreach ($this->resolved as $node){ // @todo have this use a passed closure to do the evaluation
-            if ($closure($node) === true){
+        foreach ($this->resolved as $node) { // @todo have this use a passed closure to do the evaluation
+            if ($closure($node) === true) {
                 array_push($modified, $node);
                 foreach ($this->adjacencyList[$node->getUid()] as $affected) {
-                    array_push($modified,$affected);
+                    array_push($modified, $affected);
                 }
             }
         }
@@ -76,23 +77,22 @@ class Resolver
      */
     private function resolveNode(Node $node, $parents = [])
     {
-        if (! isset($this->adjacencyList[$node->getUid()])){
+        if (! isset($this->adjacencyList[$node->getUid()])) {
             $this->adjacencyList[$node->getUid()] = [];
         }
 
         array_push($this->unresolved, $node);
-        foreach ($node->getEdges() as $edge)
-        {
-            if (! in_array($edge, $this->resolved)){
-                if (in_array($edge, $this->unresolved)){
-                    throw new \Exception('Circular reference detected: ' . $node->getUid() . ' -> '. $edge->getUid());
+        foreach ($node->getEdges() as $edge) {
+            if (! in_array($edge, $this->resolved)) {
+                if (in_array($edge, $this->unresolved)) {
+                    throw new \Exception('Circular reference detected: '.$node->getUid().' -> '.$edge->getUid());
                 }
                 array_push($parents, $node);
                 $this->resolveNode($edge, $parents);
             }
         }
-        foreach($parents as $p){
-            if ($node->getUid() !== $p->getUid() && !in_array($node, $this->adjacencyList[$p->getUid()])) {
+        foreach ($parents as $p) {
+            if ($node->getUid() !== $p->getUid() && ! in_array($node, $this->adjacencyList[$p->getUid()])) {
                 array_push($this->adjacencyList[$p->getUid()], $node);
             }
         }

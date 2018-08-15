@@ -4,13 +4,13 @@ namespace Tapestry\Steps;
 
 use Tapestry\Step;
 use Tapestry\Entities\Project;
-use Tapestry\Modules\ContentTypes\ContentType;
 use Tapestry\Entities\Configuration;
+use Tapestry\Modules\ContentTypes\ContentType;
 use Symfony\Component\Console\Output\OutputInterface;
 use Tapestry\Modules\ContentTypes\ContentTypeCollection;
 
 /**
- * Class LoadContentTypes
+ * Class LoadContentTypes.
  *
  * This Step loads the configured content types into the Project Container.
  */
