@@ -3,7 +3,7 @@
 namespace Tapestry\Modules\Generators;
 
 use Tapestry\Entities\Project;
-use Tapestry\Modules\Source\AbstractSource;
+use Tapestry\Modules\Source\SourceInterface;
 
 /**
  * Class ContentGeneratorFactory
@@ -60,13 +60,17 @@ class ContentGeneratorFactory
      * with the AbstractSource.
      *
      * @param string $name
-     * @param AbstractSource $file
+     * @param SourceInterface $source
      * @return GeneratorInterface
      */
-    public function get(string $name, AbstractSource $file): GeneratorInterface
+    public function get(string $name, SourceInterface $source): GeneratorInterface
     {
+        /** @var GeneratorInterface $class */
+        $class = new $this->items[$name];
+        $class->setSource($source);
+
         // @todo register new FileGenerator with the graph for #315
-        return new $this->items[$name]($file);
+        return $class;
     }
 
     /**

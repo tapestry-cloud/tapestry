@@ -5,6 +5,8 @@ namespace Tapestry\Entities;
 use Tapestry\ArrayContainer;
 use Tapestry\Exceptions\GraphException;
 use Tapestry\Entities\DependencyGraph\Graph;
+use Tapestry\Modules\Generators\ContentGeneratorFactory;
+use Tapestry\Modules\Generators\GeneratorInterface;
 use Tapestry\Modules\Source\SourceInterface;
 use Tapestry\Entities\Generators\FileGenerator;
 use Tapestry\Entities\Collections\FlatCollection;
@@ -102,11 +104,13 @@ class Project extends ArrayContainer
      * @param string $name
      * @param SourceInterface   $file
      *
-     * @return ProjectFileGeneratorInterface
+     * @return GeneratorInterface
      */
-    public function getContentGenerator($name, SourceInterface $file)
+    public function getContentGenerator(string $name, SourceInterface $file): GeneratorInterface
     {
-        return $this->get('content_generators')->get($name, $file);
+        /** @var ContentGeneratorFactory $factory */
+        $factory = $this->get('content_generators');
+        return $factory->get($name, $file);
     }
 
     /**
