@@ -2,7 +2,6 @@
 
 namespace Tapestry\Entities\DependencyGraph;
 
-
 class Debug
 {
     /**
@@ -22,7 +21,7 @@ class Debug
     /**
      * @param string $edge
      * @param array|null $arr
-     * @return String
+     * @return string
      * @throws \Tapestry\Exceptions\GraphException
      */
     public function graphViz(string $edge, $arr = null): String
@@ -50,7 +49,7 @@ class Debug
     private function walkGraph(string $edge, array $arr): array
     {
         $node = $this->graph->getEdge($edge);
-        foreach ($node->getEdges() as $edge){
+        foreach ($node->getEdges() as $edge) {
             $arr[] = sprintf('    "%s" -> "%s"', $node->getUid(), $edge->getUid());
             if (count($edge->getEdges()) > 0) {
                 $arr = $this->walkGraph($edge->getUid(), $arr);

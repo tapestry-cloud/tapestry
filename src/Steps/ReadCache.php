@@ -11,7 +11,7 @@ use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class ReadCache
+ * Class ReadCache.
  *
  * This Step opens the cache file if found for the configured environment and loads it into the Project Container.
  */

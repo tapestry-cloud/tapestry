@@ -2,9 +2,9 @@
 
 namespace Tapestry\Steps;
 
-use Tapestry\Entities\DependencyGraph\Debug;
 use Tapestry\Step;
 use Tapestry\Entities\Project;
+use Tapestry\Entities\DependencyGraph\Debug;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class LexicalAnalysis implements Step
@@ -65,7 +65,7 @@ class LexicalAnalysis implements Step
         // @todo reduce the graph and provide the compile steps with a list of source files that are queued for compilation
 
         $debug = new Debug($graph);
-        file_put_contents(__DIR__ . '/../../lexical.gv', $debug->graphViz('kernel')); // @todo remove afterwards
+        file_put_contents(__DIR__.'/../../lexical.gv', $debug->graphViz('kernel')); // @todo remove afterwards
 
         return true;
     }
@@ -80,6 +80,7 @@ class LexicalAnalysis implements Step
     {
         $uid = str_replace('.', '_', $template);
         $uid = str_replace(['/', '\\'], '_', $uid);
+
         return $uid;
     }
 }

@@ -47,8 +47,7 @@ class ParseContentTypes implements Step
         // ContentType they originate from. It may be a good idea to instead pass in a container
         // class like a SourceCollection and a TaxonomyCollection.
 
-        foreach ($project->allSources() as $source)
-        {
+        foreach ($project->allSources() as $source) {
             /** @var string[] $uses */
             if (! $uses = $source->getData('use')) {
                 continue;

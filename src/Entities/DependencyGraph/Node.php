@@ -4,7 +4,6 @@ namespace Tapestry\Entities\DependencyGraph;
 
 interface Node
 {
-
     /**
      * Get this nodes uid.
      *

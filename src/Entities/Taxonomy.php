@@ -2,8 +2,8 @@
 
 namespace Tapestry\Entities;
 
-use Tapestry\Entities\Collections\Collection;
 use Tapestry\Modules\Source\SourceInterface;
+use Tapestry\Entities\Collections\Collection;
 
 class Taxonomy
 {

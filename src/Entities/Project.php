@@ -3,13 +3,11 @@
 namespace Tapestry\Entities;
 
 use Tapestry\ArrayContainer;
+use Tapestry\Exceptions\GraphException;
 use Tapestry\Entities\DependencyGraph\Graph;
-use Tapestry\Entities\DependencyGraph\Node;
+use Tapestry\Modules\Source\SourceInterface;
 use Tapestry\Entities\Generators\FileGenerator;
 use Tapestry\Entities\Collections\FlatCollection;
-use Tapestry\Entities\Tree\Tree;
-use Tapestry\Exceptions\GraphException;
-use Tapestry\Modules\Source\SourceInterface;
 
 class Project extends ArrayContainer
 {
@@ -51,7 +49,7 @@ class Project extends ArrayContainer
         parent::__construct(
             [
                 'files' => new FlatCollection(),
-                'graph' => new Graph()
+                'graph' => new Graph(),
             ]
         );
     }
@@ -130,6 +128,7 @@ class Project extends ArrayContainer
         if (! $this->has('graph')) {
             throw new GraphException('Graph is not initiated');
         }
+
         return $this->get('graph');
     }
 }

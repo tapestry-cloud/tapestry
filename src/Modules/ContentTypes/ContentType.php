@@ -259,7 +259,7 @@ class ContentType
         }
 
         foreach (array_keys($this->getSourceList()) as $fileKey) {
-            if (!$source = $project->getFile($fileKey)) {
+            if (! $source = $project->getFile($fileKey)) {
                 continue;
             }
 
@@ -269,8 +269,7 @@ class ContentType
                 $source->setData('permalink', $this->permalink);
             }
 
-            if (!is_null($templateSource) && !$source->hasData('template'))
-            {
+            if (! is_null($templateSource) && ! $source->hasData('template')) {
                 $source->setData('template', $this->template);
             }
         }
@@ -285,6 +284,7 @@ class ContentType
     {
         $uid = str_replace('.', '_', $this->template.'.phtml');
         $uid = str_replace(['/', '\\'], '_', $uid);
+
         return $uid;
     }
 }

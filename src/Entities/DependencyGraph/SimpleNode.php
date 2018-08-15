@@ -1,10 +1,11 @@
 <?php
 
 namespace Tapestry\Entities\DependencyGraph;
+
 use Tapestry\Exceptions\GraphException;
 
 /**
- * Class SimpleNode
+ * Class SimpleNode.
  *
  * This class exists to enable adding special files such as the configuration and kernel to the
  * dependency graph with the configuration being the root node and the kernel being its only

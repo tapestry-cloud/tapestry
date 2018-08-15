@@ -94,6 +94,7 @@ class Tree
     {
         if (is_null($this->root)) {
             $this->root = $leaf;
+
             return true;
         }
 
@@ -105,8 +106,10 @@ class Tree
                     $inserted = true;
                 }
             });
+
             return $inserted;
         }
+
         return false;
     }
 
@@ -121,13 +124,14 @@ class Tree
      */
     public function addSymbol(Symbol $symbol, $parent = null): bool
     {
-        if (! isset($this->symbolPathsHash[$symbol->id])){
+        if (! isset($this->symbolPathsHash[$symbol->id])) {
             $this->symbolPathsHash[$symbol->id] = [];
         }
 
         if (is_null($this->root)) {
             $this->root = new Leaf('root', $symbol);
             $this->symbolPathsHash[$symbol->id][] = 'root';
+
             return true;
         }
 
@@ -135,8 +139,8 @@ class Tree
             $inserted = false;
             $this->traverse(function (Leaf $node) use ($parent, $symbol, &$inserted) {
                 if ($node->getSymbol()->id === $parent) {
-                    $node->addChild(new Leaf($node->getId() . '.' . $symbol->id, $symbol));
-                    $this->symbolPathsHash[$symbol->id][] = $node->getId() . '.' . $symbol->id;
+                    $node->addChild(new Leaf($node->getId().'.'.$symbol->id, $symbol));
+                    $this->symbolPathsHash[$symbol->id][] = $node->getId().'.'.$symbol->id;
                     $inserted = true;
                 }
             });
@@ -148,6 +152,7 @@ class Tree
 
             return $inserted;
         }
+
         return false;
     }
 
