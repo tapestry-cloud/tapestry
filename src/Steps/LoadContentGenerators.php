@@ -36,19 +36,20 @@ class LoadContentGenerators implements Step
     /**
      * Process the Project at current.
      *
-     * @param Project         $project
+     * @param Project $project
      * @param OutputInterface $output
      *
      * @return bool
+     * @throws \ReflectionException
      */
-    public function __invoke(Project $project, OutputInterface $output)
+    public function __invoke(Project $project, OutputInterface $output): bool
     {
         if (! $contentGenerators = $this->configuration->get('content_generators', null)) {
             $output->writeln('[!] Your project\'s content generators are miss-configured. Doing nothing and exiting.]');
             exit(1);
         }
 
-        $project->set('content_generators', new ContentGeneratorFactory($contentGenerators));
+        $project->set('content_generators', new ContentGeneratorFactory($contentGenerators, $project));
 
         return true;
     }
