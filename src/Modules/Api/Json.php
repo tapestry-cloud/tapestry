@@ -9,7 +9,7 @@ use Tapestry\Entities\ContentType;
 use Tapestry\Entities\ProjectFile;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Console\Output\OutputInterface;
-use Tapestry\Modules\ContentTypes\ContentTypeFactory;
+use Tapestry\Modules\ContentTypes\ContentTypeCollection;
 
 class Json implements Step
 {
@@ -69,7 +69,7 @@ class Json implements Step
             ];
         }
 
-        /** @var ContentTypeFactory $contentTypes */
+        /** @var ContentTypeCollection $contentTypes */
         $contentTypes = $project->get('content_types');
 
         /**

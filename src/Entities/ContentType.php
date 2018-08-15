@@ -8,6 +8,10 @@ use Tapestry\Entities\Generators\FileGenerator;
 use Tapestry\Entities\Collections\FlatCollection;
 use Tapestry\Modules\Renderers\ContentRendererFactory;
 
+/**
+ * Class ContentType.
+ * @deprecated use Tapestry\Modules\ContentTypes\ContentType
+ */
 class ContentType
 {
     /**

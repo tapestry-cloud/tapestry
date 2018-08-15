@@ -4,11 +4,16 @@ namespace Tapestry\Steps;
 
 use Tapestry\Step;
 use Tapestry\Entities\Project;
-use Tapestry\Entities\ContentType;
 use Tapestry\Entities\Configuration;
+use Tapestry\Modules\ContentTypes\ContentType;
 use Symfony\Component\Console\Output\OutputInterface;
-use Tapestry\Modules\ContentTypes\ContentTypeFactory;
+use Tapestry\Modules\ContentTypes\ContentTypeCollection;
 
+/**
+ * Class LoadContentTypes.
+ *
+ * This Step loads the configured content types into the Project Container.
+ */
 class LoadContentTypes implements Step
 {
     /**
@@ -41,13 +46,13 @@ class LoadContentTypes implements Step
             $output->writeln('[!] Your project\'s content types are miss-configured. Doing nothing and exiting.]');
         }
 
-        $contentTypeFactory = new ContentTypeFactory([
+        $contentTypeFactory = new ContentTypeCollection([
             new ContentType('default', [
                 'path'      => '*',
                 'permalink' => '*',
                 'enabled'   => true,
             ]),
-        ]);
+        ], $project);
 
         foreach ($contentTypes as $name => $settings) {
             $contentTypeFactory->add(new ContentType($name, $settings));

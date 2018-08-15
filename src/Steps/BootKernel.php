@@ -1,13 +1,19 @@
 <?php
 
-namespace Tapestry\Modules\Kernel;
+namespace Tapestry\Steps;
 
 use Tapestry\Step;
 use Tapestry\Tapestry;
 use Tapestry\Entities\Project;
 use Tapestry\Entities\Configuration;
+use Tapestry\Modules\Kernel\KernelInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Class BootKernel.
+ *
+ * This Step identifies the configured Kernel for this Project and executes its `boot()` method.
+ */
 class BootKernel implements Step
 {
     /**
@@ -29,7 +35,7 @@ class BootKernel implements Step
     /**
      * Process the Project at current.
      *
-     * @param Project         $project
+     * @param Project $project
      * @param OutputInterface $output
      *
      * @return bool

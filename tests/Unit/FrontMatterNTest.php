@@ -2,9 +2,9 @@
 
 namespace Tapestry\Tests\Unit;
 
-use Tapestry\Entities\ProjectFile;
 use Symfony\Component\Finder\SplFileInfo;
 use Tapestry\Modules\Content\FrontMatter;
+use Tapestry\Modules\Source\SplFileSource;
 use Tapestry\Tests\TestCase;
 
 class FrontMatterNTest extends TestCase
@@ -15,26 +15,36 @@ class FrontMatterNTest extends TestCase
      */
     function testFrontMatterParsedWhenBodyEmpty()
     {
-        $file = new ProjectFile(new SplFileInfo(__DIR__ . '/../Mocks/TestFileNoBody.md', '', ''));
-        $frontMatter = new FrontMatter($file->getFileContent());
-        $this->assertSame('', $frontMatter->getContent());
-        $this->assertSame([
-            'title' => 'Test File Title',
-            'draft' => false,
-            'date' => 507600000
-        ], $frontMatter->getData());
+        try {
+            $file = new SplFileSource(new SplFileInfo(__DIR__ . '/../Mocks/TestFileNoBody.md', '', ''));
+            $frontMatter = new FrontMatter($file->getRawContent());
+            $this->assertSame('', $frontMatter->getContent());
+            $this->assertSame([
+                'title' => 'Test File Title',
+                'draft' => false,
+                'date' => 507600000
+            ], $frontMatter->getData());
+        } catch (\Exception $e) {
+            $this->fail($e);
+            return;
+        }
     }
 
     function testFrontMatterAndBodyParsedCorrectly()
     {
-        $file = new ProjectFile(new SplFileInfo(__DIR__ . '/../Mocks/TestFile.md', '', ''));
-        $frontMatter = new FrontMatter($file->getFileContent());
+        try {
+        $file = new SplFileSource(new SplFileInfo(__DIR__ . '/../Mocks/TestFile.md', '', ''));
+        $frontMatter = new FrontMatter($file->getRawContent());
         $this->assertSame('This is a test file...', $frontMatter->getContent());
         $this->assertSame([
             'title' => 'Test File Title',
             'draft' => false,
             'date' => 507600000
         ], $frontMatter->getData());
+        } catch (\Exception $e) {
+            $this->fail($e);
+            return;
+        }
     }
 
     function testFrontMatterParsedWhenEmpty()

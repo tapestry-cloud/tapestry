@@ -5,15 +5,17 @@ namespace Tapestry\Tests\Unit;
 use Symfony\Component\Console\Output\NullOutput;
 use Tapestry\Entities\Project;
 use Tapestry\Generator;
-use Tapestry\Modules\ContentTypes\ParseContentTypes;
+use Tapestry\Steps\BootKernel;
+use Tapestry\Steps\LoadContentCollectors;
+use Tapestry\Steps\LoadGraph;
+use Tapestry\Steps\ParseContentTypes;
 use Tapestry\Steps\LexicalAnalysis;
 use Tapestry\Steps\LoadContentGenerators;
 use Tapestry\Steps\LoadContentRenderers;
 use Tapestry\Steps\LoadContentTypes;
-use Tapestry\Steps\LoadSourceFileTree;
 use Tapestry\Steps\ReadCache;
-use Tapestry\Steps\RenderPlates;
-use Tapestry\Steps\SyntaxAnalysis;
+use Tapestry\Steps\RunContentCollectors;
+use Tapestry\Steps\RunGenerators;
 use Tapestry\Tests\TestCase;
 use Tapestry\Tests\Traits\MockTapestry;
 
@@ -28,6 +30,8 @@ class ContentGraphNTest extends TestCase
      */
     public function testAnalysis()
     {
+        //$this->assertTrue(true); return;
+
         //$this->loadToTmp($this->assetPath('build_test_7/src'));
         $this->loadToTmp($this->assetPath('build_test_41/src'));
         $tapestry = $this->mockTapestry($this->tmpDirectory);
@@ -36,40 +40,33 @@ class ContentGraphNTest extends TestCase
         $project = $tapestry->getContainer()->get(Project::class);
 
         $generator = new Generator([
+            // Loading...
+            BootKernel::class,
             ReadCache::class,
+            LoadGraph::class,
             LoadContentTypes::class,
+            LoadContentCollectors::class,
             LoadContentRenderers::class,
             LoadContentGenerators::class,
-            LoadSourceFileTree::class,
+            // Collecting...
+            RunContentCollectors::class,
+
+            // Parsing/Lexical Analysis
             ParseContentTypes::class,
+            LexicalAnalysis::class,
 
-            SyntaxAnalysis::class,
-            //LexicalAnalysis::class,
-            RenderPlates::class
+            // Generation/Compilation...
+            RunGenerators::class,
+            //SyntaxAnalysis::class,
+            //RenderPlates::class
+
+            // Shutdown...
+
+
         ], $tapestry);
-        $generator->generate($project, new NullOutput());
 
-        //touch($this->tmpDirectory . '/source/something.html');
+        $this->assertEquals(0, $generator->generate($project, new NullOutput()));
 
-        //$generator->generate($project, new NullOutput());
-
-        //
-        // For refactoring issues #300, #297, #284, #282, #270:
-        //
-        // Tapestry now parses all files in the source folder and builds an hash table containing them all
-        // and their last change date.
-        //
-        // Test that the following happens:
-        //
-        // [ ] All files in source folder are loaded
-        // [ ] All files in source folder are bucketed correctly
-        //
-        // Because ignored files are still "parsed" during the LoadSourceFileTree step it also needs to be checked that
-        // they have an ignored flag set. This ensures that template files don't then get copied from source to dist.
-        //
-        // [ ] Ignored files are ignored
-        //
-
-        $f = 0;
+        $this->assertTrue(true);
     }
 }

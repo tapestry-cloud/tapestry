@@ -3,6 +3,9 @@
 namespace Tapestry\Entities;
 
 use Tapestry\ArrayContainer;
+use Tapestry\Exceptions\GraphException;
+use Tapestry\Entities\DependencyGraph\Graph;
+use Tapestry\Modules\Source\SourceInterface;
 use Tapestry\Entities\Generators\FileGenerator;
 use Tapestry\Entities\Collections\FlatCollection;
 
@@ -35,7 +38,7 @@ class Project extends ArrayContainer
      * @param string $dist
      * @param string $environment
      */
-    public function __construct($cwd, $dist, $environment)
+    public function __construct(string $cwd, string $dist, string $environment)
     {
         $this->sourceDirectory = $cwd.DIRECTORY_SEPARATOR.'source';
         $this->destinationDirectory = $dist;
@@ -46,14 +49,15 @@ class Project extends ArrayContainer
         parent::__construct(
             [
                 'files' => new FlatCollection(),
+                'graph' => new Graph(),
             ]
         );
     }
 
     /**
-     * @param ProjectFileInterface|ProjectFile|FileGenerator $file
+     * @param SourceInterface|FileGenerator $file
      */
-    public function addFile(ProjectFileInterface $file)
+    public function addFile(SourceInterface $file)
     {
         $this->set('files.'.$file->getUid(), $file);
     }
@@ -61,7 +65,7 @@ class Project extends ArrayContainer
     /**
      * @param string $key
      *
-     * @return ProjectFileInterface|ProjectFile|FileGenerator
+     * @return SourceInterface
      */
     public function getFile($key)
     {
@@ -69,18 +73,26 @@ class Project extends ArrayContainer
     }
 
     /**
-     * @param ProjectFileInterface|ProjectFile|FileGenerator $file
+     * @return SourceInterface[]|FlatCollection
      */
-    public function removeFile(ProjectFileInterface $file)
+    public function allSources(): FlatCollection
+    {
+        return $this->get('files');
+    }
+
+    /**
+     * @param SourceInterface|FileGenerator $file
+     */
+    public function removeFile(SourceInterface $file)
     {
         $this->remove('files.'.$file->getUid());
     }
 
     /**
-     * @param ProjectFileInterface|ProjectFile|FileGenerator $oldFile
-     * @param ProjectFileInterface|ProjectFile|FileGenerator $newFile
+     * @param SourceInterface|FileGenerator $oldFile
+     * @param SourceInterface|FileGenerator $newFile
      */
-    public function replaceFile(ProjectFileInterface $oldFile, ProjectFileInterface $newFile)
+    public function replaceFile(SourceInterface $oldFile, SourceInterface $newFile)
     {
         $this->removeFile($oldFile);
         $this->addFile($newFile);
@@ -88,11 +100,11 @@ class Project extends ArrayContainer
 
     /**
      * @param string $name
-     * @param ProjectFile   $file
+     * @param SourceInterface   $file
      *
      * @return ProjectFileGeneratorInterface
      */
-    public function getContentGenerator($name, ProjectFile $file)
+    public function getContentGenerator($name, SourceInterface $file)
     {
         return $this->get('content_generators')->get($name, $file);
     }
@@ -105,5 +117,18 @@ class Project extends ArrayContainer
     public function getContentType($name)
     {
         return $this->get('content_types.'.$name);
+    }
+
+    /**
+     * @return Graph
+     * @throws GraphException
+     */
+    public function getGraph(): Graph
+    {
+        if (! $this->has('graph')) {
+            throw new GraphException('Graph is not initiated');
+        }
+
+        return $this->get('graph');
     }
 }

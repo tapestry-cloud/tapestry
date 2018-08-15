@@ -2,9 +2,11 @@
 
 namespace Tapestry\Modules\ContentTypes;
 
-use Tapestry\Entities\ContentType;
+use Tapestry\Entities\Project;
+use Tapestry\Modules\Source\SourceInterface;
+use Tapestry\Entities\DependencyGraph\SimpleNode;
 
-class ContentTypeFactory
+class ContentTypeCollection
 {
     /**
      * Registered item stack.
@@ -28,12 +30,21 @@ class ContentTypeFactory
     private $nameLookupTable = [];
 
     /**
+     * @var Project
+     */
+    private $project;
+
+    /**
      * ContentTypeFactory constructor.
      *
      * @param array|ContentType[] $items
+     * @param Project $project
+     * @throws \Exception
      */
-    public function __construct(array $items = [])
+    public function __construct(array $items = [], Project $project)
     {
+        $this->project = $project;
+
         foreach ($items as $item) {
             $this->add($item);
         }
@@ -43,11 +54,11 @@ class ContentTypeFactory
      * Add a ContentType to the registry.
      *
      * @param ContentType $contentType
-     * @param bool        $overWrite   should adding overwrite existing; if false an exception will be thrown if a matching collection already found
+     * @param bool $overWrite should adding overwrite existing; if false an exception will be thrown if a matching collection already found
      *
      * @throws \Exception
      */
-    public function add(ContentType $contentType, $overWrite = false)
+    public function add(ContentType $contentType, bool $overWrite = false)
     {
         if (! $overWrite && $this->has($contentType->getPath())) {
             throw new \Exception('The collection ['.$this->pathLookupTable[$contentType->getPath()].'] already collects for the path ['.$contentType->getPath().']');
@@ -56,6 +67,39 @@ class ContentTypeFactory
         $this->items[$uid] = $contentType;
         $this->pathLookupTable[$contentType->getPath()] = $uid;
         $this->nameLookupTable[$contentType->getName()] = $uid;
+
+        $templateFilePath = $this->project->sourceDirectory.DIRECTORY_SEPARATOR.$contentType->getTemplate().'.phtml';
+
+        // I have added the hash of the content types template file to ensure that the
+        // content type is invalid if its template changes.
+        if ($contentType->getName() !== 'default' && file_exists($templateFilePath)) {
+            $hash = sha1($uid.'.'.sha1_file($templateFilePath));
+        } else {
+            $hash = $uid;
+        }
+
+        $this->project->getGraph()->addEdge('configuration', new SimpleNode('content_type.'.$contentType->getName(), $hash));
+    }
+
+    /**
+     * Bucket a SourceFile into one of the ContentTypes in this Collection.
+     *
+     * @param SourceInterface $source
+     * @return ContentType
+     * @throws \Exception
+     */
+    public function bucketSource(SourceInterface $source): ContentType
+    {
+        if (! $contentType = $this->find($source->getRelativePath())) {
+            $contentType = $this->get('*');
+        } else {
+            $contentType = $this->get($contentType);
+        }
+
+        $this->project->getGraph()->addEdge('content_type.'.$contentType->getName(), new SimpleNode($source->getUid(), $source->getMTime()));
+        $contentType->addSource($source);
+
+        return $contentType;
     }
 
     /**
@@ -65,7 +109,7 @@ class ContentTypeFactory
      *
      * @return bool
      */
-    public function has($path)
+    public function has($path): bool
     {
         return isset($this->pathLookupTable[$path]);
     }
@@ -75,7 +119,7 @@ class ContentTypeFactory
      *
      * @return array|\Tapestry\Entities\ContentType[]
      */
-    public function all()
+    public function all(): array
     {
         return array_values($this->items);
     }
@@ -94,6 +138,8 @@ class ContentTypeFactory
                 return $key;
             }
         }
+
+        return null;
     }
 
     /**
@@ -106,7 +152,7 @@ class ContentTypeFactory
      *
      * @return ContentType
      */
-    public function get($path)
+    public function get($path): ContentType
     {
         if (! $this->has($path) && ! $this->has('*')) {
             throw new \Exception('There is no collection that collects for the path ['.$path.']');

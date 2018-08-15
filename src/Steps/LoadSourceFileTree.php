@@ -11,8 +11,8 @@ use Symfony\Component\Finder\Finder;
 use Tapestry\Entities\Configuration;
 use Tapestry\Modules\Content\FrontMatter;
 use Symfony\Component\Console\Output\OutputInterface;
-use Tapestry\Modules\ContentTypes\ContentTypeFactory;
 use Tapestry\Modules\Renderers\ContentRendererFactory;
+use Tapestry\Modules\ContentTypes\ContentTypeCollection;
 
 class LoadSourceFileTree implements Step
 {
@@ -97,7 +97,7 @@ class LoadSourceFileTree implements Step
             $hashTable = [];
         }
 
-        /** @var ContentTypeFactory $contentTypes */
+        /** @var ContentTypeCollection $contentTypes */
         $contentTypes = $project->get('content_types');
 
         foreach ($contentTypes->all() as $contentType) {

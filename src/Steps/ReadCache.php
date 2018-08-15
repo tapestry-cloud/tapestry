@@ -10,6 +10,11 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Class ReadCache.
+ *
+ * This Step opens the cache file if found for the configured environment and loads it into the Project Container.
+ */
 class ReadCache implements Step
 {
     /**
@@ -27,7 +32,7 @@ class ReadCache implements Step
     }
 
     /**
-     * Invoke a new instance of the Cache system, load it and then inject it into the Project container.
+     * Invoke a new instance of the Cache system, load it and then inject it into the Project Container.
      *
      * @param Project $project
      * @param OutputInterface $output

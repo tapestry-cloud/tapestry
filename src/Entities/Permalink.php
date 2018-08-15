@@ -2,6 +2,8 @@
 
 namespace Tapestry\Entities;
 
+use Tapestry\Modules\Source\SourceInterface;
+
 class Permalink
 {
     /**
@@ -40,17 +42,17 @@ class Permalink
     /**
      * Returns a compiled permalink path in string form.
      *
-     * @param ProjectFile $file
+     * @param SourceInterface $file
      * @param bool $pretty
      *
      * @return mixed|string
      * @throws \Exception
      */
-    public function getCompiled(ProjectFile $file, bool $pretty = true)
+    public function getCompiled(SourceInterface $file, bool $pretty = true)
     {
         $output = $this->template;
         $output = str_replace('{ext}', $file->getExtension(), $output);
-        $output = str_replace('{filename}', $this->sluggify($file->getBasename('.'.$file->getExtension(false))), $output);
+        $output = str_replace('{filename}', $this->sluggify($file->getBasename(true)), $output);
 
         $filePath = str_replace('\\', '/', $file->getRelativePath());
         if (substr($filePath, 0, 1) === '/') {
