@@ -2,7 +2,6 @@
 
 namespace Tapestry\Modules\Generators;
 
-use Tapestry\Entities\Generators\FileGenerator;
 use Tapestry\Entities\Project;
 use Tapestry\Modules\Source\AbstractSource;
 
@@ -19,7 +18,7 @@ class ContentGeneratorFactory
     /**
      * Registered item stack.
      *
-     * @var array|FileGenerator[]
+     * @var string[]
      */
     private $items = [];
 
@@ -62,9 +61,9 @@ class ContentGeneratorFactory
      *
      * @param string $name
      * @param AbstractSource $file
-     * @return FileGenerator
+     * @return GeneratorInterface
      */
-    public function get(string $name, AbstractSource $file): FileGenerator
+    public function get(string $name, AbstractSource $file): GeneratorInterface
     {
         // @todo register new FileGenerator with the graph for #315
         return new $this->items[$name]($file);
