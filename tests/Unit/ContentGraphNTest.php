@@ -65,6 +65,9 @@ class ContentGraphNTest extends TestCase
 
         ], $tapestry);
 
+        $this->markTestIncomplete('This test is a work in progress.');
+
+
         $this->assertEquals(0, $generator->generate($project, new NullOutput()));
 
         $this->assertTrue(true);

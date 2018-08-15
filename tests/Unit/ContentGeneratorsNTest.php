@@ -36,26 +36,26 @@ class ContentGeneratorsNTest extends TestCase
     public function testGeneratorGenerator()
     {
         // Tapestry\Modules\Generators\Generator
-        $this->assertTrue(false);
+        $this->markTestIncomplete('This test has not been implemented yet');
     }
 
     public function testCollectionItemGenerator()
     {
-        $this->assertTrue(false);
+        $this->markTestIncomplete('This test has not been implemented yet');
     }
 
     public function testPaginationGenerator()
     {
-        $this->assertTrue(false);
+        $this->markTestIncomplete('This test has not been implemented yet');
     }
 
     public function testTaxonomyArchiveGenerator()
     {
-        $this->assertTrue(false);
+        $this->markTestIncomplete('This test has not been implemented yet');
     }
 
     public function testTaxonomyIndexGenerator()
     {
-        $this->assertTrue(false);
+        $this->markTestIncomplete('This test has not been implemented yet');
     }
 }
