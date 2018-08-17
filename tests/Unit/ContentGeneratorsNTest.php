@@ -2,41 +2,65 @@
 
 namespace Tapestry\Tests\Unit;
 
-use Symfony\Component\Console\Output\Output;
 use Tapestry\Entities\DependencyGraph\SimpleNode;
 use Tapestry\Entities\Project;
+use Tapestry\Modules\Generators\AbstractGenerator;
 use Tapestry\Modules\Generators\ContentGeneratorFactory;
 use Tapestry\Modules\Generators\Generator;
 use Tapestry\Modules\Source\MemorySource;
-use Tapestry\Tapestry;
 use Tapestry\Tests\TestCase;
 
 class ContentGeneratorsNTest extends TestCase
 {
     public function testContentGeneratorFactory()
     {
-        $project = new Project('', '','');
-        $project->getGraph()->setRoot(new SimpleNode('configuration', 'hello world'));
-        $factory = new ContentGeneratorFactory([], $project);
+        try {
+            $project = new Project('', '', '');
+            $project->getGraph()->setRoot(new SimpleNode('configuration', 'hello world'));
+            $factory = new ContentGeneratorFactory([], $project);
 
-        $this->assertFalse($factory->has('hello-world'));
+            $this->assertFalse($factory->has('hello-world'));
 
-        $factory->add(Generator::class);
-        $this->assertTrue($factory->has('Generator'));
+            $factory->add(Generator::class);
+            $this->assertTrue($factory->has('Generator'));
 
-        $memory = new MemorySource('hello-world', '', 'index', 'phtml','/', '/index.phtml', []);
+            $memory = new MemorySource('hello-world', '', 'index', 'phtml', '/', '/index.phtml', []);
 
-        $result = ($factory->get('Generator', $memory))->generate($project);
-        $this->assertTrue(is_array($result));
-        $this->assertSame($memory, $result[0]);
+            $result = ($factory->get('Generator', $memory))->generate($project);
+            $this->assertTrue(is_array($result));
+            $this->assertSame($memory, $result[0]);
 
-        // @todo finish this test
+            // @todo finish this test
+        } catch (\Exception $e) {
+            $this->fail($e);
+        }
+
     }
 
     public function testGeneratorGenerator()
     {
-        // Tapestry\Modules\Generators\Generator
-        $this->markTestIncomplete('This test has not been implemented yet');
+        try {
+            $project = new Project('', '', '');
+            $project->getGraph()->setRoot(new SimpleNode('configuration', 'hello world'));
+
+            $a = new MemorySource('hello-world-a', '', 'index-a', 'phtml', '/', '/index-a.phtml', []);
+            $b = new MemorySource('hello-world-b', '', 'index-b', 'phtml', '/', '/index-b.phtml', ['generator' => ['mock']]);
+
+            $generatorMock = $this->createMock(AbstractGenerator::class);
+            $generatorMock->method('generate')->with($project)->willReturn([$a]);
+
+            $factoryMock = $this->createMock(ContentGeneratorFactory::class);
+            $factoryMock->method('get')->with('mock', $b)->willReturn($generatorMock);
+            $project['content_generators'] = $factoryMock;
+
+            $generator = new Generator();
+            $generator->setSource($b);
+
+            $generated = $generator->generate($project);
+            $this->assertSame($a, reset($generated));
+        } catch (\Exception $e) {
+            $this->fail($e);
+        }
     }
 
     public function testCollectionItemGenerator()
