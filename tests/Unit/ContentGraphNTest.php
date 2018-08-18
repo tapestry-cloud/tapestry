@@ -27,6 +27,7 @@ class ContentGraphNTest extends TestCase
     /**
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
+     * @todo this is not actually a unit test, its a feature test! MOVE IT
      */
     public function testAnalysis()
     {

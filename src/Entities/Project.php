@@ -3,6 +3,7 @@
 namespace Tapestry\Entities;
 
 use Tapestry\ArrayContainer;
+use Tapestry\Entities\DependencyGraph\Node;
 use Tapestry\Exceptions\GraphException;
 use Tapestry\Entities\DependencyGraph\Graph;
 use Tapestry\Modules\Generators\ContentGeneratorFactory;
@@ -50,7 +51,7 @@ class Project extends ArrayContainer
 
         parent::__construct(
             [
-                'files' => new FlatCollection(), // @todo replace files with graph?
+                'files' => new FlatCollection(), // @todo deprecate files and compiled in preference of graph. If a source is changed since last execution it gets re-loaded from disk anyway!
                 'graph' => new Graph(),
             ]
         );
@@ -58,46 +59,53 @@ class Project extends ArrayContainer
 
     /**
      * @param SourceInterface|FileGenerator $file
+     * @throws \Exception
+     * @deprecated
      */
     public function addFile(SourceInterface $file)
     {
-        $this->set('files.'.$file->getUid(), $file);
+        throw new \Exception('addFile method on Project is deprecated, use addSource instead.');
+    }
+
+    /**
+     * @param string $parent id of parent node.
+     * @param Node $source all source being added to Project must implement Node interface.
+     * @throws GraphException
+     */
+    public function addSource(string $parent, Node $source)
+    {
+        $this->getGraph()->addEdge($parent, $source);
     }
 
     /**
      * @param string $key
      *
-     * @return SourceInterface
+     * @return void
+     * @throws \Exception
+     * @deprecated
      */
     public function getFile($key)
     {
-        return $this->get('files.'.$key);
+        throw new \Exception('getFile method on Project is deprecated, use getSource instead.');
+    }
+
+    /**
+     * @param string $uid
+     * @return Node|SourceInterface
+     * @throws GraphException
+     */
+    public function getSource(string $uid): Node
+    {
+        return $this->getGraph()->getEdge($uid);
     }
 
     /**
      * @return SourceInterface[]|FlatCollection
+     * @throws GraphException
      */
     public function allSources(): FlatCollection
     {
-        return $this->get('files');
-    }
-
-    /**
-     * @param SourceInterface|FileGenerator $file
-     */
-    public function removeFile(SourceInterface $file)
-    {
-        $this->remove('files.'.$file->getUid());
-    }
-
-    /**
-     * @param SourceInterface|FileGenerator $oldFile
-     * @param SourceInterface|FileGenerator $newFile
-     */
-    public function replaceFile(SourceInterface $oldFile, SourceInterface $newFile)
-    {
-        $this->removeFile($oldFile);
-        $this->addFile($newFile);
+        return new FlatCollection($this->getGraph()->getTable());
     }
 
     /**

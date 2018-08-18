@@ -46,6 +46,7 @@ class Graph
      * @param string $uid
      * @param Node $node
      * @throws GraphException
+     * @todo should this throw an exception if the $node already exists in $this->table?
      */
     public function addEdge(string $uid, Node $node)
     {
@@ -68,5 +69,15 @@ class Graph
         }
 
         return $this->table[$uid];
+    }
+
+    /**
+     * Get all nodes stored in this graph.
+     *
+     * @return array|Node[]
+     */
+    public function getTable(): array
+    {
+        return $this->table;
     }
 }
