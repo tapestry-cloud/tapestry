@@ -2,6 +2,7 @@
 
 namespace Tapestry\Tests\Unit;
 
+use Tapestry\Entities\DependencyGraph\Debug;
 use Tapestry\Entities\DependencyGraph\Resolver;
 use Tapestry\Entities\DependencyGraph\SimpleNode;
 use Tapestry\Entities\Pagination;
@@ -85,61 +86,64 @@ class ContentGeneratorsNTest extends TestCase
             $f = [];
             foreach(range('a','c') as $letter)
             {
-                $tmp = new MemorySource('hello-world-'.$letter, '', 'index-'.$letter.'.phtml', 'phtml', '/', '/index-'.$letter.'.phtml', ['content_type' => 'mock']);
-                if ($letter === 'b') {
-                    $tmp->setData('generator', ['CollectionItemGenerator']);
-                }
-
+                $tmp = new MemorySource('hello-world-'.$letter, '', 'index-'.$letter.'.phtml', 'phtml', '/', '/index-'.$letter.'.phtml', ['content_type' => 'mock', 'generator' => ['CollectionItemGenerator']]);
                 $f[$tmp->getUid()] = $tmp;
                 $project->getGraph()->addEdge('configuration', $tmp);
-            }
+            } unset($letter);
 
             $mockContentType = $this->createMock(ContentType::class);
             $mockContentType->method('getSourceList')->withAnyParameters()->willReturn($f);
             $project->set('content_types.mock', $mockContentType);
 
-            $b = $project->getSource('hello-world-b');
+            foreach (range('a','c') as $letter)
+            {
+                $source = $project->getSource('hello-world-'.$letter);
 
-            $generator = new CollectionItemGenerator();
-            $generator->setSource($b);
+                $generator = new CollectionItemGenerator();
+                $generator->setSource($source);
 
-            $generated = $generator->generate($project);
-            $generated = reset($generated);
-            $this->assertSame($b, $generated);
+                $generated = $generator->generate($project);
+                $generated = reset($generated);
+                $this->assertSame($source, $generated);
 
-            $this->assertEquals([], $b->getData('generator'));
-            $this->assertTrue(!is_null($b->getData('previous_next')));
+                $this->assertEquals([], $source->getData('generator'));
+                $this->assertTrue(!is_null($source->getData('previous_next')));
 
-            /** @var Pagination $pagination */
-            $pagination = $b->getData('previous_next');
-            $this->assertInstanceOf(Pagination::class, $pagination);
+                /** @var Pagination $pagination */
+                $pagination = $source->getData('previous_next');
+                $this->assertInstanceOf(Pagination::class, $pagination);
 
-            $previous = $pagination->getPrevious()->getSource();
-            $next = $pagination->getNext()->getSource();
+                $previous = $pagination->getPrevious();
+                $next = $pagination->getNext();
 
-            $this->assertSame($project->getSource('hello-world-a'), $previous);
-            $this->assertSame($project->getSource('hello-world-c'), $next);
+                if ($letter === 'a') {
+                    $this->assertNull($previous);
+                    $this->assertSame($project->getSource('hello-world-b'), $next->getSource());
+                }
+
+                if ($letter === 'b') {
+                    $this->assertSame($project->getSource('hello-world-a'), $previous->getSource());
+                    $this->assertSame($project->getSource('hello-world-c'), $next->getSource());
+                }
+
+                if ($letter === 'c') {
+                    $this->assertSame($project->getSource('hello-world-b'), $previous->getSource());
+                    $this->assertNull($next);
+                }
+            } unset($letter);
 
             //
             // Check Graph is updated with correct dependencies
             //
 
-            // The graph dependencies are read like so c -> b -> a this means
-            // that a has two dependents, b has one and c has none.
-            //
-            // @todo see below
-            // In order to avoid circular dependencies a MetaNode should be created
-            // for the inverse dependency so that if c is updated it prompts the cascade
-            // up from b to a.
-
             $dep = (new Resolver())->resolve($project->getSource('hello-world-a'));
-            $this->assertCount(3, $dep);
+            $this->assertCount(4, $dep);
 
             $dep = (new Resolver())->resolve($project->getSource('hello-world-b'));
-            $this->assertCount(2, $dep);
+            $this->assertCount(6, $dep);
 
             $dep = (new Resolver())->resolve($project->getSource('hello-world-c'));
-            $this->assertCount(1, $dep);
+            $this->assertCount(4, $dep);
         } catch (\Exception $e) {
             $this->fail($e);
         }

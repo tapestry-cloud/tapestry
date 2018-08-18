@@ -2,6 +2,8 @@
 
 namespace Tapestry\Modules\Generators;
 
+use Tapestry\Entities\DependencyGraph\Cluster;
+use Tapestry\Entities\DependencyGraph\SimpleNode;
 use Tapestry\Entities\Pagination;
 use Tapestry\Entities\Project;
 use Tapestry\Modules\Source\SourceInterface;
@@ -19,6 +21,9 @@ class CollectionItemGenerator extends AbstractGenerator implements GeneratorInte
      */
     public function generate(Project $project): array
     {
+        $nodeId = $this->source->getUid().'_generator_CollectionItemGenerator_'.time();
+        $project->addSource($this->source->getUid(), new SimpleNode($nodeId, 'CollectionItemGenerator'));
+
         // @todo the previous version of this generator cloned $this->source. Is there a reason for that?
 
         // Remove reference to this Generator from source (otherwise it will execute again forever)
@@ -51,18 +56,24 @@ class CollectionItemGenerator extends AbstractGenerator implements GeneratorInte
             $pagination = new Pagination([], 3, 2);
         }
 
-        $previous = $project->getSource($siblings[$position - 1]);
-        $next = $project->getSource($siblings[$position + 1]);
+        $previous = (isset($siblings[$position - 1])) ? $project->getSource($siblings[$position - 1]) : null;
+        $next = (isset($siblings[$position + 1])) ? $project->getSource($siblings[$position + 1]) : null;
 
-        $pagination->setPreviousNext(
-            (isset($siblings[$position - 1]) ? $previous : null),
-            (isset($siblings[$position + 1]) ? $next : null)
-        );
+        $pagination->setPreviousNext($previous, $next);
 
-        // @todo have this generator register $this->source as a dependant of $siblings[$position - 1]) and $siblings[$position + 1]) if they exist
+        // Add dependencies to graph.
 
-        $project->getGraph()->addEdge($previous->getUid(), $this->source);
-        $project->getGraph()->addEdge($this->source->getUid(), $next);
+        if (! is_null($previous)) {
+            $cluster = new Cluster($nodeId . '_previous', [$previous]);
+            $project->getGraph()->addEdge($nodeId, $cluster);
+            $project->getGraph()->addEdge($previous->getUid(),$cluster);
+        } unset($cluster);
+
+        if (! is_null($next)) {
+            $cluster = new Cluster($nodeId . '_next', [$next]);
+            $project->getGraph()->addEdge($nodeId, $cluster);
+            $project->getGraph()->addEdge($next->getUid(),$cluster);
+        } unset($cluster);
 
         $this->source->setData(['previous_next' => $pagination]);
 

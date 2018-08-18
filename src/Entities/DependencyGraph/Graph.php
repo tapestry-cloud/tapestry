@@ -55,6 +55,12 @@ class Graph
         }
         $this->table[$uid]->addEdge($node);
         $this->table[$node->getUid()] = $node;
+
+        if (count($node->getEdges()) > 0) {
+            foreach ($node->getEdges() as $edge){
+                $this->addEdge($node->getUid(), $edge);
+            }
+        }
     }
 
     /**
