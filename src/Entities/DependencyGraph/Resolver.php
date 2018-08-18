@@ -58,7 +58,7 @@ class Resolver
     {
         $modified = [];
 
-        foreach ($this->resolved as $node) { // @todo have this use a passed closure to do the evaluation
+        foreach ($this->resolved as $node) {
             if ($closure($node) === true) {
                 array_push($modified, $node);
                 foreach ($this->adjacencyList[$node->getUid()] as $affected) {
