@@ -2,20 +2,21 @@
 
 namespace Tapestry\Entities;
 
+use Tapestry\Modules\Source\AbstractSource;
+
 /**
  * Class ViewFileTrait.
  *
  * This trait contains methods that are shared between the ViewFile class and Tapestry\Plates\Extensions\Helpers
  *
- * @see \Tapestry\Plates\Extensions\Helpers
  * @see \Tapestry\Entities\ViewFile
  */
 trait ViewFileTrait
 {
     /**
-     * @return ProjectFile
+     * @return AbstractSource
      */
-    abstract public function getFile();
+    abstract public function getSource();
 
     /**
      * Returns data from attached ProjectFile or $default if not found.

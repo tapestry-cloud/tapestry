@@ -35,7 +35,7 @@ class Helpers implements ExtensionInterface
     /**
      * @return ProjectFile
      */
-    public function getFile()
+    public function getSource()
     {
         return $this->template->getFile();
     }

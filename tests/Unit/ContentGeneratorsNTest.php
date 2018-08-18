@@ -99,11 +99,11 @@ class ContentGeneratorsNTest extends TestCase
             $pagination = $a->getData('previous_next');
             $this->assertInstanceOf(Pagination::class, $pagination);
 
-            $previous = $pagination->getPrevious();
-            $next = $pagination->getNext();
+            $previous = $pagination->getPrevious()->getSource();
+            $next = $pagination->getNext()->getSource();
 
-            $n = 1;
-
+            $this->assertSame($b, $previous);
+            $this->assertSame($c, $next);
         } catch (\Exception $e) {
             $this->fail($e);
         }
