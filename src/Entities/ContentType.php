@@ -7,6 +7,7 @@ use Tapestry\Modules\Content\FrontMatter;
 use Tapestry\Entities\Generators\FileGenerator;
 use Tapestry\Entities\Collections\FlatCollection;
 use Tapestry\Modules\Renderers\ContentRendererFactory;
+use Tapestry\Modules\Source\SourceInterface;
 
 /**
  * Class ContentType.
@@ -181,7 +182,7 @@ class ContentType
      *
      * @param string $order
      *
-     * @return ProjectFile[]
+     * @return SourceInterface[]
      */
     public function getFileList($order = 'desc')
     {

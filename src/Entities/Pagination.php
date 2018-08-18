@@ -72,7 +72,7 @@ class Pagination
 
     public function getItems()
     {
-        if ($this->loaded === true) {
+        if ($this->loaded === true) { // @todo loaded is never set
             return $this->items;
         }
 

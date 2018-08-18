@@ -7,6 +7,8 @@ namespace Tapestry\Entities;
  *
  * A wrapper surrounding a ProjectFile object for the purpose of providing view helper
  * methods that are friendly to the end user.
+ *
+ * // @todo -> ViewSource?
  */
 class ViewFile
 {

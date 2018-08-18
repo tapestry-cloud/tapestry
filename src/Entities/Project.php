@@ -116,7 +116,7 @@ class Project extends ArrayContainer
     /**
      * @param string $name
      *
-     * @return ContentType
+     * @return \Tapestry\Modules\ContentTypes\ContentType
      */
     public function getContentType($name)
     {
