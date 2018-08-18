@@ -2,6 +2,10 @@
 
 namespace Tapestry\Entities;
 
+/**
+ * Class Pagination
+ * @todo refactor, see todo below
+ */
 class Pagination
 {
     /**
@@ -56,6 +60,8 @@ class Pagination
 
     /**
      * Pagination constructor.
+     *
+     * // @todo why is this passed in Project and an array of item keys. It should pass a list of the Sources!
      *
      * @param Project $project
      * @param array   $items

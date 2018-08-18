@@ -113,6 +113,24 @@ class ContentGeneratorsNTest extends TestCase
 
     public function testPaginationGenerator()
     {
+        try {
+            $project = new Project('', '', '');
+            $project->getGraph()->setRoot(new SimpleNode('configuration', 'hello world'));
+
+            $files = [];
+
+            foreach (range('a','z') as $l){
+                $f = new MemorySource('hello-world-'.$l, '', 'index-'.$l, 'phtml', '/', '/index-'.$l.'.phtml');
+                $files[$f->getUid()] = $f;
+            } unset($f);
+
+            $project->set('compiled', $files);
+
+            $n = 1;
+
+        } catch (\Exception $e) {
+            $this->fail($e);
+        }
         $this->markTestIncomplete('This test has not been implemented yet');
     }
 
