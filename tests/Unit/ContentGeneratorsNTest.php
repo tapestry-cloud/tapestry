@@ -2,6 +2,7 @@
 
 namespace Tapestry\Tests\Unit;
 
+use Tapestry\Entities\DependencyGraph\Resolver;
 use Tapestry\Entities\DependencyGraph\SimpleNode;
 use Tapestry\Entities\Pagination;
 use Tapestry\Entities\Project;
@@ -118,11 +119,32 @@ class ContentGeneratorsNTest extends TestCase
 
             $this->assertSame($project->getSource('hello-world-a'), $previous);
             $this->assertSame($project->getSource('hello-world-c'), $next);
+
+            //
+            // Check Graph is updated with correct dependencies
+            //
+
+            // The graph dependencies are read like so c -> b -> a this means
+            // that a has two dependents, b has one and c has none.
+            //
+            // @todo see below
+            // In order to avoid circular dependencies a MetaNode should be created
+            // for the inverse dependency so that if c is updated it prompts the cascade
+            // up from b to a.
+
+            $dep = (new Resolver())->resolve($project->getSource('hello-world-a'));
+            $this->assertCount(3, $dep);
+
+            $dep = (new Resolver())->resolve($project->getSource('hello-world-b'));
+            $this->assertCount(2, $dep);
+
+            $dep = (new Resolver())->resolve($project->getSource('hello-world-c'));
+            $this->assertCount(1, $dep);
         } catch (\Exception $e) {
             $this->fail($e);
         }
 
-        $this->markTestIncomplete('add test to check this modifies the graph');
+        //$this->markTestIncomplete('add test to check this modifies the graph');
     }
 
     // @todo add test to check this modifies the graph

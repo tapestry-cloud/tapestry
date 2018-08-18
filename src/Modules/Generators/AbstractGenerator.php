@@ -2,13 +2,14 @@
 
 namespace Tapestry\Modules\Generators;
 
+use Tapestry\Entities\DependencyGraph\Node;
 use Tapestry\Entities\Project;
 use Tapestry\Modules\Source\SourceInterface;
 
 abstract class AbstractGenerator implements GeneratorInterface
 {
     /**
-     * @var SourceInterface
+     * @var SourceInterface|Node
      */
     protected $source;
 

@@ -51,12 +51,18 @@ class CollectionItemGenerator extends AbstractGenerator implements GeneratorInte
             $pagination = new Pagination([], 3, 2);
         }
 
+        $previous = $project->getSource($siblings[$position - 1]);
+        $next = $project->getSource($siblings[$position + 1]);
+
         $pagination->setPreviousNext(
-            (isset($siblings[$position - 1]) ? $project->getSource($siblings[$position - 1]) : null),
-            (isset($siblings[$position + 1]) ? $project->getSource($siblings[$position + 1]) : null)
+            (isset($siblings[$position - 1]) ? $previous : null),
+            (isset($siblings[$position + 1]) ? $next : null)
         );
 
         // @todo have this generator register $this->source as a dependant of $siblings[$position - 1]) and $siblings[$position + 1]) if they exist
+
+        $project->getGraph()->addEdge($previous->getUid(), $this->source);
+        $project->getGraph()->addEdge($this->source->getUid(), $next);
 
         $this->source->setData(['previous_next' => $pagination]);
 
