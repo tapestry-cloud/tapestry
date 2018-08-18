@@ -39,21 +39,21 @@ class CollectionItemGenerator extends AbstractGenerator implements GeneratorInte
             // If we are the last page, then Pagination will only have two pages (this and the previous one), also there will
             // be just two files in the items array
 
-            $pagination = new Pagination($project, [], 2, 2);
+            $pagination = new Pagination([], 2, 2);
         } elseif ($position === 0) {
             // If we are the first page, then Pagination will only have two pages (this and the next one), also there will be
             // just two files in the items array
 
-            $pagination = new Pagination($project, [], 2, 1);
+            $pagination = new Pagination([], 2, 1);
         } else {
             // Else this is the middle page of a total of three (previous, this, next)
 
-            $pagination = new Pagination($project, [], 3, 2);
+            $pagination = new Pagination([], 3, 2);
         }
 
         $pagination->setPreviousNext(
-            (isset($siblings[$position - 1]) ? $siblings[$position - 1] : null),
-            (isset($siblings[$position + 1]) ? $siblings[$position + 1] : null)
+            (isset($siblings[$position - 1]) ? $project->getSource($siblings[$position - 1]) : null),
+            (isset($siblings[$position + 1]) ? $project->getSource($siblings[$position + 1]) : null)
         );
 
         // @todo have this generator register $this->source as a dependant of $siblings[$position - 1]) and $siblings[$position + 1]) if they exist

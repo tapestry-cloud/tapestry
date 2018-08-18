@@ -251,15 +251,16 @@ class ContentType
         // Identify the template source file for this content type so it can be used for adding
         // to the AST as well as assigning to Source files that do not already define their own
         // template.
+
         $templatePath = $project->sourceDirectory.DIRECTORY_SEPARATOR.$this->template.'.phtml';
         if ($this->name !== 'default' && file_exists($templatePath)) {
-            $templateSource = $project->getFile($this->templateProjectUid());
+            $templateSource = $project->getSource($this->templateProjectUid());
         } else {
             $templateSource = null;
         }
 
         foreach (array_keys($this->getSourceList()) as $fileKey) {
-            if (! $source = $project->getFile($fileKey)) {
+            if (! $source = $project->getSource($fileKey)) {
                 continue;
             }
 

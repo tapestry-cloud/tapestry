@@ -2,19 +2,14 @@
 
 namespace Tapestry\Entities;
 
+use Tapestry\Modules\Source\SourceInterface;
+
 /**
  * Class Pagination
  * @todo refactor, see todo below
  */
 class Pagination
 {
-    /**
-     * This pages items.
-     *
-     * @var array
-     */
-    private $items;
-
     /**
      * Total pages in pagination.
      *
@@ -30,31 +25,19 @@ class Pagination
     public $currentPage;
 
     /**
-     * @var Project
-     */
-    private $project;
-
-    /**
-     * Is the local cache hot?
-     *
-     * @var bool
-     */
-    private $loaded = false;
-
-    /**
-     * @var null|string
+     * @var null|SourceInterface
      */
     private $next;
 
     /**
-     * @var null|string
+     * @var null|SourceInterface
      */
     private $previous;
 
     /**
      * Pages in pagination group.
      *
-     * @var array|ViewFile[]
+     * @var array|SourceInterface[]
      */
     private $pages = [];
 
@@ -63,42 +46,31 @@ class Pagination
      *
      * // @todo why is this passed in Project and an array of item keys. It should pass a list of the Sources!
      *
-     * @param Project $project
      * @param array   $items
      * @param int     $totalPages
      * @param int     $currentPage
      */
-    public function __construct(Project $project, array $items = [], $totalPages = 0, $currentPage = 0)
+    public function __construct(array $items = [], $totalPages = 0, $currentPage = 0)
     {
-        $this->items = $items;
+        $this->setPages($items);
         $this->totalPages = $totalPages;
         $this->currentPage = $currentPage;
-        $this->project = $project;
-    }
-
-    public function getItems()
-    {
-        if ($this->loaded === true) { // @todo loaded is never set
-            return $this->items;
-        }
-
-        array_walk_recursive($this->items, function (&$file, $fileKey) {
-            /** @var ProjectFile $compiledFile */
-            if (! $compiledFile = $this->project->get('compiled.'.$fileKey)) {
-                $file = null;
-            } else {
-                $file = new ViewFile($this->project, $compiledFile->getUid());
-            }
-        });
-
-        return $this->items;
     }
 
     /**
-     * @param string $previous
-     * @param string $next
+     * @deprecated use getPages()
+     * @return array|SourceInterface[]
      */
-    public function setPreviousNext($previous, $next)
+    public function getItems()
+    {
+        return $this->pages;
+    }
+
+    /**
+     * @param null|SourceInterface $previous
+     * @param null|SourceInterface $next
+     */
+    public function setPreviousNext(SourceInterface $previous = null, SourceInterface $next = null)
     {
         $this->previous = $previous;
         $this->next = $next;
@@ -111,7 +83,7 @@ class Pagination
      */
     public function getNext()
     {
-        return is_null($this->next) ? null : new ViewFile($this->project, $this->next);
+        return is_null($this->next) ? null : new ViewFile($this->next);
     }
 
     /**
@@ -121,7 +93,7 @@ class Pagination
      */
     public function getPrevious()
     {
-        return is_null($this->previous) ? null : new ViewFile($this->project, $this->previous);
+        return is_null($this->previous) ? null : new ViewFile($this->previous);
     }
 
     /**
@@ -145,12 +117,12 @@ class Pagination
     }
 
     /**
-     * @param array|ProjectFile[] $pages
+     * @param array|SourceInterface[] $pages
      */
     public function setPages(array $pages = [])
     {
         foreach ($pages as $file) {
-            array_push($this->pages, new ViewFile($this->project, $file->getUid()));
+            array_push($this->pages, new ViewFile($file));
         }
     }
 

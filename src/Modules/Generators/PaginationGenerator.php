@@ -85,7 +85,7 @@ class PaginationGenerator extends AbstractGenerator implements GeneratorInterfac
             $pageFile = new ClonedSource($this->source);
 
             $currentPage++;
-            $pageFile->setData('pagination', new Pagination($project, $pageItems, $totalPages, ($currentPage)));
+            $pageFile->setData('pagination', new Pagination($pageItems, $totalPages, $currentPage));
 
             if ($currentPage > 1) {
                 $pageFile->setUid($pageFile->getUid().'_page_'.$currentPage);
@@ -136,8 +136,8 @@ class PaginationGenerator extends AbstractGenerator implements GeneratorInterfac
                 $previous = (isset($generatedFiles[($key - 1)])) ? $generatedFiles[($key - 1)] : null;
 
                 $pagination->setPreviousNext(
-                    is_null($previous) ? null : $previous->getUid(),
-                    is_null($next) ? null : $next->getUid()
+                    is_null($previous) ? null : $previous,
+                    is_null($next) ? null : $next
                 );
 
                 $pagination->setPages($generatedFiles);

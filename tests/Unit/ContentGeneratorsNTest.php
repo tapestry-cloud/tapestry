@@ -77,38 +77,46 @@ class ContentGeneratorsNTest extends TestCase
             $project = new Project('', '', '');
             $project->getGraph()->setRoot(new SimpleNode('configuration', 'hello world'));
 
-            $a = new MemorySource('hello-world-a', '', 'index-a', 'phtml', '/', '/index-a.phtml', ['content_type' => 'mock']);
-            $b = new MemorySource('hello-world-b', '', 'index-b', 'phtml', '/', '/index-b.phtml', ['content_type' => 'mock', 'generator' => ['CollectionItemGenerator']]);
-            $c = new MemorySource('hello-world-c', '', 'index-c', 'phtml', '/', '/index-c.phtml', ['content_type' => 'mock']);
+            $f = [];
+            foreach(range('a','c') as $letter)
+            {
+                $tmp = new MemorySource('hello-world-'.$letter, '', 'index-'.$letter.'.phtml', 'phtml', '/', '/index-'.$letter.'.phtml', ['content_type' => 'mock']);
+                if ($letter === 'b') {
+                    $tmp->setData('generator', ['CollectionItemGenerator']);
+                }
 
-            $f = [
-                $b->getUid() => $b, $a->getUid() => $a, $c->getUid() => $c
-            ];
+                $f[$tmp->getUid()] = $tmp;
+                $project->getGraph()->addEdge('configuration', $tmp);
+            }
 
             $mockContentType = $this->createMock(ContentType::class);
             $mockContentType->method('getSourceList')->withAnyParameters()->willReturn($f);
             $project->set('content_types.mock', $mockContentType);
-            $project->set('compiled', $f);
+
+            // @todo remove compiled... we are NOT using this anymore.
+            //$project->set('compiled', $f);
+
+            $b = $project->getSource('hello-world-b');
 
             $generator = new CollectionItemGenerator();
-            $generator->setSource($a);
+            $generator->setSource($b);
 
             $generated = $generator->generate($project);
             $generated = reset($generated);
-            $this->assertSame($a, $generated);
+            $this->assertSame($b, $generated);
 
-            $this->assertEquals([], $a->getData('generator'));
-            $this->assertTrue(!is_null($a->getData('previous_next')));
+            $this->assertEquals([], $b->getData('generator'));
+            $this->assertTrue(!is_null($b->getData('previous_next')));
 
             /** @var Pagination $pagination */
-            $pagination = $a->getData('previous_next');
+            $pagination = $b->getData('previous_next');
             $this->assertInstanceOf(Pagination::class, $pagination);
 
             $previous = $pagination->getPrevious()->getSource();
             $next = $pagination->getNext()->getSource();
 
-            $this->assertSame($b, $previous);
-            $this->assertSame($c, $next);
+            $this->assertSame($project->getSource('hello-world-a'), $previous);
+            $this->assertSame($project->getSource('hello-world-c'), $next);
         } catch (\Exception $e) {
             $this->fail($e);
         }
