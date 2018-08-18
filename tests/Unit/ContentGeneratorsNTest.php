@@ -10,11 +10,14 @@ use Tapestry\Modules\Generators\AbstractGenerator;
 use Tapestry\Modules\Generators\CollectionItemGenerator;
 use Tapestry\Modules\Generators\ContentGeneratorFactory;
 use Tapestry\Modules\Generators\Generator;
+use Tapestry\Modules\Generators\PaginationGenerator;
+use Tapestry\Modules\Source\ClonedSource;
 use Tapestry\Modules\Source\MemorySource;
 use Tapestry\Tests\TestCase;
 
 class ContentGeneratorsNTest extends TestCase
 {
+    // @todo add test to check this modifies the graph
     public function testContentGeneratorFactory()
     {
         try {
@@ -40,6 +43,7 @@ class ContentGeneratorsNTest extends TestCase
 
     }
 
+    // @todo add test to check this modifies the graph
     public function testGeneratorGenerator()
     {
         try {
@@ -66,6 +70,7 @@ class ContentGeneratorsNTest extends TestCase
         }
     }
 
+    // @todo add test to check this modifies the graph
     public function testCollectionItemGenerator()
     {
         try {
@@ -111,6 +116,7 @@ class ContentGeneratorsNTest extends TestCase
         //$this->markTestIncomplete('This test has not been implemented yet');
     }
 
+    // @todo add test to check this modifies the graph
     public function testPaginationGenerator()
     {
         try {
@@ -120,25 +126,55 @@ class ContentGeneratorsNTest extends TestCase
             $files = [];
 
             foreach (range('a','z') as $l){
-                $f = new MemorySource('hello-world-'.$l, '', 'index-'.$l, 'phtml', '/', '/index-'.$l.'.phtml');
+                $f = new MemorySource('hello-world-'.$l, '', 'index-'.$l.'.phtml', 'phtml', '/', '/index-'.$l.'.phtml');
                 $files[$f->getUid()] = $f;
+                $project->getGraph()->addEdge('configuration', $f);
             } unset($f);
 
-            $project->set('compiled', $files);
+            $t = new MemorySource('template', '', 'template.phtml', 'phtml', '/', '/template.phtml', ['mock_items' => $files, 'generator' => ['PaginationGenerator'], 'pagination' => ['provider' => 'mock']]);
 
-            $n = 1;
+            $project->getGraph()->addEdge('configuration', $t);
 
+            $generator = new PaginationGenerator();
+            $generator->setSource($t);
+
+            $result = $generator->generate($project);
+
+            $this->assertTrue(is_array($result));
+            $this->assertCount(6, $result);
+
+            foreach ($result as $k => $tmp) {
+                $this->assertInstanceOf(ClonedSource::class, $tmp);
+
+                if ($k === 0) {
+                    $this->assertEquals('template', $tmp->getUid());
+                    $this->assertEquals('/template/index.phtml', $tmp->getCompiledPermalink());
+
+                    /** @var Pagination $pagination */
+                    $pagination = $tmp->getData('pagination');
+                    $this->assertNull($pagination->getPrevious());
+                    $this->assertEquals('template_page_2', $pagination->getNext()->getSource()->getUid());
+
+                    $n = 1;
+
+                } else {
+                    $this->assertEquals('template_page_' . ($k+1), $tmp->getUid());
+                    $this->assertEquals('/template/'. ($k+1) .'/index.phtml', $tmp->getCompiledPermalink());
+                }
+            } unset($tmp);
         } catch (\Exception $e) {
             $this->fail($e);
         }
-        $this->markTestIncomplete('This test has not been implemented yet');
+        //$this->markTestIncomplete('This test has not been implemented yet');
     }
 
+    // @todo add test to check this modifies the graph
     public function testTaxonomyArchiveGenerator()
     {
         $this->markTestIncomplete('This test has not been implemented yet');
     }
 
+    // @todo add test to check this modifies the graph
     public function testTaxonomyIndexGenerator()
     {
         $this->markTestIncomplete('This test has not been implemented yet');

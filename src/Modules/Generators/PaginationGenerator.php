@@ -47,9 +47,10 @@ class PaginationGenerator extends AbstractGenerator implements GeneratorInterfac
             return [$this->source];
         }
 
-        $paginationItems = array_filter($paginationItems, function ($key) use ($project) {
-            return $project->has('files.'.$key);
-        }, ARRAY_FILTER_USE_KEY);
+        // @todo is this nessessary?
+        //$paginationItems = array_filter($paginationItems, function ($key) use ($project) {
+        //    return $project->has('files.'.$key);
+        //}, ARRAY_FILTER_USE_KEY);
 
         // @todo is there a bug here that if the file exists in files.$key but is hidden then it gets included here anyway?
         // @todo can files be hidden?
@@ -88,21 +89,21 @@ class PaginationGenerator extends AbstractGenerator implements GeneratorInterfac
 
             if ($currentPage > 1) {
                 $pageFile->setUid($pageFile->getUid().'_page_'.$currentPage);
-                $template = $pageFile->getData('permalink', '');
+                $template = $pageFile->getPermalink()->getTemplate(); // $pageFile->getData('permalink', '');
 
                 if (strpos($template, '.')) {
                     $parts = explode('.', $template);
-                    $parts[0] .= '/{page}';
+                    $parts[0] .= '/{page}/index';
                     $template = implode('.', $parts);
                 } else {
-                    $template .= '/{page}';
+                    $template .= '/{page}/index';
                 }
 
                 // If the page calling this generator is, itself an index then we need to strip {filename} from the $template
                 // because nobody expects page one to be /blog/index.html and page two to be blog/index/2/index.html
                 // as per issue #50
 
-                if ($this->source->getFilename() === 'index') {
+                if ($this->source->getBasename() === 'index') {
                     $parts = array_filter(explode('/', $template), function ($value) {
                         return $value !== '{filename}';
                     });
