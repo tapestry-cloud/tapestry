@@ -27,7 +27,7 @@ trait ViewFileTrait
      */
     public function getData($key, $default = null)
     {
-        return $this->getFile()->getData($key, $default);
+        return $this->getSource()->getData($key, $default);
     }
 
     /**
@@ -38,7 +38,7 @@ trait ViewFileTrait
      */
     public function getPermalink()
     {
-        return $this->getFile()->getCompiledPermalink();
+        return $this->getSource()->getCompiledPermalink();
     }
 
     /**
@@ -83,7 +83,7 @@ trait ViewFileTrait
             return $content;
         }
 
-        return $this->getFile()->getContent();
+        return $this->getSource()->getContent();
     }
 
     /**

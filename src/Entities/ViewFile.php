@@ -1,7 +1,8 @@
 <?php
 
 namespace Tapestry\Entities;
-use Tapestry\Modules\Source\AbstractSource;
+
+use Tapestry\Modules\Source\SourceInterface;
 
 /**
  * Class ViewFile.
@@ -15,43 +16,25 @@ class ViewFile
     use ViewFileTrait;
 
     /**
-     * @var Project
-     * @deprecated
+     * @var SourceInterface
      */
-    private $project;
-
-    /**
-     * @var string
-     */
-    private $fileUid;
-
-    /**
-     * @var AbstractSource
-     */
-    private $file;
+    private $source;
 
     /**
      * ViewFile constructor.
      *
-     * @todo remove dependence on Project and only pass in AbstractSource
-     * @param Project $project
-     * @param $fileUid
+     * @param SourceInterface $source
      */
-    public function __construct(Project $project, $fileUid)
+    public function __construct(SourceInterface $source)
     {
-        $this->project = $project;
-        $this->fileUid = $fileUid;
+        $this->source = $source;
     }
 
     /**
-     * @return AbstractSource
+     * @return SourceInterface
      */
-    public function getSource(): AbstractSource
+    public function getSource(): SourceInterface
     {
-        if (is_null($this->file)) {
-            $this->file = $this->project->get('compiled.'.$this->fileUid);
-        }
-
-        return $this->file;
+        return $this->source;
     }
 }
