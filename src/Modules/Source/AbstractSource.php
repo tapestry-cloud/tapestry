@@ -70,6 +70,13 @@ abstract class AbstractSource implements SourceInterface, Node
     protected $overloaded = [];
 
     /**
+     * Is this Source a result of using ClonedSource.
+     *
+     * @var bool
+     */
+    protected $isClone = false;
+
+    /**
      * The source files that depend upon this source.
      *
      * @var array Node[]|AbstractSource[]
@@ -370,4 +377,25 @@ abstract class AbstractSource implements SourceInterface, Node
         return true;
         // TODO: Implement isSame() method.
     }
+
+    /**
+     * Is this source a clone?
+     *
+     * @return bool
+     */
+    public function isClone(): bool
+    {
+        return $this->isClone;
+    }
+
+    /**
+     * Used by ClonedSource to flag source as clone.
+     *
+     * @return void
+     */
+    protected function setCloned()
+    {
+        $this->isClone = true;
+    }
+
 }

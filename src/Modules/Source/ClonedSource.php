@@ -31,6 +31,7 @@ class ClonedSource extends MemorySource
             $source->getRelativePathname(),
             $source->getData()
         );
-    }
 
+        $this->setCloned();
+    }
 }
