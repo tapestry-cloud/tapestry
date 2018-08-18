@@ -41,6 +41,8 @@ class ContentGeneratorsNTest extends TestCase
             $this->fail($e);
         }
 
+        $this->markTestIncomplete('add test to check this modifies the graph');
+
     }
 
     // @todo add test to check this modifies the graph
@@ -68,6 +70,8 @@ class ContentGeneratorsNTest extends TestCase
         } catch (\Exception $e) {
             $this->fail($e);
         }
+
+        $this->markTestIncomplete('add test to check this modifies the graph');
     }
 
     // @todo add test to check this modifies the graph
@@ -92,9 +96,6 @@ class ContentGeneratorsNTest extends TestCase
             $mockContentType = $this->createMock(ContentType::class);
             $mockContentType->method('getSourceList')->withAnyParameters()->willReturn($f);
             $project->set('content_types.mock', $mockContentType);
-
-            // @todo remove compiled... we are NOT using this anymore.
-            //$project->set('compiled', $f);
 
             $b = $project->getSource('hello-world-b');
 
@@ -121,7 +122,7 @@ class ContentGeneratorsNTest extends TestCase
             $this->fail($e);
         }
 
-        //$this->markTestIncomplete('This test has not been implemented yet');
+        $this->markTestIncomplete('add test to check this modifies the graph');
     }
 
     // @todo add test to check this modifies the graph
@@ -162,9 +163,6 @@ class ContentGeneratorsNTest extends TestCase
                     $pagination = $tmp->getData('pagination');
                     $this->assertNull($pagination->getPrevious());
                     $this->assertEquals('template_page_2', $pagination->getNext()->getSource()->getUid());
-
-                    $n = 1;
-
                 } else {
                     $this->assertEquals('template_page_' . ($k+1), $tmp->getUid());
                     $this->assertEquals('/template/'. ($k+1) .'/index.phtml', $tmp->getCompiledPermalink());
@@ -173,7 +171,7 @@ class ContentGeneratorsNTest extends TestCase
         } catch (\Exception $e) {
             $this->fail($e);
         }
-        //$this->markTestIncomplete('This test has not been implemented yet');
+        $this->markTestIncomplete('add test to check this modifies the graph');
     }
 
     // @todo add test to check this modifies the graph
