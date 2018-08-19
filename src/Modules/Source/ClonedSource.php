@@ -2,6 +2,8 @@
 
 namespace Tapestry\Modules\Source;
 
+use Tapestry\Entities\DependencyGraph\Node;
+
 /**
  * Class ClonedSource
  *
@@ -17,7 +19,7 @@ class ClonedSource extends MemorySource
     /**
      * ClonedSource constructor.
      *
-     * @param SourceInterface $source
+     * @param SourceInterface|Node $source
      * @throws \Exception
      */
     public function __construct(SourceInterface $source)

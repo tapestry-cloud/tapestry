@@ -179,7 +179,7 @@ class ContentGeneratorsNTest extends TestCase
                 $this->assertInstanceOf(ClonedSource::class, $tmp);
 
                 if ($k === 0) {
-                    $this->assertEquals('template', $tmp->getUid());
+                    $this->assertEquals('template_page_1', $tmp->getUid());
                     $this->assertEquals('/template/index.phtml', $tmp->getCompiledPermalink());
 
                     /** @var Pagination $pagination */
@@ -191,10 +191,20 @@ class ContentGeneratorsNTest extends TestCase
                     $this->assertEquals('/template/'. ($k+1) .'/index.phtml', $tmp->getCompiledPermalink());
                 }
             } unset($tmp);
+
+            //
+            // Check Graph is updated with correct dependencies
+            //
+
+            $debug = new Debug($project->getGraph());
+            $x = $debug->graphViz('configuration');
+
+            $x = 1;
+
         } catch (\Exception $e) {
             $this->fail($e);
         }
-        $this->markTestIncomplete('add test to check this modifies the graph');
+        //$this->markTestIncomplete('add test to check this modifies the graph');
     }
 
     // @todo add test to check this modifies the graph

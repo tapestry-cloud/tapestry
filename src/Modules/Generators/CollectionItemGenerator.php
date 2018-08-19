@@ -15,6 +15,8 @@ class CollectionItemGenerator extends AbstractGenerator implements GeneratorInte
      * files (oddly implementing SourceInterface, naming
      * things is hard!)
      *
+     * This generator mutates the Source file and injects computed previous_next.
+     *
      * @param Project $project
      * @return array|SourceInterface[]
      * @throws \Exception
