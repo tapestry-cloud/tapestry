@@ -3,6 +3,7 @@
 namespace Tapestry\Modules\Generators;
 
 use Tapestry\Entities\DependencyGraph\Cluster;
+use Tapestry\Entities\DependencyGraph\Node;
 use Tapestry\Entities\DependencyGraph\SimpleNode;
 use Tapestry\Entities\Pagination;
 use Tapestry\Entities\Project;
@@ -126,9 +127,12 @@ class PaginationGenerator extends AbstractGenerator implements GeneratorInterfac
             // Add Pagination Page to Source Graph
             $project->addSource($nodeId, $pageFile);
 
+            /** @var SourceInterface|Node $item */
             foreach ($pageItems as $item){
                 // @todo addSource... although we really shouldn't be adding (as in overwriting the graph) we should be setting a dependency... addEdge would be a better description!
                 $project->addSource($pageFile->getUid(), $item);
+
+                // $project->addSource($item->getUid(), $pageFile->getUid()); !!! I have a feeling it should be this...
             } unset($item);
 
             array_push($generatedFiles, $pageFile);
