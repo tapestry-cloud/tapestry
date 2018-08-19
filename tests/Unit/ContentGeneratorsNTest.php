@@ -76,7 +76,6 @@ class ContentGeneratorsNTest extends TestCase
         $this->markTestIncomplete('add test to check this modifies the graph');
     }
 
-    // @todo add test to check this modifies the graph
     public function testCollectionItemGenerator()
     {
         try {
@@ -147,8 +146,6 @@ class ContentGeneratorsNTest extends TestCase
         } catch (\Exception $e) {
             $this->fail($e);
         }
-
-        //$this->markTestIncomplete('add test to check this modifies the graph');
     }
 
     // @todo add test to check this modifies the graph
