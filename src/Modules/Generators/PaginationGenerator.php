@@ -161,7 +161,6 @@ class PaginationGenerator extends AbstractGenerator implements GeneratorInterfac
                     is_null($next) ? null : $next
                 );
 
-                // @todo see below
                 // I don't think that the pagination needs to reference previous/next within the graph
                 // because if a file from page 3 gets updated prompting page 3 of the pagination to get
                 // regenerated that doesn't have a roll over effect on page 2 or 4 because they only
@@ -177,17 +176,18 @@ class PaginationGenerator extends AbstractGenerator implements GeneratorInterfac
                 // collection references. That way if a file is added or deleted the entire pagination collection
                 // gets regenerated - its more bruit force but its less complex yes?
 
-                if (! is_null($previous)) {
-                    $cluster = new Cluster($generatedFile->getUid() . '_previous', [$previous]);
-                    $project->getGraph()->addEdge($generatedFile->getUid(), $cluster);
-                    $project->getGraph()->addEdge($previous->getUid(),$cluster);
-                } unset($cluster);
-
-                if (! is_null($next)) {
-                    $cluster = new Cluster($generatedFile->getUid() . '_next', [$next]);
-                    $project->getGraph()->addEdge($generatedFile->getUid(), $cluster);
-                    $project->getGraph()->addEdge($next->getUid(),$cluster);
-                } unset($cluster);
+                // Disabled the below to complete the to do item relating to the above.
+                // if (! is_null($previous)) {
+                //     $cluster = new Cluster($generatedFile->getUid() . '_previous', [$previous]);
+                //     $project->getGraph()->addEdge($generatedFile->getUid(), $cluster);
+                //     $project->getGraph()->addEdge($previous->getUid(),$cluster);
+                // } unset($cluster);
+                //
+                // if (! is_null($next)) {
+                //     $cluster = new Cluster($generatedFile->getUid() . '_next', [$next]);
+                //     $project->getGraph()->addEdge($generatedFile->getUid(), $cluster);
+                //     $project->getGraph()->addEdge($next->getUid(),$cluster);
+                // } unset($cluster);
 
                 $pagination->setPages($generatedFiles);
             }
