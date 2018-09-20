@@ -63,32 +63,54 @@ return [
     ],
 
     'content_generators' => [
-        Tapestry\Entities\Generators\PaginationGenerator::class,
+        Tapestry\Modules\Generators\PaginationGenerator::class,
         Tapestry\Entities\Generators\TaxonomyArchiveGenerator::class,
         Tapestry\Entities\Generators\TaxonomyIndexGenerator::class,
-        Tapestry\Entities\Generators\CollectionItemGenerator::class,
+        Tapestry\Modules\Generators\CollectionItemGenerator::class,
     ],
 
     /*
      * Compile steps that the build command will process.
      */
     'steps' => [
-        Tapestry\Modules\Kernel\BootKernel::class,
-        Tapestry\Modules\Content\ReadCache::class,
-        Tapestry\Modules\Scripts\Before::class,
-        Tapestry\Modules\Content\Clear::class,
-        Tapestry\Modules\ContentTypes\LoadContentTypes::class,
-        Tapestry\Modules\Renderers\LoadContentRenderers::class,
-        Tapestry\Modules\Generators\LoadContentGenerators::class,
-        Tapestry\Modules\Content\LoadSourceFiles::class,
-        Tapestry\Modules\Api\Json::class,
-        Tapestry\Modules\ContentTypes\ParseContentTypes::class,
-        Tapestry\Modules\Content\Compile::class,
-        Tapestry\Modules\Content\WriteFiles::class,
-        Tapestry\Modules\Content\WriteCache::class,
-        Tapestry\Modules\Content\Copy::class,
-        Tapestry\Modules\Content\Clean::class,
-        Tapestry\Modules\Scripts\After::class,
+        // Loading...
+        Tapestry\Steps\BootKernel::class,
+        Tapestry\Steps\ReadCache::class,
+        Tapestry\Steps\LoadGraph::class,
+        Tapestry\Steps\LoadContentTypes::class,
+        Tapestry\Steps\LoadContentCollectors::class,
+        Tapestry\Steps\LoadContentRenderers::class,
+        Tapestry\Steps\LoadContentGenerators::class,
+        // Collecting...
+        Tapestry\Steps\RunContentCollectors::class,
+
+        // Parsing/Lexical Analysis
+        Tapestry\Steps\ParseContentTypes::class,
+        Tapestry\Steps\LexicalAnalysis::class,
+
+        // Generation/Compilation...
+        // RunGenerators::class,
+        //SyntaxAnalysis::class,
+        //RenderPlates::class
+
+        // Shutdown...
+
+        //Tapestry\Steps\BootKernel::class,
+        //Tapestry\Steps\ReadCache::class,
+        //Tapestry\Modules\Scripts\Before::class,
+        //Tapestry\Modules\Content\Clear::class,
+        //Tapestry\Steps\LoadContentTypes::class,
+        //Tapestry\Steps\LoadContentRenderers::class,
+        //Tapestry\Steps\LoadContentGenerators::class,
+        //Tapestry\Steps\LoadSourceFiles::class,
+        //Tapestry\Modules\Api\Json::class,
+        //Tapestry\Modules\ContentTypes\ParseContentTypes::class,
+        //Tapestry\Modules\Content\Compile::class,
+        //Tapestry\Modules\Content\WriteFiles::class,
+        //Tapestry\Modules\Content\WriteCache::class,
+        //Tapestry\Modules\Content\Copy::class,
+        //Tapestry\Modules\Content\Clean::class,
+        //Tapestry\Modules\Scripts\After::class,
     ],
 
     /*
