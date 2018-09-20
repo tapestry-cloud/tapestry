@@ -2,12 +2,15 @@
 
 namespace Tapestry\Tests\Unit;
 
+use Symfony\Component\Console\Output\NullOutput;
+use Tapestry\Entities\Configuration;
 use Tapestry\Entities\DependencyGraph\Debug;
 use Tapestry\Entities\DependencyGraph\Resolver;
 use Tapestry\Entities\DependencyGraph\SimpleNode;
 use Tapestry\Entities\Pagination;
 use Tapestry\Entities\Project;
 use Tapestry\Modules\ContentTypes\ContentType;
+use Tapestry\Modules\ContentTypes\ContentTypeCollection;
 use Tapestry\Modules\Generators\AbstractGenerator;
 use Tapestry\Modules\Generators\CollectionItemGenerator;
 use Tapestry\Modules\Generators\ContentGeneratorFactory;
@@ -15,6 +18,7 @@ use Tapestry\Modules\Generators\Generator;
 use Tapestry\Modules\Generators\PaginationGenerator;
 use Tapestry\Modules\Source\ClonedSource;
 use Tapestry\Modules\Source\MemorySource;
+use Tapestry\Steps\LoadContentTypes;
 use Tapestry\Tests\TestCase;
 
 class ContentGeneratorsNTest extends TestCase
@@ -83,20 +87,19 @@ class ContentGeneratorsNTest extends TestCase
             $project->getGraph()->setRoot(new SimpleNode('configuration', 'hello world'));
 
             $f = [];
-            foreach(range('a','c') as $letter)
-            {
-                $tmp = new MemorySource('hello-world-'.$letter, '', 'index-'.$letter.'.phtml', 'phtml', '/', '/index-'.$letter.'.phtml', ['content_type' => 'mock', 'generator' => ['CollectionItemGenerator']]);
+            foreach (range('a', 'c') as $letter) {
+                $tmp = new MemorySource('hello-world-' . $letter, '', 'index-' . $letter . '.phtml', 'phtml', '/', '/index-' . $letter . '.phtml', ['content_type' => 'mock', 'generator' => ['CollectionItemGenerator']]);
                 $f[$tmp->getUid()] = $tmp;
                 $project->getGraph()->addEdge('configuration', $tmp);
-            } unset($letter);
+            }
+            unset($letter);
 
             $mockContentType = $this->createMock(ContentType::class);
             $mockContentType->method('getSourceList')->withAnyParameters()->willReturn($f);
             $project->set('content_types.mock', $mockContentType);
 
-            foreach (range('a','c') as $letter)
-            {
-                $source = $project->getSource('hello-world-'.$letter);
+            foreach (range('a', 'c') as $letter) {
+                $source = $project->getSource('hello-world-' . $letter);
 
                 $generator = new CollectionItemGenerator();
                 $generator->setSource($source);
@@ -129,7 +132,8 @@ class ContentGeneratorsNTest extends TestCase
                     $this->assertSame($project->getSource('hello-world-b'), $previous->getSource());
                     $this->assertNull($next);
                 }
-            } unset($letter);
+            }
+            unset($letter);
 
             //
             // Check Graph is updated with correct dependencies
@@ -148,65 +152,106 @@ class ContentGeneratorsNTest extends TestCase
         }
     }
 
+    /**
+     * @throws \Tapestry\Exceptions\GraphException
+     * @throws \Exception
+     */
     public function testPaginationGenerator()
     {
-        try {
-            $project = new Project('', '', '');
-            $project->getGraph()->setRoot(new SimpleNode('configuration', 'hello world'));
+        $project = new Project('', '', '');
+        $project->getGraph()->setRoot(new SimpleNode('configuration', 'hello world'));
 
-            $files = [];
+        $files = [];
 
-            foreach (range('a','z') as $l){
-                $f = new MemorySource('hello-world-'.$l, '', 'index-'.$l.'.phtml', 'phtml', '/', '/index-'.$l.'.phtml');
-                $files[$f->getUid()] = $f;
-                $project->getGraph()->addEdge('configuration', $f);
-            } unset($f);
-
-            $t = new MemorySource('template', '', 'template.phtml', 'phtml', '/', '/template.phtml', ['mock_items' => $files, 'generator' => ['PaginationGenerator'], 'pagination' => ['provider' => 'mock']]);
-
-            $project->getGraph()->addEdge('configuration', $t);
-
-            $generator = new PaginationGenerator();
-            $generator->setSource($t);
-
-            $result = $generator->generate($project);
-
-            $this->assertTrue(is_array($result));
-            $this->assertCount(6, $result);
-
-            foreach ($result as $k => $tmp) {
-                $this->assertInstanceOf(ClonedSource::class, $tmp);
-
-                if ($k === 0) {
-                    $this->assertEquals('template_page_1', $tmp->getUid());
-                    $this->assertEquals('/template/index.phtml', $tmp->getCompiledPermalink());
-
-                    /** @var Pagination $pagination */
-                    $pagination = $tmp->getData('pagination');
-                    $this->assertNull($pagination->getPrevious());
-                    $this->assertEquals('template_page_2', $pagination->getNext()->getSource()->getUid());
-                } else {
-                    $this->assertEquals('template_page_' . ($k+1), $tmp->getUid());
-                    $this->assertEquals('/template/'. ($k+1) .'/index.phtml', $tmp->getCompiledPermalink());
-                }
-            } unset($tmp);
-
-            //
-            // Check Graph is updated with correct dependencies
-            //
-            $dep = (new Resolver())->resolve($project->getSource('configuration'));
-            $this->assertCount(35, $dep);
-
-            $dep = (new Resolver())->resolve($project->getSource('template_page_1'));
-            $this->assertCount(6, $dep); // Five pages plus the template itself
-        } catch (\Exception $e) {
-            $this->fail($e);
+        foreach (range('a', 'z') as $l) {
+            $f = new MemorySource('hello-world-' . $l, '', 'index-' . $l . '.phtml', 'phtml', '/', '/index-' . $l . '.phtml');
+            $files[$f->getUid()] = $f;
+            $project->getGraph()->addEdge('configuration', $f);
         }
+        unset($f);
+
+        $t = new MemorySource('template', '', 'template.phtml', 'phtml', '/', '/template.phtml', ['mock_items' => $files, 'generator' => ['PaginationGenerator'], 'pagination' => ['provider' => 'mock']]);
+
+        $project->getGraph()->addEdge('configuration', $t);
+
+        $generator = new PaginationGenerator();
+        $generator->setSource($t);
+
+        $result = $generator->generate($project);
+
+        $this->assertTrue(is_array($result));
+        $this->assertCount(6, $result);
+
+        foreach ($result as $k => $tmp) {
+            $this->assertInstanceOf(ClonedSource::class, $tmp);
+
+            if ($k === 0) {
+                $this->assertEquals('template_page_1', $tmp->getUid());
+                $this->assertEquals('/template/index.phtml', $tmp->getCompiledPermalink());
+
+                /** @var Pagination $pagination */
+                $pagination = $tmp->getData('pagination');
+                $this->assertNull($pagination->getPrevious());
+                $this->assertEquals('template_page_2', $pagination->getNext()->getSource()->getUid());
+            } else {
+                $this->assertEquals('template_page_' . ($k + 1), $tmp->getUid());
+                $this->assertEquals('/template/' . ($k + 1) . '/index.phtml', $tmp->getCompiledPermalink());
+            }
+        }
+        unset($tmp);
+
+        //
+        // Check Graph is updated with correct dependencies
+        //
+        $dep = (new Resolver())->resolve($project->getSource('configuration'));
+        $this->assertCount(35, $dep);
+
+        $dep = (new Resolver())->resolve($project->getSource('template_page_1'));
+        $this->assertCount(6, $dep); // Five pages plus the template itself
     }
 
-    // @todo add test to check this modifies the graph
+    /**
+     * @todo add test to check this modifies the graph
+     * @throws \Tapestry\Exceptions\GraphException
+     * @throws \Exception
+     */
     public function testTaxonomyArchiveGenerator()
     {
+        $project = new Project('', '', '');
+        $project->getGraph()->setRoot(new SimpleNode('configuration', 'hello world'));
+
+        $files = [];
+
+        // Create a new content type and attach to configuration along with taxonomy
+        $contentTypeStep = new LoadContentTypes(new Configuration(['content_types' => [
+            'blog' => [
+                'path' => '_blog',
+                'template' => '_views/blog',
+                'permalink' => 'blog/{year}/{slug}.{ext}',
+                'enabled' => true,
+                'taxonomies' => [
+                    'tags',
+                    'categories',
+                ],
+            ]
+        ]]));
+
+        $contentTypeStep($project, new NullOutput());
+
+        /** @var ContentTypeCollection $contentTypes */
+        $contentTypes = $project->get('content_types');
+
+        foreach (range('a', 'd') as $x) {
+            foreach (range(1,9) as $y) {
+                $f = new MemorySource('hello-world-' . $x, '', 'index-' . $x . '.phtml', 'phtml', '/_blog', '/_blog/index-' . $x . '.phtml', ['date' => time()]);
+                $files[$f->getUid()] = $f;
+                $contentTypes->bucketSource($f);
+            }
+        }
+        unset($x,$y);
+
+        $n = 1;
+
         $this->markTestIncomplete('This test has not been implemented yet');
     }
 
