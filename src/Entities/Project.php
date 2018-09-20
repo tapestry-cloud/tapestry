@@ -100,6 +100,10 @@ class Project extends ArrayContainer
     }
 
     /**
+     * This returns all sources stored within the source graph. This includes
+     * nodes such as Kernel and Configuration. Make sure to filter as
+     * appropriate prior to consumption.
+     *
      * @return SourceInterface[]|FlatCollection
      * @throws GraphException
      */
