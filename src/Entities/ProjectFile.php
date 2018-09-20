@@ -5,6 +5,11 @@ namespace Tapestry\Entities;
 use DateTime;
 use Symfony\Component\Finder\SplFileInfo;
 
+/**
+ * Class ProjectFile
+ * @deprecated ???
+ * @package Tapestry\Entities
+ */
 class ProjectFile extends SplFileInfo implements ProjectFileInterface
 {
     /**
