@@ -29,7 +29,6 @@ class RunContentCollectors implements Step
 
         foreach ($collection->collect() as $source) {
             $contentType = $contentTypes->bucketSource($source);
-            $project->addFile($source);
             $output->writeln('[+] File ['.$source->getRelativePathname().'] bucketed into content type ['.$contentType->getName().']');
         }
 
