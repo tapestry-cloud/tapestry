@@ -148,7 +148,6 @@ class ContentGeneratorsNTest extends TestCase
         }
     }
 
-    // @todo add test to check this modifies the graph
     public function testPaginationGenerator()
     {
         try {
@@ -195,16 +194,14 @@ class ContentGeneratorsNTest extends TestCase
             //
             // Check Graph is updated with correct dependencies
             //
+            $dep = (new Resolver())->resolve($project->getSource('configuration'));
+            $this->assertCount(35, $dep);
 
-            $debug = new Debug($project->getGraph());
-            $x = $debug->graphViz('configuration');
-
-            $x = 1;
-
+            $dep = (new Resolver())->resolve($project->getSource('template_page_1'));
+            $this->assertCount(6, $dep); // Five pages plus the template itself
         } catch (\Exception $e) {
             $this->fail($e);
         }
-        //$this->markTestIncomplete('add test to check this modifies the graph');
     }
 
     // @todo add test to check this modifies the graph
