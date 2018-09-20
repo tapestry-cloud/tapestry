@@ -25,4 +25,9 @@ class FlatCollection extends ArrayContainer
 
         return $this->items[$key];
     }
+
+    public function where(callable $closure): FlatCollection
+    {
+        return new FlatCollection(array_filter($this->items, $closure));
+    }
 }

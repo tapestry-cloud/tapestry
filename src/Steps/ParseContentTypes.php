@@ -2,6 +2,7 @@
 
 namespace Tapestry\Steps;
 
+use Tapestry\Modules\Source\AbstractSource;
 use Tapestry\Step;
 use Tapestry\Entities\Project;
 use Tapestry\Modules\ContentTypes\ContentType;
@@ -47,7 +48,10 @@ class ParseContentTypes implements Step
         // ContentType they originate from. It may be a good idea to instead pass in a container
         // class like a SourceCollection and a TaxonomyCollection.
 
-        foreach ($project->allSources() as $source) {
+        /**
+         * @var AbstractSource $source
+         */
+        foreach ($project->allSources()->where(function($item){return $item instanceof AbstractSource;}) as $source) {
             /** @var string[] $uses */
             if (! $uses = $source->getData('use')) {
                 continue;

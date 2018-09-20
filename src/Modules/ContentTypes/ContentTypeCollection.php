@@ -2,6 +2,7 @@
 
 namespace Tapestry\Modules\ContentTypes;
 
+use Tapestry\Entities\DependencyGraph\Node;
 use Tapestry\Entities\Project;
 use Tapestry\Modules\Source\SourceInterface;
 use Tapestry\Entities\DependencyGraph\SimpleNode;
@@ -84,7 +85,7 @@ class ContentTypeCollection
     /**
      * Bucket a SourceFile into one of the ContentTypes in this Collection.
      *
-     * @param SourceInterface $source
+     * @param SourceInterface|Node $source
      * @return ContentType
      * @throws \Exception
      */
@@ -96,7 +97,7 @@ class ContentTypeCollection
             $contentType = $this->get($contentType);
         }
 
-        $this->project->getGraph()->addEdge('content_type.'.$contentType->getName(), new SimpleNode($source->getUid(), $source->getMTime()));
+        $this->project->getGraph()->addEdge('content_type.'.$contentType->getName(), $source);
         $contentType->addSource($source);
 
         return $contentType;

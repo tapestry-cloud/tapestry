@@ -2,6 +2,7 @@
 
 namespace Tapestry\Steps;
 
+use Tapestry\Modules\Source\AbstractSource;
 use Tapestry\Step;
 use Tapestry\Entities\Project;
 use Tapestry\Entities\DependencyGraph\Debug;
@@ -28,7 +29,7 @@ class LexicalAnalysis implements Step
 
         $graph = $project->getGraph();
 
-        foreach ($project->allSources() as $source) {
+        foreach ($project->allSources()->where(function($item){return $item instanceof AbstractSource;}) as $source) {
             if ($source->isToCopy()) {
                 continue;
             }
