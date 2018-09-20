@@ -131,7 +131,7 @@ class ContentTypeCollection
      *
      * @return null|string
      */
-    public function find($path)
+    public function find(string $path)
     {
         foreach (array_keys($this->pathLookupTable) as $key) {
             if (starts_with($path, $key)) {
