@@ -243,7 +243,7 @@ class ContentGeneratorsNTest extends TestCase
 
         foreach (range('a', 'd') as $x) {
             foreach (range(1,9) as $y) {
-                $f = new MemorySource('hello-world-' . $x, '', 'index-' . $x . '.phtml', 'phtml', '/_blog', '/_blog/index-' . $x . '.phtml', ['date' => time()]);
+                $f = new MemorySource('hello-world-' . $x, '', 'index-' . $x . '.phtml', 'phtml', '_blog', '_blog/index-' . $x . '.phtml', ['date' => time()]);
                 $files[$f->getUid()] = $f;
                 $contentTypes->bucketSource($f);
             }
