@@ -3,6 +3,7 @@
 namespace Tapestry\Modules\Generators;
 
 use Tapestry\Entities\Project;
+use Tapestry\Modules\Source\ClonedSource;
 use Tapestry\Modules\Source\SourceInterface;
 
 /**
@@ -48,12 +49,42 @@ class TaxonomyArchiveGenerator extends AbstractGenerator implements GeneratorInt
      *
      * @param Project $project
      * @return array|SourceInterface[]
+     * @throws \Exception
      */
     public function generate(Project $project): array
     {
+        $generated = [];
 
+        if (! $uses = $this->source->getData('use')){
+            return [$this->source];
+        }
 
+        foreach ($uses as $use){
 
-        // TODO: Implement generate() method.
+            if (! $data = $this->source->getData($use.'_items')) {
+                continue;
+            }
+
+            $classifications = array_keys($data);
+
+            foreach ($data as $taxonomyName => $files) {
+                $newFile = new ClonedSource($this->source);
+
+                // @todo refactor so that a TaxonomyViewHelper is injected?
+                $newFile->setData([
+                    'generator' => array_filter($this->source->getData('generator'), function ($value) {
+                        return $value !== 'TaxonomyArchiveGenerator';
+                    }),
+                    'taxonomyName' => $taxonomyName,
+                    $use.'_items'  => $files,
+                    $use => $classifications,
+                ]);
+                $newFile->setUid($newFile->getUid().'_'.$taxonomyName);
+                $newFile->setOverloaded('filename', $taxonomyName);
+                array_push($generated, $newFile);
+            }
+        }
+
+        return $generated;
     }
 }

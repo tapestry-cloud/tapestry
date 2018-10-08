@@ -16,9 +16,11 @@ use Tapestry\Modules\Generators\CollectionItemGenerator;
 use Tapestry\Modules\Generators\ContentGeneratorFactory;
 use Tapestry\Modules\Generators\Generator;
 use Tapestry\Modules\Generators\PaginationGenerator;
+use Tapestry\Modules\Generators\TaxonomyArchiveGenerator;
 use Tapestry\Modules\Source\ClonedSource;
 use Tapestry\Modules\Source\MemorySource;
 use Tapestry\Steps\LoadContentTypes;
+use Tapestry\Steps\ParseContentTypes;
 use Tapestry\Tests\TestCase;
 
 class ContentGeneratorsNTest extends TestCase
@@ -251,9 +253,17 @@ class ContentGeneratorsNTest extends TestCase
         }
         unset($x,$y);
 
-        $n = 1;
+        $t = new MemorySource('template', '', 'template.phtml', 'phtml', '/', '/template.phtml', ['date' => time(), 'generator' => ['TaxonomyArchiveGenerator'], 'use' => ['blog_tags']]);
+        $contentTypes->bucketSource($t);
 
-        $this->markTestIncomplete('This test has not been implemented yet');
+        (new ParseContentTypes())($project, new NullOutput());
+
+        $generator = new TaxonomyArchiveGenerator();
+        $generator->setSource($t);
+        $result = $generator->generate($project);
+
+        $this->assertTrue(is_array($result));
+        $this->assertCount(2, $result);
     }
 
     // @todo add test to check this modifies the graph
