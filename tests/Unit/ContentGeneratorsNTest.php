@@ -264,6 +264,17 @@ class ContentGeneratorsNTest extends TestCase
 
         $this->assertTrue(is_array($result));
         $this->assertCount(2, $result);
+
+        $graph = new Debug($project->getGraph());
+        $n = $graph->graphViz('configuration');
+
+        //
+        // Check Graph is updated with correct dependencies
+        //
+        $dep = (new Resolver())->resolve($project->getSource('configuration'));
+        $this->assertCount(10, $dep); // (8 initial sources + 2 for each generated)
+
+        $n = 1;
     }
 
     // @todo add test to check this modifies the graph

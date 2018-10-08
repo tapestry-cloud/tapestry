@@ -6,6 +6,12 @@ use Tapestry\Entities\Project;
 use Tapestry\Entities\Taxonomy;
 use Tapestry\Modules\Source\SourceInterface;
 
+/**
+ * Class ContentType
+ *
+ * @todo #322 write unit test...
+ * @package Tapestry\Modules\ContentTypes
+ */
 class ContentType
 {
     /**
@@ -235,6 +241,7 @@ class ContentType
     }
 
     /**
+     * @todo should this not be done when a Source is bucketed into this content type?
      * @param Project $project
      * @throws \Exception
      */

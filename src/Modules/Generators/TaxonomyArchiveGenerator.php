@@ -2,6 +2,7 @@
 
 namespace Tapestry\Modules\Generators;
 
+use Tapestry\Entities\DependencyGraph\SimpleNode;
 use Tapestry\Entities\Project;
 use Tapestry\Modules\Source\ClonedSource;
 use Tapestry\Modules\Source\SourceInterface;
@@ -59,8 +60,11 @@ class TaxonomyArchiveGenerator extends AbstractGenerator implements GeneratorInt
             return [$this->source];
         }
 
-        foreach ($uses as $use){
+        // Add the Generator to the graph
+        $nodeId = $this->source->getUid().'_generator_TaxonomyGenerator_'.time();
+        $project->addSource($this->source->getUid(), new SimpleNode($nodeId, 'TaxonomyGenerator'));
 
+        foreach ($uses as $use){
             if (! $data = $this->source->getData($use.'_items')) {
                 continue;
             }
@@ -69,6 +73,8 @@ class TaxonomyArchiveGenerator extends AbstractGenerator implements GeneratorInt
 
             foreach ($data as $taxonomyName => $files) {
                 $newFile = new ClonedSource($this->source);
+                $newFile->setUid($newFile->getUid().'_taxonomyarchive_'.$taxonomyName);
+                $newFile->setOverloaded('filename', $taxonomyName);
 
                 // @todo refactor so that a TaxonomyViewHelper is injected?
                 $newFile->setData([
@@ -79,8 +85,13 @@ class TaxonomyArchiveGenerator extends AbstractGenerator implements GeneratorInt
                     $use.'_items'  => $files,
                     $use => $classifications,
                 ]);
-                $newFile->setUid($newFile->getUid().'_'.$taxonomyName);
-                $newFile->setOverloaded('filename', $taxonomyName);
+
+
+                // Add Generated Source to Source Graph
+                $project->addSource($nodeId, $newFile);
+
+                // @todo before we can complete this section of 315 the ContentType needs unit testing to ensure it works as expected.
+
                 array_push($generated, $newFile);
             }
         }
