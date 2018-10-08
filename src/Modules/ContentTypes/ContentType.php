@@ -68,7 +68,7 @@ class ContentType
      * Cached output of getSourceList. This is because two items with the same timestamp will end up randomly
      * swapping places with each other between calls to getSourceList as happens with CollectionItemGenerator.
      *
-     * @var null|array
+     * @var null|SourceInterface[]
      */
     private $itemsOrderCache = null;
 
