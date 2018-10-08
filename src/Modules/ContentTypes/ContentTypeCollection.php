@@ -79,7 +79,13 @@ class ContentTypeCollection
             $hash = $uid;
         }
 
-        $this->project->getGraph()->addEdge('configuration', new SimpleNode('content_type.'.$contentType->getName(), $hash));
+        $graph = $this->project->getGraph();
+
+        $graph->addEdge('configuration', new SimpleNode('content_type.'.$contentType->getName(), $hash));
+        foreach($contentType->getTaxonomies() as $taxonomy)
+        {
+            // @todo add taxonomy as a node?
+        }
     }
 
     /**
