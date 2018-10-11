@@ -101,6 +101,34 @@ class TaxonomyNTest extends TestCase
     }
 
     /**
+     * @throws \Exception
+     */
+    public function testTaxonomyStoresAbstractSourceReference()
+    {
+        $taxonomy = new Taxonomy('test');
+        $this->assertTrue(is_array($taxonomy->getFileList()));
+        $this->assertCount(0, $taxonomy->getFileList());
+        $taxonomy->addFile(new MemorySource('hello-world-a', '', '2016-01-01-a.md', 'md', '_blog', '_blog/2016-01-01-a.md'), 'a');
+        $taxonomy->addFile(new MemorySource('hello-world-b', '', '2016-01-01-b.md', 'md', '_blog', '_blog/2016-01-01-b.md'), 'b');
+        $taxonomy->addFile(new MemorySource('hello-world-c', '', '2016-01-01-c.md', 'md', '_blog', '_blog/2016-01-01-c.md'), 'c');
+        $taxonomy->addFile(new MemorySource('hello-world-d', '', '2016-01-01-d.md', 'md', '_blog', '_blog/2016-01-01-d.md'), 'c');
+
+        $files = $taxonomy->getFileList();
+
+        $this->assertTrue(is_array($files));
+        $this->assertCount(3, $files);
+
+        $this->assertCount(1, $files['a']);
+        $this->assertCount(1, $files['b']);
+        $this->assertCount(2, $files['c']);
+
+        $this->assertInstanceOf(MemorySource::class, end($files['a']));
+
+        $n = 1;
+
+    }
+
+    /**
      * Written for issue #180
      * @link https://github.com/carbontwelve/tapestry/issues/180
      * Note: When you run getFileList on the same instance of Taxonomy twice it will order over the previous order.
