@@ -61,7 +61,7 @@ class MemorySource extends AbstractSource implements SourceInterface
     ) {
         $this->meta = [];
         $this->permalink = new Permalink();
-        $this->setDataFromArray($data);
+        $this->setDataFromArray(array_merge($data, ['date' => time()]));
         $this->setUid($uid);
         $this->filename = $filename;
         $this->ext = $ext;
