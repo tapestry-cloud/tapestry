@@ -110,6 +110,7 @@ class TaxonomyNTest extends TestCase
      *       Also between different versions of PHP, and even on different systems the ordering of two items that have
      *       the same timestamp ends up being random, sometimes F will be before E and sometimes E will be before F.
      *       So that this works consistantly this test uses the isOr method to check the output is correct.
+     * @throws \Exception
      */
     public function testTaxonomyClassOrder()
     {
