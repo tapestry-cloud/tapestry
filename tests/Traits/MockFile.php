@@ -3,8 +3,9 @@
 namespace Tapestry\Tests\Traits;
 
 use Symfony\Component\Finder\SplFileInfo;
-use Tapestry\Entities\ProjectFile;
+use Tapestry\Modules\Collectors\Mutators\SetDateDataFromFileNameMutator;
 use Tapestry\Modules\Content\FrontMatter;
+use Tapestry\Modules\Source\SplFileSource;
 
 trait MockFile {
     /**
@@ -39,17 +40,20 @@ trait MockFile {
      * @param $filePath
      * @param string $base
      *
-     * @return ProjectFile
+     * @return SplFileSource
      * @throws \Exception
      */
-    protected function mockFile(string $filePath, string $base = __DIR__ . '/..') : ProjectFile
+    protected function mockFile(string $filePath, string $base = __DIR__ . '/..') : SplFileSource
     {
         $base = realpath($base);
-        $file = new ProjectFile(new SplFileInfo($filePath, $this->getRelativePath($base, $filePath), $this->getRelativePath($base, $filePath)));
-        $frontMatter = new FrontMatter($file->getFileContent());
+        $file = new SplFileSource(new SplFileInfo($filePath, $this->getRelativePath($base, $filePath), $this->getRelativePath($base, $filePath)));
+
+        $frontMatter = new FrontMatter($file->getRawContent());
         $file->setData($frontMatter->getData());
-        $file->loadContent($frontMatter->getContent());
-        $file->getUid(); // Force the file to generate its uid
+        $file->setRenderedContent($frontMatter->getContent());
+
+        (new SetDateDataFromFileNameMutator())->mutate($file);
+
         return $file;
     }
 }
