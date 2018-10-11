@@ -4,12 +4,12 @@ namespace Tapestry\Modules\ContentTypes;
 
 use Tapestry\Entities\Project;
 use Tapestry\Entities\Taxonomy;
+use Tapestry\Modules\Source\AbstractSource;
 use Tapestry\Modules\Source\SourceInterface;
 
 /**
  * Class ContentType
  *
- * @todo #322 write unit test...
  * @package Tapestry\Modules\ContentTypes
  */
 class ContentType
@@ -124,6 +124,10 @@ class ContentType
         return $this->template;
     }
 
+    /**
+     * Returns the permalink assigned to this content type on __construct.
+     * @return string
+     */
     public function getPermalink(): string
     {
         return $this->permalink;
@@ -155,9 +159,9 @@ class ContentType
      * @param string $name
      * @return mixed|Taxonomy
      */
-    public function getTaxonomy(string $name): Taxonomy
+    public function getTaxonomy(string $name): ?Taxonomy
     {
-        return $this->taxonomies[$name];
+        return isset($this->taxonomies[$name]) ? $this->taxonomies[$name] : null;
     }
 
     /**
@@ -181,7 +185,7 @@ class ContentType
         $source->setData('contentType', $this->name);
         $this->itemsOrderCache = null;
 
-        $this->items[$source->getUid()] = $source->getData('date')->getTimestamp();
+        $this->items[$source->getUid()] = $source;
 
         foreach ($this->taxonomies as $taxonomy) {
             if ($classifications = $source->getData($taxonomy->getName())) {
@@ -225,6 +229,14 @@ class ContentType
 
         // Order Files by date newer to older
         uasort($this->items, function ($a, $b) use ($order) {
+            /**
+             * @var AbstractSource $a
+             * @var AbstractSource $b
+             * @var string $order
+             */
+            $a = (int) $a->getData('date')->getTimestamp();
+            $b = (int) $b->getData('date')->getTimestamp();
+
             if ($a == $b) {
                 return 0;
             }
