@@ -10,7 +10,6 @@ use Tapestry\Modules\Source\SourceInterface;
 /**
  * Class ContentType
  *
- * @todo #322 write unit test...
  * @package Tapestry\Modules\ContentTypes
  */
 class ContentType
@@ -160,9 +159,9 @@ class ContentType
      * @param string $name
      * @return mixed|Taxonomy
      */
-    public function getTaxonomy(string $name): Taxonomy
+    public function getTaxonomy(string $name): ?Taxonomy
     {
-        return $this->taxonomies[$name];
+        return isset($this->taxonomies[$name]) ? $this->taxonomies[$name] : null;
     }
 
     /**
