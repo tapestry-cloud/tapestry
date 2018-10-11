@@ -4,6 +4,7 @@ namespace Tapestry\Tests\Unit;
 
 use PHPUnit\Framework\Constraint\IsEqual;
 use Tapestry\Entities\Taxonomy;
+use Tapestry\Modules\Source\MemorySource;
 use Tapestry\Tests\TestCase;
 use Tapestry\Tests\Traits\MockFile;
 
@@ -58,19 +59,22 @@ class TaxonomyNTest extends TestCase
     }
 
     /**
-     * Written for issue #180, #182
+     * Written for issue #180, #182, #322
      * @link https://github.com/carbontwelve/tapestry/issues/180
      * @link https://github.com/carbontwelve/tapestry/issues/182
+     * @link https://github.com/carbontwelve/tapestry/issues/322
+     * @throws \Exception
      */
     public function testTaxonomyClassClassificationCapitalisation()
     {
         // Taxonomy should normalise classifications to lower case
         $taxonomy = new Taxonomy('test');
-        $taxonomy->addFile($this->mockFile(realpath(__DIR__ . '/../Mocks/TaxonomyMocks/2016-01-01-a.md'), realpath(__DIR__ . '/../')), 'Classification');
-        $taxonomy->addFile($this->mockFile(realpath(__DIR__ . '/../Mocks/TaxonomyMocks/2016-01-02-b.md'), realpath(__DIR__ . '/../')), 'classification');
-        $taxonomy->addFile($this->mockFile(realpath(__DIR__ . '/../Mocks/TaxonomyMocks/2016-01-03-c.md'), realpath(__DIR__ . '/../')), 'CLASSIFICATION');
-        $taxonomy->addFile($this->mockFile(realpath(__DIR__ . '/../Mocks/TaxonomyMocks/2016-01-04-d.md'), realpath(__DIR__ . '/../')), ' CLASSIFICATION');
-        $taxonomy->addFile($this->mockFile(realpath(__DIR__ . '/../Mocks/TaxonomyMocks/2016-01-05-e.md'), realpath(__DIR__ . '/../')), 'ClassificatioN ');
+
+        $taxonomy->addFile(new MemorySource('hello-world-a', '', '2016-01-01-a.md', 'md', '_blog', '_blog/2016-01-01-a.md'), 'Classification');
+        $taxonomy->addFile(new MemorySource('hello-world-a', '', '2016-01-01-a.md', 'md', '_blog', '_blog/2016-01-01-a.md'), 'classification');
+        $taxonomy->addFile(new MemorySource('hello-world-a', '', '2016-01-01-a.md', 'md', '_blog', '_blog/2016-01-01-a.md'), 'CLASSIFICATION');
+        $taxonomy->addFile(new MemorySource('hello-world-a', '', '2016-01-01-a.md', 'md', '_blog', '_blog/2016-01-01-a.md'), ' CLASSIFICATION');
+        $taxonomy->addFile(new MemorySource('hello-world-a', '', '2016-01-01-a.md', 'md', '_blog', '_blog/2016-01-01-a.md'), 'ClassificatioN ');
 
         $this->assertEquals(['classification'], array_keys($taxonomy->getFileList()));
     }
