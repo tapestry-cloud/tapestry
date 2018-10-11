@@ -71,29 +71,31 @@ class TaxonomyNTest extends TestCase
         $taxonomy = new Taxonomy('test');
 
         $taxonomy->addFile(new MemorySource('hello-world-a', '', '2016-01-01-a.md', 'md', '_blog', '_blog/2016-01-01-a.md'), 'Classification');
-        $taxonomy->addFile(new MemorySource('hello-world-a', '', '2016-01-01-a.md', 'md', '_blog', '_blog/2016-01-01-a.md'), 'classification');
-        $taxonomy->addFile(new MemorySource('hello-world-a', '', '2016-01-01-a.md', 'md', '_blog', '_blog/2016-01-01-a.md'), 'CLASSIFICATION');
-        $taxonomy->addFile(new MemorySource('hello-world-a', '', '2016-01-01-a.md', 'md', '_blog', '_blog/2016-01-01-a.md'), ' CLASSIFICATION');
-        $taxonomy->addFile(new MemorySource('hello-world-a', '', '2016-01-01-a.md', 'md', '_blog', '_blog/2016-01-01-a.md'), 'ClassificatioN ');
+        $taxonomy->addFile(new MemorySource('hello-world-b', '', '2016-01-01-b.md', 'md', '_blog', '_blog/2016-01-01-b.md'), 'classification');
+        $taxonomy->addFile(new MemorySource('hello-world-c', '', '2016-01-01-c.md', 'md', '_blog', '_blog/2016-01-01-c.md'), 'CLASSIFICATION');
+        $taxonomy->addFile(new MemorySource('hello-world-d', '', '2016-01-01-d.md', 'md', '_blog', '_blog/2016-01-01-d.md'), ' CLASSIFICATION');
+        $taxonomy->addFile(new MemorySource('hello-world-e', '', '2016-01-01-e.md', 'md', '_blog', '_blog/2016-01-01-e.md'), 'ClassificatioN ');
 
         $this->assertEquals(['classification'], array_keys($taxonomy->getFileList()));
     }
 
     /**
-     * Written for issue #180, #182
+     * Written for issue #180, #182, #322
      * @link https://github.com/carbontwelve/tapestry/issues/180
      * @link https://github.com/carbontwelve/tapestry/issues/182
+     * @link https://github.com/carbontwelve/tapestry/issues/322
+     * @throws \Exception
      */
     public function testTaxonomyClassClassificationCharacters()
     {
         // Taxonomy should normalise classifications by filtering out spaces
         $taxonomy = new Taxonomy('test');
-        $taxonomy->addFile($this->mockFile(realpath(__DIR__ . '/../Mocks/TaxonomyMocks/2016-01-01-a.md'), realpath(__DIR__ . '/../')), 'Classification 123');
-        $taxonomy->addFile($this->mockFile(realpath(__DIR__ . '/../Mocks/TaxonomyMocks/2016-01-02-b.md'), realpath(__DIR__ . '/../')), 'classification-123');
-        $taxonomy->addFile($this->mockFile(realpath(__DIR__ . '/../Mocks/TaxonomyMocks/2016-01-03-c.md'), realpath(__DIR__ . '/../')), 'CLASSIFICATION  123');
-        $taxonomy->addFile($this->mockFile(realpath(__DIR__ . '/../Mocks/TaxonomyMocks/2016-01-04-d.md'), realpath(__DIR__ . '/../')), '  CLASSIFICATION 123');
-        $taxonomy->addFile($this->mockFile(realpath(__DIR__ . '/../Mocks/TaxonomyMocks/2016-01-05-e.md'), realpath(__DIR__ . '/../')), 'ClassificatioN 123 ');
-        $taxonomy->addFile($this->mockFile(realpath(__DIR__ . '/../Mocks/TaxonomyMocks/2016-01-05-f.md'), realpath(__DIR__ . '/../')), '  ClassificatioN 123 ');
+        $taxonomy->addFile(new MemorySource('hello-world-a', '', '2016-01-01-a.md', 'md', '_blog', '_blog/2016-01-01-a.md'), 'Classification 123');
+        $taxonomy->addFile(new MemorySource('hello-world-b', '', '2016-01-01-b.md', 'md', '_blog', '_blog/2016-01-01-b.md'), 'classification-123');
+        $taxonomy->addFile(new MemorySource('hello-world-c', '', '2016-01-01-c.md', 'md', '_blog', '_blog/2016-01-01-c.md'), 'CLASSIFICATION  123');
+        $taxonomy->addFile(new MemorySource('hello-world-d', '', '2016-01-01-d.md', 'md', '_blog', '_blog/2016-01-01-d.md'), '  CLASSIFICATION 123');
+        $taxonomy->addFile(new MemorySource('hello-world-e', '', '2016-01-01-e.md', 'md', '_blog', '_blog/2016-01-01-e.md'), 'ClassificatioN 123 ');
+        $taxonomy->addFile(new MemorySource('hello-world-f', '', '2016-01-01-f.md', 'md', '_blog', '_blog/2016-01-01-f.md'), '  ClassificatioN 123 ');
 
         $this->assertEquals(['classification-123'], array_keys($taxonomy->getFileList()));
     }
